@@ -83,6 +83,7 @@ body, html {
 .nav-item:hover .dropdown-menu {
     display: block;
 }
+
 .dropdown-item {
     padding: 8px 20px;
     color: #5a1717;
