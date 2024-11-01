@@ -15,7 +15,6 @@
             display: flex;
             flex-direction: column;
             padding: 10px;
-            margin-bottom: 20px; /* Tạo khoảng cách giữa các hàng */
         }
         .artwork-card:hover {
             transform: scale(1.05); /* Thêm hiệu ứng phóng to khi hover */
@@ -76,7 +75,7 @@
             </div>
         </div>
         
-        <div class="row" id="artworkGallery">
+        <div class="row g-4" id="artworkGallery">
             <!-- Các sản phẩm tranh đặt sẵn trong HTML -->
             <div class="col-6 col-md-3">
                 <div class="card artwork-card">
@@ -162,20 +161,19 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="card artwork-card">
-                    <img src="/api/placeholder/400/300" class="card-img-top artwork-image" alt="Chân Dung Thiếu Nữ">
-                    <div class="card-body">
-                        <h5 class="card-title">Chân Dung Thiếu Nữ</h5>
-                        <p class="card-text">
-                            <strong>Họa Sĩ:</strong> Trần Thị B<br>
-                            <strong>Kích Thước:</strong> 50x70 cm<br>
-                            <strong>Giá:</strong> 800.000 VNĐ
-                        </p>
-                        <button class="btn btn-primary w-100 mt-2">Đặt Mua</button>
-                    </div>
-                </div>
-            </div>
+            <div class="row" id="artworkGallery">
+                <!-- Các sản phẩm tranh đặt sẵn trong HTML -->
+                <div class="col-6 col-md-3">
+                    <div class="card artwork-card">
+                        <img src="/api/placeholder/400/300" class="card-img-top artwork-image" alt="Phong Cảnh Biển">
+                        <div class="card-body">
+                            <h5 class="card-title">Phong Cảnh Biển</h5>
+                            <p class="card-text">
+                                <strong>Họa Sĩ:</strong> Nguyễn Văn A<br>
+                                <strong>Kích Thước:</strong> 40x60 cm<br>
+                                <strong>Giá:</strong> 500.000 VNĐ
+                            </p>
+            
             <!-- Thêm các sản phẩm khác tương tự -->
         </div>
     </div>
@@ -184,5 +182,34 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Hàm để thêm sản phẩm vào gallery
+        function addProduct(title, artist, size, price, imageUrl) {
+            let productCol = $(`
+                <div class="col-6 col-md-3">
+                    <div class="card artwork-card">
+                        <img src="${imageUrl}" class="card-img-top artwork-image" alt="${title}">
+                        <div class="card-body">
+                            <h5 class="card-title">${title}</h5>
+                            <p class="card-text">
+                                <strong>Họa Sĩ:</strong> ${artist}<br>
+                                <strong>Kích Thước:</strong> ${size}<br>
+                                <strong>Giá:</strong> ${price} VNĐ
+                            </p>
+                            <button class="btn btn-primary w-100 mt-2">Đặt Mua</button>
+                        </div>
+                    </div>
+                </div>
+            `);
+            $('#artworkGallery').append(productCol);
+        }
+
+        // Ví dụ thêm sản phẩm bằng jQuery
+        $(document).ready(function() {
+            addProduct('Tranh Thiếu Nữ', 'Trần Thị B', '50x70 cm', '800.000', '/api/placeholder/400/300');
+            addProduct('Phong Cảnh Rừng', 'Vũ Văn D', '60x80 cm', '900.000', '/api/placeholder/400/300');
+        });
+    </script>
 </body>
 </html>
