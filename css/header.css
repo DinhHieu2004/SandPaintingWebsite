@@ -160,6 +160,9 @@ body, html {
     z-index: 100;
 }
 
+.cart-icon:hover .cart-dropdown {
+    display: block;
+}
 
 
 @media (max-width: 991.98px) {
