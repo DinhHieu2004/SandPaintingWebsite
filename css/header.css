@@ -164,6 +164,11 @@ body, html {
     display: block;
 }
 
+.cart-empty {
+    color: #777;
+    font-size: 14px;
+}
+
 
 @media (max-width: 991.98px) {
     .navbar-nav {
