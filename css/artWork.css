@@ -1,8 +1,30 @@
 
 #header-container{
-    height: 90px;
+    height: 120px;
+}
+.container_content{
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    width: 90%;
+
+}
+#content-wrapper{
+    padding: 10px !important;
+
 }
 
+.container_content .filter{
+    position: sticky ;
+    border: gray solid;
+    top: 120px; /* Thiết lập top để nằm dưới header */
+    height:700px ; /* Đặt chiều cao full cho phần filter để nó nằm trọn màn hình */
+    overflow-y: auto; /* Thêm nếu muốn cuộn nội dung bên trong filter nếu quá dài */
+    background-color: #f8f9fa; /* Tùy chỉnh màu nền cho dễ nhìn */
+    padding: 10px;
+    overflow-y: auto;
+    margin-right: 10px;
+}
 
 .artwork-card {
     transition: transform 0.3s ease;
