@@ -17,41 +17,12 @@
 <body>
     <div id="header-container"></div>
     <div id="content-wrapper">
-    <div class="container-fluid mt-4">
-        <div class="row" id="filterSection">
-            <div class="col-md-3">
-                <h5>Lọc Theo Giá</h5>
-                <select class="form-select" id="priceFilter">
-                    <option value="">Tất Cả Giá</option>
-                    <option value="0-500000">Dưới 500.000 VNĐ</option>
-                    <option value="500000-1000000">500.000 - 1.000.000 VNĐ</option>
-                    <option value="1000000-2000000">Trên 1.000.000 VNĐ</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <h5>Lọc Theo Kích Thước</h5>
-                <select class="form-select" id="sizeFilter">
-                    <option value="">Tất Cả Kích Thước</option>
-                    <option value="0-50">Nhỏ (Dưới 50 cm)</option>
-                    <option value="50-100">Trung Bình (50-100 cm)</option>
-                    <option value="100-200">Lớn (Trên 100 cm)</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <h5>Lọc Theo Họa Sĩ</h5>
-                <select class="form-select" id="artistFilter">
-                    <option value="">Tất Cả Họa Sĩ</option>
-                    <option value="Nguyễn Văn A">Nguyễn Văn A</option>
-                    <option value="Trần Thị B">Trần Thị B</option>
-                </select>
-            </div>
-            <div class="col-md-3 d-flex align-items-end">
-                <button id="applyFilter" class="btn btn-primary">Áp Dụng Bộ Lọc</button>
-            </div>
+   
+        <div class="container_content">
+
+        <div class="filter col-3">
         </div>
-        
-        <div class="row g-4" id="artworkGallery">
-            <!-- Các sản phẩm tranh đặt sẵn trong HTML -->
+        <div class="row g-4 g-2 col-10" id="artworkGallery">
             <div class="col-6 col-md-3">
                 <div class="card artwork-card">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpp4FpVhylNpwTVddcn3b0SHdb5ej8M7uvfQ&s" class="card-img-top artwork-image" alt="Phong Cảnh Biển">
