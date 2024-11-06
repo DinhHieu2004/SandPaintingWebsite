@@ -265,7 +265,63 @@ body, html {
     font-style: italic;
     color: #333;
 }
+/*footer*/
+.background_footer{
+    position: relative;
+    padding-top: 30%;
+    background: url("../assets/images/pngtree-an-art-gallery-with-many-framed-paintings-in-the-background-and-picture-image_3157704.jpg");
+    background-size: cover;
+}
 
+.first_col{
+    margin-left: 100px;
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    color:#eee;
+    width: 18%;
+    float: left;
+}
+.second_col {
+    position: absolute;
+    top: calc(37% + 6px);
+    left: calc(200px + 20%); /* Điều chỉnh cho khoảng cách giữa các cột */
+    transform: translateY(-50%);
+    width: 18%;
+    color: #eee;
+}
+.third_col{
+    position: absolute;
+    top: calc(46% + 4px);
+    color: #eee;
+    left: calc(450px + 20%);
+    transform: translateY(-50%);
+    width: 18%;
+}
+.fourth_col{
+    position: absolute;
+    top:calc(20% + 2px);
+    left: calc(780px + 20%);
+    color: #eee;
+}
+.fifth_col{
+    position: absolute;
+    left: calc(780px + 20%);
+    top:50%;
+    color: #eee;
+}
+.background_nlu{
+    padding-right: 280px;
+    background: url("../assets/images/background_nlu.png");
+    background-size: cover;
+}
+.end-footer{
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+    color: #eee;
+    background-color: #6a6a6a;
+}
 @media (max-width: 767.98px) {
     .top-header {
         font-size: 12px;
