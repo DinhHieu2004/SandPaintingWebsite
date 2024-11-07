@@ -155,18 +155,26 @@ body, html {
     background-color: #333333;
     justify-content: center;
 }
-#dark_section .content{
+#dark_section {
+    display: flex;
+    background-color: #333333;
+    justify-content: center;
+}
+
+#dark_section .content {
     position: relative;
     float: left;
     padding: 30px;
     color: #eee;
 }
-.inner{
+
+.inner {
     border: 2px #eee solid;
     padding: 25px;
-
+    transition: all 0.3s ease;
 }
-.content::before{
+
+.content::before {
     content: "";
     position: absolute;
     top: -2px;
@@ -175,32 +183,76 @@ body, html {
     height: 90px;
     background-color: #333333;
 }
-.count{
+
+.count {
     color: #c2c2c2;
     font-size: 40px;
     position: absolute;
     margin-top: -23px;
     margin-left: -25px;
 }
-.title{
+
+.title {
     margin-left: 35px;
     font-size: 20px;
+    transition: color 0.3s ease;
 }
-.inner_content{
+
+.inner_content {
     width: 300px;
     margin-top: 15px;
+    transition: color 0.3s ease;
 }
-.outer1{
+
+.outer1 {
     padding: 30px 0 30px 30px;
     margin-left: 100px;
 }
-.outer2{
+
+.outer2 {
     padding-top: 30px;
 }
-.outer3{
+
+.outer3 {
     padding: 30px 30px 30px 0;
     margin-right: 100px;
 }
+
+/* Hover effect */
+.outer1:hover .title,
+.outer2:hover .title,
+.outer3:hover .title {
+    color: #0d6efd; /* Đổi màu chữ */
+}
+
+.outer1:hover .inner_content,
+.outer2:hover .inner_content,
+.outer3:hover .inner_content {
+    color: #0d6efd; /* Đổi màu chữ */
+}
+
+.outer1:hover .inner,
+.outer2:hover .inner,
+.outer3:hover .inner {
+    border-color: #0d6efd; /* Đổi màu border khi hover */
+}
+
+.outer1:hover,
+.outer2:hover,
+.outer3:hover {
+    transform: scale(1.05); /* Zoom nhẹ khi hover */
+}
+
+
+
+.outer1:hover .title, .outer2:hover .title, .outer3:hover .title {
+    color: #0d6efd;
+}
+
+.outer1:hover .inner_content, .outer2:hover .inner_content, .outer3:hover .inner_content {
+    color: #0d6efd;
+}
+
 
 
 @media (max-width: 991.98px) {
@@ -237,25 +289,69 @@ body, html {
 }
 .intro_title{
     font-size: 35px;
-    color: #fb5a00;
+    color: #0d6efd;
     text-decoration: underline;
 }
 .subtitle{
     font-size: 22px;
-    color: #fb5a00;
-}
-.vertical_line{
-    width: 2px;
-    height: 50px;
-    background-color: #fb5a00;
-    display: inline-block;
-    margin-right: 10px;
-    vertical-align: middle;
-}
-.intro_content{
-    display: inline;
+    color: #0d6efd;
+    margin-bottom: 5px;
 }
 
+.intro_content{
+    font-style: italic;
+}
+/*footer*/
+#footer{
+    margin-top: 100px;
+    padding-top: 50px;
+    border-top: solid 2px #6a6a6a;
+}
+.first_col{
+    padding-left: 100px;
+    float: left;
+}
+.first_col .contact_info:hover{
+    color: #0d6efd;
+}
+.second_col{
+    float: left;
+    padding-left: 70px;
+}
+.second_col .support_info:hover{
+    color: #0d6efd;
+}
+.third_col{
+    float: left;
+    padding-left: 70px;
+}
+.third_col .guide_info:hover{
+    color: #0d6efd;
+}
+.fourth_col{
+   padding-left: 70px;
+}
+
+.end-footer{
+    margin-top: 100px;
+    padding: 10px;
+    background-color: #333333;
+    color: #6a6a6a;
+    text-align: center;
+}
+.copyright{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 0;
+}
+.background_nlu{
+    padding-right: 280px;
+    background: url("../assets/images/background_nlu.png");
+    background-size: cover;
+}
+h4{
+    color: #0d6efd;
+}
 @media (max-width: 767.98px) {
     .top-header {
         font-size: 12px;
