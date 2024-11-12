@@ -165,3 +165,11 @@ header {
 .price {
     font-weight: 500;
 }
+.modal-dialog {
+    max-width: 500px; /* Điều chỉnh kích thước modal nếu cần */
+}
+
+.modal-backdrop {
+    z-index: 1050; /* Đảm bảo backdrop không bị xếp dưới modal */
+}
+
