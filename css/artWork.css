@@ -32,10 +32,8 @@
     border: gray solid;
     top: 190px; /* Thiết lập top để nằm dưới header */
     height:570px ; /* Đặt chiều cao full cho phần filter để nó nằm trọn màn hình */ 
-    overflow-y: auto; /* Thêm nếu muốn cuộn nội dung bên trong filter nếu quá dài */
     background-color: #f8f9fa; /* Tùy chỉnh màu nền cho dễ nhìn */
     padding: 10px;
-    overflow-y: auto;
     margin-right: 10px;
 }
 .filter-section {
