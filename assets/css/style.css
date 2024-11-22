@@ -150,7 +150,11 @@ body, html {
     width: 100%;
     height: 70vh;
 }
-
+#dark_section{
+    display: flex;
+    background-color: #333333;
+    justify-content: center;
+}
 #dark_section {
     display: flex;
     background-color: #333333;
@@ -186,12 +190,16 @@ body, html {
     font-size: 40px;
     position: absolute;
     margin-top: -23px;
-    margin-left: -25px;
+    text-align: left;
+    display: block;
+    left: 0;
+    margin-left: 35px;
+
 }
 
 .title {
     margin-left: 35px;
-    font-size: 20px;
+    font-size: 22px;
     transition: color 0.3s ease;
 }
 
@@ -256,9 +264,10 @@ body, html {
     font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 20px;
+    color: #0d6efd;
 }
 .subtitle {
-    color: #000000 !important;
+    color: #0d6efd !important;
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 15px;
@@ -409,7 +418,6 @@ body, html {
     justify-content: center;
     gap: 10px;
     margin-top: 200px;
-    border-top: #333333 1px solid;
     padding-top: 50px;
     padding-bottom: 50px;
 }
@@ -521,3 +529,4 @@ body, html {
         align-items: center;
     }
 }
+

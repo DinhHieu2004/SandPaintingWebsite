@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Trị Art Gallery</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showSection('dashboard')">
+                                <i class="bi bi-house-door"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('manageArtists')">
+                                <i class="bi bi-person"></i> Quản lý nghệ sĩ
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('managePaintings')">
+                                <i class="bi bi-paint-bucket"></i> Quản lý tranh
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('manageOrders')">
+                                <i class="bi bi-cart"></i> Quản lý đơn hàng
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('manageUsers')">
+                                <i class="bi bi-person-circle"></i> Quản lý người dùng
+                            </a>
+                        </li>
+                       
+                    </ul>
+                </div>
+            </nav>
+            
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div id="dashboard" class="content-section">
+                    <h2>Dashboard</h2>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Doanh Thu</h5>
+                                        <p class="card-text">Tổng doanh thu: <strong>1.000.000 VNĐ</strong></p>
+                                        <!-- Thêm dữ liệu hoặc biểu đồ liên quan nếu có -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Thống kê Hàng Tồn Kho -->
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Hàng Tồn Kho</h5>
+                                        <p class="card-text">Tổng số tranh: <strong>500</strong></p>
+                                        <!-- Thêm thông tin chi tiết về tồn kho -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Thống kê Doanh Thu Theo Nghệ Sĩ -->
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Doanh Thu Theo Nghệ Sĩ</h5>
+                                        <p class="card-text">Nghệ sĩ A: <strong>300.000 VNĐ</strong></p>
+                                        <p class="card-text">Nghệ sĩ B: <strong>200.000 VNĐ</strong></p>
+                                        <!-- Có thể thêm biểu đồ hoặc danh sách nghệ sĩ -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Thống kê Các Tranh Bán Chạy -->
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Tranh Bán Chạy</h5>
+                                        <p class="card-text">"Tranh Hoa" - <strong>100 lượt bán</strong></p>
+                                        <p class="card-text">"Tranh Biển" - <strong>80 lượt bán</strong></p>
+                                        <!-- Thêm thông tin về các tranh khác -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div id="manageArtists" class="content-section" style="display: none;">
+                    <h2>Quản lý Nghệ sĩ</h2>
+                    <div class="container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tên Nghệ Sĩ</th>
+                                    <th scope="col">Tiểu Sử</th>
+                                    <th scope="col">Số Tác Phẩm</th>
+                                    <th scope="col">Chức Năng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Nghệ sĩ mẫu -->
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Trần Minh Hoàng</td>
+                                    <td>Họa sĩ nổi tiếng với tranh trừu tượng.</td>
+                                    <td>20</td>
+                                    <td>
+                                        <a href="edit_artist.html" class="btn btn-warning">Chỉnh Sửa</a>
+                                        <a href="#" class="btn btn-danger">Xóa</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Nguyễn Thị Lan</td>
+                                    <td>Họa sĩ chuyên về tranh phong cảnh thiên nhiên.</td>
+                                    <td>15</td>
+                                    <td>
+                                        <a href="edit_artist.html" class="btn btn-warning">Chỉnh Sửa</a>
+                                        <a href="#" class="btn btn-danger">Xóa</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Le Minh Tuấn</td>
+                                    <td>Tranh của anh kết hợp giữa truyền thống và hiện đại.</td>
+                                    <td>10</td>
+                                    <td>
+                                        <a href="edit_artist.html" class="btn btn-warning">Chỉnh Sửa</a>
+                                        <a href="#" class="btn btn-danger">Xóa</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="managePaintings" class="content-section" style="display: none;">
+                    <h2>Quản lý Tranh</h2>
+                    <div class="container">
+                        <a href="add_painting.html" class="btn btn-success mb-3">Thêm Tranh Mới</a>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tên Tranh</th>
+                                    <th scope="col">Giá</th>
+                                    <th scope="col">Số Lượng</th>
+                                    <th scope="col">Trạng Thái</th>
+                                    <th scope="col">Chức Năng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dữ liệu tranh sẽ được lặp qua ở đây -->
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Tranh Màu Nước</td>
+                                    <td>500.000 VND</td>
+                                    <td>10</td>
+                                    <td><span class="badge bg-success">Còn Hàng</span></td>
+                                    <td>
+                                        <a href="edit_painting.html" class="btn btn-warning">Chỉnh Sửa</a>
+                                        <a href="#" class="btn btn-danger">Xóa</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="manageOrders" class="content-section" style="display: none;">
+                    <h2>Quản lý Đơn Hàng</h2>
+                    <div class="container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tên Khách Hàng</th>
+                                    <th scope="col">Ngày Đặt</th>
+                                    <th scope="col">Trạng Thái</th>
+                                    <th scope="col">Tổng Tiền</th>
+                                    <th scope="col">Chức Năng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Đơn hàng mẫu -->
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Nguyễn Văn A</td>
+                                    <td>2024-11-15</td>
+                                    <td>Đang xử lý</td>
+                                    <td>2.000.000 VNĐ</td>
+                                    <td>
+                                        <a href="order_detail.html" class="btn btn-info">Chi Tiết</a>
+                                        <a href="#" class="btn btn-danger">Hủy</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Trần Thị B</td>
+                                    <td>2024-11-16</td>
+                                    <td>Đã hoàn thành</td>
+                                    <td>1.500.000 VNĐ</td>
+                                    <td>
+                                        <a href="order_detail.html" class="btn btn-info">Chi Tiết</a>
+                                        <a href="#" class="btn btn-danger">Hủy</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Lê Minh C</td>
+                                    <td>2024-11-17</td>
+                                    <td>Đang chờ</td>
+                                    <td>3.000.000 VNĐ</td>
+                                    <td>
+                                        <a href="order_detail.html" class="btn btn-info">Chi Tiết</a>
+                                        <a href="#" class="btn btn-danger">Hủy</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="manageUsers" class="content-section" style="display: none;">
+                    <h2>Quản lý Người Dùng</h2>
+                    <div class="container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tên Người Dùng</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Vai Trò</th>
+                                    <th scope="col">Chức Năng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Nguyễn Văn B</td>
+                                    <td>nguyenb@example.com</td>
+                                    <td>Người dùng</td>
+                                    <td>
+                                        <a href="edit_user.html" class="btn btn-warning">Chỉnh Sửa</a>
+                                        <a href="#" class="btn btn-danger">Xóa</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Ẩn tất cả các phần nội dung
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            // Hiển thị phần nội dung được chọn
+            document.getElementById(sectionId).style.display = 'block';
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
