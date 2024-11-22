@@ -1,59 +1,72 @@
-
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     width: 100%;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
+
 * {
     box-sizing: border-box;
 }
 
-.container-fluid{
+.container-fluid {
     position: absolute;
     padding: 0px;
     width: 100%;
     background-color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 10px 0;
     font-family: Arial, Helvetica, sans-serif;
     height: 120px;
 
 }
-.navbar{
+
+.navbar {
     display: flex;
     align-items: center;
     padding: 0 !important;
     height: 100%;
 
 }
+
 .nav-link {
     color: #333;
     padding: 15px;
     text-decoration: none;
     display: block;
-  }
+}
+
 .navbar-nav {
     display: flex;
     align-items: center;
 }
-.navbar-collapse{
+
+.navbar-collapse {
     margin: 20px;
     margin-right: 100px;
 }
-.navbar-brand{
+
+.navbar-brand {
     margin: 20px;
     margin-left: 100px;
 }
-.navbar-nav .nav-link{
+
+.navbar-nav .nav-link {
     width: 100%;
     color: #333;
     font-weight: 500;
     padding: 0.5rem 1rem;
     font-size: 15px;
 }
+
 .navbar-nav .nav-link:hover {
     color: #FF4500;
 }
+
 .dropdown-menu {
     display: none;
     position: absolute;
@@ -73,14 +86,15 @@ body, html {
     left: 20px;
     top: -30px;
     border: 2px solid;
-    border-color: #333 ;
+    border-color: #333;
     border-width: 20px;
     border-style: solid;
-    border-color: transparent transparent #f5f5f5 transparent; /* Màu border trùng với border menu */
+    border-color: transparent transparent #f5f5f5 transparent;
+    /* Màu border trùng với border menu */
 
 
 }
-    
+
 .nav-item:hover .dropdown-menu {
     display: block;
 }
@@ -96,28 +110,31 @@ body, html {
 .dropdown-item:hover {
     background-color: #f8f9fa;
 }
+
 @keyframes fadeIn {
     from {
-      opacity: 0;
-      transform: translateY(-10px);
+        opacity: 0;
+        transform: translateY(-10px);
     }
+
     to {
-      opacity: 1;
-      transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
-  }
+}
 
 .dropdown-menu {
     animation: fadeIn 0.2s ease-out;
 }
 
-.header-icons{
+.header-icons {
     margin: 20px;
     height: 100%;
     display: flex;
     align-items: center;
 }
-.icon_items{
+
+.icon_items {
     margin: 20px;
 }
 
@@ -125,6 +142,7 @@ body, html {
     color: #333;
     text-decoration: none;
 }
+
 .header-icons i {
     font-size: 18px;
 }
@@ -148,6 +166,7 @@ body, html {
 .price {
     font-weight: 500;
 }
+
 .cart-dropdown {
     position: absolute;
     top: 100%;
@@ -170,6 +189,75 @@ body, html {
     font-size: 14px;
 }
 
+.custom-painting h1 {
+    font-size: 24px;
+    /* Kích thước chữ */
+    font-weight: normal;
+    /* Độ đậm của chữ */
+    color: #000;
+    /* Màu chữ */
+    margin: 0;
+    /* Loại bỏ khoảng cách */
+}
+
+#main {
+    padding: 20px;
+
+}
+
+main h1 { 
+    text-align:30px left;
+    height: 20vh;
+    margin-bottom: 50px;
+    margin-left: 70px;
+    padding-top:150px;
+    font-size: 30px;
+}
+
+main hr {
+    width: 90%;
+    margin:20px auto;
+    border: 1px solid #f5f2f272;
+}
+
+main ul {
+    list-style: disc;
+    text-align: left;
+    max-width: 800px;
+    margin-left: 70px ;
+    margin-bottom: 70px;
+    padding-left: 20px;
+}
+
+
+.intro_img, .content {
+    flex: 1; /* Chia đều không gian giữa hình ảnh và nội dung */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column; /* Sắp xếp theo chiều dọc */
+    gap: 20px;              /* Khoảng cách giữa các ảnh (tùy chọn) */
+  }
+ 
+
+.intro_img1 img {
+    max-width: 100%; /* Đảm bảo hình ảnh không bị vỡ khung */
+    height: auto; /* Giữ tỷ lệ hình ảnh */
+}
+
+/* Tùy chỉnh cho phần nội dung */
+.content {
+    background-color: #f4f4f4; /* Màu nền cho phần nội dung */
+    padding: 20px; /* Padding cho phần nội dung */
+}
+
+.content h2 {
+    margin-top: 0; /* Bỏ margin-top của tiêu đề */
+}
+
+
+
 
 
 
@@ -177,7 +265,7 @@ body, html {
     .navbar-nav {
         padding: 1rem 0;
     }
-    
+
     .header-icons {
         margin-top: 1rem;
         justify-content: center;
@@ -188,14 +276,14 @@ body, html {
     .top-header {
         font-size: 12px;
     }
-    
+
     .contact-info {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-    
-    .contact-info > * {
+
+    .contact-info>* {
         margin: 2px 0;
     }
 }
