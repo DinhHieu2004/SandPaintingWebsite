@@ -172,4 +172,11 @@ header {
 .modal-backdrop {
     z-index: 1050; 
 }
+#header-container {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background-color: white;
+}
 
