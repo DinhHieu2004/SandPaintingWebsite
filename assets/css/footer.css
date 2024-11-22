@@ -1,5 +1,7 @@
+/*Footer*/
 .footer_wrapper {
     margin-top: 30px;
+    border-top: #333333 solid 1px;
     background-color: #f6f6f6;
     color: #ffffff;
     padding:30px 10px 20px;
@@ -23,11 +25,20 @@
     margin: 10px;
     min-width: 200px;
 }
-
+.footer_wrapper .second_col{
+    margin-left: 30px;
+}
 .footer_wrapper h4 {
     font-size: 18px;
     margin-bottom: 15px;
     color: #292929;
+}
+.footer_wrapper h4:hover,
+.footer_wrapper .contact_info:hover,
+.footer_wrapper .support_info:hover,
+.footer_wrapper .guide_info:hover {
+    color: #0d6efd !important;
+    transition: color 0.3s ease;
 }
 
 .footer_wrapper .contact_info,
@@ -72,6 +83,7 @@
 .footer_wrapper .payment i {
     margin: 5px 10px;
 }
+
 
 /* Responsive cho màn hình nhỏ */
 @media (max-width: 768px) {
