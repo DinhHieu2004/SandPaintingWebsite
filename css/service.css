@@ -237,7 +237,7 @@ main ul {
     align-items: center;
     display: flex;
     flex-direction: column; /* Sắp xếp theo chiều dọc */
-    gap: 20px;              /* Khoảng cách giữa các ảnh (tùy chọn) */
+    gap: 0px;              /* Khoảng cách giữa các ảnh (tùy chọn) */
   }
  
 
