@@ -164,7 +164,10 @@
     border-radius: 10px;
     margin-bottom: 20px;
 }
+.modal-backdrop {
+    z-index: 1040 !important; /* Đảm bảo rằng backdrop không bị che khuất bởi các phần tử khác */
+}
 
-.form-select, .btn {
-    font-size: 0.7rem; 
+.modal {
+    z-index: 1050 !important; /* Đảm bảo modal luôn hiển thị trên backdrop */
 }
