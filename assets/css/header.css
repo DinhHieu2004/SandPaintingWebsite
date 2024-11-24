@@ -185,4 +185,102 @@ header {
 .modal.fade.show {
     z-index: 1050; 
 }
+.cart-icon {
+    position: relative;
+    cursor: pointer;
+}
 
+/* Dropdown styling */
+.cart-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0; /* Thay đổi từ left thành right để dropdown không bị che khuất */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 300px;
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+/* Hiển thị dropdown khi hover vào cart-icon */
+.cart-icon:hover .cart-dropdown {
+    display: block;
+}
+
+/* Thêm animation cho dropdown */
+.cart-dropdown {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    transform: translateY(10px);
+}
+
+.cart-icon:hover .cart-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Các style khác giữ nguyên */
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-item-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-name {
+    margin: 0;
+    font-weight: bold;
+}
+
+.cart-item-price {
+    margin: 0;
+    color: #888;
+}
+
+.cart-total {
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+    margin-top: 10px;
+}
+
+.cart-detail-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    padding: 8px 0;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.cart-detail-btn:hover {
+    background-color: #0056b3;
+}
+
+.cart-empty {
+    text-align: center;
+    padding: 20px 0;
+    color: #888;
+}
