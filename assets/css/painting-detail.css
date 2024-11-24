@@ -3,7 +3,6 @@
 }
 .container_content{
     margin-top: 50px;
-    height: 500px;
 }
 #header-container{
     height: 100px;
@@ -16,6 +15,7 @@
 }
 
 .review_container {
+    margin-right: 100px;
     display: flex; /* Đặt Flexbox để sắp xếp ngang */
     align-items: center; /* Căn giữa các phần tử theo chiều dọc */
     margin: 0 auto; /* Căn giữa container nếu cần */
@@ -23,7 +23,8 @@
     gap: 20px; 
 }
 
-.review {
+#comment {
+    margin-right: 100px;
     flex: 1;
     margin: 0;
     padding: 20px 20px 10px 50px;
@@ -47,9 +48,29 @@
     justify-content: center;
     transition: background-color 0.3s ease;
 }
+#buyNow{
+    color: black;
+    background-color: white;
+}
 
 .send-button:hover {
     background-color: #0d6efd;
     color: white;
+}
+.customer-comments {
+    border-top: 1px solid #ddd;
+    padding: 40px;
+}
+
+.comment-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #f1f1f1;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.comment-item strong {
+    color: #007bff;
 }
 
