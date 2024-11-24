@@ -3,3 +3,18 @@ body, html {
     padding: 0;
     width: 100%;
 }
+#about_us_container{
+    margin: 100px;
+
+}
+.title{
+    padding-bottom: 50px;
+    border-bottom: #6a6a6a solid 1px;
+}
+.intro{
+    margin-top: 50px;
+}
+.about_us_subtitle{
+    font-weight: bold;
+    font-size: 18px;
+}
