@@ -12,11 +12,9 @@
 }
 .page-title-inner{
     display: flexbox;
-    background-color: #666;
     width: 100%;
     height: 50px;
     margin-left: 50px;
-    position: fixed;
     align-items: center;
 }
 .container_content{
@@ -45,7 +43,6 @@
     top: 130px;
 }
 .container_content .filter-section{
-    position: sticky ;
     border: gray solid;
     top: 170px; /* Thiết lập top để nằm dưới header */
     height:570px ; /* Đặt chiều cao full cho phần filter để nó nằm trọn màn hình */ 
@@ -167,7 +164,10 @@
     border-radius: 10px;
     margin-bottom: 20px;
 }
+.modal-backdrop {
+    z-index: 1040 !important; /* Đảm bảo rằng backdrop không bị che khuất bởi các phần tử khác */
+}
 
-.form-select, .btn {
-    font-size: 0.7rem; 
+.modal {
+    z-index: 1050 !important; /* Đảm bảo modal luôn hiển thị trên backdrop */
 }

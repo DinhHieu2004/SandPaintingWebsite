@@ -179,4 +179,11 @@ header {
     width: 100%;
     background-color: white;
 }
+.modal-backdrop {
+    z-index: 1040; /* Điều chỉnh sao cho lớp backdrop không chồng lên lớp modal */
+}
+
+.modal.fade.show {
+    z-index: 1050; /* Modal nên luôn nằm trên backdrop */
+}
 
