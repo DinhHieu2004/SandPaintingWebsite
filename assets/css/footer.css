@@ -83,7 +83,9 @@
 .footer_wrapper .payment i {
     margin: 5px 10px;
 }
-
+a{
+    text-decoration: none;
+}
 
 /* Responsive cho màn hình nhỏ */
 @media (max-width: 768px) {
