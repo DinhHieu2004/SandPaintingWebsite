@@ -20,7 +20,7 @@
     align-items: center; /* Căn giữa các phần tử theo chiều dọc */
     margin: 0 auto; /* Căn giữa container nếu cần */
     padding: 10px;
-    gap: 20px; 
+    gap: 20px;
 }
 
 #comment {
