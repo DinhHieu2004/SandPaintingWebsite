@@ -11,7 +11,18 @@
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/painting-detail.css">
+    <style>
+        .heart-icon {
+            cursor: pointer;
+            margin-left: 10px;
+            color: gray;
+            transition: color 0.3s ease;
+        }
 
+        .heart-icon.liked {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -29,25 +40,34 @@
 
                 <div class="col-md-6">
                     <h2 id="paintingTitle">Tên: Tranh cảnh biển</h2>
-                    <p id="paintingTheme">Chủ đề :Chủ đề đời sống</p>
-                    <p id="paintingSize">Kích thước :40 x 40</p>
-                    <p id="artist">họa sĩ :Nguyễn Ngọc Anh</p>
+                    <p id="paintingTheme">Chủ đề: Chủ đề đời sống</p>
+                    <p id="paintingSize">Kích thước: 40 x 40</p>
+                    <p id="artist">Họa sĩ: Nguyễn Ngọc Anh</p>
 
-                    <p id="paintingDescription">Mô tả: Tranh về cuộc sống thường ngày của làng chài do họa sĩ....</p>
-                    <p><strong>Giá:2000000 </strong><span id="paintingPrice"></span> VND</p>
-
+                    <p id="paintingDescription">Mô tả: Tranh về cuộc sống thường ngày của làng chài do họa sĩ...</p>
+                    <div>
+                        <p><strong>Giá gốc:</strong> <span id="originalPrice" class="text-muted" style="text-decoration: line-through;">2.500.000</span> VND</p>
+                        <p><strong>Giá giảm:</strong> <span id="discountedPrice" class="text-danger">2.000.000</span> VND</p>
+                        <p><span id="discountPercentage" class="badge bg-success">Giảm 20%</span></p>
+                    </div>
+                   
                     <button id="addToCart" class="btn btn-primary">Thêm vào Giỏ hàng</button>
+                    <button id="buyNow" class="btn btn-primary" style="border:1px solid black;">Mua ngay</button>
                 </div>
-            </div>
+            </div>         
+        </div>
         </div>
     </div>
 
     <div id="footer-container"></div>
 
-
     <script src="/assets/js/painting-detail.js"></script>
+    <script src="/assets/js/header.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>  
+    </script>
 </body>
 
 </html>
