@@ -14,6 +14,10 @@ header {
     top: 0;
     left: 0;
 }
+#navbarMain{
+    margin: 0 100px;
+}
+
 
 .dropdown-menu {
     z-index: 1001;
@@ -54,8 +58,7 @@ header {
     margin-right: 100px;
 }
 .navbar-brand{
-    margin: 20px;
-    margin-left: 100px;
+    margin-left: 150px;
 }
 .navbar-nav .nav-link{
     width: 100%;
@@ -128,10 +131,13 @@ header {
 }
 
 .header-icons{
-    margin: 20px;
+    font-size: 18px;
+    margin-right: 120px;
     height: 100%;
     display: flex;
     align-items: center;
+    color: #333;
+    text-decoration: none;
 }
 .icon_items{
     margin: 20px;
@@ -141,9 +147,7 @@ header {
     color: #333;
     text-decoration: none;
 }
-.header-icons i {
-    font-size: 18px;
-}
+
 
 .cart-icon {
     display: flex;
@@ -190,97 +194,70 @@ header {
     cursor: pointer;
 }
 
-/* Dropdown styling */
 .cart-dropdown {
-    display: none;
+    display: none; /* Ẩn mặc định */
     position: absolute;
-    top: 100%;
-    right: 0; /* Thay đổi từ left thành right để dropdown không bị che khuất */
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 15px;
+    top: 100%; /* Hiển thị ngay bên dưới icon */
+    right: 0;
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 300px;
+    padding: 10px;
     z-index: 1000;
-    max-height: 400px;
-    overflow-y: auto;
-    border-radius: 4px;
-    margin-top: 10px;
-}
-
-/* Hiển thị dropdown khi hover vào cart-icon */
-.cart-icon:hover .cart-dropdown {
-    display: block;
-}
-
-/* Thêm animation cho dropdown */
-.cart-dropdown {
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    transform: translateY(10px);
+    border-radius: 5px;
 }
 
 .cart-icon:hover .cart-dropdown {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+    display: block; 
 }
 
-/* Các style khác giữ nguyên */
 .cart-item {
     display: flex;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
-.cart-item-img {
+.cart-item img {
     width: 40px;
     height: 40px;
-    object-fit: cover;
-    margin-right: 10px;
+    border-radius: 4px;
 }
 
-.cart-item-info {
+.item-details {
     flex: 1;
 }
 
-.cart-item-name {
-    margin: 0;
+.item-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.item-variant,
+.item-price {
+    font-size: 12px;
+    color: #555;
+}
+
+.cart-header {
     font-weight: bold;
+    margin-bottom: 10px;
 }
 
-.cart-item-price {
-    margin: 0;
-    color: #888;
-}
-
-.cart-total {
-    padding-top: 10px;
-    border-top: 1px solid #ddd;
-    text-align: right;
-    margin-top: 10px;
-}
-
-.cart-detail-btn {
-    display: block;
-    width: 100%;
+.cart-footer {
     text-align: center;
     margin-top: 10px;
-    padding: 8px 0;
-    background-color: #007bff;
+}
+
+.cart-footer .view-cart-btn {
+    background-color: #ff5722;
     color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.cart-detail-btn:hover {
-    background-color: #0056b3;
-}
-
-.cart-empty {
-    text-align: center;
-    padding: 20px 0;
-    color: #888;
+.cart-footer .view-cart-btn:hover {
+    background-color: #e64a19;
 }

@@ -45,39 +45,16 @@
                     <p id="artist">Họa sĩ: Nguyễn Ngọc Anh</p>
 
                     <p id="paintingDescription">Mô tả: Tranh về cuộc sống thường ngày của làng chài do họa sĩ...</p>
-                    <p id="paintingConcerned">
-                        Số lượt quan tâm: <span id="likeCount">0</span>
-                        <i class="fa fa-heart heart-icon" id="heartIcon"> Thích sản phẩm</i>
-                    </p>
-                    <p><strong>Giá: 2.000.000 </strong><span id="paintingPrice"></span> VND</p>
+                    <div>
+                        <p><strong>Giá gốc:</strong> <span id="originalPrice" class="text-muted" style="text-decoration: line-through;">2.500.000</span> VND</p>
+                        <p><strong>Giá giảm:</strong> <span id="discountedPrice" class="text-danger">2.000.000</span> VND</p>
+                        <p><span id="discountPercentage" class="badge bg-success">Giảm 20%</span></p>
+                    </div>
+                   
                     <button id="addToCart" class="btn btn-primary">Thêm vào Giỏ hàng</button>
                     <button id="buyNow" class="btn btn-primary" style="border:1px solid black;">Mua ngay</button>
                 </div>
-            </div>
-
-            <div class="customer-comments mt-5">
-                <h3>Bình luận của khách hàng</h3>
-                <div id="commentsList" class="mb-4">
-                    <div class="comment-item">
-                        <strong>Nguyễn Văn A:</strong>
-                        <p>Sản phẩm rất đẹp và chất lượng!</p>
-                    </div>
-                    <div class="comment-item">
-                        <strong>Trần Thị B:</strong>
-                        <p>Giao hàng nhanh và tranh rất giống hình!</p>
-                    </div>
-                </div>
-
-                <form id="commentForm">
-                   
-                    <div class="mb-3">
-                        <label for="commentContent" class="form-label">Bình luận</label>
-                        <textarea id="commentContent" class="form-control" rows="3" placeholder="Nhập bình luận của bạn" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Gửi bình luận</button>
-                </form>
-            </div>
-
+            </div>         
         </div>
         </div>
     </div>

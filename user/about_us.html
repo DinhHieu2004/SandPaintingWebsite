@@ -57,7 +57,61 @@
     <p class="content">NLU Gallery mong muốn làm đẹp cho thế giới từng chút một, từ căn phòng ta sống mỗi ngày.</p>
   </div>
   <p class="end_about_us">Trân trọng!</p>
+
+
+  <div class="customer-comments mt-5">
+    <h3>Bình luận và Đánh giá của Khách hàng</h3>
+    <div id="commentsList" class="mb-4">
+      <div class="comment-item">
+        <strong>Nguyễn Văn A:</strong>
+        <p>Sản phẩm rất đẹp và chất lượng!</p>
+        <div class="star-rating">
+          <i class="fas fa-star checked"></i>
+          <i class="fas fa-star checked"></i>
+          <i class="fas fa-star checked"></i>
+          <i class="fas fa-star checked"></i>
+          <i class="fas fa-star"></i>
+        </div>
+      </div>
+      <div class="comment-item">
+        <strong>Trần Thị B:</strong>
+        <p>Giao hàng nhanh và tranh rất giống hình!</p>
+        <div class="star-rating">
+          <i class="fas fa-star checked"></i>
+          <i class="fas fa-star checked"></i>
+          <i class="fas fa-star checked"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Form để khách hàng thêm bình luận và đánh giá -->
+    <form id="commentForm">
+      <div class="mb-3">
+        <label for="commentContent" class="form-label">Bình luận</label>
+        <textarea id="commentContent" class="form-control" rows="3" placeholder="Nhập bình luận của bạn" required></textarea>
+      </div>
+  
+      <!-- Phần đánh giá sao -->
+      <div class="mb-3">
+        <label for="ratingStars" class="form-label">Đánh giá</label>
+        <div id="ratingStars" class="star-rating">
+          <i class="fas fa-star" data-value="1"></i>
+          <i class="fas fa-star" data-value="2"></i>
+          <i class="fas fa-star" data-value="3"></i>
+          <i class="fas fa-star" data-value="4"></i>
+          <i class="fas fa-star" data-value="5"></i>
+        </div>
+        <input type="hidden" id="selectedRating" value="0">
+      </div>
+  
+      <button type="submit" class="btn btn-primary">Gửi bình luận và đánh giá</button>
+    </form>
+  </div>
 </div>
+
+
 <div id="footer-container"></div>
 </body>
 

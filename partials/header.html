@@ -1,9 +1,9 @@
 <header id="header-container" class="fixed-top">
-    <div class="container-fluid ">
+    <div class="container-fluid">
         <nav class="navbar navbar-expand-lg">
             <!-- Logo -->
             <a class="navbar-brand" href="/index.html">
-                <img src="\assets\images\Logo_HCMUAF.svg.png" alt="Lanvu Gallery" height="60">
+                <img src="/assets/images/Logo_HCMUAF.svg.png" alt="Lanvu Gallery" height="60">
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
@@ -22,9 +22,12 @@
                             <a class="dropdown-item" href="/user/about_us.html">Về chúng tôi </a>
                         </ul>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item">
                         <a class="nav-link" href="/user/artWork.html">TÁC PHẨM</a> 
- 
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/artWork.html">CHUONG TRÌNH GIẢM GIÁ</a> 
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#">HỌA SĨ</a>
@@ -35,58 +38,48 @@
                             <li><a class="nav-link" href="painter.html">Nguyễn Thế Nhật Quang</a></li>
                             <li><a class="nav-link" href="painter.html">Phan Anh Vũ</a></li>
                         </ul>
-                       
                     </li>
-                    <div class="header-icons d-flex align-items-center">
-                        <a href="#" class="icon_items search-icon me-3">
-                            <i class="fa fa-search"></i>
+                </ul>
+                </div>
+                <div class="header-icons d-flex align-items-center justify-content-between">
+                    <a href="#" class="icon_items search-icon me-3">
+                        <i class="fa fa-search"></i>
+                    </a>
+                    <a href="../user/personal.html" class="icon_items user-icon me-3">
+                        <i class="fa fa-user"></i>
+                    </a>
+                    <div class="cart-icon position-relative">
+                        <a href="#" class="icon_items position-relative">
+                            <span class="price me-2">0đ</span>
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="cart-count">3</span>
                         </a>
-                        <a href="../user/personal.html" class="icon_items user-icon me-3" data-bs-toggle="modal" data-bs-target="#"> <!--authModal-->
-                            <i class="fa fa-user"></i>
-                        </a>
-                        <div class="cart-icon position-relative">
-                            <a href="#" class="icon_items position-relative">
-                                <span class="price me-2">0đ</span>
-                                <i class="fa fa-shopping-cart"></i>
-                                <span class="cart-count">3</span>
-                            </a>
-                            <div class="cart-dropdown">
-                                <div class="cart-empty">
-                                    <p>Giỏ hàng của bạn hiện tại trống.</p>
+                        <div class="cart-dropdown">
+                            <div class="cart-header">Sản Phẩm Mới Thêm</div>
+                            <div class="cart-items">
+                                <div class="cart-item">
+                                    <img src="https://via.placeholder.com/40" alt="Product">
+                                    <div class="item-details">
+                                        <div class="item-name">Tranh cảnh biển</div>
+                                        <div class="item-variant">40x40</div>
+                                        <div class="item-price">500.000 vnd</div>
+                                    </div>
                                 </div>
-                                <ul class="cart-items">
-                                    <li class="cart-item">
-                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpp4FpVhylNpwTVddcn3b0SHdb5ej8M7uvfQ&s" alt="Product 1" class="cart-item-img">
-                                        <div class="cart-item-info">
-                                            <p class="cart-item-name">Sản phẩm 1</p>
-                                            <p class="cart-item-price">100đ</p>
-                                        </div>
-                                    </li>
-                                    <li class="cart-item">
-                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpp4FpVhylNpwTVddcn3b0SHdb5ej8M7uvfQ&s" alt="Product 2" class="cart-item-img">
-                                        <div class="cart-item-info">
-                                            <p class="cart-item-name">Sản phẩm 2</p>
-                                            <p class="cart-item-price">200đ</p>
-                                        </div>
-                                    </li>
-                                    <li class="cart-item">
-                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpp4FpVhylNpwTVddcn3b0SHdb5ej8M7uvfQ&s" alt="Product 3" class="cart-item-img">
-                                        <div class="cart-item-info">
-                                            <p class="cart-item-name">Sản phẩm 3</p>
-                                            <p class="cart-item-price">150đ</p>
-                                        </div>
-                                    </li>
-                                    <li class="cart-total">
-                                        <p><strong>Tổng cộng: 450đ</strong></p>
-                                    </li>
-                                </ul>
-                                <a href="#" class="btn btn-primary cart-detail-btn">Xem chi tiết giỏ hàng</a>
+                                <div class="cart-item">
+                                    <img src="https://via.placeholder.com/40" alt="Product">
+                                    <div class="item-details">
+                                        <div class="item-name">Tranh cảnh biển</div>
+                                        <div class="item-variant">40x40</div>
+                                        <div class="item-price">500.000 vnd</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cart-footer">
+                                <button class="view-cart-btn" onclick="window.location.href='shopping-cart.html'">Xem Giỏ Hàng</button>
                             </div>
                         </div>
-                    </div>  
+                    </div>
             </div>
         </nav>
     </div>
-
 </header>
-
