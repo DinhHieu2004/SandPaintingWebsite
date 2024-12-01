@@ -1,27 +1,17 @@
-#header_section {
-    display: flex; /* Sử dụng Flexbox để chia bố cục theo chiều ngang */
-    width: 100%; /* Đảm bảo chiều rộng của container chiếm toàn bộ không gian */
-    height: 100vh; /* Chiều cao của container chiếm toàn bộ màn hình (tuỳ chỉnh) */
+.artist-photo, .artwork-image {
+    max-width: 100%;  
+    height: auto;    
+    object-fit: cover; 
+    border-radius: 8px; 
 }
 
-.intro_img1, .content {
-    flex: 1; /* Chia đều không gian giữa hình ảnh và nội dung */
+.container-product{
+    margin: 100px 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
-.intro_img1 img {
-    max-width: 100%; /* Đảm bảo hình ảnh không bị vỡ khung */
-    height: auto; /* Giữ tỷ lệ hình ảnh */
-}
-
-/* Tùy chỉnh cho phần nội dung */
-.content {
-    background-color: #f4f4f4; /* Màu nền cho phần nội dung */
-    padding: 20px; /* Padding cho phần nội dung */
-}
-
-.content h2 {
-    margin-top: 0; /* Bỏ margin-top của tiêu đề */
+.page-title-inner{
+    margin-top: 30px;
+    margin-left: 30px;
 }
