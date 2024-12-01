@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <!--  <link rel='stylesheet' type='text/css' media='screen' href='main.css'>-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <link rel="stylesheet" href="css/header.css">
-</head>
-<body>
-    <div class="container-fluid">
+<header id="header-container" class="fixed-top">
+    <div class="container-fluid ">
         <nav class="navbar navbar-expand-lg">
             <!-- Logo -->
-            <a class="navbar-brand" href="header.html">
+            <a class="navbar-brand" href="index.html">
                 <img src="\assets\images\Logo_HCMUAF.svg.png" alt="Lanvu Gallery" height="60">
             </a>
 
@@ -31,10 +16,10 @@
                         <a class="nav-link" href="index.html">TRANG CHỦ</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown">GIỚI THIỆU</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                           data-bs-toggle="dropdown">GIỚI THIỆU</a>
                         <ul class="dropdown-menu">
-                            <li class="=dropdown-item">Về chúng tôi</li>
+                            <a class="dropdown-item" href="about_us.html">Về chúng tôi </a>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -49,54 +34,39 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#">HỌA SĨ</a>
                         <ul class="dropdown-menu">
-                            <li class="dropdown-item">Nguyễn Tiến</li>
-                            <li class="dropdown-item">Quỳnh Hoa</li>
-                            <li class="dropdown-item">Nguyễn Thế Nhân</li>
-                            <li class="dropdown-item">Nguyễn Chí Nhật Quang </li>
-                            <li class="dropdown-item">Phan Anh Vũ </li>
-
-
+                            <li><a class="nav-link" href="painter1.html">NGUYỄN TIẾN</a></li>
+                            <li><a class="nav-link" href="painter2.html">QUỲNH HOA</a></li>
+                            <li><a class="nav-link" href="painter3.html">NGUYỄN THẾ NHÂN</a></li>
+                            <li><a class="nav-link" href="painter4.html">NGUYỄN CHÍ NHẬT QUANG</a></li>
+                            <li><a class="nav-link" href="painter5.html">PHAN ANH VŨ</a></li>
                         </ul>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#">DỊCH VỤ</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="service1.html">TƯ VẤN THIẾT KẾ TẠI NHÀ</a></li>
+                                <li><a class="nav-link" href="service2.html">ĐÓNG GÓI VÀ VẬN CHUYỂN</a></li>
+                                <li><a class="nav-link" href="service3.html">VẼ TRANH THEO YÊU CẦU</a></li>
+    
+                                
+                            </ul>
+                        </li>
                     </li>
-
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#">DỊCH VỤ</a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-item">TƯ VẤN THIẾT KẾ TẠI NHÀ </li>
-                            <li class="dropdown-item">ĐÓNG GÓI VÀ VẬN CHUYỂN </li>
-                            <li class="dropdown-item">VẼ TRANH THEO YÊU CẦU </li>
-                        </ul>
-                    </li>
-
-                    <div class="header-icons d-flex align-items-center">
-                        <a href="#" class="icon_items search-icon me-3">
-                            <i class="fa fa-search"></i>
-                        </a>
-                        <a href="#" class="icon_items user-icon me-3">
-                            <i class="fa fa-user"></i>
-                        </a>
-                        <a href="#" class="icon_items cart-icon position-relative">
-                            <span class="price me-2">0đ</span>
-                            <i class="fa fa-shopping-cart"></i>
-                            <span class="cart-count">0</span>
-
-                            <div class="cart-dropdown" id="cartDropdown">
-                                <div class="cart-items"></div>
-                                <p class="cart-empty">Không có sản phẩm trong giỏ hàng</p>
-                            </div>
-
-
-                    </div>
+                <div class="header-icons d-flex align-items-center">
+                    <a href="#" class="icon_items search-icon me-3">
+                        <i class="fa fa-search"></i>
                     </a>
+                    <a href="#" class="icon_items user-icon me-3" data-bs-toggle="modal" data-bs-target="#authModal">
+                        <i class="fa fa-user"></i>
+                    </a>
+                    <a href="#" class="icon_items cart-icon position-relative">
+                        <span class="price me-2">0đ</span>
+                        <i class="fa fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
             </div>
         </nav>
     </div>
-        </div>
-    </div>
-    </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        
-</body>
 
-</html>
+    
+</header>

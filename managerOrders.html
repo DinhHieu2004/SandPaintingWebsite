@@ -11,84 +11,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="/assets/css/cart.css">
+
+
 </head>
 
 <body>
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg">
-            <!-- Logo -->
-            <a class="navbar-brand" href="painter.html">
-                <img src="\assets\images\Logo_HCMUAF.svg.png" alt="Lanvu Gallery" height="60">
-            </a>
+    <div id="header-container"></div> <!-- kế thùa tu header.html  js, css-->
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarMain">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">TRANG CHỦ</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown">GIỚI THIỆU</a>
-                        <ul class="dropdown-menu">
-                            <li class="=dropdown-item">Về chúng tôi</li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#">TÁC PHẨM THEO CHỦ ĐỀ</a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-item">Phong cảnh</li>
-                            <li class="dropdown-item">Tĩnh vật</li>
-                            <li class="dropdown-item">Nhân vật</li>
-                            <li class="dropdown-item">Đời sống</li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#">HỌA SĨ</a>
-                        <ul class="dropdown-menu">
-                        <li><a class="nav-link" href="painter1.html">NGUYỄN TIẾN</a></li>
-                        <li><a class="nav-link" href="painter2.html">QUỲNH HOA</a></li>
-                        <li><a class="nav-link" href="painter3.html">NGUYỄN THẾ NHÂN</a></li>
-                        <li><a class="nav-link" href="painter4.html">NGUYỄN CHÍ NHẬT QUANG</a></li>
-                        <li><a class="nav-link" href="painter5.html">PHAN ANH VŨ</a></li>
-                    </ul>
-                </li>
-
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#">DỊCH VỤ</a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-item">TƯ VẤN THIẾT KẾ TẠI NHÀ </li>
-                            <li class="dropdown-item">ĐÓNG GÓI VÀ VẬN CHUYỂN </li>
-                            <li class="dropdown-item">VẼ TRANH THEO YÊU CẦU </li>
-                        </ul>
-                    </li>
-
-                    <div class="header-icons d-flex align-items-center">
-                        <a href="#" class="icon_items search-icon me-3">
-                            <i class="fa fa-search"></i>
-                        </a>
-                        <a href="#" class="icon_items user-icon me-3">
-                            <i class="fa fa-user"></i>
-                        </a>
-                        <a href="#" class="icon_items cart-icon position-relative">
-                            <span class="price me-2">32,000,000đ</span>
-                            <i class="fa fa-shopping-cart"></i>
-                            <span class="cart-count">4</span>
-                        </a>
-                           
-
-
-                    </div>
-                    
-            </div>
-        </nav>
-    </div>
-    </header>
     <div class="breadcrumb">
         <span>GIỎ HÀNG</span> &gt; <span>CHI TIẾT THANH TOÁN</span> &gt; <span>HOÀN THÀNH</span>
     </div>     
@@ -189,56 +121,9 @@
                 </div>
             </div>
         </div>
-        <div id="footer-container" class="footer_wrapper">
-            <div class="background_footer">
-                <div class="first_col">
-                    <h4 class="address">LANVU GALLERY</h4>
-                    <p class="contact_info">
-                        <i class="fas fa-map-marker-alt"></i> 56 Nguyễn Phong Sắc, Dịch Vọng, Cầu Giấy, Hà Nội
-                    </p>
-                    <p class="contact_info">
-                        <i class="fas fa-phone"></i> Điện thoại: 0123456789
-                    </p>
-                    <p class="contact_info">
-                        <i class="fas fa-envelope"></i> Email: example@email.com
-                    </p>
-                    <p class="contact_info">
-                        <i class="fab fa-facebook"></i> Facebook: <a href="https://facebook.com">facebook.com/yourpage</a>
-                    </p>
-                    <p class="contact_info">
-                        <i class="fas fa-comment"></i> Zalo: 0123456789
-                    </p>
-                </div>
-                <div class="second_col">
-                    <h4 class="support">HỖ TRỢ</h4>
-                    <p class="support_info">&#8250; Tài khoản</p>
-                    <p class="support_info">&#8250; Sản phẩm yêu thích</p>
-                    <p class="support_info">&#8250; Giỏ hàng</p>
-                </div>
-                <div class="third_col">
-                    <h4 class="guide">HƯỚNG DẪN</h4>
-                    <p class="guide_info">&#8250; Mua hàng và thanh toán</p>
-                    <p class="guide_info">&#8250; Chính sách đổi trả & lưu kho</p>
-                    <p class="guide_info">&#8250; Điều khoản dịch vụ</p>
-                    <p class="guide_info">&#8250; Chính sách giao hàng & vận chuyển</p>
-                    <p class="guide_info">&#8250; Chính sách bảo hành</p>
-                </div>
-                <div class="fourth_col">
-                    <h4 class="fanpage">FANPAGE</h4>
-                    <img class="background_nlu" src="\assets\images\Logo_HCMUAF.svg.png" alt="Lanvu Gallery" height="60">
-                </div>
-                <div class="fifth_col">
-                    <h4 class="payment">HÌNH THỨC THANH TOÁN</h4>
-                    <i class="fab fa-cc-visa" style="font-size: 30px; color: #1A1F71;"></i>
-                    <i class="fab fa-cc-mastercard" style="font-size: 30px; color: #EB001B;"></i>
-                    <i class="fab fa-cc-paypal" style="font-size: 30px; color: #003087;"></i>
-                    <i class="fab fa-cc-amex" style="font-size: 30px; color: #2E77A7;"></i>
-                    <i class="fab fa-cc-discover" style="font-size: 30px; color: #FF6A00;"></i>
-                </div>
-            </div>
-            <div class="end-footer">
-                <p class="copyright">Copyright 2024 &copy; LAN VU GALLERY </p>
-            </div>
+        <div id="footer-container"></div>  <!-- kế thùa tu header.html  js, css-->
+        <script src="/assets/js/managerOders.js"></script>
+
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
