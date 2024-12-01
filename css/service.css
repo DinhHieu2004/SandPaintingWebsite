@@ -255,8 +255,111 @@ main ul {
 .content h2 {
     margin-top: 0; /* Bỏ margin-top của tiêu đề */
 }
+#main3 {
+    padding: 20px;
+
+}
+
+main3 h1 { 
+    text-align:30px left;
+    height: 20vh;
+    margin-bottom: 50px;
+    margin-left: 70px;
+    padding-top:150px;
+    font-size: 30px;
+}
+
+main3 hr {
+    width: 90%;
+    margin:20px auto;
+    border: 1px solid #f5f2f272;
+}
+
+main3 ul {
+    list-style: disc;
+    text-align: 80px left ;
+    max-width: 800px;
+    margin-left: 70px ;
+    margin-bottom: 70px;
+    padding-left: 20px;
+}
 
 
+.intro_img, .content {
+    flex: 1; /* Chia đều không gian giữa hình ảnh và nội dung */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column; /* Sắp xếp theo chiều dọc */
+    gap: 0px;              /* Khoảng cách giữa các ảnh (tùy chọn) */
+  }
+ 
+
+.intro_img1 img {
+    max-width: 100%; /* Đảm bảo hình ảnh không bị vỡ khung */
+    height: auto; /* Giữ tỷ lệ hình ảnh */
+}
+
+/* Tùy chỉnh cho phần nội dung */
+.content {
+    background-color: #f4f4f4; /* Màu nền cho phần nội dung */
+    padding: 20px; /* Padding cho phần nội dung */
+}
+
+.content h2 {
+    margin-top: 0; /* Bỏ margin-top của tiêu đề */
+}
+.gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Hình lớn chiếm 2 phần, hình nhỏ 1 phần */
+    gap: 20px; /* Khoảng cách giữa các phần */
+    max-width: 1200px;
+    margin: 20px auto;
+  }
+  
+  .large-image {
+    text-align: center;
+    position: relative;
+  }
+  
+  .large-image img {
+    width: 100%;
+    height: 97%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .large-image p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .small-images {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Khoảng cách giữa các ảnh nhỏ */
+  }
+  
+  .small-images img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  @media (max-width: 768px) {
+    .gallery {
+      grid-template-columns: 1fr; /* Chuyển sang 1 cột trên màn hình nhỏ */
+    }
+  
+    .small-images {
+      flex-direction: row; /* Sắp xếp các ảnh nhỏ thành hàng ngang */
+      gap: 10px;
+    }
+
+}
 
 
 
