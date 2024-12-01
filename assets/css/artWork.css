@@ -44,8 +44,8 @@
 }
 .container_content .filter-section{
     border: gray solid;
-    top: 170px; /* Thiết lập top để nằm dưới header */
-    height:570px ; /* Đặt chiều cao full cho phần filter để nó nằm trọn màn hình */ 
+    top: 170px; 
+    height:800px ; 
     background-color: #f8f9fa; /* Tùy chỉnh màu nền cho dễ nhìn */
     padding: 10px;
     margin-right: 10px;
@@ -92,6 +92,25 @@
 .form-check-label {
     cursor: pointer;
     color: #666;
+}
+.price-range {
+    display: flex;
+    align-items: center;
+}
+
+.price-separator {
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.price-input {
+    flex-shrink: 1;
+    width: auto;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
 }
 
 .price-inputs {
