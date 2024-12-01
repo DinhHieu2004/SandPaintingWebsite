@@ -3,4 +3,3 @@ $(document).ready(function(){
     $("#header-container").load("/partials/header.html");
     $("#auth").load("/partials/authModal.html");
 });
-
