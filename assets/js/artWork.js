@@ -8,7 +8,6 @@ $(document).ready(function(){
 
 });
 
-
 let currentPage = 1; 
 
 function setupPagination() {
@@ -34,7 +33,6 @@ function setupPagination() {
         </li>`
     );
 
-    // Các số trang
     for (let i = 1; i <= totalPages; i++) {
         paginationContainer.append(
             `<li class="page-item ${currentPage === i ? 'active' : ''}">
@@ -43,14 +41,12 @@ function setupPagination() {
         );
     }
 
-    // Nút "Tiếp"
     paginationContainer.append(
         `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
             <a class="page-link" href="#" data-page="${currentPage + 1}">Tiếp</a>
         </li>`
     );
 
-    // Sự kiện click cho các liên kết phân trang
     paginationContainer.find('.page-link').on('click', function(e) {
         e.preventDefault();
         const page = parseInt($(this).data('page'), 10);

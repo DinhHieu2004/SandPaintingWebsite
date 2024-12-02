@@ -73,4 +73,22 @@
 .comment-item strong {
     color: #007bff;
 }
+.heart-icon {
+    cursor: pointer;
+    margin-left: 10px;
+    color: gray;
+    transition: color 0.3s ease;
+}
 
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #f5f5f5;
+    min-width: 200px;
+    z-index: 1000;
+    border-radius: 4px;
+    padding: 10px 0;
+    border-color: #f5f5f5;
+
+}
