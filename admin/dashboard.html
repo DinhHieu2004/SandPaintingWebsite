@@ -359,11 +359,11 @@
                 </form>
             </div>
         </div>
-        <div class="modal" id="addPaintingModal">
+        <div id="addPaintingModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Thêm tranh mới</h3>
-                    <button class="close-button" onclick="closeModal()">✖</button>
+                    <button class="close-button" onclick="closePaintingModal()">✖</button>
                 </div>
                 <div class="modal-body">
                     <form id="addPaintingForm">
@@ -388,7 +388,7 @@
                         </div>
                         <div class="form-actions">
                             <button type="submit" class="button button-primary">Lưu</button>
-                            <button type="button" class="button" onclick="closeModal()">Hủy</button>
+                            <button type="button" class="button" onclick="closePaintingModal()">Hủy</button>
                         </div>
                     </form>
                 </div>
@@ -452,42 +452,6 @@
 
 
         </style>
-
-        <script>
-            function openAddPaintingModal() {
-                const modal = document.getElementById('addPaintingModal');
-                modal.style.display = 'flex';
-            }
-
-            function closeModal() {
-                const modal = document.getElementById('addPaintingModal');
-                modal.style.display = 'none';
-            }
-            document.getElementById('addPaintingForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const title = document.getElementById('paintingTitle').value;
-                const artist = document.getElementById('artistName').value;
-                const price = document.getElementById('paintingPrice').value;
-                const status = document.getElementById('paintingStatus').value;
-
-                // Thêm tranh mới vào danh sách tranh
-                paintings.push({
-                    title,
-                    artist,
-                    price: parseFloat(price),
-                    status
-                });
-
-                closeModal();
-
-                renderPaintings();
-            });
-
-        </script>
-
-
-
 
 
     </div>
@@ -667,6 +631,8 @@
                 </div>
             `;
         }
+
+
 
         // Navigation handling
         const mainContent = document.getElementById('mainContent');
@@ -910,6 +876,35 @@
                 closeAddDiscountModal();
             }
         }
+        function openAddPaintingModal() {
+            const modal = document.getElementById('addPaintingModal');
+            modal.style.display = 'flex';
+        }
+
+        function closePaintingModal() {
+            const modal = document.getElementById('addPaintingModal');
+            modal.style.display = 'none';
+        }
+        document.getElementById('addPaintingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('paintingTitle').value;
+            const artist = document.getElementById('artistName').value;
+            const price = document.getElementById('paintingPrice').value;
+            const status = document.getElementById('paintingStatus').value;
+
+            // Thêm tranh mới vào danh sách tranh
+            paintings.push({
+                title,
+                artist,
+                price: parseFloat(price),
+                status
+            });
+
+            closePaintingModal();
+
+            renderPaintings();
+        });
     </script>
      <script>
         // Sample paintings data
