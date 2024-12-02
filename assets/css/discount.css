@@ -5,6 +5,7 @@
     padding: 20px 20px 10px 20px;
     margin: 0;
 }
+
 .sub_title{
     color: #FFFFFF;
     background-color: #e7621b;
@@ -12,6 +13,7 @@
     padding: 0 20px 20px 20px;
     margin: 0;
 }
+
 #discount_list {
     display: flex;
     flex-wrap: wrap;
@@ -20,6 +22,7 @@
     padding: 20px;
     background-color: #f4f4f4;
 }
+
 
 .discount_item {
     width: 250px;
@@ -30,12 +33,14 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-
+    display: block;
 }
+
 .discount_item:hover {
     transform: scale(1.1);
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
+
 .discount_item img {
     width: 100%;
     height: auto;
@@ -48,4 +53,5 @@
     color: #333;
     font-size: 16px;
 }
+
 
