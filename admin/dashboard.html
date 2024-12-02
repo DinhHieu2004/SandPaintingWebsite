@@ -689,7 +689,7 @@
                                         <td>${discount.endDate}</td>
                                         <td>
                                             <button class="button">✏️</button>
-                                            <button class="button">🗑️</button>
+                                            <button class="delete">🗑️</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -932,7 +932,7 @@
                                 <p>${review.comment}</p>
                                 <div style="margin-top: 1rem">
                                     <button class="button">✏️</button>
-                                    <button class="button">🗑️</button>
+                                    <button class="delete">🗑️</button>
                                 </div>
                             </div>
                         `).join('')}
@@ -1171,5 +1171,18 @@
             }
         }
     </script>
+     <script>
+        // Xử lý sự kiện khi nhấn nút "Xóa"
+        document.addEventListener("click", function (event) {
+          if (event.target.classList.contains("delete")) {
+            const isConfirmed = confirm("Bạn có chắc chắn muốn xóa mục này không?");
+            if (isConfirmed) {
+              // Xóa dòng chứa nút "Xóa"
+              const row = event.target.closest("tr");
+              row.remove();
+            }
+          }
+        });
+      </script>
 </body>
 </html>
