@@ -359,6 +359,45 @@
                 </form>
             </div>
         </div>
+        <div id="seePaintingModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Chi tiết tranh</h3>
+                    <button class="close-button" onclick="closeSeePaintingModal()">✖</button>
+                </div>
+                <div class="modal-body">
+                    <form id="seePaintingForm">
+                        <div class="form-group">
+                            <label for="paintingTitle">Tên tranh: Phong cảnh mùa Thu</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="artistName">Id: 01</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="artistName">Họa sĩ: Trần Minh Hoàng</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingPrice">Chủ đề: Phong cảnh</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingPrice">Kích thước: 40x40cm</label>
+                        </div>
+                        <div class="form-group" style="text-align: center">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpp4FpVhylNpwTVddcn3b0SHdb5ej8M7uvfQ&s">
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingPrice">Mô tả tranh: Phong cảnh mùa Thu đầy tính nghệ thuật của họa sĩ Trần Minh Hoàng</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingPrice">Giá: 5.000.000đ</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingStatus">Trạng thái: Còn hàng</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div id="addPaintingModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -394,7 +433,85 @@
                 </div>
             </div>
         </div>
+        <div id="editManageOrderModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Chỉnh sửa thông tin đơn hàng</h3>
+                    <button class="close-button" onclick="closeEditOrderModal()">✖</button>
+                </div>
+                <div class="modal-body">
+                    <form id="editManageOderForm">
+                        <div class="form-group">
+                            <label for="paintingTitle">ID</label>
+                            <input type="text" id="manageOrderIDEdit" name="title" required placeholder="#1">
+                        </div>
+                        <div class="form-group">
+                            <label for="artistName">Ngày đặt hàng</label>
+                            <input type="text" id="manageOrderDateEdit" name="artist" required placeholder="12/12/2024">
+                        </div>
+                        <div class="form-group">
+                            <label for="artistName">Ngày giao hàng</label>
+                            <input type="text" id="manageDeliveryDateEdit" name="artist" required placeholder="20/12/2024">
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingPrice">Tổng giá tiền</label>
+                            <input type="number" id="manageOrderAmountEdit" name="price" required placeholder="5.000.000">
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingPrice">Sản phẩm:</label>
+                            <label for="paintingPrice"> 01 | Phong cảnh mùa Thu | Trần Minh Hoàng | 5.000.000đ</label>
+                        </div>
 
+                        <div class="form-group">
+                            <label for="paintingStatus">Trạng thái</label>
+                            <select id="orderEditStatus" name="status" required>
+                                <option value="complete">Hoàn thành</option>
+                                <option value="processing">Đang xử lý</option>
+                                <option value="fail">Thất bại</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="button button-primary">Lưu</button>
+                            <button type="button" class="button" onclick="closeEditOrderModal()">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="seeManageOrderModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Xem thông tin đơn hàng</h3>
+                    <button class="close-button" onclick="closeSeeOrderModal()">✖</button>
+                </div>
+                <div class="modal-body">
+                    <form id="seeManageOderForm">
+                        <div class="form-group">
+                            <label for="paintingTitle">ID: #1</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="artistName">Ngày đặt hàng: 12/12/2024</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="artistName">Ngày giao hàng: 20/12/2024</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingPrice">Tổng giá tiền: 5.000.000đ</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingPrice">Sản phẩm: 01 | Phong cảnh mùa Thu | Trần Minh Hoàng | 5.000.000đ</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="paintingStatus">Trạng thái: Hoàn thành</label>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="button" onclick="closeSeeOrderModal()">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div id="editPaintingModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -572,7 +689,7 @@
                                         <td>${discount.endDate}</td>
                                         <td>
                                             <button class="button">✏️</button>
-                                            <button class="button">🗑️</button>
+                                            <button class="delete">🗑️</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -615,7 +732,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button class="button">👁️</button>
+                                            <button class="button" onclick="openSeePaintingModal()">👁️</button>
                                             <button class="button" onclick="openEditPaintingModal()">✏️</button>
                                             <button class="button" onclick="openDeletePaintingModal()">🗑️</button>
                                         </td>
@@ -787,8 +904,8 @@
                                         </td>
                                         <td>${order.date}</td>
                                         <td>
-                                            <button class="button">👁️</button>
-                                            <button class="button">✏️</button>
+                                            <button class="button" onclick="openSeeOrderModal()">👁️</button>
+                                            <button class="button" onclick="openEditOrderModal()">✏️</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -815,7 +932,7 @@
                                 <p>${review.comment}</p>
                                 <div style="margin-top: 1rem">
                                     <button class="button">✏️</button>
-                                    <button class="button">🗑️</button>
+                                    <button class="delete">🗑️</button>
                                 </div>
                             </div>
                         `).join('')}
@@ -871,6 +988,33 @@
             if (event.target === modal) {
                 closeAddDiscountModal();
             }
+        }
+        function openEditOrderModal() {
+            const modal = document.getElementById('editManageOrderModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeEditOrderModal() {
+            const modal = document.getElementById('editManageOrderModal');
+            modal.style.display = 'none';
+        }
+        function openSeeOrderModal() {
+            const modal = document.getElementById('seeManageOrderModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeSeeOrderModal() {
+            const modal = document.getElementById('seeManageOrderModal');
+            modal.style.display = 'none';
+        }
+        function openSeePaintingModal() {
+            const modal = document.getElementById('seePaintingModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeSeePaintingModal() {
+            const modal = document.getElementById('seePaintingModal');
+            modal.style.display = 'none';
         }
         function openDeletePaintingModal() {
             const modal = document.getElementById('deletePaintingModel');
@@ -1027,5 +1171,18 @@
             }
         }
     </script>
+     <script>
+        // Xử lý sự kiện khi nhấn nút "Xóa"
+        document.addEventListener("click", function (event) {
+          if (event.target.classList.contains("delete")) {
+            const isConfirmed = confirm("Bạn có chắc chắn muốn xóa mục này không?");
+            if (isConfirmed) {
+              // Xóa dòng chứa nút "Xóa"
+              const row = event.target.closest("tr");
+              row.remove();
+            }
+          }
+        });
+      </script>
 </body>
 </html>
