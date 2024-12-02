@@ -359,11 +359,11 @@
                 </form>
             </div>
         </div>
-        <div class="modal" id="addPaintingModal">
+        <div id="addPaintingModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Thêm tranh mới</h3>
-                    <button class="close-button" onclick="closeModal()">✖</button>
+                    <button class="close-button" onclick="closePaintingModal()">✖</button>
                 </div>
                 <div class="modal-body">
                     <form id="addPaintingForm">
@@ -388,108 +388,68 @@
                         </div>
                         <div class="form-actions">
                             <button type="submit" class="button button-primary">Lưu</button>
-                            <button type="button" class="button" onclick="closeModal()">Hủy</button>
+                            <button type="button" class="button" onclick="closePaintingModal()">Hủy</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- CSS cho Modal -->
-        <style>
-            .modal {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5);
-                justify-content: center;
-                align-items: center;
-            }
-
-            .modal-content {
-                background: white;
-                padding: 20px;
-                width: 400px;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .modal-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .close-button {
-                font-size: 24px;
-                cursor: pointer;
-            }
-
-            .form-group {
-                margin-bottom: 15px;
-            }
-
-            .form-group label {
-                display: block;
-                font-weight: bold;
-            }
-
-            .form-group input, .form-group select {
-                width: 100%;
-                padding: 8px;
-                margin-top: 5px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-            }
-
-            .form-actions {
-                display: flex;
-                justify-content: space-between;
-            }
-
-
-        </style>
-
-        <script>
-            function openAddPaintingModal() {
-                const modal = document.getElementById('addPaintingModal');
-                modal.style.display = 'flex';
-            }
-
-            function closeModal() {
-                const modal = document.getElementById('addPaintingModal');
-                modal.style.display = 'none';
-            }
-            document.getElementById('addPaintingForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const title = document.getElementById('paintingTitle').value;
-                const artist = document.getElementById('artistName').value;
-                const price = document.getElementById('paintingPrice').value;
-                const status = document.getElementById('paintingStatus').value;
-
-                // Thêm tranh mới vào danh sách tranh
-                paintings.push({
-                    title,
-                    artist,
-                    price: parseFloat(price),
-                    status
-                });
-
-                closeModal();
-
-                renderPaintings();
-            });
-
-        </script>
-
-
-
-
-
+        <div id="editPaintingModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Chỉnh sửa tranh</h3>
+                    <button class="close-button" onclick="closeEditPaintingModal()">✖</button>
+                </div>
+                <div class="modal-body">
+                    <form id="editPaintingForm">
+                        <div class="form-group">
+                            <label for="paintingTitle">Tên tranh</label>
+                            <input type="text" id="paintingTitleEdit" name="title" required placeholder="Phong cảnh mùa thu">
+                        </div>
+                        <div class="form-group">
+                            <label for="artistName">Họa sĩ</label>
+                            <input type="text" id="artistNameEdit" name="artist" required placeholder="Trần Minh Hoàng">
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingPrice">Giá</label>
+                            <input type="number" id="paintingPriceEdit" name="price" required placeholder="5.000.000">
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingStatus">Trạng thái</label>
+                            <select id="paintingStatusEdit" name="status" required>
+                                <option value="available">Còn hàng</option>
+                                <option value="sold">Đã bán</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="button button-primary">Lưu</button>
+                            <button type="button" class="button" onclick="closeEditPaintingModal()">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="deletePaintingModel" class="modal">
+            <div class="model-content" style="background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 600px;">
+            <div class="modal-header">
+                <h3>Bạn muốn xóa tranh?</h3>
+                <button class="close-button" onclick="closeDeletePaintingModal()">✖</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                <div class="form-actions">
+                    <button type="submit" class="button button-primary">Xóa</button>
+                    <button type="button" class="button" onclick="closeDeletePaintingModal()">Hủy</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -612,7 +572,7 @@
                                         <td>${discount.endDate}</td>
                                         <td>
                                             <button class="button">✏️</button>
-                                            <button class="button">🗑️</button>
+                                            <button class="delete">🗑️</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -656,8 +616,8 @@
                                         </td>
                                         <td>
                                             <button class="button">👁️</button>
-                                            <button class="button">✏️</button>
-                                            <button class="button">🗑️</button>
+                                            <button class="button" ">✏️</button>
+                                            <button class="delete" >🗑️</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -667,6 +627,8 @@
                 </div>
             `;
         }
+
+
 
         // Navigation handling
         const mainContent = document.getElementById('mainContent');
@@ -853,7 +815,7 @@
                                 <p>${review.comment}</p>
                                 <div style="margin-top: 1rem">
                                     <button class="button">✏️</button>
-                                    <button class="button">🗑️</button>
+                                    <button class="delete">🗑️</button>
                                 </div>
                             </div>
                         `).join('')}
@@ -910,6 +872,73 @@
                 closeAddDiscountModal();
             }
         }
+        function openDeletePaintingModal() {
+            const modal = document.getElementById('deletePaintingModel');
+            modal.style.display = 'flex';
+        }
+
+        function closeDeletePaintingModal() {
+            const modal = document.getElementById('deletePaintingModel');
+            modal.style.display = 'none';
+        }
+        function openEditPaintingModal() {
+            const modal = document.getElementById('editPaintingModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeEditPaintingModal() {
+            const modal = document.getElementById('editPaintingModal');
+            modal.style.display = 'none';
+        }
+        document.getElementById('editPaintingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('paintingTitle').value;
+            const artist = document.getElementById('artistName').value;
+            const price = document.getElementById('paintingPrice').value;
+            const status = document.getElementById('paintingStatus').value;
+
+            // Thêm tranh mới vào danh sách tranh
+            paintings.push({
+                title,
+                artist,
+                price: parseFloat(price),
+                status
+            });
+
+            closeEditPaintingModal();
+
+            renderPaintings();
+        });
+        function openAddPaintingModal() {
+            const modal = document.getElementById('addPaintingModal');
+            modal.style.display = 'flex';
+        }
+
+        function closePaintingModal() {
+            const modal = document.getElementById('addPaintingModal');
+            modal.style.display = 'none';
+        }
+        document.getElementById('addPaintingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('paintingTitle').value;
+            const artist = document.getElementById('artistName').value;
+            const price = document.getElementById('paintingPrice').value;
+            const status = document.getElementById('paintingStatus').value;
+
+            // Thêm tranh mới vào danh sách tranh
+            paintings.push({
+                title,
+                artist,
+                price: parseFloat(price),
+                status
+            });
+
+            closePaintingModal();
+
+            renderPaintings();
+        });
     </script>
      <script>
         // Sample paintings data
@@ -998,5 +1027,18 @@
             }
         }
     </script>
+    <script>
+        // Xử lý sự kiện khi nhấn nút "Xóa"
+        document.addEventListener("click", function (event) {
+          if (event.target.classList.contains("delete")) {
+            const isConfirmed = confirm("Bạn có chắc chắn muốn xóa mục này không?");
+            if (isConfirmed) {
+              // Xóa dòng chứa nút "Xóa"
+              const row = event.target.closest("cart-content");
+              row.remove();
+            }
+          }
+        });
+      </script>
 </body>
 </html>
