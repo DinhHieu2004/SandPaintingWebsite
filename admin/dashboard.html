@@ -3,270 +3,872 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản Trị Art Gallery</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Admin Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.12.2/ReactUtils.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 256px;
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .sidebar h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .nav-button {
+            width: 100%;
+            padding: 0.5rem;
+            text-align: left;
+            border: none;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            background-color: #f3f4f6;
+        }
+
+        .nav-button.active {
+            background-color: #ebf5ff;
+            color: #2563eb;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .button-primary {
+            background-color: #22c55e;
+            color: white;
+        }
+
+        .button-primary:hover {
+            background-color: #16a34a;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+        }
+
+        .status-available {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .status-sold {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        .review-card {
+            border: 1px solid #e5e7eb;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .rating {
+            color: #fbbf24;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-type-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+        }
+
+        .user-artist {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .user-customer {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .order-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+        }
+
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-completed {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .status-cancelled {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.25rem;
+        }
+    </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#" onclick="showSection('dashboard')">
-                                <i class="bi bi-house-door"></i> Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="showSection('manageArtists')">
-                                <i class="bi bi-person"></i> Quản lý nghệ sĩ
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="showSection('managePaintings')">
-                                <i class="bi bi-paint-bucket"></i> Quản lý tranh
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="showSection('manageOrders')">
-                                <i class="bi bi-cart"></i> Quản lý đơn hàng
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="showSection('manageUsers')">
-                                <i class="bi bi-person-circle"></i> Quản lý người dùng
-                            </a>
-                        </li>
-                       
-                    </ul>
-                </div>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <button class="nav-button active" data-section="dashboard">Dashboard</button>
+                <button class="nav-button" data-section="discounts">Quản lý giảm giá</button>
+                <button class="nav-button" data-section="paintings">Quản lý tranh</button>
+                <button class="nav-button" data-section="orders">Quản lý đơn hàng</button>
+                <button class="nav-button" data-section="reviews">Đánh giá khách hàng</button>
             </nav>
-            
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <div id="dashboard" class="content-section">
-                    <h2>Dashboard</h2>
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Doanh Thu</h5>
-                                        <p class="card-text">Tổng doanh thu: <strong>1.000.000 VNĐ</strong></p>
-                                        <!-- Thêm dữ liệu hoặc biểu đồ liên quan nếu có -->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Thống kê Hàng Tồn Kho -->
-                            <div class="col-lg-3 col-md-6 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Hàng Tồn Kho</h5>
-                                        <p class="card-text">Tổng số tranh: <strong>500</strong></p>
-                                        <!-- Thêm thông tin chi tiết về tồn kho -->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Thống kê Doanh Thu Theo Nghệ Sĩ -->
-                            <div class="col-lg-3 col-md-6 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Doanh Thu Theo Nghệ Sĩ</h5>
-                                        <p class="card-text">Nghệ sĩ A: <strong>300.000 VNĐ</strong></p>
-                                        <p class="card-text">Nghệ sĩ B: <strong>200.000 VNĐ</strong></p>
-                                        <!-- Có thể thêm biểu đồ hoặc danh sách nghệ sĩ -->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Thống kê Các Tranh Bán Chạy -->
-                            <div class="col-lg-3 col-md-6 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Tranh Bán Chạy</h5>
-                                        <p class="card-text">"Tranh Hoa" - <strong>100 lượt bán</strong></p>
-                                        <p class="card-text">"Tranh Biển" - <strong>80 lượt bán</strong></p>
-                                        <!-- Thêm thông tin về các tranh khác -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-                <div id="manageArtists" class="content-section" style="display: none;">
-                    <h2>Quản lý Nghệ sĩ</h2>
-                    <div class="container">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Tên Nghệ Sĩ</th>
-                                    <th scope="col">Tiểu Sử</th>
-                                    <th scope="col">Số Tác Phẩm</th>
-                                    <th scope="col">Chức Năng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Nghệ sĩ mẫu -->
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Trần Minh Hoàng</td>
-                                    <td>Họa sĩ nổi tiếng với tranh trừu tượng.</td>
-                                    <td>20</td>
-                                    <td>
-                                        <a href="edit_artist.html" class="btn btn-warning">Chỉnh Sửa</a>
-                                        <a href="#" class="btn btn-danger">Xóa</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Nguyễn Thị Lan</td>
-                                    <td>Họa sĩ chuyên về tranh phong cảnh thiên nhiên.</td>
-                                    <td>15</td>
-                                    <td>
-                                        <a href="edit_artist.html" class="btn btn-warning">Chỉnh Sửa</a>
-                                        <a href="#" class="btn btn-danger">Xóa</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Le Minh Tuấn</td>
-                                    <td>Tranh của anh kết hợp giữa truyền thống và hiện đại.</td>
-                                    <td>10</td>
-                                    <td>
-                                        <a href="edit_artist.html" class="btn btn-warning">Chỉnh Sửa</a>
-                                        <a href="#" class="btn btn-danger">Xóa</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div id="managePaintings" class="content-section" style="display: none;">
-                    <h2>Quản lý Tranh</h2>
-                    <div class="container">
-                        <a href="add_painting.html" class="btn btn-success mb-3">Thêm Tranh Mới</a>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Tên Tranh</th>
-                                    <th scope="col">Giá</th>
-                                    <th scope="col">Số Lượng</th>
-                                    <th scope="col">Trạng Thái</th>
-                                    <th scope="col">Chức Năng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Dữ liệu tranh sẽ được lặp qua ở đây -->
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Tranh Màu Nước</td>
-                                    <td>500.000 VND</td>
-                                    <td>10</td>
-                                    <td><span class="badge bg-success">Còn Hàng</span></td>
-                                    <td>
-                                        <a href="edit_painting.html" class="btn btn-warning">Chỉnh Sửa</a>
-                                        <a href="#" class="btn btn-danger">Xóa</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div id="manageOrders" class="content-section" style="display: none;">
-                    <h2>Quản lý Đơn Hàng</h2>
-                    <div class="container">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Tên Khách Hàng</th>
-                                    <th scope="col">Ngày Đặt</th>
-                                    <th scope="col">Trạng Thái</th>
-                                    <th scope="col">Tổng Tiền</th>
-                                    <th scope="col">Chức Năng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Đơn hàng mẫu -->
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Nguyễn Văn A</td>
-                                    <td>2024-11-15</td>
-                                    <td>Đang xử lý</td>
-                                    <td>2.000.000 VNĐ</td>
-                                    <td>
-                                        <a href="order_detail.html" class="btn btn-info">Chi Tiết</a>
-                                        <a href="#" class="btn btn-danger">Hủy</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Trần Thị B</td>
-                                    <td>2024-11-16</td>
-                                    <td>Đã hoàn thành</td>
-                                    <td>1.500.000 VNĐ</td>
-                                    <td>
-                                        <a href="order_detail.html" class="btn btn-info">Chi Tiết</a>
-                                        <a href="#" class="btn btn-danger">Hủy</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Lê Minh C</td>
-                                    <td>2024-11-17</td>
-                                    <td>Đang chờ</td>
-                                    <td>3.000.000 VNĐ</td>
-                                    <td>
-                                        <a href="order_detail.html" class="btn btn-info">Chi Tiết</a>
-                                        <a href="#" class="btn btn-danger">Hủy</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div id="manageUsers" class="content-section" style="display: none;">
-                    <h2>Quản lý Người Dùng</h2>
-                    <div class="container">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Tên Người Dùng</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Vai Trò</th>
-                                    <th scope="col">Chức Năng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Nguyễn Văn B</td>
-                                    <td>nguyenb@example.com</td>
-                                    <td>Người dùng</td>
-                                    <td>
-                                        <a href="edit_user.html" class="btn btn-warning">Chỉnh Sửa</a>
-                                        <a href="#" class="btn btn-danger">Xóa</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </main>
         </div>
+
+        <div class="main-content" id="mainContent">
+            <!-- Content will be dynamically inserted here -->
+        </div>
+        <button onclick="openAddDiscountModal()" class="btn btn-primary">
+            + Thêm chương trình giảm giá
+        </button>
+    
+        <div id="addDiscountModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Thêm chương trình giảm giá</h3>
+                    <button class="close-button" onclick="closeAddDiscountModal()">&times;</button>
+                </div>
+    
+                <div id="successAlert" class="alert alert-success">
+                    Thêm chương trình giảm giá thành công!
+                </div>
+    
+                <div id="errorAlert" class="alert alert-error">
+                    Vui lòng điền đầy đủ thông tin!
+                </div>
+    
+                <form id="addDiscountForm" onsubmit="handleSubmitDiscount(event)">
+                    <div class="form-group">
+                        <label class="form-label">Tên chương trình</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            name="name"
+                            placeholder="Nhập tên chương trình giảm giá"
+                            required
+                        >
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="form-label">Phần trăm giảm giá (%)</label>
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            name="percentage"
+                            min="0"
+                            max="100"
+                            placeholder="Nhập phần trăm giảm giá"
+                            required
+                        >
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="form-label">Tranh áp dụng</label>
+                        <select 
+                            class="form-control paintings-select" 
+                            name="paintings" 
+                            multiple 
+                            required
+                        >
+                            <!-- Will be populated by JavaScript -->
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="form-label">Ngày bắt đầu</label>
+                        <input 
+                            type="date" 
+                            class="form-control" 
+                            name="startDate"
+                            required
+                        >
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="form-label">Ngày kết thúc</label>
+                        <input 
+                            type="date" 
+                            class="form-control" 
+                            name="endDate"
+                            required
+                        >
+                    </div>
+    
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="closeAddDiscountModal()">
+                            Hủy
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Lưu
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
     </div>
 
     <script>
-        function showSection(sectionId) {
-            // Ẩn tất cả các phần nội dung
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => {
-                section.style.display = 'none';
+        const monthlyRevenue = [
+            { month: 'Jan', revenue: 50000000 },
+            { month: 'Feb', revenue: 65000000 },
+            { month: 'Mar', revenue: 45000000 },
+            { month: 'Apr', revenue: 70000000 },
+        ];
+
+        const artistRevenue = [
+            { name: 'Trần Minh Hoàng', value: 35 },
+            { name: 'Nguyễn Thị Lan', value: 25 },
+            { name: 'Lê Minh Tuấn', value: 40 },
+        ];
+
+        const discounts = [
+            { id: 1, name: 'Giảm giá mùa hè', percentage: 20, startDate: '2024-06-01', endDate: '2024-06-30' },
+            { id: 2, name: 'Khuyến mãi đặc biệt', percentage: 15, startDate: '2024-07-01', endDate: '2024-07-15' },
+        ];
+
+        const paintings = [
+            { id: 1, title: 'Phong cảnh mùa thu', artist: 'Trần Minh Hoàng', price: 5000000, status: 'available' },
+            { id: 2, title: 'Hoàng hôn', artist: 'Nguyễn Thị Lan', price: 7000000, status: 'sold' },
+        ];
+
+        function renderDashboard() {
+            return `
+                <div class="stats-grid">
+                    <div class="card stat-card">
+                        <span class="stat-icon">$</span>
+                        <div>
+                            <p>Tổng doanh thu</p>
+                            <h3>230.000.000đ</h3>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <span class="stat-icon">🛍️</span>
+                        <div>
+                            <p>Đơn hàng</p>
+                            <h3>120</h3>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <span class="stat-icon">📦</span>
+                        <div>
+                            <p>Sản phẩm</p>
+                            <h3>80</h3>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <span class="stat-icon">👥</span>
+                        <div>
+                            <p>Người dùng</p>
+                            <h3>450</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Doanh thu theo tháng</h3>
+                        </div>
+                        <div class="card-content">
+                            <!-- Chart would go here -->
+                            <p>Chart placeholder</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Doanh thu theo nghệ sĩ</h3>
+                        </div>
+                        <div class="card-content">
+                            <!-- Chart would go here -->
+                            <p>Chart placeholder</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Hoạt động gần đây</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="alert">Đơn hàng mới #123 từ Nguyễn Văn A</div>
+                        <div class="alert">Tranh "Hoàng hôn" đã được bán</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDiscounts() {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Quản lý chương trình giảm giá</h3>
+                        <button class="button button-primary">
+                            <span>+</span> Thêm chương trình
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Tên chương trình</th>
+                                    <th>Phần trăm</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày kết thúc</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${discounts.map(discount => `
+                                    <tr>
+                                        <td>${discount.name}</td>
+                                        <td>${discount.percentage}%</td>
+                                        <td>${discount.startDate}</td>
+                                        <td>${discount.endDate}</td>
+                                        <td>
+                                            <button class="button">✏️</button>
+                                            <button class="button">🗑️</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPaintings() {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Quản lý tranh</h3>
+                        <button class="button button-primary">
+                            <span>+</span> Thêm tranh mới
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Tên tranh</th>
+                                    <th>Họa sĩ</th>
+                                    <th>Giá</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${paintings.map(painting => `
+                                    <tr>
+                                        <td>${painting.title}</td>
+                                        <td>${painting.artist}</td>
+                                        <td>${painting.price.toLocaleString()}đ</td>
+                                        <td>
+                                            <span class="status-badge ${painting.status === 'available' ? 'status-available' : 'status-sold'}">
+                                                ${painting.status === 'available' ? 'Còn hàng' : 'Đã bán'}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button class="button">👁️</button>
+                                            <button class="button">✏️</button>
+                                            <button class="button">🗑️</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Navigation handling
+        const mainContent = document.getElementById('mainContent');
+        const navButtons = document.querySelectorAll('.nav-button');
+
+        function setActiveSection(section) {
+            navButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.dataset.section === section) {
+                    button.classList.add('active');
+                }
             });
-            // Hiển thị phần nội dung được chọn
-            document.getElementById(sectionId).style.display = 'block';
+
+            switch(section) {
+                case 'dashboard':
+                    mainContent.innerHTML = renderDashboard();
+                    break;
+                case 'discounts':
+                    mainContent.innerHTML = renderDiscounts();
+                    break;
+                case 'paintings':
+                    mainContent.innerHTML = renderPaintings();
+                    break;
+            }
+        }
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                setActiveSection(button.dataset.section);
+            });
+        });
+
+        // Initialize dashboard view
+        setActiveSection('dashboard');
+
+
+
+
+        const users = [
+            { id: 1, name: 'Nguyễn Văn A', email: 'nguyenvana@email.com', type: 'customer', status: 'active' },
+            { id: 2, name: 'Trần Thị B', email: 'tranthib@email.com', type: 'artist', status: 'active' }
+        ];
+
+        const orders = [
+            { 
+                id: 1, 
+                customer: 'Nguyễn Văn A', 
+                items: ['Phong cảnh mùa thu'], 
+                total: 5000000,
+                status: 'completed',
+                date: '2024-03-01'
+            },
+            { 
+                id: 2, 
+                customer: 'Trần Thị B', 
+                items: ['Hoàng hôn'], 
+                total: 7000000,
+                status: 'pending',
+                date: '2024-03-02'
+            }
+        ];
+
+        const reviews = [
+            {
+                id: 1,
+                user: 'Nguyễn Văn A',
+                rating: 5,
+                comment: 'Tranh rất đẹp, dịch vụ tốt',
+                date: '2024-03-01'
+            },
+            {
+                id: 2,
+                user: 'Trần Thị B',
+                rating: 4,
+                comment: 'Giao hàng hơi chậm nhưng tranh đẹp',
+                date: '2024-03-02'
+            }
+        ];
+
+        // New render functions
+        function renderUsers() {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Quản lý người dùng</h3>
+                        <button class="button button-primary">
+                            <span>+</span> Thêm người dùng
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Tên</th>
+                                    <th>Email</th>
+                                    <th>Loại tài khoản</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${users.map(user => `
+                                    <tr>
+                                        <td>${user.name}</td>
+                                        <td>${user.email}</td>
+                                        <td>
+                                            <span class="user-type-badge ${user.type === 'artist' ? 'user-artist' : 'user-customer'}">
+                                                ${user.type === 'artist' ? 'Họa sĩ' : 'Khách hàng'}
+                                            </span>
+                                        </td>
+                                        <td>${user.status}</td>
+                                        <td>
+                                            <button class="button">✏️</button>
+                                            <button class="button">🗑️</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderOrders() {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Quản lý đơn hàng</h3>
+                    </div>
+                    <div class="card-content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${orders.map(order => `
+                                    <tr>
+                                        <td>#${order.id}</td>
+                                        <td>${order.customer}</td>
+                                        <td>${order.items.join(', ')}</td>
+                                        <td>${order.total.toLocaleString()}đ</td>
+                                        <td>
+                                            <span class="order-status status-${order.status}">
+                                                ${order.status === 'completed' ? 'Hoàn thành' : 
+                                                  order.status === 'pending' ? 'Đang xử lý' : 'Đã hủy'}
+                                            </span>
+                                        </td>
+                                        <td>${order.date}</td>
+                                        <td>
+                                            <button class="button">👁️</button>
+                                            <button class="button">✏️</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderReviews() {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Đánh giá của khách hàng</h3>
+                    </div>
+                    <div class="card-content">
+                        ${reviews.map(review => `
+                            <div class="review-card">
+                                <div class="rating">
+                                    ${'⭐'.repeat(review.rating)}
+                                </div>
+                                <p><strong>${review.user}</strong> - ${review.date}</p>
+                                <p>${review.comment}</p>
+                                <div style="margin-top: 1rem">
+                                    <button class="button">✏️</button>
+                                    <button class="button">🗑️</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update navigation handling
+        function setActiveSection(section) {
+            navButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.dataset.section === section) {
+                    button.classList.add('active');
+                }
+            });
+
+            switch(section) {
+                case 'dashboard':
+                    mainContent.innerHTML = renderDashboard();
+                    break;
+                case 'users':
+                    mainContent.innerHTML = renderUsers();
+                    break;
+                case 'orders':
+                    mainContent.innerHTML = renderOrders();
+                    break;
+                case 'reviews':
+                    mainContent.innerHTML = renderReviews();
+                    break;
+                case 'discounts':
+                    mainContent.innerHTML = renderDiscounts();
+                    break;
+                case 'paintings':
+                    mainContent.innerHTML = renderPaintings();
+                    break;
+            }
+        }
+
+        // Modal handling
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Initialize dashboard view
+        setActiveSection('dashboard');
+        window.onclick = function(event) {
+            const modal = document.getElementById('addDiscountModal');
+            if (event.target === modal) {
+                closeAddDiscountModal();
+            }
         }
     </script>
+     <script>
+        // Sample paintings data
+        const availablePaintings = [
+            { id: 1, title: 'Phong cảnh mùa thu', artist: 'Trần Minh Hoàng', price: 5000000 },
+            { id: 2, title: 'Hoàng hôn', artist: 'Nguyễn Thị Lan', price: 7000000 },
+            { id: 3, title: 'Bình minh', artist: 'Lê Văn Nam', price: 6000000 },
+        ];
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+        // Populate paintings select
+        function populatePaintingsSelect() {
+            const select = document.querySelector('select[name="paintings"]');
+            availablePaintings.forEach(painting => {
+                const option = document.createElement('option');
+                option.value = painting.id;
+                option.textContent = `${painting.title} - ${painting.artist} - ${painting.price.toLocaleString()}đ`;
+                select.appendChild(option);
+            });
+        }
+
+        // Modal handling
+        function openAddDiscountModal() {
+            const modal = document.getElementById('addDiscountModal');
+            modal.style.display = 'flex';
+            populatePaintingsSelect();
+        }
+
+        function closeAddDiscountModal() {
+            const modal = document.getElementById('addDiscountModal');
+            modal.style.display = 'none';
+            document.getElementById('addDiscountForm').reset();
+            hideAlerts();
+        }
+
+        // Alert handling
+        function showAlert(type) {
+            hideAlerts();
+            document.getElementById(`${type}Alert`).style.display = 'block';
+            setTimeout(() => {
+                document.getElementById(`${type}Alert`).style.display = 'none';
+            }, 3000);
+        }
+
+        function hideAlerts() {
+            document.getElementById('successAlert').style.display = 'none';
+            document.getElementById('errorAlert').style.display = 'none';
+        }
+
+        // Form submission
+        function handleSubmitDiscount(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            // Validate dates
+            const startDate = new Date(formData.get('startDate'));
+            const endDate = new Date(formData.get('endDate'));
+            
+            if (endDate < startDate) {
+                showAlert('error');
+                return;
+            }
+
+            // Create discount object
+            const discount = {
+                name: formData.get('name'),
+                percentage: formData.get('percentage'),
+                paintings: Array.from(formData.getAll('paintings')),
+                startDate: formData.get('startDate'),
+                endDate: formData.get('endDate')
+            };
+
+            // Here you would typically send this to your backend
+            console.log('New discount:', discount);
+            
+            showAlert('success');
+            setTimeout(() => {
+                closeAddDiscountModal();
+            }, 1500);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('addDiscountModal');
+            if (event.target === modal) {
+                closeAddDiscountModal();
+            }
+        }
+    </script>
 </body>
 </html>

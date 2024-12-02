@@ -52,15 +52,96 @@
                     </div>
                    
                     <button id="addToCart" class="btn btn-primary">Thêm vào Giỏ hàng</button>
-                    <button id="buyNow" class="btn btn-primary" style="border:1px solid black;">Mua ngay</button>
+                    <button id="buyNow" class="btn btn-primary" style="border:1px solid black;" data-bs-toggle="modal" data-bs-target="#paymentModal" >Mua ngay</button>
                 </div>
             </div>         
         </div>
         </div>
     </div>
+    
 
     <div id="footer-container"></div>
 
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Thanh toán</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form>
+                        <!-- Tổng tiền thanh toán -->
+                        <div class="mb-3">
+                            <label for="totalAmount" class="form-label fw-bold">Tổng tiền thanh toán:</label>
+                            <div id="totalAmount">$400.000-vnd</div>
+                        </div>
+    
+                        <!-- Phương thức thanh toán -->
+                        <div class="mb-3">
+                            <label for="paymentMethod" class="form-label">Chọn phương thức thanh toán:</label>
+                            <select class="form-select" id="paymentMethod" required>
+                                <option value="" disabled selected>Chọn...</option>
+                                <option value="credit_card">Thẻ tín dụng/Thẻ ghi nợ</option>
+                                <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                                <option value="bank_transfer">Chuyển khoản ngân hàng</option>
+                            </select>
+                        </div>
+    
+                        <!-- Địa chỉ nhận hàng -->
+                        <div class="mb-3">
+                            <label for="shippingAddress" class="form-label">Địa chỉ nhận hàng:</label>
+                            <textarea class="form-control" id="shippingAddress" rows="3" placeholder="Nhập địa chỉ nhận hàng..." required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Thanh toán</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="totalAmount" class="form-label fw-bold">Tổng tiền thanh toán:</label>
+                            <div id="totalAmount">$400.000-vnd</div>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="paymentMethod" class="form-label">Chọn phương thức thanh toán:</label>
+                            <select class="form-select" id="paymentMethod" required>
+                                <option value="" disabled selected>Chọn...</option>
+                                <option value="credit_card">Thẻ tín dụng/Thẻ ghi nợ</option>
+                                <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                                <option value="bank_transfer">Chuyển khoản ngân hàng</option>
+                            </select>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="shippingAddress" class="form-label">Địa chỉ nhận hàng:</label>
+                            <textarea class="form-control" id="shippingAddress" rows="3" placeholder="Nhập địa chỉ nhận hàng..." required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/assets/js/painting-detail.js"></script>
     <script src="/assets/js/header.js"></script>
 

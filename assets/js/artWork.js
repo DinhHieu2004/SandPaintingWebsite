@@ -1,29 +1,40 @@
 $(document).ready(function(){
     $("#footer-container").load("/partials/footer.html");
     $("#header-container").load("/partials/header.html");
+    $("#auth").load("/partials/authModal.html");
+
     setupPagination();
 
 
 });
 
 
+let currentPage = 1; 
+
 function setupPagination() {
     const itemsPerPage = 15; 
-    const items = $('#artworkGallery .artwork-card');
+    const items = $('#artworkGallery .artwork-card'); 
     const totalItems = items.length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const totalPages = Math.ceil(totalItems / itemsPerPage); 
+    const paginationContainer = $('.pagination');
+
     items.hide();
 
-    items.slice(0, itemsPerPage).show();
-    const paginationContainer = $('.pagination');
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    items.slice(startIndex, endIndex).show();
+
+    // Xóa phân trang cũ
     paginationContainer.empty();
 
+    // Nút "Trước"
     paginationContainer.append(
         `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
             <a class="page-link" href="#" data-page="${currentPage - 1}">Trước</a>
         </li>`
     );
 
+    // Các số trang
     for (let i = 1; i <= totalPages; i++) {
         paginationContainer.append(
             `<li class="page-item ${currentPage === i ? 'active' : ''}">
@@ -32,25 +43,25 @@ function setupPagination() {
         );
     }
 
+    // Nút "Tiếp"
     paginationContainer.append(
         `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
             <a class="page-link" href="#" data-page="${currentPage + 1}">Tiếp</a>
         </li>`
     );
 
+    // Sự kiện click cho các liên kết phân trang
     paginationContainer.find('.page-link').on('click', function(e) {
         e.preventDefault();
-        const page = $(this).data('page');
-        
-        if (page < 1 || page > totalPages) return;
-        items.hide();
+        const page = parseInt($(this).data('page'), 10);
 
-        const startIndex = (page - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        items.slice(startIndex, endIndex).show();
-
-        currentPage = page;
-        setupPagination();
+        if (page >= 1 && page <= totalPages) {
+            currentPage = page;
+            setupPagination(); // Cập nhật lại giao diện phân trang
+        }
     });
 }
-let currentPage = 1;
+
+$(document).ready(function () {
+    setupPagination();
+});

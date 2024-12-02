@@ -1,3 +1,9 @@
+:root {
+    --primary-color: #e7621b !important;
+    --primary-text-light: white  !important;
+    --primary-text-dark: black !important;
+
+  }
 body, html {
     margin: 0;
     padding: 0;
@@ -28,7 +34,7 @@ body, html {
     transition: color 0.3s;
 }
 .social-icons i:hover {
-    color: #007bff;
+    color: var(--primary-color);
 }
 
 .intro{
@@ -101,7 +107,7 @@ body, html {
 }
 
 .send-button:hover {
-    background-color: #0d6efd;
+    background-color: var(--primary-color);
     color: white;
 }
 .customer-comments {
@@ -118,6 +124,10 @@ body, html {
 }
 
 .comment-item strong {
-    color: #007bff;
+    color: var(--primary-color);
+}
+.btn{
+    background-color:  var(--primary-color) !important;
+    color: var(--primary-text-light) !important;
 }
 

@@ -1,3 +1,9 @@
+:root {
+    --primary-color: #e7621b !important;
+    --primary-text-light : white  !important;
+    --primary-text-dark : black  !important;
+
+  }
 .artist-photo, .artwork-image {
     max-width: 100%;  
     height: auto;    
@@ -14,4 +20,8 @@
 .page-title-inner{
     margin-top: 30px;
     margin-left: 30px;
+}
+.btn{
+   background-color: var(--primary-color)!important;
+   color: white !important;
 }

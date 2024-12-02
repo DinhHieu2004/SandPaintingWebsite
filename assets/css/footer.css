@@ -1,4 +1,12 @@
-/*Footer*/
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+:root {
+    --primary-color: #e7621b !important;
+  }
+
 .footer_wrapper {
     margin-top: 30px;
     border-top: #333333 solid 1px;
@@ -37,7 +45,7 @@
 .footer_wrapper .contact_info:hover,
 .footer_wrapper .support_info:hover,
 .footer_wrapper .guide_info:hover {
-    color: #0d6efd !important;
+    color: var(--primary-color) !important;
     transition: color 0.3s ease;
 }
 
