@@ -274,9 +274,7 @@
         <div class="main-content" id="mainContent">
             <!-- Content will be dynamically inserted here -->
         </div>
-        <button onclick="openAddDiscountModal()" class="btn btn-primary">
-            + Thêm chương trình giảm giá
-        </button>
+
     
         <div id="addDiscountModal" class="modal">
             <div class="modal-content">
@@ -284,7 +282,7 @@
                     <h3 class="modal-title">Thêm chương trình giảm giá</h3>
                     <button class="close-button" onclick="closeAddDiscountModal()">&times;</button>
                 </div>
-    
+
                 <div id="successAlert" class="alert alert-success">
                     Thêm chương trình giảm giá thành công!
                 </div>
@@ -361,7 +359,97 @@
                 </form>
             </div>
         </div>
-    
+        <div id="addPaintingModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Thêm tranh mới</h3>
+                    <button class="close-button" onclick="closePaintingModal()">✖</button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPaintingForm">
+                        <div class="form-group">
+                            <label for="paintingTitle">Tên tranh</label>
+                            <input type="text" id="paintingTitle" name="title" required placeholder="Nhập tên tranh">
+                        </div>
+                        <div class="form-group">
+                            <label for="artistName">Họa sĩ</label>
+                            <input type="text" id="artistName" name="artist" required placeholder="Nhập tên họa sĩ">
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingPrice">Giá</label>
+                            <input type="number" id="paintingPrice" name="price" required placeholder="Nhập giá tranh">
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingStatus">Trạng thái</label>
+                            <select id="paintingStatus" name="status" required>
+                                <option value="available">Còn hàng</option>
+                                <option value="sold">Đã bán</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="button button-primary">Lưu</button>
+                            <button type="button" class="button" onclick="closePaintingModal()">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="editPaintingModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Chỉnh sửa tranh</h3>
+                    <button class="close-button" onclick="closeEditPaintingModal()">✖</button>
+                </div>
+                <div class="modal-body">
+                    <form id="editPaintingForm">
+                        <div class="form-group">
+                            <label for="paintingTitle">Tên tranh</label>
+                            <input type="text" id="paintingTitleEdit" name="title" required placeholder="Phong cảnh mùa thu">
+                        </div>
+                        <div class="form-group">
+                            <label for="artistName">Họa sĩ</label>
+                            <input type="text" id="artistNameEdit" name="artist" required placeholder="Trần Minh Hoàng">
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingPrice">Giá</label>
+                            <input type="number" id="paintingPriceEdit" name="price" required placeholder="5.000.000">
+                        </div>
+                        <div class="form-group">
+                            <label for="paintingStatus">Trạng thái</label>
+                            <select id="paintingStatusEdit" name="status" required>
+                                <option value="available">Còn hàng</option>
+                                <option value="sold">Đã bán</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="button button-primary">Lưu</button>
+                            <button type="button" class="button" onclick="closeEditPaintingModal()">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="deletePaintingModel" class="modal">
+            <div class="model-content" style="background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 600px;">
+            <div class="modal-header">
+                <h3>Bạn muốn xóa tranh?</h3>
+                <button class="close-button" onclick="closeDeletePaintingModal()">✖</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                <div class="form-actions">
+                    <button type="submit" class="button button-primary">Xóa</button>
+                    <button type="button" class="button" onclick="closeDeletePaintingModal()">Hủy</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -460,7 +548,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Quản lý chương trình giảm giá</h3>
-                        <button class="button button-primary">
+                        <button class="button button-primary" onclick="openAddDiscountModal()">
                             <span>+</span> Thêm chương trình
                         </button>
                     </div>
@@ -500,7 +588,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Quản lý tranh</h3>
-                        <button class="button button-primary">
+                        <button class="button button-primary" onclick="openAddPaintingModal()">
                             <span>+</span> Thêm tranh mới
                         </button>
                     </div>
@@ -528,8 +616,8 @@
                                         </td>
                                         <td>
                                             <button class="button">👁️</button>
-                                            <button class="button">✏️</button>
-                                            <button class="button">🗑️</button>
+                                            <button class="button" onclick="openEditPaintingModal()">✏️</button>
+                                            <button class="button" onclick="openDeletePaintingModal()">🗑️</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -539,6 +627,8 @@
                 </div>
             `;
         }
+
+
 
         // Navigation handling
         const mainContent = document.getElementById('mainContent');
@@ -782,6 +872,73 @@
                 closeAddDiscountModal();
             }
         }
+        function openDeletePaintingModal() {
+            const modal = document.getElementById('deletePaintingModel');
+            modal.style.display = 'flex';
+        }
+
+        function closeDeletePaintingModal() {
+            const modal = document.getElementById('deletePaintingModel');
+            modal.style.display = 'none';
+        }
+        function openEditPaintingModal() {
+            const modal = document.getElementById('editPaintingModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeEditPaintingModal() {
+            const modal = document.getElementById('editPaintingModal');
+            modal.style.display = 'none';
+        }
+        document.getElementById('editPaintingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('paintingTitle').value;
+            const artist = document.getElementById('artistName').value;
+            const price = document.getElementById('paintingPrice').value;
+            const status = document.getElementById('paintingStatus').value;
+
+            // Thêm tranh mới vào danh sách tranh
+            paintings.push({
+                title,
+                artist,
+                price: parseFloat(price),
+                status
+            });
+
+            closeEditPaintingModal();
+
+            renderPaintings();
+        });
+        function openAddPaintingModal() {
+            const modal = document.getElementById('addPaintingModal');
+            modal.style.display = 'flex';
+        }
+
+        function closePaintingModal() {
+            const modal = document.getElementById('addPaintingModal');
+            modal.style.display = 'none';
+        }
+        document.getElementById('addPaintingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('paintingTitle').value;
+            const artist = document.getElementById('artistName').value;
+            const price = document.getElementById('paintingPrice').value;
+            const status = document.getElementById('paintingStatus').value;
+
+            // Thêm tranh mới vào danh sách tranh
+            paintings.push({
+                title,
+                artist,
+                price: parseFloat(price),
+                status
+            });
+
+            closePaintingModal();
+
+            renderPaintings();
+        });
     </script>
      <script>
         // Sample paintings data
