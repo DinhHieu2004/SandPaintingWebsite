@@ -6,257 +6,7 @@
     <title>Admin Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.12.2/ReactUtils.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f4f6;
-            min-height: 100vh;
-        }
-
-        .container {
-            display: flex;
-        }
-
-        .sidebar {
-            width: 256px;
-            background-color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            min-height: 100vh;
-            padding: 1rem;
-        }
-
-        .sidebar h2 {
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .nav-button {
-            width: 100%;
-            padding: 0.5rem;
-            text-align: left;
-            border: none;
-            border-radius: 0.25rem;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-        }
-
-        .nav-button:hover {
-            background-color: #f3f4f6;
-        }
-
-        .nav-button.active {
-            background-color: #ebf5ff;
-            color: #2563eb;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 2rem;
-        }
-
-        .card {
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1.5rem;
-        }
-
-        .card-header {
-            padding: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-
-        .card-content {
-            padding: 1rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .stat-card {
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .stat-icon {
-            width: 2rem;
-            height: 2rem;
-        }
-
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table th,
-        .table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .button {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .button-primary {
-            background-color: #22c55e;
-            color: white;
-        }
-
-        .button-primary:hover {
-            background-color: #16a34a;
-        }
-
-        .status-badge {
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-        }
-
-        .status-available {
-            background-color: #dcfce7;
-            color: #166534;
-        }
-
-        .status-sold {
-            background-color: #fee2e2;
-            color: #991b1b;
-        }
-
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-
-        .review-card {
-            border: 1px solid #e5e7eb;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 0.5rem;
-        }
-
-        .rating {
-            color: #fbbf24;
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .user-type-badge {
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-        }
-
-        .user-artist {
-            background-color: #dbeafe;
-            color: #1e40af;
-        }
-
-        .user-customer {
-            background-color: #dcfce7;
-            color: #166534;
-        }
-
-        .order-status {
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-        }
-
-        .status-pending {
-            background-color: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-completed {
-            background-color: #dcfce7;
-            color: #166534;
-        }
-
-        .status-cancelled {
-            background-color: #fee2e2;
-            color: #991b1b;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            width: 90%;
-            max-width: 600px;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.25rem;
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/admin.css">
 </head>
 <body>
     <div class="container">
@@ -268,6 +18,7 @@
                 <button class="nav-button" data-section="paintings">Quản lý tranh</button>
                 <button class="nav-button" data-section="orders">Quản lý đơn hàng</button>
                 <button class="nav-button" data-section="reviews">Đánh giá khách hàng</button>
+                <button class="nav-button" data-section="users">Quản lý người dùng</button>
             </nav>
         </div>
 
@@ -363,7 +114,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Chi tiết tranh</h3>
-                    <button class="close-button" onclick="closeSeePaintingModal()">✖</button>
                 </div>
                 <div class="modal-body">
                     <form id="seePaintingForm">
@@ -402,7 +152,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Thêm tranh mới</h3>
-                    <button class="close-button" onclick="closePaintingModal()">✖</button>
                 </div>
                 <div class="modal-body">
                     <form id="addPaintingForm">
@@ -417,6 +166,11 @@
                         <div class="form-group">
                             <label for="paintingPrice">Giá</label>
                             <input type="number" id="paintingPrice" name="price" required placeholder="Nhập giá tranh">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="paintingPrice">ảnh</label>
+                            <input type="text" id="img" name="img" required placeholder="Nhập url ảnh">
                         </div>
                         <div class="form-group">
                             <label for="paintingStatus">Trạng thái</label>
@@ -437,7 +191,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Chỉnh sửa thông tin đơn hàng</h3>
-                    <button class="close-button" onclick="closeEditOrderModal()">✖</button>
                 </div>
                 <div class="modal-body">
                     <form id="editManageOderForm">
@@ -482,7 +235,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Xem thông tin đơn hàng</h3>
-                    <button class="close-button" onclick="closeSeeOrderModal()">✖</button>
                 </div>
                 <div class="modal-body">
                     <form id="seeManageOderForm">
@@ -516,7 +268,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Chỉnh sửa tranh</h3>
-                    <button class="close-button" onclick="closeEditPaintingModal()">✖</button>
                 </div>
                 <div class="modal-body">
                     <form id="editPaintingForm">
@@ -555,7 +306,6 @@
             max-width: 600px;">
             <div class="modal-header">
                 <h3>Bạn muốn xóa tranh?</h3>
-                <button class="close-button" onclick="closeDeletePaintingModal()">✖</button>
             </div>
             <div class="modal-body">
                 <form>
@@ -567,622 +317,213 @@
             </div>
             </div>
         </div>
+
+        <div id="addUserModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Chỉnh sửa người dùng</h3>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Chỉnh sửa người dùng</button>
+                </div>
+                <div class="modal-body">
+                    <form id="addUserForm">
+                        <div class="form-group">
+                            <label for="username">Tên người dùng</label>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                name="username" 
+                                placeholder="Nhập tên người dùng" 
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                placeholder="Nhập email" 
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Vai trò</label>
+                            <select id="role" name="role" required>
+                                <option value="user">Người dùng</option>
+                                <option value="admin">Quản trị viên</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" onclick="submitAddUserForm()" class="btn btn-primary">Lưu</button>
+                            <button type="button" onclick="closeAddUserModal()" class="btn btn-secondary">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add User Modal -->
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModal" aria-hidden="true">
+            <div class="modal-overlay" onclick="closeUserManagementModal()"></div>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>Quản lý người dùng</h2>
+                    <button class="modal-close-btn" onclick="closeUserManagementModal()">×</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="user-actions">
+                        <button class="btn btn-primary" onclick="openAddUserModal()">+ Thêm người dùng mới</button>
+                    </div>
+        
+                    <table class="user-list-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên người dùng</th>
+                                <th>Email</th>
+                                <th>Vai trò</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userListTableBody">
+                            <!-- Danh sách người dùng sẽ được thêm động ở đây -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal Thêm người dùng -->
+        <div id="addUserModal" class="modal">
+            <div class="modal-overlay" onclick="closeAddUserModal()"></div>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>Thêm người dùng mới</h2>
+                    <button class="modal-close-btn" onclick="closeAddUserModal()">×</button>
+                </div>
+                
+                <div class="modal-body">
+                    <form id="addUserForm" onsubmit="handleAddUser(event)">
+                        <div class="form-group">
+                            <label for="newUsername">Tên người dùng</label>
+                            <input 
+                                type="text" 
+                                id="newUsername" 
+                                name="username" 
+                                required 
+                                placeholder="Nhập tên người dùng"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newEmail">Email</label>
+                            <input 
+                                type="email" 
+                                id="newEmail" 
+                                name="email" 
+                                required 
+                                placeholder="Nhập địa chỉ email"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newUserRole">Vai trò</label>
+                            <select id="newUserRole" name="role" required>
+                                <option value="user">Người dùng</option>
+                                <option value="admin">Quản trị viên</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="closeAddUserModal()">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Thêm người dùng</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal Chỉnh sửa người dùng -->
+        <div id="editUserModal" class="modal">
+            <div class="modal-overlay" onclick="closeEditUserModal()"></div>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>Chỉnh sửa thông tin người dùng</h2>
+                    <button class="modal-close-btn" onclick="closeEditUserModal()">×</button>
+                </div>
+                
+                <div class="modal-body">
+                    <form id="editUserForm" onsubmit="handleEditUser(event)">
+                        <input type="hidden" id="editUserId" name="userId">
+                        
+                        <div class="form-group">
+                            <label for="editUsername">Tên người dùng</label>
+                            <input 
+                                type="text" 
+                                id="editUsername" 
+                                name="username" 
+                                required 
+                                placeholder="Nhập tên người dùng"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="editEmail">Email</label>
+                            <input 
+                                type="email" 
+                                id="editEmail" 
+                                name="email" 
+                                required 
+                                placeholder="Nhập địa chỉ email"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="editUserRole">Vai trò</label>
+                            <select id="editUserRole" name="role" required>
+                                <option value="user">Người dùng</option>
+                                <option value="admin">Quản trị viên</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="closeEditUserModal()">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal Xác nhận xóa người dùng -->
+        <div id="deleteUserModal" class="modal">
+            <div class="modal-overlay" onclick="closeDeleteUserModal()"></div>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>Xác nhận xóa người dùng</h2>
+                    <button class="modal-close-btn" onclick="closeDeleteUserModal()">×</button>
+                </div>
+                
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa người dùng <span id="deleteUserName"></span> không?</p>
+                    <input type="hidden" id="deleteUserId">
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-secondary" onclick="closeDeleteUserModal()">Hủy</button>
+                        <button class="btn btn-danger" onclick="confirmDeleteUser()">Xóa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <script>
-        const monthlyRevenue = [
-            { month: 'Jan', revenue: 50000000 },
-            { month: 'Feb', revenue: 65000000 },
-            { month: 'Mar', revenue: 45000000 },
-            { month: 'Apr', revenue: 70000000 },
-        ];
-
-        const artistRevenue = [
-            { name: 'Trần Minh Hoàng', value: 35 },
-            { name: 'Nguyễn Thị Lan', value: 25 },
-            { name: 'Lê Minh Tuấn', value: 40 },
-        ];
-
-        const discounts = [
-            { id: 1, name: 'Giảm giá mùa hè', percentage: 20, startDate: '2024-06-01', endDate: '2024-06-30' },
-            { id: 2, name: 'Khuyến mãi đặc biệt', percentage: 15, startDate: '2024-07-01', endDate: '2024-07-15' },
-        ];
-
-        const paintings = [
-            { id: 1, title: 'Phong cảnh mùa thu', artist: 'Trần Minh Hoàng', price: 5000000, status: 'available' },
-            { id: 2, title: 'Hoàng hôn', artist: 'Nguyễn Thị Lan', price: 7000000, status: 'sold' },
-        ];
-
-        function renderDashboard() {
-            return `
-                <div class="stats-grid">
-                    <div class="card stat-card">
-                        <span class="stat-icon">$</span>
-                        <div>
-                            <p>Tổng doanh thu</p>
-                            <h3>230.000.000đ</h3>
-                        </div>
-                    </div>
-                    <div class="card stat-card">
-                        <span class="stat-icon">🛍️</span>
-                        <div>
-                            <p>Đơn hàng</p>
-                            <h3>120</h3>
-                        </div>
-                    </div>
-                    <div class="card stat-card">
-                        <span class="stat-icon">📦</span>
-                        <div>
-                            <p>Sản phẩm</p>
-                            <h3>80</h3>
-                        </div>
-                    </div>
-                    <div class="card stat-card">
-                        <span class="stat-icon">👥</span>
-                        <div>
-                            <p>Người dùng</p>
-                            <h3>450</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="charts-grid">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Doanh thu theo tháng</h3>
-                        </div>
-                        <div class="card-content">
-                            <!-- Chart would go here -->
-                            <p>Chart placeholder</p>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Doanh thu theo nghệ sĩ</h3>
-                        </div>
-                        <div class="card-content">
-                            <!-- Chart would go here -->
-                            <p>Chart placeholder</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Hoạt động gần đây</h3>
-                    </div>
-                    <div class="card-content">
-                        <div class="alert">Đơn hàng mới #123 từ Nguyễn Văn A</div>
-                        <div class="alert">Tranh "Hoàng hôn" đã được bán</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderDiscounts() {
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Quản lý chương trình giảm giá</h3>
-                        <button class="button button-primary" onclick="openAddDiscountModal()">
-                            <span>+</span> Thêm chương trình
-                        </button>
-                    </div>
-                    <div class="card-content">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Tên chương trình</th>
-                                    <th>Phần trăm</th>
-                                    <th>Ngày bắt đầu</th>
-                                    <th>Ngày kết thúc</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${discounts.map(discount => `
-                                    <tr>
-                                        <td>${discount.name}</td>
-                                        <td>${discount.percentage}%</td>
-                                        <td>${discount.startDate}</td>
-                                        <td>${discount.endDate}</td>
-                                        <td>
-                                            <button class="button">✏️</button>
-                                            <button class="delete">🗑️</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderPaintings() {
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Quản lý tranh</h3>
-                        <button class="button button-primary" onclick="openAddPaintingModal()">
-                            <span>+</span> Thêm tranh mới
-                        </button>
-                    </div>
-                    <div class="card-content">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Tên tranh</th>
-                                    <th>Họa sĩ</th>
-                                    <th>Giá</th>
-                                    <th>Trạng thái</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${paintings.map(painting => `
-                                    <tr>
-                                        <td>${painting.title}</td>
-                                        <td>${painting.artist}</td>
-                                        <td>${painting.price.toLocaleString()}đ</td>
-                                        <td>
-                                            <span class="status-badge ${painting.status === 'available' ? 'status-available' : 'status-sold'}">
-                                                ${painting.status === 'available' ? 'Còn hàng' : 'Đã bán'}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <button class="button" onclick="openSeePaintingModal()">👁️</button>
-                                            <button class="button" onclick="openEditPaintingModal()">✏️</button>
-                                            <button class="button" onclick="openDeletePaintingModal()">🗑️</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        }
-
-
-
-        // Navigation handling
-        const mainContent = document.getElementById('mainContent');
-        const navButtons = document.querySelectorAll('.nav-button');
-
-        function setActiveSection(section) {
-            navButtons.forEach(button => {
-                button.classList.remove('active');
-                if (button.dataset.section === section) {
-                    button.classList.add('active');
-                }
-            });
-
-            switch(section) {
-                case 'dashboard':
-                    mainContent.innerHTML = renderDashboard();
-                    break;
-                case 'discounts':
-                    mainContent.innerHTML = renderDiscounts();
-                    break;
-                case 'paintings':
-                    mainContent.innerHTML = renderPaintings();
-                    break;
-            }
-        }
-
-        navButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                setActiveSection(button.dataset.section);
-            });
-        });
-
-        // Initialize dashboard view
-        setActiveSection('dashboard');
-
-
-
-
-        const users = [
-            { id: 1, name: 'Nguyễn Văn A', email: 'nguyenvana@email.com', type: 'customer', status: 'active' },
-            { id: 2, name: 'Trần Thị B', email: 'tranthib@email.com', type: 'artist', status: 'active' }
-        ];
-
-        const orders = [
-            { 
-                id: 1, 
-                customer: 'Nguyễn Văn A', 
-                items: ['Phong cảnh mùa thu'], 
-                total: 5000000,
-                status: 'completed',
-                date: '2024-03-01'
-            },
-            { 
-                id: 2, 
-                customer: 'Trần Thị B', 
-                items: ['Hoàng hôn'], 
-                total: 7000000,
-                status: 'pending',
-                date: '2024-03-02'
-            }
-        ];
-
-        const reviews = [
-            {
-                id: 1,
-                user: 'Nguyễn Văn A',
-                rating: 5,
-                comment: 'Tranh rất đẹp, dịch vụ tốt',
-                date: '2024-03-01'
-            },
-            {
-                id: 2,
-                user: 'Trần Thị B',
-                rating: 4,
-                comment: 'Giao hàng hơi chậm nhưng tranh đẹp',
-                date: '2024-03-02'
-            }
-        ];
-
-        // New render functions
-        function renderUsers() {
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Quản lý người dùng</h3>
-                        <button class="button button-primary">
-                            <span>+</span> Thêm người dùng
-                        </button>
-                    </div>
-                    <div class="card-content">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Tên</th>
-                                    <th>Email</th>
-                                    <th>Loại tài khoản</th>
-                                    <th>Trạng thái</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${users.map(user => `
-                                    <tr>
-                                        <td>${user.name}</td>
-                                        <td>${user.email}</td>
-                                        <td>
-                                            <span class="user-type-badge ${user.type === 'artist' ? 'user-artist' : 'user-customer'}">
-                                                ${user.type === 'artist' ? 'Họa sĩ' : 'Khách hàng'}
-                                            </span>
-                                        </td>
-                                        <td>${user.status}</td>
-                                        <td>
-                                            <button class="button">✏️</button>
-                                            <button class="button">🗑️</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderOrders() {
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Quản lý đơn hàng</h3>
-                    </div>
-                    <div class="card-content">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Mã đơn</th>
-                                    <th>Khách hàng</th>
-                                    <th>Sản phẩm</th>
-                                    <th>Tổng tiền</th>
-                                    <th>Trạng thái</th>
-                                    <th>Ngày đặt</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${orders.map(order => `
-                                    <tr>
-                                        <td>#${order.id}</td>
-                                        <td>${order.customer}</td>
-                                        <td>${order.items.join(', ')}</td>
-                                        <td>${order.total.toLocaleString()}đ</td>
-                                        <td>
-                                            <span class="order-status status-${order.status}">
-                                                ${order.status === 'completed' ? 'Hoàn thành' : 
-                                                  order.status === 'pending' ? 'Đang xử lý' : 'Đã hủy'}
-                                            </span>
-                                        </td>
-                                        <td>${order.date}</td>
-                                        <td>
-                                            <button class="button" onclick="openSeeOrderModal()">👁️</button>
-                                            <button class="button" onclick="openEditOrderModal()">✏️</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderReviews() {
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Đánh giá của khách hàng</h3>
-                    </div>
-                    <div class="card-content">
-                        ${reviews.map(review => `
-                            <div class="review-card">
-                                <div class="rating">
-                                    ${'⭐'.repeat(review.rating)}
-                                </div>
-                                <p><strong>${review.user}</strong> - ${review.date}</p>
-                                <p>${review.comment}</p>
-                                <div style="margin-top: 1rem">
-                                    <button class="button">✏️</button>
-                                    <button class="delete">🗑️</button>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        // Update navigation handling
-        function setActiveSection(section) {
-            navButtons.forEach(button => {
-                button.classList.remove('active');
-                if (button.dataset.section === section) {
-                    button.classList.add('active');
-                }
-            });
-
-            switch(section) {
-                case 'dashboard':
-                    mainContent.innerHTML = renderDashboard();
-                    break;
-                case 'users':
-                    mainContent.innerHTML = renderUsers();
-                    break;
-                case 'orders':
-                    mainContent.innerHTML = renderOrders();
-                    break;
-                case 'reviews':
-                    mainContent.innerHTML = renderReviews();
-                    break;
-                case 'discounts':
-                    mainContent.innerHTML = renderDiscounts();
-                    break;
-                case 'paintings':
-                    mainContent.innerHTML = renderPaintings();
-                    break;
-            }
-        }
-
-        // Modal handling
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Initialize dashboard view
-        setActiveSection('dashboard');
-        window.onclick = function(event) {
-            const modal = document.getElementById('addDiscountModal');
-            if (event.target === modal) {
-                closeAddDiscountModal();
-            }
-        }
-        function openEditOrderModal() {
-            const modal = document.getElementById('editManageOrderModal');
-            modal.style.display = 'flex';
-        }
-
-        function closeEditOrderModal() {
-            const modal = document.getElementById('editManageOrderModal');
-            modal.style.display = 'none';
-        }
-        function openSeeOrderModal() {
-            const modal = document.getElementById('seeManageOrderModal');
-            modal.style.display = 'flex';
-        }
-
-        function closeSeeOrderModal() {
-            const modal = document.getElementById('seeManageOrderModal');
-            modal.style.display = 'none';
-        }
-        function openSeePaintingModal() {
-            const modal = document.getElementById('seePaintingModal');
-            modal.style.display = 'flex';
-        }
-
-        function closeSeePaintingModal() {
-            const modal = document.getElementById('seePaintingModal');
-            modal.style.display = 'none';
-        }
-        function openDeletePaintingModal() {
-            const modal = document.getElementById('deletePaintingModel');
-            modal.style.display = 'flex';
-        }
-
-        function closeDeletePaintingModal() {
-            const modal = document.getElementById('deletePaintingModel');
-            modal.style.display = 'none';
-        }
-        function openEditPaintingModal() {
-            const modal = document.getElementById('editPaintingModal');
-            modal.style.display = 'flex';
-        }
-
-        function closeEditPaintingModal() {
-            const modal = document.getElementById('editPaintingModal');
-            modal.style.display = 'none';
-        }
-        document.getElementById('editPaintingForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const title = document.getElementById('paintingTitle').value;
-            const artist = document.getElementById('artistName').value;
-            const price = document.getElementById('paintingPrice').value;
-            const status = document.getElementById('paintingStatus').value;
-
-            // Thêm tranh mới vào danh sách tranh
-            paintings.push({
-                title,
-                artist,
-                price: parseFloat(price),
-                status
-            });
-
-            closeEditPaintingModal();
-
-            renderPaintings();
-        });
-        function openAddPaintingModal() {
-            const modal = document.getElementById('addPaintingModal');
-            modal.style.display = 'flex';
-        }
-
-        function closePaintingModal() {
-            const modal = document.getElementById('addPaintingModal');
-            modal.style.display = 'none';
-        }
-        document.getElementById('addPaintingForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const title = document.getElementById('paintingTitle').value;
-            const artist = document.getElementById('artistName').value;
-            const price = document.getElementById('paintingPrice').value;
-            const status = document.getElementById('paintingStatus').value;
-
-            // Thêm tranh mới vào danh sách tranh
-            paintings.push({
-                title,
-                artist,
-                price: parseFloat(price),
-                status
-            });
-
-            closePaintingModal();
-
-            renderPaintings();
-        });
-    </script>
-     <script>
-        // Sample paintings data
-        const availablePaintings = [
-            { id: 1, title: 'Phong cảnh mùa thu', artist: 'Trần Minh Hoàng', price: 5000000 },
-            { id: 2, title: 'Hoàng hôn', artist: 'Nguyễn Thị Lan', price: 7000000 },
-            { id: 3, title: 'Bình minh', artist: 'Lê Văn Nam', price: 6000000 },
-        ];
-
-        // Populate paintings select
-        function populatePaintingsSelect() {
-            const select = document.querySelector('select[name="paintings"]');
-            availablePaintings.forEach(painting => {
-                const option = document.createElement('option');
-                option.value = painting.id;
-                option.textContent = `${painting.title} - ${painting.artist} - ${painting.price.toLocaleString()}đ`;
-                select.appendChild(option);
-            });
-        }
-
-        // Modal handling
-        function openAddDiscountModal() {
-            const modal = document.getElementById('addDiscountModal');
-            modal.style.display = 'flex';
-            populatePaintingsSelect();
-        }
-
-        function closeAddDiscountModal() {
-            const modal = document.getElementById('addDiscountModal');
-            modal.style.display = 'none';
-            document.getElementById('addDiscountForm').reset();
-            hideAlerts();
-        }
-
-        // Alert handling
-        function showAlert(type) {
-            hideAlerts();
-            document.getElementById(`${type}Alert`).style.display = 'block';
-            setTimeout(() => {
-                document.getElementById(`${type}Alert`).style.display = 'none';
-            }, 3000);
-        }
-
-        function hideAlerts() {
-            document.getElementById('successAlert').style.display = 'none';
-            document.getElementById('errorAlert').style.display = 'none';
-        }
-
-        // Form submission
-        function handleSubmitDiscount(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            
-            // Validate dates
-            const startDate = new Date(formData.get('startDate'));
-            const endDate = new Date(formData.get('endDate'));
-            
-            if (endDate < startDate) {
-                showAlert('error');
-                return;
-            }
-
-            // Create discount object
-            const discount = {
-                name: formData.get('name'),
-                percentage: formData.get('percentage'),
-                paintings: Array.from(formData.getAll('paintings')),
-                startDate: formData.get('startDate'),
-                endDate: formData.get('endDate')
-            };
-
-            // Here you would typically send this to your backend
-            console.log('New discount:', discount);
-            
-            showAlert('success');
-            setTimeout(() => {
-                closeAddDiscountModal();
-            }, 1500);
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('addDiscountModal');
-            if (event.target === modal) {
-                closeAddDiscountModal();
-            }
-        }
-    </script>
-     <script>
-        // Xử lý sự kiện khi nhấn nút "Xóa"
-        document.addEventListener("click", function (event) {
-          if (event.target.classList.contains("delete")) {
-            const isConfirmed = confirm("Bạn có chắc chắn muốn xóa mục này không?");
-            if (isConfirmed) {
-              // Xóa dòng chứa nút "Xóa"
-              const row = event.target.closest("tr");
-              row.remove();
-            }
-          }
-        });
-      </script>
 </body>
+<script>
+    
+</script>
+<script src="/assets/js/modal-admin.js"></script>
+<script src="/assets/js/admin.js"></script>
+
 </html>

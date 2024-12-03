@@ -1,5 +1,19 @@
+$(document).ready(function () {
+    // Xử lý khi click vào icon search
+    $('#search-icon').click(function (event) {
+        $('#search-bar').toggle();
+        $('#search-input').focus();
+        event.stopPropagation(); // Ngăn chặn sự kiện lan sang document
+    });
 
-
+    // Xử lý khi click ra ngoài
+    $(document).click(function (event) {
+        // Kiểm tra xem click có nằm ngoài phạm vi của search bar không
+        if (!$(event.target).closest('#search-bar, #search-icon').length) {
+            $('#search-bar').hide();
+        }
+    });
+});
     document.addEventListener("DOMContentLoaded", function () {
         const cartItemsTable = document.getElementById("cart-items");
         const totalPriceElement = document.getElementById("total-price");

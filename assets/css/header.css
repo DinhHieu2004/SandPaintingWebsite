@@ -291,3 +291,6 @@ header{
 .login-btn{
     margin-bottom: 5px;
 }
+#search-bar.active {
+    display: block; 
+  }

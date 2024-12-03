@@ -3,7 +3,16 @@
     --primary-text-light : white  !important;
     --primary-text-dark : black  !important;
 
-  }
+}
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+
+}  
 .login-btn {
     background-color: var(--primary-color) !important;
     color: var(--primary-text-light) !important;

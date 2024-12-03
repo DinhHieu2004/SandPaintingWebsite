@@ -1,3 +1,16 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+
+}
+:root {
+    --primary-color: #e7621b !important;
+    --primary-text-light : white  !important;
+    --primary-text-dark : black  !important;
+
+}
 #footer-container{
     bottom: 0%;
 }
@@ -13,7 +26,10 @@
     width: 80%;
 
 }
-
+.login-btn{
+    background-color: var(--primary-color) !important;
+    color: var(--primary-text-light) !important;
+}
 .review_container {
     margin-right: 100px;
     display: flex; /* Đặt Flexbox để sắp xếp ngang */

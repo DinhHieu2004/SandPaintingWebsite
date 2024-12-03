@@ -9,7 +9,9 @@ body, html {
     margin: 0;
     padding: 0;
     width: 100%;
+
 }
+
 * {
     box-sizing: border-box;
 }
@@ -508,7 +510,9 @@ body, html {
     height: auto;
     display: block;
 }
-
+.introduce{
+  top: 100px !important;
+}
 .collection_description {
     position: absolute;
     top: 0;

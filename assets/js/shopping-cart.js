@@ -2,6 +2,8 @@ $(document).ready(function(){
     // Tải header và footer
     $("#footer-container").load("/partials/footer.html");
     $("#header-container").load("/partials/header.html");
+    $("#auth").load("/partials/authModal.html");
+
 });
 
 document.addEventListener("DOMContentLoaded", function () {
