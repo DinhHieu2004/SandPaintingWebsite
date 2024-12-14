@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "f" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <div id="footer-container" class="footer_wrapper">
     <div class="background_footer">
         <div class="first_col">
@@ -27,11 +29,11 @@
         </div>
         <div class="third_col">
             <h4 class="guide">HƯỚNG DẪN</h4>
-            <a class="guide_info" href="/info/puchaseGuide.jsp">&#8250; Mua hàng và thanh toán</a>
-            <a class="guide_info" href="/info/returnAndStorage.jsp">&#8250; Chính sách đổi trả & lưu kho</a>
-            <a class="guide_info" href="/info/termOfService.html">&#8250; Điều khoản dịch vụ</a>
-            <a class="guide_info" href="/info/deliveryAndShipping.jsp">&#8250; Chính sách giao hàng & vận chuyển</a>
-            <a class="guide_info" href="/info/warranty.html">&#8250; Chính sách bảo hành</a>
+            <a class="guide_info" href="info/puchaseGuide.jsp">&#8250; Mua hàng và thanh toán</a>
+            <a class="guide_info" href="info/returnAndStorage.jsp">&#8250; Chính sách đổi trả & lưu kho</a>
+            <a class="guide_info" href="info/termOfService.html">&#8250; Điều khoản dịch vụ</a>
+            <a class="guide_info" href="info/deliveryAndShipping.jsp">&#8250; Chính sách giao hàng & vận chuyển</a>
+            <a class="guide_info" href="info/warranty.html">&#8250; Chính sách bảo hành</a>
         </div>
         <div class="fourth_col">
             <h4 class="fanpage">FANPAGE</h4>
@@ -49,3 +51,4 @@
     <div class="end-footer">
         <p class="copyright">NÔNG LÂM UNIVERSITY (Nguồn: LAN VU GALLERY) </p>
     </div>
+</div>
