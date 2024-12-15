@@ -9,7 +9,8 @@ import java.util.List;
 public class PaintingService {
     PaintingDao paintingDao = new PaintingDao();
     public List<Painting> getAll()  {
-        return paintingDao.getPaintings();
+      //  return paintingDao.getPaintings();
+        return null;
     }
 
     public static void main(String[] args) {

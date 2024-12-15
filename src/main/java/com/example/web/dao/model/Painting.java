@@ -1,41 +1,45 @@
 package com.example.web.dao.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Painting implements Serializable{
-    private int id;
-    private String title;
-    private int themId;
-    private int sizeId;
-    private double price;
-    private int quantity;
-    private int artistId;
-    private int discountId;
-    private String description;
-    private String imageUrl;
-    private boolean isSold;
-    private boolean isFeatured;
-    private Date createdAt;
+        private int id;
+        private String title;
+        private double price;
+        private String description;
+        private String imageUrl;
+        private String artistName;
+        private String themeName;
+        private List<PaintingSize> sizes = new ArrayList<>();
+        private String discountName;
+        private double discountPercentage;
 
-    public Painting(int id, String title, int themId, int sizeId, double price, int quantity, int artistId, int discountId, String description, String imageUrl, boolean isSold, boolean isFeatured, Date createdAt) {
-        this.id = id;
-        this.title = title;
-        this.themId = themId;
-        this.sizeId = sizeId;
-        this.price = price;
-        this.quantity = quantity;
-        this.artistId = artistId;
-        this.discountId = discountId;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.isSold = isSold;
-        this.isFeatured = isFeatured;
-        this.createdAt = createdAt;
-    }
-    public Painting(){
+        public Painting(int id, String title, double price, String description, String imageUrl, String artistName, String themeName) {
+            this.id = id;
+            this.title = title;
+            this.price = price;
+            this.description = description;
+            this.imageUrl = imageUrl;
+            this.artistName = artistName;
+            this.themeName = themeName;
+        }
+
+    public Painting() {
 
     }
+
+    public void addSize(String sizeDescription, int quantity) {
+            this.sizes.add(new PaintingSize(sizeDescription, quantity));
+        }
+
+        public void setDiscount(String discountName, double discountPercentage) {
+            this.discountName = discountName;
+            this.discountPercentage = discountPercentage;
+        }
+
 
     public int getId() {
         return id;
@@ -53,52 +57,12 @@ public class Painting implements Serializable{
         this.title = title;
     }
 
-    public int getThemId() {
-        return themId;
-    }
-
-    public void setThemId(int themId) {
-        this.themId = themId;
-    }
-
-    public int getSizeId() {
-        return sizeId;
-    }
-
-    public void setSizeId(int sizeId) {
-        this.sizeId = sizeId;
-    }
-
     public double getPrice() {
         return price;
     }
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getArtistId() {
-        return artistId;
-    }
-
-    public void setArtistId(int artistId) {
-        this.artistId = artistId;
-    }
-
-    public int getDiscountId() {
-        return discountId;
-    }
-
-    public void setDiscountId(int discountId) {
-        this.discountId = discountId;
     }
 
     public String getDescription() {
@@ -117,46 +81,59 @@ public class Painting implements Serializable{
         this.imageUrl = imageUrl;
     }
 
-    public boolean isSold() {
-        return isSold;
+    public String getArtistName() {
+        return artistName;
     }
 
-    public void setSold(boolean sold) {
-        isSold = sold;
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
     }
 
-    public boolean isFeatured() {
-        return isFeatured;
+    public String getThemeName() {
+        return themeName;
     }
 
-    public void setFeatured(boolean featured) {
-        isFeatured = featured;
+    public void setThemeName(String themeName) {
+        this.themeName = themeName;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public List<PaintingSize> getSizes() {
+        return sizes;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setSizes(List<PaintingSize> sizes) {
+        this.sizes = sizes;
+    }
+
+    public String getDiscountName() {
+        return discountName;
+    }
+
+    public void setDiscountName(String discountName) {
+        this.discountName = discountName;
+    }
+
+    public double getDiscountPercentage() {
+        return discountPercentage;
+    }
+
+    public void setDiscountPercentage(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
     }
 
     @Override
     public String toString() {
         return "Painting{" +
-                "isFeatured=" + isFeatured +
-                ", id=" + id +
+                "id=" + id +
                 ", title='" + title + '\'' +
-                ", themId=" + themId +
-                ", sizeId=" + sizeId +
                 ", price=" + price +
-                ", quantity=" + quantity +
-                ", artistId=" + artistId +
-                ", discountId=" + discountId +
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", isSold=" + isSold +
-                ", createdAt=" + createdAt +
+                ", artistName='" + artistName + '\'' +
+                ", themeName='" + themeName + '\'' +
+                ", sizes=" + sizes +
+                ", discountName='" + discountName + '\'' +
+                ", discountPercentage=" + discountPercentage +
                 '}';
     }
 }
