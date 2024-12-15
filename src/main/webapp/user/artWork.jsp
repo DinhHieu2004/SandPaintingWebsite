@@ -116,28 +116,40 @@
             </div>
             <div class="row g-4 g-2 col-10" id="artworkGallery">
                 <c:forEach var="p" items="${data}">
-                <div class="col-6 col-md-3">
-                    <div class="card artwork-card">
-                        <a href="painting-detail?pid=${p.id}" class="card-link"></a>
-                        <img src="${p.imageUrl}"
-                            class="card-img-top artwork-image" alt="${p.title}">
-                
-                        <div class="card-body">
-                            <h5 class="card-title">${p.title}</h5>
-                            <p class="card-text">
-                                <strong>Họa Sĩ:</strong> Nguyễn Văn A<br>
-                                <strong>Kích Thước:</strong> 40x60 cm<br>
-                            </p>
-                            <div class="price-discount">
-                                <span class="text-muted original-price">${p.price}</span>
-                                <span class="badge bg-success discount-badge">-17%</span>
-                            </div>
-                            <div>
-                                <span class="text-danger sale-price">500.000 VNĐ</span>
+                    <div class="col-6 col-md-3">
+                        <div class="card artwork-card">
+                            <a href="painting-detail?pid=${p.id}" class="card-link"></a>
+                            <img src="${p.imageUrl}" class="card-img-top artwork-image" alt="${p.title}">
+
+                            <div class="card-body">
+                                <h5 class="card-title">${p.title}</h5>
+                                <p class="card-text">
+                                    <strong>Họa Sĩ:</strong> ${p.artistName}<br>
+                                    <strong>Chủ đề:</strong> ${p.themeName}<br>
+                                </p>
+                                <div class="price-discount">
+                                    <c:choose>
+                                        <c:when test="${p.discountPercentage > 0}">
+                            <span class="text-muted original-price">
+                                <del>${p.price} VNĐ</del>
+                            </span>
+                                            <span class="badge bg-success discount-badge">-${p.discountPercentage}%</span>
+                                            <div>
+                                <span class="text-danger sale-price">
+                                    ${(p.price * (1 - p.discountPercentage / 100))} VNĐ
+                                </span>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div>
+                                                <span class="text-muted original-price">${p.price} VNĐ</span>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
              </c:forEach>
             </div>
           

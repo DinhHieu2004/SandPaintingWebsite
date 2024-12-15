@@ -11,12 +11,12 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/header.css">
-    <link rel="stylesheet" href="/assets/css/painting-detail.css">
+    <link rel="stylesheet" href="assets/css/painting-detail.css">
    
 </head>
 
 <body>
-    <div id="header-container"></div>
+<%@ include file="/partials/header.jsp" %>
 
     <div id="content-wrapper">
         <div class="container_content">
@@ -29,17 +29,31 @@
                 </div>
 
                 <div class="col-md-6">
-                    <h2 id="paintingId">#:1</h2>
-                    <h2 id="paintingTitle">Tên: Tranh cảnh biển</h2>
-                    <p id="paintingTheme">Chủ đề: Chủ đề đời sống</p>
-                    <p id="paintingSize">Kích thước: 40 x 40</p>
-                    <p id="artist">Họa sĩ: Nguyễn Ngọc Anh</p>
+                    <h2 id="paintingId">#: ${p.id}</h2>
+                    <h2 id="paintingTitle">Tên: ${p.title}</h2>
+                    <p id="paintingTheme">Chủ đề: ${p.themeName}</p>
+                    <p id="artist">Họa sĩ: ${p.artistName}</p>
+                    <p id="paintingDescription">Mô tả: ${p.description}</p>
 
-                    <p id="paintingDescription">Mô tả: Tranh về cuộc sống thường ngày của làng chài do họa sĩ...</p>
                     <div>
-                        <p><strong>Giá gốc:</strong> <span id="originalPrice" class="text-muted" style="text-decoration: line-through;">2.500.000</span> VND</p>
-                        <p><strong>Giá giảm:</strong> <span id="discountedPrice" class="text-danger">2.000.000</span> VND</p>
-                        <p><span id="discountPercentage" class="badge bg-success">Giảm 20%</span></p>
+                        <strong>Kích thước:</strong>
+                        <ul>
+                            <c:forEach var="size" items="${p.sizes}">
+                                <li>${size.sizeDescriptions} - Số lượng: ${size.quantity}</li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                    <div>
+                        <c:choose>
+                            <c:when test="${p.discountPercentage > 0}">
+                                <p><strong>Giá gốc:</strong> <span id="originalPrice" class="text-muted" style="text-decoration: line-through;">${p.price} VND</span></p>
+                                <p><strong>Giá giảm:</strong> <span id="discountedPrice" class="text-danger">${p.price * (1 - p.discountPercentage / 100)} VND</span></p>
+                                <p><span id="discountPercentage" class="badge bg-success">Giảm ${p.discountPercentage}%</span></p>
+                            </c:when>
+                            <c:otherwise>
+                                <p><strong>Giá:</strong> <span id="originalPrice">${p.price} VND</span></p>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                    
                     <button class="btn btn-primary" id="add-to-cart-btn"> Thêm vào giỏ hàng </button>                     
@@ -49,9 +63,9 @@
         </div>
         </div>
     </div>
-    
 
-    <div id="footer-container"></div>
+
+<%@ include file="/partials/footer.jsp" %>
 
     <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -126,11 +140,10 @@
             </div>
         </div>
     </div>
-    <div id="auth"></div>
+<%@ include file="/partials/authModal.jsp" %>
     
 </body>
 <script src="/assets/js/painting-detail.js"></script>
-    <script src="/assets/js/header.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src =""> </script>
 </html>

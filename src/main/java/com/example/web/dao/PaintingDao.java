@@ -81,7 +81,7 @@ public class PaintingDao {
 
     public List<Painting> getPaintingList() throws SQLException {
          List<Painting> paintingList = new ArrayList<>();
-        String sql = "SELECT p.id AS paintingId, p.title AS paintingTitle, p.imageUrl, " +
+        String sql = "SELECT p.id AS paintingId, p.title AS paintingTitle,p.price, p.imageUrl, " +
                 "a.name AS artistName, t.themeName AS theme, " +
                 "IFNULL(d.discountPercentage, 0) AS discount " +
                 "FROM paintings p " +
@@ -100,7 +100,7 @@ public class PaintingDao {
             painting.setArtistName(rs.getString("artistName"));
             painting.setThemeName(rs.getString("theme"));
             painting.setDiscountPercentage(rs.getDouble("discount"));
-
+            painting.setPrice(rs.getDouble("price"));
             paintingList.add(painting);
         }
         return paintingList;
@@ -111,7 +111,7 @@ public class PaintingDao {
         for (Painting p : dao.getPaintingList()) {
             System.out.println(p);
 
-            // System.out.println(dao.getPaintingDetail(1));
+             System.out.println(dao.getPaintingDetail(1));
         }
     }
 

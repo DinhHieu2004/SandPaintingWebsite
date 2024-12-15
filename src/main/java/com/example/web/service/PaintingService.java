@@ -8,12 +8,14 @@ import java.util.List;
 
 public class PaintingService {
     PaintingDao paintingDao = new PaintingDao();
-    public List<Painting> getAll()  {
-      //  return paintingDao.getPaintings();
-        return null;
+    public List<Painting> getAll() throws SQLException {
+        return paintingDao.getPaintingList();
+    }
+    public Painting getPainting(int id) throws SQLException {
+        return paintingDao.getPaintingDetail(id);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         PaintingService paintingService = new PaintingService();
         System.out.println(paintingService.getAll());
     }

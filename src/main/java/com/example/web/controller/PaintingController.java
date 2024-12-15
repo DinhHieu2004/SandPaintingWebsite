@@ -17,10 +17,20 @@ public class PaintingController extends HttpServlet {
     PaintingService ps = new PaintingService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Painting>  data = ps.getAll(); ;
+        List<Painting>  data = null;
+        try {
+            data = ps.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ;
         req.setAttribute("data", data);
         System.out.println(data);
         req.getRequestDispatcher("user/artWork.jsp").forward(req  ,resp);
+
+    }
+
+    public static void main(String[] args) {
 
     }
 
