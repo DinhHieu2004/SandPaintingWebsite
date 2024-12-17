@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,138 +11,155 @@
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="assets/css/painting-detail.css">
-   
 </head>
 
 <body>
 <%@ include file="/partials/header.jsp" %>
 
-    <div id="content-wrapper">
-        <div class="container_content">
+<div class="container py-4">
+    <div class="row">
+        <!-- Phần hình ảnh -->
+        <div class="col-md-6">
+            <div class="card">
+                <img src="${p.imageUrl}" alt="${p.title}" class="card-img-top img-fluid">
+            </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <img id="paintingImage"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpp4FpVhylNpwTVddcn3b0SHdb5ej8M7uvfQ&s"
-                        alt="Painting Image" class="img-fluid">
-                </div>
+        <!-- Phần thông tin -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title h3">${p.title}</h1>
+                    <p class="text-muted">Mã sản phẩm: #${p.id}</p>
 
-                <div class="col-md-6">
-                    <h2 id="paintingId">#: ${p.id}</h2>
-                    <h2 id="paintingTitle">Tên: ${p.title}</h2>
-                    <p id="paintingTheme">Chủ đề: ${p.themeName}</p>
-                    <p id="artist">Họa sĩ: ${p.artistName}</p>
-                    <p id="paintingDescription">Mô tả: ${p.description}</p>
-
-                    <div>
-                        <strong>Kích thước:</strong>
-                        <ul>
-                            <c:forEach var="size" items="${p.sizes}">
-                                <li>${size.sizeDescriptions} - Số lượng: ${size.quantity}</li>
-                            </c:forEach>
-                        </ul>
+                    <!-- Thông tin cơ bản -->
+                    <div class="mb-3">
+                        <p><strong>Họa sĩ:</strong> ${p.artistName}</p>
+                        <p><strong>Chủ đề:</strong> ${p.themeName}</p>
+                        <p><strong>Mô tả:</strong> ${p.description}</p>
                     </div>
-                    <div>
+
+                    <!-- Giá và giảm giá -->
+                    <div class="mb-4">
                         <c:choose>
                             <c:when test="${p.discountPercentage > 0}">
-                                <p><strong>Giá gốc:</strong> <span id="originalPrice" class="text-muted" style="text-decoration: line-through;">${p.price} VND</span></p>
-                                <p><strong>Giá giảm:</strong> <span id="discountedPrice" class="text-danger">${p.price * (1 - p.discountPercentage / 100)} VND</span></p>
-                                <p><span id="discountPercentage" class="badge bg-success">Giảm ${p.discountPercentage}%</span></p>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="text-muted text-decoration-line-through">${p.price} VNĐ</span>
+                                    <span class="h4 text-danger mb-0">${p.price * (1 - p.discountPercentage / 100)} VNĐ</span>
+                                    <span class="badge bg-danger">-${p.discountPercentage}%</span>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                <p><strong>Giá:</strong> <span id="originalPrice">${p.price} VND</span></p>
+                                <span class="h4">${p.price} VNĐ</span>
                             </c:otherwise>
                         </c:choose>
                     </div>
-                   
-                    <button class="btn btn-primary" id="add-to-cart-btn"> Thêm vào giỏ hàng </button>                     
-                       <button id="buyNow" class="btn btn-primary" style="border:1px solid black;" data-bs-toggle="modal" data-bs-target="#paymentModal" >Mua ngay</button>
+
+                    <!-- Form thêm vào giỏ hàng -->
+                    <form action="add-to-cart" method="POST" id="addToCartForm" class="needs-validation" novalidate>
+
+
+                        <!-- Chọn kích thước -->
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Kích thước:</strong></label>
+                            <div class="row g-2">
+                                <c:forEach var="size" items="${p.sizes}">
+                                    <div class="col-auto">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="size"
+                                                   id="size_${size.sizeDescriptions}"
+                                                   value="${size.sizeDescriptions}"
+                                                   data-quantity="${size.quantity}"
+                                                ${size.quantity <= 0 ? 'disabled' : ''}>
+                                            <label class="form-check-label" for="size_${size.sizeDescriptions}">
+                                                    ${size.sizeDescriptions}
+                                                <small class="text-muted">(Còn ${size.quantity})</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                            <div class="invalid-feedback">Vui lòng chọn kích thước</div>
+                        </div>
+
+                        <input type="hidden" name="pid" value="${p.id}">
+                        <!-- Chọn số lượng -->
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label"><strong>Số lượng:</strong></label>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary" onclick="decrementQuantity()">-</button>
+                                <input type="number" class="form-control text-center" id="quantity" name="quantity"
+                                       value="1" min="1" required>
+                                <button type="button" class="btn btn-outline-secondary" onclick="incrementQuantity()">+</button>
+                            </div>
+                            <div class="invalid-feedback">Số lượng không hợp lệ</div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </div>         
-        </div>
+            </div>
         </div>
     </div>
-
+</div>
 
 <%@ include file="/partials/footer.jsp" %>
 
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="paymentModalLabel">Thanh toán</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="totalAmount" class="form-label fw-bold">Tổng tiền thanh toán:</label>
-                            <div id="totalAmount">$400.000-vnd</div>
-                        </div>
-    
-                        <div class="mb-3">
-                            <label for="paymentMethod" class="form-label">Chọn phương thức thanh toán:</label>
-                            <select class="form-select" id="paymentMethod" required>
-                                <option value="" disabled selected>Chọn...</option>
-                                <option value="credit_card">online</option>
-                                <option value="cod">Thanh toán khi nhận hàng (COD)</option>
-                            </select>
-                        </div>
-    
-                        <div class="mb-3">
-                            <label for="shippingAddress" class="form-label">Địa chỉ nhận hàng:</label>
-                            <textarea class="form-control" id="shippingAddress" rows="3" placeholder="Nhập địa chỉ nhận hàng..." required></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary">Xác nhận</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="paymentModalLabel">Thanh toán</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="totalAmount" class="form-label fw-bold">Tổng tiền thanh toán:</label>
-                            <div id="totalAmount">$400.000-vnd</div>
-                        </div>
-    
-                        <div class="mb-3">
-                            <label for="paymentMethod" class="form-label">Chọn phương thức thanh toán:</label>
-                            <select class="form-select" id="paymentMethod" required>
-                                <option value="" disabled selected>Chọn...</option>
-                                <option value="credit_card">Thẻ tín dụng/Thẻ ghi nợ</option>
-                                <option value="cod">Thanh toán khi nhận hàng (COD)</option>
-                                <option value="bank_transfer">Chuyển khoản ngân hàng</option>
-                            </select>
-                        </div>
-    
-                        <div class="mb-3">
-                            <label for="shippingAddress" class="form-label">Địa chỉ nhận hàng:</label>
-                            <textarea class="form-control" id="shippingAddress" rows="3" placeholder="Nhập địa chỉ nhận hàng..." required></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary">Xác nhận</button>
-                </div>
-            </div>
-        </div>
-    </div>
-<%@ include file="/partials/authModal.jsp" %>
-    
+<!-- Script xử lý form -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('addToCartForm');
+        const quantityInput = document.getElementById('quantity');
+        const sizeInputs = document.querySelectorAll('input[name="size"]');
+
+        sizeInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                const maxQuantity = parseInt(this.dataset.quantity);
+                quantityInput.max = maxQuantity;
+                quantityInput.value = Math.min(quantityInput.value, maxQuantity);
+            });
+        });
+
+
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            // Kiểm tra đã chọn size chưa
+            const selectedSize = document.querySelector('input[name="size"]:checked');
+            if (!selectedSize) {
+                event.preventDefault();
+                alert('Vui lòng chọn kích thước');
+                return;
+            }
+
+            form.classList.add('was-validated');
+        });
+    });
+
+    // Hàm tăng giảm số lượng
+    function incrementQuantity() {
+        const input = document.getElementById('quantity');
+        const max = input.max ? parseInt(input.max) : Infinity;
+        const currentValue = parseInt(input.value);
+        if (currentValue < max) {
+            input.value = currentValue + 1;
+        }
+    }
+
+    function decrementQuantity() {
+        const input = document.getElementById('quantity');
+        const currentValue = parseInt(input.value);
+        if (currentValue > 1) {
+            input.value = currentValue - 1;
+        }
+    }
+</script>
 </body>
-<script src="/assets/js/painting-detail.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src =""> </script>
 </html>

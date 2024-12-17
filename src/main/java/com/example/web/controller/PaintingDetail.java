@@ -16,8 +16,10 @@ public class PaintingDetail extends HttpServlet {
     PaintingDao paintingDao = new PaintingDao();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        int id = Integer.parseInt(req.getParameter("pid"));
+        String pid = req.getParameter("pid");
+        System.out.println("pid:"+ pid);
+        int id = Integer.parseInt(pid);
+        req.getSession().setAttribute("pid", id);
         try {
             Painting painting = paintingDao.getPaintingDetail(id);
             req.setAttribute("painting", painting);

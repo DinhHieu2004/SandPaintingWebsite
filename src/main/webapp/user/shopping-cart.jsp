@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "f" uri = "http://java.sun.com/jsp/jstl/fmt" %><!DOCTYPE html>y
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,13 +10,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" href="/assets/css/footer.css">
-    <link rel="stylesheet" href="/assets/css/header.css">
-    <link rel="stylesheet" href="/assets/css/shopping-cart.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/shopping-cart.css">
 
 </head>
 <body>
-    <div id="header-container"></div>
+<%@ include file="/partials/header.jsp" %>
     <div  class="page-title-inner">
         <h5 > Giỏ hàng</h5>
     </div>
@@ -98,9 +100,9 @@
             </div>
         </div>
     </div>
-    <div id="auth"></div>
+<%@ include file="/partials/authModal.jsp" %>
 
-    <div id="footer-container"></div>
+<%@ include file="/partials/footer.jsp" %>
     <script src="/assets/js/shopping-cart.js"></script>
     <script src="/assets/js/header.js"></script>
     <script src="/assets/js/painting-detail.js"></script>

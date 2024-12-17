@@ -3,7 +3,6 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "f" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -60,13 +59,13 @@
                 </a>
 
                 <div class="cart-icon position-relative">
-                    <a href="#" class="icon_items position-relative">
+                    <a href="#" class="icon_items position-relative"></a>
                           <span class="price me-2">0đ</span>
-                        <a href="../user/shopping-cart.jsp" class="icon_items user-icon me-3">
+                        <a href="#" class="icon_items user-icon me-3">
 
                             <i class="fa fa-shopping-cart"></i> </a>
 
-                        <!--   <span class="cart-count"></span>
+                           <span class="cart-count"></span>
                     </a>
                     <div class="cart-dropdown" id="mini-cart">
                         <div class="cart-header">Sản Phẩm Mới Thêm</div>
@@ -74,11 +73,11 @@
 
                         </div>
                         <div class="cart-footer">
-                            <button class="btn btn-primary" onclick="window.location.href='../user/shopping-cart.jsp'">
+                            <button class="btn btn-primary" onclick="window.location.href='show-cart'">
                                 Xem Giỏ Hàng
                             </button>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <button class="btn login-btn" data-bs-toggle="modal" data-bs-target="#authModal">Đăng nhập</button>

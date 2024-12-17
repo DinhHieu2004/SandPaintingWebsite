@@ -25,7 +25,7 @@ public class PaintingController extends HttpServlet {
         }
         ;
         req.setAttribute("data", data);
-        System.out.println(data);
+      //  System.out.println(data);
         req.getRequestDispatcher("user/artWork.jsp").forward(req  ,resp);
 
     }
