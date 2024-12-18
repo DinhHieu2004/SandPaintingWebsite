@@ -43,10 +43,10 @@ public class CartController extends HttpServlet {
             cart.addToCart(cartPainting);
             session.setAttribute("cart", cart);
            // System.out.println(cart);
-            for(CartPainting c : cart.getItems().values()){
+            for(CartPainting c : cart.getItems()){
                 System.out.println(c);
             }
-            resp.sendRedirect("painting-detail?pid="+id+"&add-to-cart=ok");
+           // resp.sendRedirect("painting-detail?pid="+id+"&add-to-cart=ok");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

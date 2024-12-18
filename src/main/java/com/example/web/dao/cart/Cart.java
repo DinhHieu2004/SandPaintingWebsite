@@ -1,12 +1,18 @@
 package com.example.web.dao.cart;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class Cart {
+public class Cart implements Serializable {
     private Map<String, CartPainting> items;
     public Cart() {
         items = new HashMap<>();
+    }
+    public List<CartPainting> getItems() {
+        return new ArrayList<>(items.values());
     }
     public void addToCart(CartPainting painting){
         String key = painting.getProductId()+"_"+painting.getSize();
@@ -19,15 +25,18 @@ public class Cart {
     public void removeFromCart(String key){
         items.remove(key);
     }
-    public Map<String, CartPainting> getItems() {
-        return items;
+    public double getTotalPrice(){
+        double total = 0;
+        for(CartPainting painting : items.values()){
+            total += painting.getTotalPrice();
+        }
+        return total;
     }
+
 
     public static void main(String[] args) {
         Cart cart = new Cart();
-        for (CartPainting painting : cart.getItems().values()) {
-            System.out.println(painting);
-        }
+        System.out.println(cart.getItems());
     }
 
 }

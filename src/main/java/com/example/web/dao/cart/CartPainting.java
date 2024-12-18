@@ -2,22 +2,25 @@ package com.example.web.dao.cart;
 
 import com.example.web.dao.model.Painting;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CartPainting {
+public class CartPainting implements Serializable {
     private int productId;
     private String productName;
     private String size;
+    private String sizeId;
     private String imageUrl;
     private int quantity;
     private double price;
     private double totalPrice;
 
-    public CartPainting(int productId, String productName, String size, int quantity, double price, String imageUrl) {
+    public CartPainting(int productId, String productName, String size, String sizeId, int quantity, double price, String imageUrl) {
         this.productId = productId;
         this.productName = productName;
         this.size = size;
+        this.sizeId = sizeId;
         this.quantity = quantity;
         this.price = price;
         this.totalPrice = price * quantity;
@@ -25,6 +28,14 @@ public class CartPainting {
     }
     public CartPainting() {
 
+    }
+
+    public String getSizeId() {
+        return sizeId;
+    }
+
+    public void setSizeId(String sizeId) {
+        this.sizeId = sizeId;
     }
 
     public int getProductId() {

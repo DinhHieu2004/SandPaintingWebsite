@@ -32,20 +32,35 @@
                 <table class="table table-bordered">
                     <thead class="table-light">
                         <tr>
-                            <th>#</th>
-                            <th>Ảnh</th>
-                            <th>Tên Tranh</th>
-                            <th>Giá</th>
-                            <th>Hành Động</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Ảnh</th>
+                            <th scope="col">Tên Tranh</th>
+                            <th scope="col">Số Lượng</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Hành Động</th>
                         </tr>
                     </thead>
                     <tbody id="cart-items">
-                        <!-- Các sản phẩm sẽ được thêm vào đây từ JavaScript -->
+                    <c:forEach  items="${sessionScope.cart.items}" var="cp">
+                        <tr>
+                            <th scope="row"></th>
+                            <td><img src="${cp.imageUrl}" alt="${cp.productName}" width="50"></td>
+                            <td>${cp.productName}</td>
+                            <td>${cp.quantity}</td>
+                            <td>${cp.totalPrice} VND</td>
+                            <td>
+                                <form method="post" action="removeFromCart">
+                                    <input type="hidden" name="id" value="${cp.productId}">
+                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                     <tfoot>
                         <tr>
                             <th colspan="4" class="text-end">Tổng tiền</th>
-                            <th id="total-price"></th>
+                            <th id="total-price">${sessionScope.cart.totalPrice} VND</th>
                         </tr>
                     </tfoot>
                 </table>
