@@ -14,17 +14,25 @@ public class Cart implements Serializable {
     public List<CartPainting> getItems() {
         return new ArrayList<>(items.values());
     }
+    public Map<String, CartPainting> getItemsMap() {
+        return items;
+    }
     public void addToCart(CartPainting painting){
-        String key = painting.getProductId()+"_"+painting.getSize();
+        String key = painting.getProductId()+"_"+painting.getSizeId();
         if(items.containsKey(key)){
             items.get(key).updateQuantity(painting.getQuantity());
         }else{
             items.put(key,painting);
         }
     }
-    public void removeFromCart(String key){
+    public void removeFromCart(String productId, String sizeId){
+        String key = productId+"_"+sizeId;
         items.remove(key);
     }
+
+   // public void upDateCartQuantity(int){
+
+    //}
     public double getTotalPrice(){
         double total = 0;
         for(CartPainting painting : items.values()){
@@ -34,9 +42,5 @@ public class Cart implements Serializable {
     }
 
 
-    public static void main(String[] args) {
-        Cart cart = new Cart();
-        System.out.println(cart.getItems());
-    }
 
 }

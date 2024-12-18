@@ -9,17 +9,17 @@ import java.util.Map;
 public class CartPainting implements Serializable {
     private int productId;
     private String productName;
-    private String size;
+  //  private String size;
     private String sizeId;
     private String imageUrl;
     private int quantity;
     private double price;
     private double totalPrice;
 
-    public CartPainting(int productId, String productName, String size, String sizeId, int quantity, double price, String imageUrl) {
+    public CartPainting(int productId, String productName, String sizeId, int quantity, double price, String imageUrl) {
         this.productId = productId;
         this.productName = productName;
-        this.size = size;
+       // this.size = size;
         this.sizeId = sizeId;
         this.quantity = quantity;
         this.price = price;
@@ -54,13 +54,7 @@ public class CartPainting implements Serializable {
         this.productName = productName;
     }
 
-    public String getSize() {
-        return size;
-    }
 
-    public void setSize(String size) {
-        this.size = size;
-    }
 
     public int getQuantity() {
         return quantity;
@@ -99,7 +93,7 @@ public class CartPainting implements Serializable {
         return "CartPainting{" +
                 "productId=" + productId +
                 ", productName='" + productName + '\'' +
-                ", size='" + size + '\'' +
+                ", idSize='" + sizeId + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
@@ -111,7 +105,7 @@ public class CartPainting implements Serializable {
         this.quantity += additionalQuantity;
         this.totalPrice = this.price * this.quantity;
     }
-    public CartPainting convert(Painting p, String size, int quantity, double price) {
-        return new CartPainting(p.getId(), p.getTitle(), size, quantity, p.getPrice(), p.getImageUrl());
+    public CartPainting convert(Painting p, String size, String sizeId, int quantity, double price) {
+        return new CartPainting(p.getId(), p.getTitle(),  sizeId,  quantity, p.getPrice(), p.getImageUrl());
     }
 }

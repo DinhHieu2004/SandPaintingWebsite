@@ -31,6 +31,7 @@ public class PaintingDao {
             d.discountName,
             d.discountPercentage,
             s.sizeDescription,
+            s.id AS idSize,
             ps.quantity AS sizeQuantity
         FROM paintings p
         LEFT JOIN artists a ON p.artistId = a.id
@@ -60,9 +61,10 @@ public class PaintingDao {
                     }
 
                     // Add size and quantity to the painting detail
+                    int idSize = rs.getInt("idSize");
                     String sizeDescription = rs.getString("sizeDescription");
                     int sizeQuantity = rs.getInt("sizeQuantity");
-                    paintingDetail.addSize(sizeDescription, sizeQuantity);
+                    paintingDetail.addSize(idSize,sizeDescription, sizeQuantity);
 
                     // Add discount information if exists
                     if (rs.getString("discountName") != null) {

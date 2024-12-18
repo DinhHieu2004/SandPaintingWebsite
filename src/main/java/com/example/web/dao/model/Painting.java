@@ -31,10 +31,9 @@ public class Painting implements Serializable{
 
     }
 
-    public void addSize(String sizeDescription, int quantity) {
-            this.sizes.add(new PaintingSize(sizeDescription, quantity));
+    public void addSize(int idSize, String sizeDescription, int quantity) {
+            this.sizes.add(new PaintingSize(idSize, sizeDescription, quantity));
         }
-
         public void setDiscount(String discountName, double discountPercentage) {
             this.discountName = discountName;
             this.discountPercentage = discountPercentage;

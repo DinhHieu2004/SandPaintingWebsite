@@ -68,7 +68,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="size"
                                                    id="size_${size.sizeDescriptions}"
-                                                   value="${size.sizeDescriptions}"
+                                                   value="${size.idSize}"
                                                    data-quantity="${size.quantity}"
                                                 ${size.quantity <= 0 ? 'disabled' : ''}>
                                             <label class="form-check-label" for="size_${size.sizeDescriptions}">
@@ -83,7 +83,6 @@
                         </div>
 
                         <input type="hidden" name="pid" value="${p.id}">
-                        <!-- Chọn số lượng -->
                         <div class="mb-3">
                             <label for="quantity" class="form-label"><strong>Số lượng:</strong></label>
                             <div class="input-group">
@@ -109,7 +108,6 @@
 
 <%@ include file="/partials/footer.jsp" %>
 
-<!-- Script xử lý form -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('addToCartForm');
@@ -131,7 +129,6 @@
                 event.stopPropagation();
             }
 
-            // Kiểm tra đã chọn size chưa
             const selectedSize = document.querySelector('input[name="size"]:checked');
             if (!selectedSize) {
                 event.preventDefault();
@@ -143,7 +140,6 @@
         });
     });
 
-    // Hàm tăng giảm số lượng
     function incrementQuantity() {
         const input = document.getElementById('quantity');
         const max = input.max ? parseInt(input.max) : Infinity;

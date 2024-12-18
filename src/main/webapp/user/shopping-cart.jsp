@@ -49,8 +49,9 @@
                             <td>${cp.quantity}</td>
                             <td>${cp.totalPrice} VND</td>
                             <td>
-                                <form method="post" action="removeFromCart">
-                                    <input type="hidden" name="id" value="${cp.productId}">
+                                <form method="post" action="remove-from-cart">
+                                    <input type="hidden" name="productId" value="${cp.productId}">
+                                    <input type="hidden" name="sizeId" value="${cp.sizeId}">
                                     <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
                                 </form>
                             </td>
