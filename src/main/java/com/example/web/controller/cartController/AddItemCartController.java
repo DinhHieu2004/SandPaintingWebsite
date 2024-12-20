@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(name = "Add-to-cart", value = "/add-to-cart")
-public class CartController extends HttpServlet {
+public class AddItemCartController extends HttpServlet {
     PaintingService paintingService = new PaintingService();
 
     @Override
