@@ -22,7 +22,7 @@
                 <div class="tab-content mt-3" id="authTabsContent">
                     <!-- Login Form -->
                     <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                        <form id="loginForm">
+                        <form id="loginForm" method="post" action="login">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Tên đăng nhập</label>
                                 <input type="text" class="form-control" id="username"
@@ -135,4 +135,4 @@
         </div>
     </div>
 </div>
-<script src="assets/js/authModal.js"></script>
+<script src="../assets/js/authModal.js"></script>
