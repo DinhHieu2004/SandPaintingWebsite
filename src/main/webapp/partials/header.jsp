@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="assets/css/footer.css">
-    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
+    <link rel="stylesheet" href="../assets/css/header.css">
 </head>
 <header id="header-container" class="fixed-top">
     <div class="header-top">
@@ -18,8 +18,8 @@
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg">
             <!-- Logo -->
-            <a class="navbar-brand" href="/index.jsp">
-                <img src="assets/images/z6089438426018_bba333fc15dcbab8feae6b9b8cb460bd.jpg" alt="Lanvu Gallery"
+            <a class="navbar-brand" href="../index.jsp">
+                <img src="../assets/images/z6089438426018_bba333fc15dcbab8feae6b9b8cb460bd.jpg" alt="Lanvu Gallery"
                     height="60">
             </a>
 
@@ -29,20 +29,20 @@
 
             <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="/index.jsp">TRANG CHỦ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.jsp">TRANG CHỦ</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="/user/about_us.jsp" id="navbarDropdown" >GIỚI THIỆU</a>
+                        <a class="nav-link" href="../user/about_us.jsp" id="navbarDropdown" >GIỚI THIỆU</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/user/artWork.jsp">TÁC PHẨM</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/user/discount.jsp">CHƯƠNG TRÌNH GIẢM GIÁ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../user/artWork.jsp">TÁC PHẨM</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../user/discount.jsp">CHƯƠNG TRÌNH GIẢM GIÁ</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#">HỌA SĨ</a>
                         <ul class="dropdown-menu">
-                            <li><a class="nav-link" href="/user/painter.jsp">Nguyễn Tiến</a></li>
-                            <li><a class="nav-link" href="/user/painter.jsp">Quỳnh Hoa</a></li>
-                            <li><a class="nav-link" href="/user/painter.jsp">Nguyễn Thế Nhân </a></li>
-                            <li><a class="nav-link" href="/user/painter.jsp">Nguyễn Thế Nhật Quang</a></li>
-                            <li><a class="nav-link" href="/user/painter.jsp">Phan Anh Vũ</a></li>
+                            <li><a class="nav-link" href="../user/painter.jsp">Nguyễn Tiến</a></li>
+                            <li><a class="nav-link" href="../user/painter.jsp">Quỳnh Hoa</a></li>
+                            <li><a class="nav-link" href="../user/painter.jsp">Nguyễn Thế Nhân </a></li>
+                            <li><a class="nav-link" href="../user/painter.jsp">Nguyễn Thế Nhật Quang</a></li>
+                            <li><a class="nav-link" href="../user/painter.jsp">Phan Anh Vũ</a></li>
                         </ul>
                     </li>
                 </ul>
