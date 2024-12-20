@@ -53,63 +53,35 @@
                 </div>
                 <!-- Lọc theo kích thước -->
                 <div class="filter-group">
-                    <h6 class="mb-3">Kích thước</h6>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="40x60" id="size1">
-                        <label class="form-check-label" for="size1">40x60 cm</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="50x70" id="size2">
-                        <label class="form-check-label" for="size2">50x70 cm</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="60x80" id="size3">
-                        <label class="form-check-label" for="size3">60x80 cm</label>
+                    <div class="filter-group">
+                        <h6 class="mb-3">Kích thước</h6>
+                        <c:forEach var="size" items="${paintingSizes}">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" value="${size.idSize}" id="${size.idSize}">
+                                <label class="form-check-label" for="${size.sizeDescriptions}">${size.sizeDescriptions}</label>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
                 <!-- Lọc theo chủ đề -->
                 <div class="filter-group">
                     <h6 class="mb-3">Chủ đề</h6>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="scenery" id="scenery">
-                        <label class="form-check-label" for="scenery">Phong cảnh</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="portrait" id="portrait">
-                        <label class="form-check-label" for="portrait">Chân dung</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="still_life" id="still_life">
-                        <label class="form-check-label" for="size3">Tĩnh vật</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="abstract" id="abstract">
-                        <label class="form-check-label" for="abstract">Trừu tượng</label>
-                    </div>
+                    <c:forEach var="theme" items="${themes}">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" value="${theme.id}" id="${theme.id}">
+                            <label class="form-check-label" for="${theme.themeName}">${theme.themeName}</label>
+                        </div>
+                    </c:forEach>
                 </div>
                 <!-- Lọc theo họa sĩ -->
                 <div class="filter-group">
                     <h6 class="mb-3">Họa sĩ</h6>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="NguyenVanA" id="artist1">
-                        <label class="form-check-label" for="artist1">Nguyễn Tiến</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="TranVanB" id="artist2">
-                        <label class="form-check-label" for="artist2">Quỳnh Hoa</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="LeVanC" id="artist3">
-                        <label class="form-check-label" for="artist3">Nguyễn Nhật Anh</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="PhamVanD" id="artist4">
-                        <label class="form-check-label" for="artist4">Nguyễn Thế Nhật Quang</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="PhamVanD" id="artist4">
-                        <label class="form-check-label" for="artist4">Nguyễn Anh Vũ</label>
-                    </div>
+                    <c:forEach var="artist" items="${artists}">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" value="${artist.id}" id="${artist.id}">
+                            <label class="form-check-label" for="${artist.name}">${artist.name}</label>
+                        </div>
+                    </c:forEach>
                 </div>
 
                 <button class="btn w-100" id="applyFilters">Áp dụng</button>

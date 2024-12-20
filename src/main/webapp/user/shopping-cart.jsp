@@ -100,10 +100,7 @@
                             </select>
                         </div>
     
-                        <div class="mb-3">
-                            <label for="shippingAddress" class="form-label">Địa chỉ nhận hàng:</label>
-                            <textarea class="form-control" id="shippingAddress" rows="3" placeholder="Nhập địa chỉ nhận hàng..." required></textarea>
-                        </div>
+                     >
                     </form>
                 </div>
                 <div class="modal-footer">
