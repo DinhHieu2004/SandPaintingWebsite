@@ -25,7 +25,7 @@
     <div id="content-wrapper">
         <div class="container_content">
             <div class="background">
-                <img src="/assets/images/bin1200-1572525115279852147711.jpg">
+                <img src="assets/images/bin1200-1572525115279852147711.jpg">
 
             </div>
             <div id="dark_section">
@@ -103,11 +103,11 @@
     <div id="outstanding_works_section">
         <div class="title_container">
             <div class="img_left">
-                <img src="/assets/images/t_left.png">
+                <img src="assets/images/t_left.png">
             </div>
             <h4 class="collection_title">TÁC PHẨM TRƯNG BÀY</h4>
             <div class="img_right">
-                <img src="/assets/images/t_right.png">
+                <img src="assets/images/t_right.png">
             </div>
         </div>
         <div class="product">
@@ -178,11 +178,11 @@
     <div id="collection_section">
         <div class="title_container">
             <div class="img_left">
-                <img src="/assets/images/t_left.png">
+                <img src="assets/images/t_left.png">
             </div>
             <h4 class="collection_title">CHỦ ĐỀ</h4>
             <div class="img_right">
-                <img src="/assets/images/t_right.png">
+                <img src="assets/images/t_right.png">
             </div>
         </div>
         <div class="collection_product">
@@ -226,18 +226,18 @@
     </div>
     <div id="icon_section">
         <div class="icon_first_col">
-            <img src="/assets/images/fast-delivery-1.png">
+            <img src="assets/images/fast-delivery-1.png">
             <h4>GIAO HÀNG TOÀN QUỐC</h4>
             <p>Chúng tôi nhận đóng gói và vận chuyển cho mọi khách hàng trên toàn quốc</p>
         </div>
         <div class="icon_second_col">
-            <img src="/assets/images/quality.png">
+            <img src="assets/images/quality.png">
             <h4>CHẤT LƯỢNG HÀNG ĐẦU</h4>
             <p>Chất lượng tuyệt hảo, đường nét sống động được vẽ bởi các họa sĩ sáng tạo, có tên tuổi trong giới nghệ
                 thuật</p>
         </div>
         <div class="icon_third_col">
-            <img src="/assets/images/feature-selection.png">
+            <img src="assets/images/feature-selection.png">
             <h4>SẢN PHẨM ĐA DẠNG</h4>
             <p>Chúng tôi có nhiều tác phẩm ở nhiều thể loại. Ngoài ra, cũng có nhiều lựa chọn theo yêu cầu của khách
                 hàng</p>
@@ -245,28 +245,28 @@
     </div>
     <div id="partner_section">
         <div class="partner_title">
-            <img src="/assets/images/t_left.png">
+            <img src="assets/images/t_left.png">
             <h4>CÁC ĐỐI TÁC CỦA CHÚNG TÔI</h4>
             <img src="assets/images/t_right.png">
         </div>
         <div class="logo">
-            <img src="/assets/images/Dong-gia.jpg">
-            <img src="/assets/images/Genesis-1.png">
-            <img src="/assets/images/GU_Bistronomy.png">
-            <img src="/assets/images/Hoi-MTVN.png">
-            <img src="/assets/images/Kenly.jpg">
-            <img src="/assets/images/KTSVN.png">
-            <img src="/assets/images/Mant.png">
-            <img src="/assets/images/SenDesign.jpg">
+            <img src="assets/images/Dong-gia.jpg">
+            <img src="assets/images/Genesis-1.png">
+            <img src="assets/images/GU_Bistronomy.png">
+            <img src="assets/images/Hoi-MTVN.png">
+            <img src="assets/images/Kenly.jpg">
+            <img src="assets/images/KTSVN.png">
+            <img src="assets/images/Mant.png">
+            <img src="assets/images/SenDesign.jpg">
         </div>
 
     </div>
 <%@ include file="/partials/footer.jsp" %>
-    <div id="auth"></div>
+<%@ include file="/partials/authModal.jsp" %>
 </body>
 
-<script src="/assets/js/index.js"></script>
-<script src="/assets/js/header.js"></script>
+<script src="assets/js/index.js"></script>
+<script src="assets/js/header.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>
