@@ -21,9 +21,6 @@
         <h5 > Giỏ hàng</h5>
     </div>
     <div class="container my-5">
-        
-
-        <!-- Cart Items -->
         <div class="card mb-4">
             <div class="card-header">
                 <h5>Giỏ hàng của bạn</h5>
@@ -90,16 +87,16 @@
                         <!-- Tổng tiền thanh toán -->
                         <div class="mb-3">
                             <label for="totalAmount" class="form-label fw-bold">Tổng tiền thanh toán:</label>
-                            <div id="totalAmount">$400.000-vnd</div>
+                            <div id="totalAmount">${sessionScope.cart.totalPrice}</div>
                         </div>
     
                         <div class="mb-3">
                             <label for="paymentMethod" class="form-label">Chọn phương thức thanh toán:</label>
                             <select class="form-select" id="paymentMethod" required>
                                 <option value="" disabled selected>Chọn...</option>
-                                <option value="credit_card">Thẻ tín dụng/Thẻ ghi nợ</option>
-                                <option value="cod">Thanh toán khi nhận hàng (COD)</option>
-                                <option value="bank_transfer">Chuyển khoản ngân hàng</option>
+                                <c:forEach var="method" items="${paymentMethods}">
+                                    <option value="${method.id}">${method.methodName}</option>
+                                </c:forEach>
                             </select>
                         </div>
     

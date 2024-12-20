@@ -20,11 +20,10 @@ public class CartController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
     }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            Integer id = (Integer) req.getSession().getAttribute("pid");
+            int id = (Integer) req.getSession().getAttribute("pid");
             Painting p = null;
             p = paintingService.getPainting(id);
             String size = req.getParameter("size");
