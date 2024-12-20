@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PaintingDao {
     Connection con = DbConnect.getConnection();
@@ -81,41 +83,120 @@ public class PaintingDao {
 
 
 
-    public List<Painting> getPaintingList() throws SQLException {
-         List<Painting> paintingList = new ArrayList<>();
-        String sql = "SELECT p.id AS paintingId, p.title AS paintingTitle,p.price, p.imageUrl, " +
-                "a.name AS artistName, t.themeName AS theme, " +
-                "IFNULL(d.discountPercentage, 0) AS discount " +
-                "FROM paintings p " +
-                "LEFT JOIN artists a ON p.artistId = a.id " +
-                "LEFT JOIN themes t ON p.themeId = t.id " +
-                "LEFT JOIN discount_paintings dp ON p.id = dp.paintingId " +
-                "LEFT JOIN discounts d ON dp.discountId = d.id";
+    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] sizes, String[] themes, String[] artists) throws SQLException {
+        List<Painting> paintingList = new ArrayList<>();
+        Map<Integer, Painting> paintingMap = new HashMap<>();
 
-        PreparedStatement stmt = con.prepareStatement(sql);
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            Painting painting = new Painting();
-            painting.setId(rs.getInt("paintingId"));
-            painting.setTitle(rs.getString("paintingTitle"));
-            painting.setImageUrl(rs.getString("imageUrl"));
-            painting.setArtistName(rs.getString("artistName"));
-            painting.setThemeName(rs.getString("theme"));
-            painting.setDiscountPercentage(rs.getDouble("discount"));
-            painting.setPrice(rs.getDouble("price"));
-            paintingList.add(painting);
+        StringBuilder sql = new StringBuilder("""
+        SELECT 
+            p.id AS paintingId,
+            p.title AS paintingTitle,
+            p.price,
+            p.imageUrl,
+            a.name AS artistName,
+            t.themeName AS theme,
+            IFNULL(d.discountPercentage, 0) AS discount,
+            s.sizeDescription AS size,
+            ps.quantity AS stock
+        FROM paintings p
+        LEFT JOIN artists a ON p.artistId = a.id
+        LEFT JOIN themes t ON p.themeId = t.id
+        LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+        LEFT JOIN discounts d ON dp.discountId = d.id
+        LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
+        LEFT JOIN sizes s ON ps.sizeId = s.id
+        WHERE 1=1
+    """);
+
+        List<Object> params = new ArrayList<>();
+
+        if (minPrice != null) {
+            sql.append(" AND p.price >= ?");
+            params.add(minPrice);
         }
+        if (maxPrice != null) {
+            sql.append(" AND p.price <= ?");
+            params.add(maxPrice);
+        }
+
+        if (sizes != null && sizes.length > 0) {
+            sql.append(" AND s.id IN (")
+                    .append("?,".repeat(sizes.length - 1))
+                    .append("?)");
+            params.addAll(List.of(sizes));
+        }
+
+        if (themes != null && themes.length > 0) {
+            sql.append(" AND t.id IN (")
+                    .append("?,".repeat(themes.length - 1))
+                    .append("?)");
+            params.addAll(List.of(themes));
+        }
+
+        if (artists != null && artists.length > 0) {
+            sql.append(" AND a.id IN (")
+                    .append("?,".repeat(artists.length - 1))
+                    .append("?)");
+            params.addAll(List.of(artists));
+        }
+
+        sql.append(" AND ps.quantity > 0");
+
+        try (PreparedStatement stmt = con.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                stmt.setObject(i + 1, params.get(i));
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int paintingId = rs.getInt("paintingId");
+
+                    if (paintingMap.containsKey(paintingId)) {
+                    } else {
+                        // Tạo một Painting mới và thêm vào map
+                        Painting painting = new Painting();
+                        painting.setId(paintingId);
+                        painting.setTitle(rs.getString("paintingTitle"));
+                        painting.setImageUrl(rs.getString("imageUrl"));
+                        painting.setArtistName(rs.getString("artistName"));
+                        painting.setThemeName(rs.getString("theme"));
+                        painting.setDiscountPercentage(rs.getDouble("discount"));
+                        painting.setPrice(rs.getDouble("price"));
+                        painting.setSizes(new ArrayList<>());
+                        paintingMap.put(paintingId, painting);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Lỗi khi lấy danh sách tranh có lọc", e);
+        }
+
+        paintingList.addAll(paintingMap.values());
+
         return paintingList;
     }
 
-    public static void main(String[] args) throws SQLException {
-        PaintingDao dao = new PaintingDao();
-        for (Painting p : dao.getPaintingList()) {
-            System.out.println(p);
 
-             System.out.println(dao.getPaintingDetail(1));
+
+    public static void main(String[] args) {
+        try {
+            PaintingDao dao = new PaintingDao();
+
+            // Thực hiện lọc với các tham số
+            Double m1 = null;
+            Double m2 = null;
+            String[] sizes = {};
+            String[] themes = {"1","2"};
+            String[] artists = {"1","2"};
+            List<Painting> filteredPaintings = dao.getPaintingList(m1, m2, sizes, themes, artists);
+
+
+            for(Painting painting : filteredPaintings) {
+                System.out.println(painting);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
-
-
 }

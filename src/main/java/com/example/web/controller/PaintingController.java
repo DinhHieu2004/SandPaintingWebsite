@@ -33,7 +33,29 @@ public class PaintingController extends HttpServlet {
         List<Theme> themes = null;
         List<PaintingSize> paintingSizes = null;
         try {
-            data = ps.getAll();
+            String minPriceParam = req.getParameter("minPrice");
+            String maxPriceParam = req.getParameter("maxPrice");
+            String[] sizes = req.getParameterValues("size");
+            String[] themeArr = req.getParameterValues("theme");
+            String[] artistArr = req.getParameterValues("artist");
+
+            Double minPrice = null;
+            Double maxPrice = null;
+
+            try {
+                if (minPriceParam != null && !minPriceParam.isEmpty()) {
+                    minPrice = Double.valueOf(minPriceParam);
+                }
+                if (maxPriceParam != null && !maxPriceParam.isEmpty()) {
+                    maxPrice = Double.valueOf(maxPriceParam);
+                }
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid price format");
+                return;
+            }
+            data  = ps.getPaintingList(minPrice, maxPrice, sizes, themeArr, artistArr);
+
+            //  data = ps.getAll();
             artists = as.getAllArtists();
             themes = ts.getAllTheme();
             paintingSizes = ss.getAllSize();
