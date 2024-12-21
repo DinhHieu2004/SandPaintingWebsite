@@ -1,6 +1,8 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "f" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -11,14 +13,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" href="/assets/css/footer.css">
-    <link rel="stylesheet" href="/assets/css/header.css">
-    <link rel="stylesheet" href="/assets/css/painter.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/painter.css">
 
 </head>
 
 <body>
-    <div id="header-container"></div>
+<%@ include file="/partials/header.jsp" %>
     <div  class="page-title-inner">
         <h5 >Thông tin họa sĩ </h5>
     </div>
@@ -26,24 +28,21 @@
 
         <div class="row">
             <div class="col-md-4">
-                <img src="https://vanhoavaphattrien.vn/uploads/images/2024/04/28/bo-tranh-cat-an-tuong-6-1714297532.png"
+                <img src="${data.photoUrl}"
                     alt="Họa Sĩ" class="artist-photo">
             </div>
 
             <div class="col-md-8">
                 <div class="artist-info">
-                    <h2 class="artist-name">Nguyễn Tiến</h2>
+                    <h2 class="artist-name">${data.name}</h2>
                     <div class="artist-details">
-                        <p><strong>Ngày Sinh:</strong> 12/05/1985</p>
-                        <p><strong>Quốc Tịch:</strong> Việt Nam</p>
+                        <p><strong>Ngày Sinh:</strong>${data.birthDate}</p>
+                        <p><strong>Quốc Tịch:</strong>${data.nationality}</p>
                     </div>
 
                     <div class="artist-bio">
                         <h5>Tiểu sử</h5>
-                        <p>Nguyễn Tiến là một họa sĩ nổi tiếng với các tác phẩm mang đậm chất nghệ thuật dân gian Việt
-                            Nam. Anh bắt đầu sự nghiệp vẽ tranh từ khi còn rất nhỏ và đã tham gia nhiều triển lãm trong
-                            và ngoài nước. Các tác phẩm của anh chủ yếu phản ánh cuộc sống và văn hóa truyền thống của
-                            người Việt Nam.</p>
+                        <p>${data.bio}</p>
                     </div>
                 </div>
             </div>
@@ -149,8 +148,8 @@
             <a href="/user/artWork.jsp" class="btn ">Xem Thêm Tác Phẩm</a>
         </div>
     </div>
-    <div id="footer-container"></div>
-    <div id="auth"></div>
+<%@ include file="/partials/footer.jsp" %>
+<%@ include file="/partials/authModal.jsp" %>
 
     <script src="/assets/js/painter.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

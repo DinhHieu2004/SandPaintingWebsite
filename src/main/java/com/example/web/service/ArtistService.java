@@ -14,6 +14,9 @@ public class ArtistService {
     public List<Artist> getAllArtists() throws SQLException {
         return artistDao.getAllArtists();
     }
+    public Artist getArtistById(int id) throws SQLException {
+        return artistDao.getArtistById(id);
+    }
 
     public static void main(String[] args) throws SQLException {
         ArtistService artistService = new ArtistService();

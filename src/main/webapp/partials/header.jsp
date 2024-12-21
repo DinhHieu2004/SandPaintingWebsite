@@ -39,7 +39,7 @@
                         <a class="nav-link dropdown-toggle" href="#">HỌA SĨ</a>
                         <ul class="dropdown-menu">
                             <c:forEach var="artist" items="${artists}">
-                                <li><a class="nav-link" href="../user/painter.jsp?id=${artist.id}">${artist.name}</a></li>
+                                <li><a class="nav-link" href="painter-detail?id=${artist.id}">${artist.name}</a></li>
                             </c:forEach>
                         </ul>
                     </li>
