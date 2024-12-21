@@ -35,18 +35,18 @@
                     <h5 class="filter-title m-0">Bộ lọc sản phẩm</h5>
                     <span class="filter-reset" id="resetFilters">Đặt lại</span>
                 </div>
+                <form id="filterForm" method="GET" action="artwork">
 
-                <!-- Lọc theo giá -->
                 <div class="filter-group">
                     <h6 class="mb-3">Giá (VNĐ)</h6>
                     <div class="price-range d-flex align-items-center">
                         <div class="input-group price-input me-2">
-                            <input type="number" class="form-control" id="minPrice" placeholder="Từ">
+                            <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder="Từ">
                             <span class="input-group-text">đ</span>
                         </div>
                         <span class="price-separator mx-2">-</span>
                         <div class="input-group price-input">
-                            <input type="number" class="form-control" id="maxPrice" placeholder="Đến">
+                            <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="Đến">
                             <span class="input-group-text">đ</span>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                         <h6 class="mb-3">Kích thước</h6>
                         <c:forEach var="size" items="${paintingSizes}">
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" value="${size.idSize}" id="${size.idSize}">
+                                <input class="form-check-input" type="checkbox" value="${size.idSize}" id="${size.idSize}" name="size">
                                 <label class="form-check-label" for="${size.sizeDescriptions}">${size.sizeDescriptions}</label>
                             </div>
                         </c:forEach>
@@ -68,7 +68,7 @@
                     <h6 class="mb-3">Chủ đề</h6>
                     <c:forEach var="theme" items="${themes}">
                         <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="${theme.id}" id="${theme.id}">
+                            <input class="form-check-input" type="checkbox" value="${theme.id}" id="${theme.id}" name="theme">
                             <label class="form-check-label" for="${theme.themeName}">${theme.themeName}</label>
                         </div>
                     </c:forEach>
@@ -78,13 +78,14 @@
                     <h6 class="mb-3">Họa sĩ</h6>
                     <c:forEach var="artist" items="${artists}">
                         <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="${artist.id}" id="${artist.id}">
+                            <input class="form-check-input" type="checkbox" value="${artist.id}" id="${artist.id}" name="artist">
                             <label class="form-check-label" for="${artist.name}">${artist.name}</label>
                         </div>
                     </c:forEach>
                 </div>
 
                 <button class="btn w-100" id="applyFilters">Áp dụng</button>
+                </form>
             </div>
             <div class="row g-4 g-2 col-10" id="artworkGallery">
                 <c:forEach var="p" items="${data}">
