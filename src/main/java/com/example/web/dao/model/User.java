@@ -1,9 +1,52 @@
 package com.example.web.dao.model;
 
 public class User {
+    private int id;
+    private String fullName;
     private String username;
     private String password;
-    private String name;
+    private String address;
+    private String email;
+    private String phone;
+    private Role role;
+
+    public User(int id, String fullName, String username, String password, String address, String email, String phone, Role role) {
+        this.id = id;
+        this.fullName = fullName;
+        this.username = username;
+        this.password = password;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", role=" + role +
+                '}';
+    }
+
+    public enum Role {
+        admin,
+        user
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
 
     public String getUsername() {
         return username;
@@ -13,8 +56,28 @@ public class User {
         return password;
     }
 
-    public String getName() {
-        return name;
+    public String getAddress() {
+        return address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public void setUsername(String username) {
@@ -25,13 +88,20 @@ public class User {
         this.password = password;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAddress(String address) {
+        this.address = address;
     }
-    public User(String username, String password, String name) {
-        this.username = username;
-        this.password = password;
-        this.name = name;
+
+    public void setEmail(String email) {
+        this.email = email;
     }
-    public User() {}
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }
+
