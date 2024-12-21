@@ -33,5 +33,25 @@ public class ArtistDao {
         }
         return artists;
     }
+    public Artist getArtistById(int id) throws SQLException {
+        String sql = "select * from artists where id = ?";
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            String name = rs.getString("name");
+            String bio = rs.getString("bio");
+            Date date = rs.getDate("birthDate");
+            String nationality = rs.getString("nationality");
+            String photoUrl = rs.getString("photoUrl");
+            return new Artist(id, name, bio, date, nationality, photoUrl);
+        }
+        return null;
+    }
+
+    public static void main(String[] args) throws SQLException {
+        ArtistDao dao = new ArtistDao();
+        System.out.println(dao.getArtistById(1));
+    }
 
 }

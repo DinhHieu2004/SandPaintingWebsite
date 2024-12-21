@@ -19,7 +19,7 @@
         <nav class="navbar navbar-expand-lg">
             <!-- Logo -->
             <a class="navbar-brand" href="../index.jsp">
-                <img src="../assets/images/z6089438426018_bba333fc15dcbab8feae6b9b8cb460bd.jpg" alt="Lanvu Gallery"
+                <img src="assets/images/z6089438426018_bba333fc15dcbab8feae6b9b8cb460bd.jpg" alt="Lanvu Gallery"
                     height="60">
             </a>
 
@@ -33,16 +33,14 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="../user/about_us.jsp" id="navbarDropdown" >GIỚI THIỆU</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="../user/artWork.jsp">TÁC PHẨM</a></li>
+                    <li class="nav-item"><a class="nav-link" href="artwork">TÁC PHẨM</a></li>
                     <li class="nav-item"><a class="nav-link" href="../user/discount.jsp">CHƯƠNG TRÌNH GIẢM GIÁ</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#">HỌA SĨ</a>
                         <ul class="dropdown-menu">
-                            <li><a class="nav-link" href="../user/painter.jsp">Nguyễn Tiến</a></li>
-                            <li><a class="nav-link" href="../user/painter.jsp">Quỳnh Hoa</a></li>
-                            <li><a class="nav-link" href="../user/painter.jsp">Nguyễn Thế Nhân </a></li>
-                            <li><a class="nav-link" href="../user/painter.jsp">Nguyễn Thế Nhật Quang</a></li>
-                            <li><a class="nav-link" href="../user/painter.jsp">Phan Anh Vũ</a></li>
+                            <c:forEach var="artist" items="${artists}">
+                                <li><a class="nav-link" href="../user/painter.jsp?id=${artist.id}">${artist.name}</a></li>
+                            </c:forEach>
                         </ul>
                     </li>
                 </ul>
