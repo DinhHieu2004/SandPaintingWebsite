@@ -14,6 +14,9 @@ public class PaintingService {
     public Painting getPainting(int id) throws SQLException {
         return paintingDao.getPaintingDetail(id);
     }
+    public List<Painting> getListPaintingByArtist(int id) throws SQLException {
+        return paintingDao.getListPaintingByArtist(id);
+    }
 
 
 

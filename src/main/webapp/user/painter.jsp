@@ -51,17 +51,17 @@
         <!-- Artist's Artworks -->
         <div class="container-product">
             <div class="row g-4 g-2 col-10" id="artworkGallery">
+                <c:forEach var="p" items="${listP}">
                 <div class="col-6 col-md-3">
                     <div class="card artwork-card">
                         <a href="painting-detail.jsp" class="card-link"></a>
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpp4FpVhylNpwTVddcn3b0SHdb5ej8M7uvfQ&s"
-                            class="card-img-top artwork-image" alt="Phong Cảnh Biển">
+                        <img src="${p.imageUrl}"
+                            class="card-img-top artwork-image" alt="${p.title}">
 
                         <div class="card-body">
-                            <h5 class="card-title">Phong Cảnh Biển</h5>
+                            <h5 class="card-title">${p.title}</h5>
                             <p class="card-text">
-                                <strong>Họa Sĩ:</strong> Nguyễn Văn A<br>
-                                <strong>Kích Thước:</strong> 40x60 cm<br>
+                                <strong>Chủ đề:</strong>${p.themeName}<br>
                             </p>
                             <div class="price-discount">
                                 <span class="text-muted original-price">600.000 VNĐ</span>
@@ -73,76 +73,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card artwork-card">
-                        <a href="painting-detail.jsp" class="card-link"></a>
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpp4FpVhylNpwTVddcn3b0SHdb5ej8M7uvfQ&s"
-                            class="card-img-top artwork-image" alt="Phong Cảnh Biển">
-
-                        <div class="card-body">
-                            <h5 class="card-title">Phong Cảnh Biển</h5>
-                            <p class="card-text">
-                                <strong>Họa Sĩ:</strong> Nguyễn Văn A<br>
-                                <strong>Kích Thước:</strong> 40x60 cm<br>
-                            </p>
-                            <div class="price-discount">
-                                <span class="text-muted original-price">600.000 VNĐ</span>
-                                <span class="badge bg-success discount-badge">-17%</span>
-                            </div>
-                            <div>
-                                <span class="text-danger sale-price">500.000 VNĐ</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card artwork-card">
-                        <a href="painting-detail.jsp" class="card-link"></a>
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpp4FpVhylNpwTVddcn3b0SHdb5ej8M7uvfQ&s"
-                            class="card-img-top artwork-image" alt="Phong Cảnh Biển">
-
-                        <div class="card-body">
-                            <h5 class="card-title">Phong Cảnh Biển</h5>
-                            <p class="card-text">
-                                <strong>Họa Sĩ:</strong> Nguyễn Văn A<br>
-                                <strong>Kích Thước:</strong> 40x60 cm<br>
-                            </p>
-                            <div class="price-discount">
-                                <span class="text-muted original-price">600.000 VNĐ</span>
-                                <span class="badge bg-success discount-badge">-17%</span>
-                            </div>
-                            <div>
-                                <span class="text-danger sale-price">500.000 VNĐ</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card artwork-card">
-                        <a href="painting-detail.jsp" class="card-link"></a>
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpp4FpVhylNpwTVddcn3b0SHdb5ej8M7uvfQ&s"
-                            class="card-img-top artwork-image" alt="Phong Cảnh Biển">
-
-                        <div class="card-body">
-                            <h5 class="card-title">Phong Cảnh Biển</h5>
-                            <p class="card-text">
-                                <strong>Họa Sĩ:</strong> Nguyễn Văn A<br>
-                                <strong>Kích Thước:</strong> 40x60 cm<br>
-                            </p>
-                            <div class="price-discount">
-                                <span class="text-muted original-price">600.000 VNĐ</span>
-                                <span class="badge bg-success discount-badge">-17%</span>
-                            </div>
-                            <div>
-                                <span class="text-danger sale-price">500.000 VNĐ</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>   
+                </c:forEach>
         </div>
         <div class="text-center">
             <a href="/user/artWork.jsp" class="btn ">Xem Thêm Tác Phẩm</a>
