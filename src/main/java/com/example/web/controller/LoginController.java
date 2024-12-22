@@ -11,28 +11,33 @@ import java.sql.SQLException;
 @WebServlet(name = "loginController", value = "/login")
 public class LoginController extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Chuyển hướng về trang login (index.jsp)
-        request.getRequestDispatcher("index.jsp").forward(request, response);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Lấy thông tin từ form
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+        // Gọi service kiểm tra đăng nhập
         AuthService service = new AuthService();
         try {
             if (service.checkLogin(username, password)) {
-                response.sendRedirect("index.jsp");
+                // Nếu đăng nhập thành công, chuyển hướng đến trang chính
+                response.sendRedirect("home.jsp");
             } else {
-                request.setAttribute("errorMessage", "Đăng nhập không thành công. Vui lòng thử lại.");
-                request.setAttribute("username", username); // Giữ lại username để hiển thị lại
+                // Nếu đăng nhập thất bại, trả về form đăng nhập cùng thông báo lỗi
+                request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng!");
+                request.setAttribute("username", username); // Giữ lại tên đăng nhập
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Chuyển hướng về trang login (index.jsp)
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
 }
+
 

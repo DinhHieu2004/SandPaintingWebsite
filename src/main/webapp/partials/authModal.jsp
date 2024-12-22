@@ -22,6 +22,11 @@
                 <div class="tab-content mt-3" id="authTabsContent">
                     <!-- Login Form -->
                     <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                        <c:if test="${not empty errorMessage}">
+                            <script type="text/javascript">
+                                alert("${errorMessage}");
+                            </script>
+                        </c:if>
                         <form id="loginForm" method="post" action="login">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Tên đăng nhập</label>
