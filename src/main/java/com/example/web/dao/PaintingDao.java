@@ -207,9 +207,100 @@ public class PaintingDao {
         return paintings;
     }
 
+    // danh sach tranh theo từng họa sĩ .
+    public List<Painting> getPaintingListByArtist(Double minPrice, Double maxPrice, String[] sizes, String[] themes, String artistId) throws SQLException {
+        List<Painting> paintingList = new ArrayList<>();
+        Map<Integer, Painting> paintingMap = new HashMap<>();
+
+        StringBuilder sql = new StringBuilder("""
+                    SELECT 
+                        p.id AS paintingId,
+                        p.title AS paintingTitle,
+                        p.price,
+                        p.imageUrl,
+                        a.name AS artistName,
+                        t.themeName AS theme,
+                        IFNULL(d.discountPercentage, 0) AS discount,
+                        s.sizeDescription AS size,
+                        ps.quantity AS stock
+                    FROM paintings p
+                    LEFT JOIN artists a ON p.artistId = a.id
+                    LEFT JOIN themes t ON p.themeId = t.id
+                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+                    LEFT JOIN discounts d ON dp.discountId = d.id
+                    LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
+                    LEFT JOIN sizes s ON ps.sizeId = s.id
+                    WHERE 1=1 AND a.id = ?
+                """);
+
+        List<Object> params = new ArrayList<>();
+        params.add(artistId);
+
+        if (minPrice != null) {
+            sql.append(" AND p.price >= ?");
+            params.add(minPrice);
+        }
+        if (maxPrice != null) {
+            sql.append(" AND p.price <= ?");
+            params.add(maxPrice);
+        }
+
+        if (sizes != null && sizes.length > 0) {
+            sql.append(" AND s.id IN (").append("?,".repeat(sizes.length - 1)).append("?)");
+            params.addAll(List.of(sizes));
+        }
+
+        if (themes != null && themes.length > 0) {
+            sql.append(" AND t.id IN (").append("?,".repeat(themes.length - 1)).append("?)");
+            params.addAll(List.of(themes));
+        }
+
+
+        sql.append(" AND ps.quantity > 0");
+
+        try (PreparedStatement stmt = con.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                stmt.setObject(i + 1, params.get(i));
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int paintingId = rs.getInt("paintingId");
+
+                    if (paintingMap.containsKey(paintingId)) {
+                    } else {
+                        Painting painting = new Painting();
+                        painting.setId(paintingId);
+                        painting.setTitle(rs.getString("paintingTitle"));
+                        painting.setImageUrl(rs.getString("imageUrl"));
+                        painting.setArtistName(rs.getString("artistName"));
+                        painting.setThemeName(rs.getString("theme"));
+                        painting.setDiscountPercentage(rs.getDouble("discount"));
+                        painting.setPrice(rs.getDouble("price"));
+                        painting.setSizes(new ArrayList<>());
+                        paintingMap.put(paintingId, painting);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Lỗi khi lấy danh sách tranh có lọc", e);
+        }
+
+        paintingList.addAll(paintingMap.values());
+
+        return paintingList;
+    }
+
     public static void main(String[] args) throws SQLException {
         PaintingDao paintingDao = new PaintingDao();
-        for (Painting P : paintingDao.getListPaintingByArtist(3)) {
+        Double m1 = null;
+        Double m2 = null;
+
+        String[] sizes = null;
+        String[] themes = {"1"};
+
+        for (Painting P : paintingDao.getPaintingListByArtist(m1,m2,sizes, themes, "1")) {
             System.out.println(P);
         }
     }

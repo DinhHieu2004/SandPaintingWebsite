@@ -54,7 +54,7 @@
                 <c:forEach var="p" items="${listP}">
                 <div class="col-6 col-md-3">
                     <div class="card artwork-card">
-                        <a href="painting-detail.jsp" class="card-link"></a>
+                        <a href="painting-detail?pid=${p.id}" class="card-link"></a>
                         <img src="${p.imageUrl}"
                             class="card-img-top artwork-image" alt="${p.title}">
 
@@ -76,7 +76,7 @@
                 </c:forEach>
         </div>
         <div class="text-center">
-            <a href="/user/artWork.jsp" class="btn ">Xem Thêm Tác Phẩm</a>
+            <a href="painting-list-of-painter?pid=${data.id}" class="btn ">Xem Thêm Tác Phẩm</a>
         </div>
     </div>
 <%@ include file="/partials/footer.jsp" %>
