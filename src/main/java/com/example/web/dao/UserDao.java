@@ -17,7 +17,6 @@ public class UserDao {
     public User findUsername(String username) throws SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, username);
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
