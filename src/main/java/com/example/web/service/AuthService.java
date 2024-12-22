@@ -11,6 +11,18 @@ public class AuthService {
         UserDao udao= new UserDao();
         User u = udao.findUsername(uname);
         if(u==null)  return false;
-        return pass.equals(u.getPassword());
+        String hashedPass = udao.hashPassword(pass);
+        return hashedPass.equals(u.getPassword());
+    }
+    public boolean checkRegister(String fullName, String username, String password, String address, String email, String phone, String role) throws SQLException {
+        // Kiểm tra xem username đã tồn tại chưa
+        UserDao udao= new UserDao();
+        User existingUser = udao.findUsername(username);
+        if (existingUser != null) {
+            return false; // Tên đăng nhập đã tồn tại
+        }
+
+        // Thêm người dùng mới với mật khẩu mã hóa
+        return udao.registerUser(fullName, username, password, address, email, phone, role);
     }
 }
