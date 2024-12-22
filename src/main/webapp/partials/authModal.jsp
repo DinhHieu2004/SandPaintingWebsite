@@ -21,30 +21,74 @@
 
                 <div class="tab-content mt-3" id="authTabsContent">
                     <!-- Login Form -->
-                    <c:if test="${not empty errorMessage}">
-                        <script type="text/javascript">
-                            alert("${errorMessage}");
-                        </script>
-                    </c:if>
                     <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                         <form id="loginForm" method="post" action="login">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Tên đăng nhập</label>
-                                <input type="text" class="form-control" id="username"
-                                    placeholder="Nhập tên đăng nhập của bạn" required>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Nhập tên đăng nhập của bạn">
+                                <div class="error" id="usernameError"></div>
                             </div>
                             <div class="mb-3">
                                 <label for="loginPassword" class="form-label">Mật khẩu</label>
-                                <input type="password" class="form-control" id="loginPassword"
-                                    placeholder="Nhập mật khẩu" required>
+                                <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Nhập mật khẩu">
+                                <div class="error" id="passwordError"></div>
                             </div>
                             <button type="submit" class="btn btn-primary w-100 login-btn">Đăng Nhập</button>
                         </form>
                     </div>
 
+                    <script>
+                        document.getElementById('loginForm').addEventListener('submit', function (e) {
+                            let isValid = true;
+
+                            // Lấy các phần tử input và thông báo lỗi
+                            const userName = document.getElementById('username');
+                            const userNameError = document.getElementById('usernameError');
+                            const password = document.getElementById('loginPassword');
+                            const passwordError = document.getElementById('passwordError');
+
+                            // Xóa thông báo lỗi cũ
+                            userNameError.textContent = '';
+                            userName.classList.remove('is-invalid');
+                            passwordError.textContent = '';
+                            password.classList.remove('is-invalid');
+
+                            // Kiểm tra tên đăng nhập
+                            if (userName.value.trim() === '') {
+                                userNameError.textContent = 'Vui lòng nhập tên đăng nhập!';
+                                userName.classList.add('is-invalid');
+                                isValid = false;
+                            }
+
+                            // Kiểm tra mật khẩu
+                            if (password.value.trim() === '') {
+                                passwordError.textContent = 'Vui lòng nhập mật khẩu!';
+                                password.classList.add('is-invalid');
+                                isValid = false;
+                            }
+
+                            // Ngăn form gửi nếu không hợp lệ
+                            if (!isValid) {
+                                e.preventDefault();
+                            }
+                        });
+                    </script>
+
+                    <style>
+                        .error {
+                            color: red;
+                            font-size: 0.9em;
+                            margin-top: 5px;
+                        }
+
+                        .is-invalid {
+                            border: 1px solid red;
+                        }
+                    </style>
+
                     <!-- Register Form -->
                     <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                        <form id="registerForm">
+                        <form id="registerForm" method="post" action="register">
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="registerName" class="form-label">Họ và Tên</label>

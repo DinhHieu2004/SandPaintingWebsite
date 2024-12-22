@@ -17,6 +17,9 @@ public class PaintingService {
     public List<Painting> getListPaintingByArtist(int id) throws SQLException {
         return paintingDao.getListPaintingByArtist(id);
     }
+    public List<Painting> getPaintingListByArtist(Double minPrice, Double maxPrice,String[] sizes, String[] themes,String artist) throws SQLException {
+        return paintingDao.getPaintingListByArtist(minPrice, maxPrice, sizes, themes, artist);
+    }
 
 
 
