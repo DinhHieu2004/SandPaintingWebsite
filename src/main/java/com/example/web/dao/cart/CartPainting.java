@@ -9,17 +9,17 @@ import java.util.Map;
 public class CartPainting implements Serializable {
     private int productId;
     private String productName;
-  //  private String size;
+    private String sizeDescriptions;
     private String sizeId;
     private String imageUrl;
     private int quantity;
     private double price;
     private double totalPrice;
 
-    public CartPainting(int productId, String productName, String sizeId, int quantity, double price, String imageUrl) {
+    public CartPainting(int productId, String productName, String sizeId,String sizeDescriptions, int quantity, double price, String imageUrl) {
         this.productId = productId;
         this.productName = productName;
-       // this.size = size;
+        this.sizeDescriptions = sizeDescriptions;
         this.sizeId = sizeId;
         this.quantity = quantity;
         this.price = price;
@@ -28,6 +28,14 @@ public class CartPainting implements Serializable {
     }
     public CartPainting() {
 
+    }
+
+    public String getSizeDescriptions() {
+        return sizeDescriptions;
+    }
+
+    public void setSizeDescriptions(String size) {
+        this.sizeDescriptions = size;
     }
 
     public String getSizeId() {
@@ -105,7 +113,5 @@ public class CartPainting implements Serializable {
         this.quantity += additionalQuantity;
         this.totalPrice = this.price * this.quantity;
     }
-    public CartPainting convert(Painting p, String size, String sizeId, int quantity, double price) {
-        return new CartPainting(p.getId(), p.getTitle(),  sizeId,  quantity, p.getPrice(), p.getImageUrl());
-    }
+
 }

@@ -226,7 +226,7 @@ header{
     right: 0;
     background: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 400px;
     padding: 10px;
     z-index: 1000;
     border-radius: 5px;
@@ -294,3 +294,46 @@ header{
 #search-bar.active {
     display: block; 
   }
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.cart-item-image {
+    width: 80px;
+    height: 80px;
+}
+
+.cart-item-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-item-name-price {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.cart-item-name {
+    font-weight: bold;
+}
+
+.cart-item-price {
+    color: #f00;
+}
+
+.cart-item-size {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}

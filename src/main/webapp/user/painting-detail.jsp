@@ -17,6 +17,12 @@
 <%@ include file="/partials/header.jsp" %>
 
 <div class="container py-4">
+    <c:if test="${not empty message}">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </c:if>
     <div class="row">
         <!-- Phần hình ảnh -->
         <div class="col-md-6">
@@ -156,6 +162,10 @@
             input.value = currentValue - 1;
         }
     }
+
+
 </script>
+
+
 </body>
 </html>

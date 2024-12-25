@@ -16,6 +16,7 @@ public class PaintingSize  implements Serializable {
         this.idSize = idSize;
         this.sizeDescriptions = sizeDescriptions;
     }
+    public PaintingSize(){}
 
     public int getIdSize() {
         return idSize;
