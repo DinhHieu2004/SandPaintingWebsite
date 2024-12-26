@@ -41,7 +41,7 @@ public class UserDao {
 
     public boolean registerUser(String fullName, String username, String password, String address, String email, String phone, String role) throws SQLException {
         if (findByUsername(username) != null) {
-            return false; // Người dùng đã tồn tại
+            return false;
         }
 
         String hashedPassword = hashPassword(password);

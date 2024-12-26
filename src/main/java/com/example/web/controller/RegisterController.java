@@ -66,11 +66,6 @@ public class RegisterController extends HttpServlet {
             } else {
                 // Đăng ký thất bại, thông báo lỗi
                 request.setAttribute("errorMessage", "Đăng ký không thành công. Vui lòng thử lại.");
-                request.setAttribute("fullName", fullName);
-                request.setAttribute("username", username);
-                request.setAttribute("address", address);
-                request.setAttribute("email", email);
-                request.setAttribute("phone", phone);
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         } catch (SQLException e) {
