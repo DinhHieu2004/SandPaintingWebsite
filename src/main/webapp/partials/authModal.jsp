@@ -99,93 +99,62 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="registerName" class="form-label">Họ và Tên</label>
-                                    <input type="text" class="form-control" id="registerName" placeholder="Nhập họ và tên của bạn" required>
+                                    <input type="text" class="form-control" id="registerName" name="fullName" placeholder="Nhập họ và tên của bạn" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="registerUsername" class="form-label">Tên đăng nhập</label>
-                                    <input type="text" class="form-control" id="registerUsername" placeholder="Nhập tên đăng nhập" required>
+                                    <input type="text" class="form-control" id="registerUsername" name="username" placeholder="Nhập tên đăng nhập" required>
                                 </div>
                             </div>
-                    
+
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="registerPhone" class="form-label">Số điện thoại</label>
-                                    <input type="text" class="form-control" id="registerPhone" placeholder="Nhập số điện thoại" required>
+                                    <input type="text" class="form-control" id="registerPhone" name="phone" placeholder="Nhập số điện thoại" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="registerEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="registerEmail" placeholder="Nhập email của bạn" required>
+                                    <input type="email" class="form-control" id="registerEmail" name="email" placeholder="Nhập email của bạn" required>
                                 </div>
                             </div>
-                    
+
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="registerAddress" class="form-label">Địa chỉ</label>
-                                    <input type="text" class="form-control" id="registerAddress" placeholder="Nhập địa chỉ của bạn" required>
+                                    <input type="text" class="form-control" id="registerAddress" name="address" placeholder="Nhập địa chỉ của bạn" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="registerPassword" class="form-label">Mật khẩu</label>
-                                    <input type="password" class="form-control" id="registerPassword" placeholder="Tạo mật khẩu" required>
+                                    <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Tạo mật khẩu" required>
                                 </div>
                             </div>
-                    
+
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="ConfirmRegisterPassword" class="form-label">Nhập lại mật khẩu</label>
-                                    <input type="password" class="form-control" id="ConfirmRegisterPassword" placeholder="Nhập lại mật khẩu" required>
+                                    <input type="password" class="form-control" id="ConfirmRegisterPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
                                 </div>
                             </div>
-                    
+
                             <button type="submit" class="btn btn-success w-100 login-btn">Đăng Ký</button>
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                        <form id="registerForm">
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="registerName" class="form-label">Họ và Tên</label>
-                                    <input type="text" class="form-control" id="registerName" placeholder="Nhập họ và tên của bạn" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="registerUsername" class="form-label">Tên đăng nhập</label>
-                                    <input type="text" class="form-control" id="registerUsername" placeholder="Nhập tên đăng nhập" required>
-                                </div>
-                            </div>
-                    
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="registerPhone" class="form-label">Số điện thoại</label>
-                                    <input type="text" class="form-control" id="registerPhone" placeholder="Nhập số điện thoại" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="registerEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="registerEmail" placeholder="Nhập email của bạn" required>
-                                </div>
-                            </div>
-                    
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="registerPassword" class="form-label">Mật khẩu</label>
-                                    <input type="password" class="form-control" id="registerPassword" placeholder="Tạo mật khẩu" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="ConfirmRegisterPassword" class="form-label">Nhập lại mật khẩu</label>
-                                    <input type="password" class="form-control" id="ConfirmRegisterPassword" placeholder="Nhập lại mật khẩu" required>
-                                </div>
-                               
-                            </div>
-                    
-                            <div class="row mb-3">
-                                 <div class="col-md-6">
-                                    <label for="registerAddress" class="form-label">Địa chỉ</label>
-                                    <input type="text" class="form-control" id="registerAddress" placeholder="Nhập địa chỉ của bạn" required>
-                                </div>
-                            </div>
-                    
-                            <button type="submit" class="btn btn-success w-100 login-btn">Đăng Ký</button>
-                        </form>
-                    </div>
-                                        
+
+                    <script>
+                        // Kiểm tra mật khẩu và xác nhận mật khẩu trước khi gửi form
+                        document.getElementById("registerForm").addEventListener("submit", function(event) {
+                            var password = document.getElementById("registerPassword").value;
+                            var confirmPassword = document.getElementById("ConfirmRegisterPassword").value;
+
+                            // Kiểm tra mật khẩu và xác nhận mật khẩu có khớp không
+                            if (password !== confirmPassword) {
+                                alert("Mật khẩu và xác nhận mật khẩu không khớp.");
+                                event.preventDefault();  // Ngừng gửi form
+                            }
+                        });
+                    </script>
+
+
                 </div>
             </div>
         </div>
