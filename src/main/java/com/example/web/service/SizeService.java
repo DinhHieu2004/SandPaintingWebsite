@@ -16,4 +16,12 @@ public class SizeService {
     public List<PaintingSize> getAllSize() throws SQLException {
         return sizeDao.getAllSizes();
     }
+    public PaintingSize getSizeById(int id) throws SQLException {
+        return SizeDao.getSizeById(id);
+    }
+
+    public static void main(String[] args) throws SQLException {
+        SizeService sizeService = new SizeService();
+        System.out.println(sizeService.getSizeById(1));
+    }
 }

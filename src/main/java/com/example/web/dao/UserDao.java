@@ -2,63 +2,67 @@ package com.example.web.dao;
 
 import com.example.web.dao.db.DbConnect;
 import com.example.web.dao.model.User;
-
-import javax.management.relation.Role;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class UserDao {
-    private Connection con = DbConnect.getConnection();
 
-    public User findUsername(String username) throws SQLException {
+    private Connection getConnection() throws SQLException {
+        return DbConnect.getConnection();
+    }
+
+    public User findByUsername(String username) throws SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, username);
-        ResultSet rs = ps.executeQuery();
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int id = rs.getInt("id");
+                    String fullName = rs.getString("fullName");
+                    String uname = rs.getString("username");
+                    String password = rs.getString("password");
+                    String address = rs.getString("address");
+                    String email = rs.getString("email");
+                    String phone = rs.getString("phone");
+                    User.Role role = User.Role.valueOf(rs.getString("role"));
 
-        if (rs.next()) {
-            int id = rs.getInt("id");
-            String fullname = rs.getString("fullName");
-            String uname = rs.getString("username");
-            String password = rs.getString("password");
-            String address = rs.getString("address");
-            String email = rs.getString("email");
-            String phone = rs.getString("phone");
-
-            String roleString = rs.getString("role");
-            User.Role role = User.Role.valueOf(roleString);
-
-            return new User(id, fullname, uname, password, address, email, phone, role);
+                    return new User(id, fullName, uname, password, address, email, phone, role);
+                }
+            }
         }
         return null;
     }
 
     public boolean registerUser(String fullName, String username, String password, String address, String email, String phone, String role) throws SQLException {
-        if (findUsername(username) == null) {
-            String sql = "INSERT INTO users (fullName, username, password, address, email, phone, role) VALUES (?, ?, ?, ?, ?, ?, 'user')";
-            PreparedStatement ps = con.prepareStatement(sql);
+        if (findByUsername(username) != null) {
+            return false; // Người dùng đã tồn tại
+        }
+
+        String hashedPassword = hashPassword(password);
+        String sql = "INSERT INTO users (fullName, username, password, address, email, phone, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, fullName);
             ps.setString(2, username);
-            ps.setString(3, hashPassword(password));
+            ps.setString(3, hashedPassword);
             ps.setString(4, address);
             ps.setString(5, email);
             ps.setString(6, phone);
+            ps.setString(7, role);
 
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0; // Trả về true nếu thêm thành công
+            return ps.executeUpdate() > 0;
         }
-        return false;
     }
 
     public String hashPassword(String password) {
         if (password == null || password.trim().isEmpty()) {
-            throw new IllegalArgumentException("Password cannot be null or empty.");
+            throw new IllegalArgumentException("Bạn nhập thiếu mật khẩu");
         }
 
         try {
@@ -80,4 +84,8 @@ public class UserDao {
         }
     }
 
+    public boolean verifyPassword(String plainPassword, String hashedPassword) {
+        String hashedPlainPassword = hashPassword(plainPassword);
+        return hashedPlainPassword.equals(hashedPassword);
+    }
 }

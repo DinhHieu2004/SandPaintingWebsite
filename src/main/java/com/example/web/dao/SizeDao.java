@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SizeDao {
-    Connection conn = DbConnect.getConnection();
+    static Connection conn = DbConnect.getConnection();
 
     public SizeDao() {}
 
@@ -28,4 +28,25 @@ public class SizeDao {
         }
         return sizes;
     }
+    public static PaintingSize getSizeById(int idSize) {
+        PaintingSize size = null;
+        try {
+            String sql = "SELECT * FROM sizes WHERE id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, idSize);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                size = new PaintingSize();
+                size.setIdSize(resultSet.getInt("id"));
+                size.setSizeDescriptions(resultSet.getString("sizeDescription"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return size;
+    }
+
+
 }

@@ -10,8 +10,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name="RegisterController", value = "/register")
+@WebServlet(name = "RegisterController", value = "/register")
 public class RegisterController extends HttpServlet {
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy thông tin từ form đăng ký
         String fullName = request.getParameter("fullName");
@@ -21,11 +23,40 @@ public class RegisterController extends HttpServlet {
         String address = request.getParameter("address");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
-        UserDao userDao = new UserDao();
+
+
+        // Kiểm tra mật khẩu và xác nhận mật khẩu
+        if (!password.equals(confirmPassword)) {
+            request.setAttribute("errorMessage", "Mật khẩu và xác nhận mật khẩu không khớp.");
+            request.setAttribute("fullName", fullName);
+            request.setAttribute("username", username);
+            request.setAttribute("address", address);
+            request.setAttribute("email", email);
+            request.setAttribute("phone", phone);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        }
+
         try {
+            UserDao userDao = new UserDao();
+
+            // Kiểm tra xem tên đăng nhập đã tồn tại chưa
+            if (userDao.findByUsername(username) != null) {
+                request.setAttribute("errorMessage", "Tên đăng nhập đã tồn tại. Vui lòng chọn tên đăng nhập khác.");
+                request.setAttribute("fullName", fullName);
+                request.setAttribute("username", username);
+                request.setAttribute("address", address);
+                request.setAttribute("email", email);
+                request.setAttribute("phone", phone);
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+                return;
+            }
+
+            // Đăng ký người dùng mới
             boolean isRegistered = userDao.registerUser(fullName, username, password, address, email, phone, "user");
+
             if (isRegistered) {
-                // Nếu đăng ký thành công, trả về trang đăng ký và hiển thị thông báo thành công
+                // Đăng ký thành công, chuyển hướng tới trang đăng nhập
                 String successMessage = "Đăng ký thành công! Bạn có thể đăng nhập ngay.";
                 response.setContentType("text/html");
                 response.getWriter().write("<script type='text/javascript'>"
@@ -33,7 +64,7 @@ public class RegisterController extends HttpServlet {
                         + "window.location.href = 'index.jsp';"
                         + "</script>");
             } else {
-                // Nếu đăng ký thất bại, trả về trang đăng ký với thông báo lỗi
+                // Đăng ký thất bại, thông báo lỗi
                 request.setAttribute("errorMessage", "Đăng ký không thành công. Vui lòng thử lại.");
                 request.setAttribute("fullName", fullName);
                 request.setAttribute("username", username);
@@ -46,5 +77,4 @@ public class RegisterController extends HttpServlet {
             throw new RuntimeException("Lỗi khi thực hiện đăng ký", e);
         }
     }
-
 }

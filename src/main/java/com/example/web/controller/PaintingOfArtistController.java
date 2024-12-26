@@ -37,6 +37,13 @@ public class PaintingOfArtistController extends HttpServlet{
             Double minPrice = null;
             Double maxPrice = null;
 
+            System.out.println(id);
+
+            System.out.println(minPriceParam);
+            System.out.println(maxPriceParam);
+            System.out.println(sizes);
+            System.out.println(themeArr);
+
             try {
                 if (minPriceParam != null && !minPriceParam.isEmpty()) {
                     minPrice = Double.valueOf(minPriceParam);
@@ -57,6 +64,7 @@ public class PaintingOfArtistController extends HttpServlet{
             throw new RuntimeException(e);
         }
         req.setAttribute("data", data);
+        System.out.println(data);
         req.setAttribute("themes", themes);
         req.setAttribute("paintingSizes", paintingSizes);
         req.getRequestDispatcher("user/ArtworkOfArtist.jsp").forward(req  ,resp);

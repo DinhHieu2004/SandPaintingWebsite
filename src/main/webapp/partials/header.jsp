@@ -68,7 +68,19 @@
                     <div class="cart-dropdown" id="mini-cart">
                         <div class="cart-header">Sản Phẩm Mới Thêm</div>
                         <div class="cart-items" id="mini-cart-items">
+                        <c:forEach  items="${sessionScope.cart.items}" var="cp">
+                            <div class="cart-item">
+                                <img src="${cp.imageUrl}" alt="${cp.productName}" class="cart-item-image" />
+                                <div class="cart-item-details">
+                                    <div class="cart-item-name-price">
+                                        <span class="cart-item-name">${cp.productName}</span>
+                                        <span class="cart-item-price">${cp.totalPrice}</span>
+                                    </div>
+                                    <div class="cart-item-size">${cp.sizeDescriptions}</div>
+                                </div>
+                            </div>
 
+                            </c:forEach>
                         </div>
                         <div class="cart-footer">
                             <button class="btn btn-primary" onclick="window.location.href='show-cart'">
@@ -76,6 +88,7 @@
                             </button>
                         </div>
                     </div>
+
                 </div>
             </div>
             <button class="btn login-btn" data-bs-toggle="modal" data-bs-target="#authModal">Đăng nhập</button>
