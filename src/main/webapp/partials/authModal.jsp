@@ -99,93 +99,159 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="registerName" class="form-label">Họ và Tên</label>
-                                    <input type="text" class="form-control" id="registerName" placeholder="Nhập họ và tên của bạn" required>
+                                    <input type="text" class="form-control" id="registerName" name="fullName" placeholder="Nhập họ và tên của bạn">
+                                    <div class="error" id="fullNameError"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="registerUsername" class="form-label">Tên đăng nhập</label>
-                                    <input type="text" class="form-control" id="registerUsername" placeholder="Nhập tên đăng nhập" required>
+                                    <input type="text" class="form-control" id="registerUsername" name="username" placeholder="Nhập tên đăng nhập">
+                                    <div class="error" id="usernamergError"></div>
                                 </div>
                             </div>
-                    
+
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="registerPhone" class="form-label">Số điện thoại</label>
-                                    <input type="text" class="form-control" id="registerPhone" placeholder="Nhập số điện thoại" required>
+                                    <input type="text" class="form-control" id="registerPhone" name="phone" placeholder="Nhập số điện thoại">
+                                    <div class="error" id="phoneError"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="registerEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="registerEmail" placeholder="Nhập email của bạn" required>
+                                    <input type="email" class="form-control" id="registerEmail" name="email" placeholder="Nhập email của bạn">
+                                    <div class="error" id="emailError"></div>
                                 </div>
                             </div>
-                    
+
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="registerAddress" class="form-label">Địa chỉ</label>
-                                    <input type="text" class="form-control" id="registerAddress" placeholder="Nhập địa chỉ của bạn" required>
+                                    <input type="text" class="form-control" id="registerAddress" name="address" placeholder="Nhập địa chỉ của bạn">
+                                    <div class="error" id="addressError"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="registerPassword" class="form-label">Mật khẩu</label>
-                                    <input type="password" class="form-control" id="registerPassword" placeholder="Tạo mật khẩu" required>
+                                    <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Tạo mật khẩu">
+                                    <div class="error" id="passwordrgError"></div>
                                 </div>
                             </div>
-                    
+
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="ConfirmRegisterPassword" class="form-label">Nhập lại mật khẩu</label>
-                                    <input type="password" class="form-control" id="ConfirmRegisterPassword" placeholder="Nhập lại mật khẩu" required>
+                                    <input type="password" class="form-control" id="ConfirmRegisterPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu">
+                                    <div class="error" id="confirmPasswordError"></div>
                                 </div>
                             </div>
-                    
+
                             <button type="submit" class="btn btn-success w-100 login-btn">Đăng Ký</button>
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                        <form id="registerForm">
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="registerName" class="form-label">Họ và Tên</label>
-                                    <input type="text" class="form-control" id="registerName" placeholder="Nhập họ và tên của bạn" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="registerUsername" class="form-label">Tên đăng nhập</label>
-                                    <input type="text" class="form-control" id="registerUsername" placeholder="Nhập tên đăng nhập" required>
-                                </div>
-                            </div>
-                    
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="registerPhone" class="form-label">Số điện thoại</label>
-                                    <input type="text" class="form-control" id="registerPhone" placeholder="Nhập số điện thoại" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="registerEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="registerEmail" placeholder="Nhập email của bạn" required>
-                                </div>
-                            </div>
-                    
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="registerPassword" class="form-label">Mật khẩu</label>
-                                    <input type="password" class="form-control" id="registerPassword" placeholder="Tạo mật khẩu" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="ConfirmRegisterPassword" class="form-label">Nhập lại mật khẩu</label>
-                                    <input type="password" class="form-control" id="ConfirmRegisterPassword" placeholder="Nhập lại mật khẩu" required>
-                                </div>
-                               
-                            </div>
-                    
-                            <div class="row mb-3">
-                                 <div class="col-md-6">
-                                    <label for="registerAddress" class="form-label">Địa chỉ</label>
-                                    <input type="text" class="form-control" id="registerAddress" placeholder="Nhập địa chỉ của bạn" required>
-                                </div>
-                            </div>
-                    
-                            <button type="submit" class="btn btn-success w-100 login-btn">Đăng Ký</button>
-                        </form>
-                    </div>
-                                        
+
+                    <script>
+                        document.getElementById("registerForm").addEventListener("submit", function(event) {
+                            let isValid = true;
+
+                            // Lấy các phần tử input và thông báo lỗi
+                            const fullName = document.getElementById("registerName");
+                            const fullNameError = document.getElementById("fullNameError");
+                            const username = document.getElementById("registerUsername");
+                            const usernameError = document.getElementById("usernamergError");
+                            const phone = document.getElementById("registerPhone");
+                            const phoneError = document.getElementById("phoneError");
+                            const email = document.getElementById("registerEmail");
+                            const emailError = document.getElementById("emailError");
+                            const address = document.getElementById("registerAddress");
+                            const addressError = document.getElementById("addressError");
+                            const password = document.getElementById("registerPassword");
+                            const passwordError = document.getElementById("passwordrgError");
+                            const confirmPassword = document.getElementById("ConfirmRegisterPassword");
+                            const confirmPasswordError = document.getElementById("confirmPasswordError");
+
+                            // Xóa thông báo lỗi cũ
+                            fullNameError.textContent = '';
+                            fullName.classList.remove('is-invalid');
+                            usernameError.textContent = '';
+                            username.classList.remove('is-invalid');
+                            phoneError.textContent = '';
+                            phone.classList.remove('is-invalid');
+                            emailError.textContent = '';
+                            email.classList.remove('is-invalid');
+                            addressError.textContent = '';
+                            address.classList.remove('is-invalid');
+                            passwordError.textContent = '';
+                            password.classList.remove('is-invalid');
+                            confirmPasswordError.textContent = '';
+                            confirmPassword.classList.remove('is-invalid');
+
+                            // Kiểm tra các trường
+                            if (fullName.value.trim() === '') {
+                                fullNameError.textContent = 'Vui lòng nhập họ và tên!';
+                                fullName.classList.add('is-invalid');
+                                isValid = false;
+                            }
+
+                            if (username.value.trim() === '') {
+                                usernameError.textContent = 'Vui lòng nhập tên đăng nhập!';
+                                username.classList.add('is-invalid');
+                                isValid = false;
+                            }
+
+                            if (phone.value.trim() === '') {
+                                phoneError.textContent = 'Vui lòng nhập số điện thoại!';
+                                phone.classList.add('is-invalid');
+                                isValid = false;
+                            }
+
+                            if (email.value.trim() === '') {
+                                emailError.textContent = 'Vui lòng nhập email!';
+                                email.classList.add('is-invalid');
+                                isValid = false;
+                            }
+
+                            if (address.value.trim() === '') {
+                                addressError.textContent = 'Vui lòng nhập địa chỉ!';
+                                address.classList.add('is-invalid');
+                                isValid = false;
+                            }
+
+                            if (password.value.trim() === '') {
+                                passwordError.textContent = 'Vui lòng nhập mật khẩu!';
+                                password.classList.add('is-invalid');
+                                isValid = false;
+                            }
+
+                            if (confirmPassword.value.trim() === '') {
+                                confirmPasswordError.textContent = 'Vui lòng nhập lại mật khẩu!';
+                                confirmPassword.classList.add('is-invalid');
+                                isValid = false;
+                            }
+
+                            // Kiểm tra mật khẩu và xác nhận mật khẩu có khớp không
+                            if (password.value !== confirmPassword.value) {
+                                confirmPasswordError.textContent = 'Mật khẩu và xác nhận mật khẩu không khớp!';
+                                confirmPassword.classList.add('is-invalid');
+                                isValid = false;
+                            }
+
+                            // Ngăn form gửi nếu không hợp lệ
+                            if (!isValid) {
+                                event.preventDefault();
+                            }
+                        });
+                    </script>
+
+                    <style>
+                        .error {
+                            color: red;
+                            font-size: 0.9em;
+                            margin-top: 5px;
+                        }
+
+                        .is-invalid {
+                            border: 1px solid red;
+                        }
+                    </style>
+
                 </div>
             </div>
         </div>
