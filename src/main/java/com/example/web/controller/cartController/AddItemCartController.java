@@ -21,25 +21,27 @@ public class AddItemCartController extends HttpServlet {
     SizeService sizeService = new SizeService();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            int id = (Integer) req.getSession().getAttribute("pid");
-            Painting p = null;
-            p = paintingService.getPainting(id);
+            int id = Integer.parseInt(req.getParameter("pid")); // Lấy ID từ form
+            Painting p = paintingService.getPainting(id);
+
             String size = req.getParameter("size");
             int quantity = Integer.parseInt(req.getParameter("quantity"));
-            System.out.println("add id: "+id);
-            System.out.println(quantity);
-            System.out.println(size);
 
-            PaintingSize paintingSize =  sizeService.getSizeById(Integer.parseInt(size));
+            PaintingSize paintingSize = sizeService.getSizeById(Integer.parseInt(size));
             String sizeDescriptions = paintingSize.getSizeDescriptions();
 
-            CartPainting cartPainting = new CartPainting(p.getId(), p.getTitle(), size,sizeDescriptions, quantity, p.getPrice(), p.getImageUrl());
+            // Tạo đối tượng CartPainting
+            CartPainting cartPainting = new CartPainting(
+                    p.getId(),
+                    p.getTitle(),
+                    size,
+                    sizeDescriptions,
+                    quantity,
+                    p.getPrice(),
+                    p.getImageUrl()
+            );
 
             HttpSession session = req.getSession();
             Cart cart = (Cart) session.getAttribute("cart");
@@ -48,17 +50,23 @@ public class AddItemCartController extends HttpServlet {
             }
             cart.addToCart(cartPainting);
             session.setAttribute("cart", cart);
-            req.setAttribute("message", "Thêm vào giỏ hàng thành công!");
-            System.out.println(cart.getItemsMap().keySet().toString());
-            for(CartPainting c : cart.getItems()){
-                System.out.println(c);
+
+            String requestedWith = req.getHeader("X-Requested-With");
+            if ("XMLHttpRequest".equals(requestedWith)) {
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("UTF-8");
+                resp.getWriter().write("{\"status\": \"success\", \"message\": \"Thêm vào giỏ hàng thành công!\"}");
+            } else {
+                resp.sendRedirect("painting-detail?pid=" + id);
             }
 
-            resp.sendRedirect("painting-detail?pid=" + id);
-           // RequestDispatcher dispatcher = req.getRequestDispatcher("painting-detail?pid=" + id);
-           // dispatcher.forward(req, resp);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // Trả về thông báo lỗi nếu gặp lỗi
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.getWriter().write("{\"status\": \"error\", \"message\": \"Đã xảy ra lỗi khi thêm vào giỏ hàng!\"}");
+            e.printStackTrace();
         }
     }
 }
