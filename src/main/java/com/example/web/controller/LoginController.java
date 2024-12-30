@@ -26,26 +26,31 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy thông tin từ form đăng nhập
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
         AuthService service = new AuthService();
         try {
-            // Kiểm tra thông tin đăng nhập
-            if (service.checkLogin(username, password)) {
-                // Nếu đăng nhập thành công, lưu thông tin vào session
-                HttpSession session = request.getSession(); // Tạo session mới hoặc lấy session hiện tại
+            String role = service.checkLogin(username, password);
+            if (role != null) {
+                // Lưu thông tin người dùng và vai trò vào session
+                HttpSession session = request.getSession();
                 session.setAttribute("currentUser", username);
-                response.sendRedirect("index.jsp"); // Chuyển hướng đến trang chính
+                session.setAttribute("role", role);
+
+                // Kiểm tra vai trò và chuyển hướng
+                if ("admin".equals(role)) {
+                    response.sendRedirect("/web_war/admin/dashboard.html"); // Chuyển đến trang admin nếu là admin
+                } else {
+                    response.sendRedirect("index.jsp"); // Chuyển đến trang chính nếu là người dùng bình thường
+                }
             } else {
-                // Nếu đăng nhập thất bại, gửi lại thông báo lỗi
+                // Đăng nhập thất bại
                 request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng!");
-                request.setAttribute("username", username); // Lưu lại tên đăng nhập để hiển thị lại
+                request.setAttribute("username", username); // Lưu lại tên đăng nhập
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         } catch (SQLException e) {
-            // Xử lý lỗi hệ thống
             e.printStackTrace();
             request.setAttribute("errorMessage", "Lỗi hệ thống, vui lòng thử lại sau!");
             request.getRequestDispatcher("index.jsp").forward(request, response);
