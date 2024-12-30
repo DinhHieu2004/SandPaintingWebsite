@@ -5,6 +5,7 @@ import com.example.web.dao.model.Painting;
 import com.example.web.dao.model.PaintingSize;
 import com.example.web.service.PaintingService;
 import com.example.web.service.SizeService;
+import com.google.gson.Gson;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,12 +28,12 @@ public class AddItemCartController extends HttpServlet {
             Painting p = paintingService.getPainting(id);
 
             String size = req.getParameter("size");
+            System.out.println(size);
             int quantity = Integer.parseInt(req.getParameter("quantity"));
 
             PaintingSize paintingSize = sizeService.getSizeById(Integer.parseInt(size));
             String sizeDescriptions = paintingSize.getSizeDescriptions();
 
-            // Tạo đối tượng CartPainting
             CartPainting cartPainting = new CartPainting(
                     p.getId(),
                     p.getTitle(),
@@ -55,13 +56,13 @@ public class AddItemCartController extends HttpServlet {
             if ("XMLHttpRequest".equals(requestedWith)) {
                 resp.setContentType("application/json");
                 resp.setCharacterEncoding("UTF-8");
-                resp.getWriter().write("{\"status\": \"success\", \"message\": \"Thêm vào giỏ hàng thành công!\"}");
+                String jsonResponse = new Gson().toJson(cart);
+                resp.getWriter().write("{\"status\": \"success\", \"message\": \"Thêm vào giỏ hàng thành công!\", \"cart\": " + jsonResponse + "}");
             } else {
                 resp.sendRedirect("painting-detail?pid=" + id);
             }
 
         } catch (SQLException e) {
-            // Trả về thông báo lỗi nếu gặp lỗi
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -69,4 +70,6 @@ public class AddItemCartController extends HttpServlet {
             e.printStackTrace();
         }
     }
+
+
 }

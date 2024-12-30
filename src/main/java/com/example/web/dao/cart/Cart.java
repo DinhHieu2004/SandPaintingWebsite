@@ -1,5 +1,7 @@
 package com.example.web.dao.cart;
 
+import com.google.gson.Gson;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +42,11 @@ public class Cart implements Serializable {
         }
         return total;
     }
+    public String toJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this.items);
+    }
+
 
 
 
