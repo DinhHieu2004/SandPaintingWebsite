@@ -1,39 +1,58 @@
-$(document).ready(function(){
-    // Tải header và footer
-    $("#footer-container").load("/partials/footer.jsp");
-    $("#header-container").load("/partials/header.jsp");
-    $("#auth").load("/partials/authModal.jsp");
+$(document).ready(function () {
+    $('#addToCartForm').on('submit', function (event) {
+        event.preventDefault();
 
-});
+        const formData = $(this).serialize();
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Nút "Thêm vào giỏ hàng"
-    const addToCartButton = document.getElementById("add-to-cart-btn");
+        $.ajax({
+            url: 'add-to-cart',
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                $('#cartMessage').html(`
+                    <div id="alertMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Đã thêm vào giỏ hàng thành công!</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `);
 
-    // Lấy thông tin sản phẩm
-    const paintingId = document.getElementById("paintingId").innerText;
-    const paintingTitle = document.getElementById("paintingTitle").innerText.split(": ")[1];
-    const originalPrice = document.getElementById("originalPrice").innerText.replace(/[^0-9]/g, ""); // Lấy giá gốc
-    const discountedPrice = document.getElementById("discountedPrice").innerText.replace(/[^0-9]/g, ""); // Lấy giá giảm
-    const paintingImage = document.getElementById("paintingImage").src;
+                setTimeout(() => {
+                    $('#alertMessage').fadeOut(500, function () {
+                        $(this).remove();
+                    });
+                }, 1000);
+            },
+            error: function () {
+                $('#cartMessage').html(`
+                    <div id="alertMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Đã xảy ra lỗi, vui lòng thử lại!</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `);
 
-    // Lưu giỏ hàng trong localStorage
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    // Hàm thêm sản phẩm vào giỏ hàng
-    addToCartButton.addEventListener("click", function () {
-        const product = {
-            id: paintingId,
-            title: paintingTitle,
-            originalPrice: parseInt(originalPrice),
-            discountedPrice: parseInt(discountedPrice),
-            image: paintingImage,
-        };
-
-        // Thêm sản phẩm vào giỏ
-        cart.push(product);
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        alert("Đã thêm vào giỏ hàng!");
+                setTimeout(() => {
+                    $('#alertMessage').fadeOut(500, function () {
+                        $(this).remove();
+                    });
+                }, 1000);
+            }
+        });
     });
+
+    window.incrementQuantity = function () {
+        const input = $('#quantity');
+        const max = parseInt(input.attr('max')) || Infinity;
+        const currentValue = parseInt(input.val());
+        if (currentValue < max) {
+            input.val(currentValue + 1);
+        }
+    };
+
+    window.decrementQuantity = function () {
+        const input = $('#quantity');
+        const currentValue = parseInt(input.val());
+        if (currentValue > 1) {
+            input.val(currentValue - 1);
+        }
+    };
 });
