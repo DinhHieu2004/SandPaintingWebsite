@@ -61,10 +61,6 @@ public class UserDao {
     }
 
     public String hashPassword(String password) {
-        if (password == null || password.trim().isEmpty()) {
-            throw new IllegalArgumentException("Bạn nhập thiếu mật khẩu");
-        }
-
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] hash = md.digest(password.getBytes());
@@ -82,10 +78,5 @@ public class UserDao {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Error while hashing password with MD5", e);
         }
-    }
-
-    public boolean verifyPassword(String plainPassword, String hashedPassword) {
-        String hashedPlainPassword = hashPassword(plainPassword);
-        return hashedPlainPassword.equals(hashedPassword);
     }
 }
