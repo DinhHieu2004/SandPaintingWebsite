@@ -6,28 +6,24 @@ import com.example.web.dao.model.User;
 
 import java.sql.SQLException;
 
+import java.sql.SQLException;
+
 public class AuthService {
-    public String checkLogin(String username, String password) throws SQLException {
+
+    public User checkLogin(String username, String password) throws SQLException {
         UserDao userDao = new UserDao();
         User user = userDao.findByUsername(username);
 
-        if (user != null && checkPassword(username, password)) { // Gọi phương thức checkPassword
-            return String.valueOf(user.getRole()); // Trả về vai trò người dùng nếu đăng nhập thành công
+        if (user != null && checkPassword(password, user.getPassword())) {
+            user.setPassword(null); // Xóa mật khẩu trước khi trả về
+            return user;
         }
-        return null; // Nếu không thành công
+        return null;
     }
 
-    public boolean checkPassword(String username, String password) throws SQLException {
+    private boolean checkPassword(String rawPassword, String hashedPassword) {
         UserDao userDao = new UserDao();
-        User user = userDao.findByUsername(username); // Lấy người dùng theo username (không phải password)
-        if (user == null) {
-            return false; // Nếu không tìm thấy người dùng
-        }
-        // So sánh mật khẩu đã mã hóa
-        String hashedPassword = userDao.hashPassword(password);
-        return hashedPassword.equals(user.getPassword());
+        String hashedInput = userDao.hashPassword(rawPassword);
+        return hashedInput.equals(hashedPassword);
     }
-
-
 }
-
