@@ -1,5 +1,6 @@
 package com.example.web.controller;
 
+import com.example.web.dao.model.User;
 import com.example.web.service.AuthService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -8,21 +9,14 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
+import java.io.IOException;
+import java.sql.SQLException;
+
 @WebServlet(name = "LoginController", value = "/login")
 public class LoginController extends HttpServlet {
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Kiểm tra nếu người dùng đã đăng nhập
-        HttpSession session = request.getSession(false); // Lấy session hiện tại, không tạo mới
-        if (session != null && session.getAttribute("currentUser") != null) {
-            // Nếu đã đăng nhập, chuyển hướng đến trang chính
-            response.sendRedirect("index.jsp");
-            return;
-        }
-        // Nếu chưa đăng nhập, hiển thị form trong index.jsp
-        request.getRequestDispatcher("index.jsp").forward(request, response);
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,23 +25,21 @@ public class LoginController extends HttpServlet {
 
         AuthService service = new AuthService();
         try {
-            String role = service.checkLogin(username, password);
-            if (role != null) {
-                // Lưu thông tin người dùng và vai trò vào session
+            User user = service.checkLogin(username, password); // Trả về User nếu đăng nhập thành công
+            if (user != null) {
+                // Lưu đối tượng User vào session (không có password)
                 HttpSession session = request.getSession();
-                session.setAttribute("currentUser", username);
-                session.setAttribute("role", role);
+                session.setAttribute("currentUser", user);
 
                 // Kiểm tra vai trò và chuyển hướng
-                if ("admin".equals(role)) {
-                    response.sendRedirect("/web_war/admin/dashboard.html"); // Chuyển đến trang admin nếu là admin
+                if (user.getRole() == User.Role.admin) {
+                    response.sendRedirect("/web_war/admin/dashboard.html");
                 } else {
-                    response.sendRedirect("index.jsp"); // Chuyển đến trang chính nếu là người dùng bình thường
+                    response.sendRedirect("index.jsp");
                 }
             } else {
                 // Đăng nhập thất bại
                 request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng!");
-                request.setAttribute("username", username); // Lưu lại tên đăng nhập
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         } catch (SQLException e) {
@@ -56,4 +48,5 @@ public class LoginController extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
+
 }
