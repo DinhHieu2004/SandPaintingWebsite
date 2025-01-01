@@ -1,7 +1,8 @@
+<%@ page import="com.example.web.dao.model.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
-    String currentUser = (session != null) ? (String) session.getAttribute("currentUser") : null;
+    User currentUser = (session != null) ? (User) session.getAttribute("currentUser") : null;
 %>
 
 <!DOCTYPE html>
