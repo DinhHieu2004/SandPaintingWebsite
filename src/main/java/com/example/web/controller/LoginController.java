@@ -1,10 +1,11 @@
 package com.example.web.controller;
 
+import com.example.web.dao.model.User;
 import com.example.web.service.AuthService;
+import com.example.web.service.SizeService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -31,21 +32,19 @@ public class LoginController extends HttpServlet {
 
         AuthService service = new AuthService();
         try {
-            String role = service.checkLogin(username, password);
-            if (role != null) {
-                // Lưu thông tin người dùng và vai trò vào session
+            User user= service.checkLogin(username, password);
+            if (user.getRole() != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("currentUser", username);
-                session.setAttribute("role", role);
-
-                // Kiểm tra vai trò và chuyển hướng
-                if ("admin".equals(role)) {
+                session.setAttribute("user", user);
+                User currentUser = (User) session.getAttribute("user");
+                System.out.println(currentUser);
+                if (user.getRole().equals("admin")) {
                     response.sendRedirect("/web_war/admin/dashboard.html"); // Chuyển đến trang admin nếu là admin
                 } else {
                     response.sendRedirect("index.jsp"); // Chuyển đến trang chính nếu là người dùng bình thường
                 }
             } else {
-                // Đăng nhập thất bại
+
                 request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng!");
                 request.setAttribute("username", username); // Lưu lại tên đăng nhập
                 request.getRequestDispatcher("index.jsp").forward(request, response);

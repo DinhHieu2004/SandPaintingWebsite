@@ -11,9 +11,12 @@ import java.sql.SQLException;
 
 
 public class UserDao {
-
+    Connection conn ;
     private Connection getConnection() throws SQLException {
         return DbConnect.getConnection();
+    }
+    public UserDao (){
+        conn = DbConnect.getConnection();
     }
 
     public User findByUsername(String username) throws SQLException {
@@ -26,17 +29,38 @@ public class UserDao {
                     int id = rs.getInt("id");
                     String fullName = rs.getString("fullName");
                     String uname = rs.getString("username");
-                    String password = rs.getString("password");
                     String address = rs.getString("address");
                     String email = rs.getString("email");
                     String phone = rs.getString("phone");
                     User.Role role = User.Role.valueOf(rs.getString("role"));
 
-                    return new User(id, fullName, uname, password, address, email, phone, role);
+                    return new User(id, fullName, uname, address, email, phone, role);
                 }
             }
         }
         return null;
+    }
+    //check login
+    public User checkLogin(String username, String password) throws SQLException {
+        String hashPass = hashPassword(password);
+        String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, username);
+        ps.setString(2, hashPass);
+        try (ResultSet rs = ps.executeQuery()) {
+            while(rs.next()) {
+                int id = rs.getInt("id");
+                String fullName = rs.getString("fullName");
+                String uname = rs.getString("username");
+                String address = rs.getString("address");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                User.Role role = User.Role.valueOf(rs.getString("role"));
+                return new User(id, fullName, uname, address, email, phone, role);
+            }
+        }
+        return null;
+
     }
 
     public boolean registerUser(String fullName, String username, String password, String address, String email, String phone, String role) throws SQLException {
@@ -78,5 +102,10 @@ public class UserDao {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Error while hashing password with MD5", e);
         }
+    }
+
+    public static void main(String[] args) throws SQLException {
+        UserDao userDao = new UserDao();
+        System.out.println(userDao.checkLogin("hieuhieu", "462004"));
     }
 }

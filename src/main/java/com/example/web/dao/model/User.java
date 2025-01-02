@@ -4,17 +4,15 @@ public class User {
     private int id;
     private String fullName;
     private String username;
-    private String password;
     private String address;
     private String email;
     private String phone;
     private Role role;
 
-    public User(int id, String fullName, String username, String password, String address, String email, String phone, Role role) {
+    public User(int id, String fullName, String username, String address, String email, String phone, Role role) {
         this.id = id;
         this.fullName = fullName;
         this.username = username;
-        this.password = password;
         this.address = address;
         this.email = email;
         this.phone = phone;
@@ -27,7 +25,6 @@ public class User {
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
@@ -52,9 +49,6 @@ public class User {
         return username;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public String getAddress() {
         return address;
@@ -84,9 +78,6 @@ public class User {
         this.username = username;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public void setAddress(String address) {
         this.address = address;

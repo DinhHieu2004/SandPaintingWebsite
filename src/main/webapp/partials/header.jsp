@@ -49,12 +49,13 @@
                 <a href="#" class="icon_items search-icon me-3" id="search-icon">
                     <i class="fa fa-search"></i>
                 </a>
-
-                <a href="../user/personal.jsp" class="icon_items user-icon me-3">
-
-                    <i class="fa fa-user"></i>
-                </a>
-
+                <c:choose>
+                <c:when test="${not empty sessionScope.user}">
+                    <a href="../user/personal.jsp" class="icon_items user-icon me-3">
+                        <i class="fa fa-user"></i>
+                    </a>
+                </c:when>
+                </c:choose>
                 <div class="cart-icon position-relative">
                     <a href="#" class="icon_items position-relative"></a>
                           <span class="price me-2">0đ</span>
@@ -90,7 +91,12 @@
 
                 </div>
             </div>
-            <button class="btn login-btn" data-bs-toggle="modal" data-bs-target="#authModal">Đăng nhập</button>
+            <c:choose>
+                <c:when test="${empty sessionScope.user}">
+                    <button class="btn login-btn" data-bs-toggle="modal" data-bs-target="#authModal">Đăng nhập</button>
+                </c:when>
+
+            </c:choose>
         </nav>
     </div>
 

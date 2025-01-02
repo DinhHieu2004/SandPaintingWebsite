@@ -1,3 +1,6 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "f" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -10,15 +13,15 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="/assets/css/footer.css">
-    <link rel="stylesheet" href="/assets/css/header.css">
-    <link rel="stylesheet" href="/assets/css/personal.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">
+    <link rel="stylesheet" href=${pageContext.request.contextPath}"/assets/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/personal.css">
 
     
 </head>
 
 <body>
-    <div id="header-container"></div>
+<%@ include file="/partials/header.jsp" %>
 
     <div id="content-wrapper">
 
@@ -195,8 +198,7 @@
         </div>
     
 </div>
-<div id="footer-container"></div>
-<div id="auth"></div>
+        <%@ include file="/partials/footer.jsp" %>
 
     <script src="/assets/js/header.js"></script>
     <script src="/assets/js/personal.js"></script>
