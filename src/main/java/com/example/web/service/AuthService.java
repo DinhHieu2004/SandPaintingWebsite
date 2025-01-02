@@ -4,6 +4,8 @@ import com.example.web.dao.model.User;
 
 import java.sql.SQLException;
 
+import java.sql.SQLException;
+
 public class AuthService {
     public User checkLogin(String username, String password) throws SQLException {
         UserDao userDao = new UserDao();
@@ -13,5 +15,5 @@ public class AuthService {
         }
        return null;
     }
-}
 
+}
