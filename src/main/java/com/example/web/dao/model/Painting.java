@@ -135,4 +135,7 @@ public class Painting implements Serializable{
                 ", discountPercentage=" + discountPercentage +
                 '}';
     }
+
+
+
 }
