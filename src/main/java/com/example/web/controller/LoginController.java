@@ -25,7 +25,7 @@ public class LoginController extends HttpServlet {
                 User currentUser = (User) session.getAttribute("user");
                 System.out.println(currentUser);
                 if (user.getRole().equals("admin")) {
-                    response.sendRedirect("/web_war/admin/dashboard.html"); // Chuyển đến trang admin nếu là admin
+                    response.sendRedirect("/web_war/admin/dashboard.jsp"); // Chuyển đến trang admin nếu là admin
 
                 } else {
                     response.sendRedirect("index.jsp");
