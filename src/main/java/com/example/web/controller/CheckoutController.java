@@ -38,7 +38,7 @@ public class CheckoutController extends HttpServlet {
             CheckoutService checkoutService = new CheckoutService();
             try {
                 checkoutService.processCheckout(cart, userId, paymentMethodId);
-                session.removeAttribute("cart"); // Xóa giỏ hàng sau khi thanh toán thành công
+                session.removeAttribute("cart");
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("Thanh toán thành công!");
             } catch (Exception e) {

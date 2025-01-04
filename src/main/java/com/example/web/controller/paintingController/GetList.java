@@ -1,6 +1,5 @@
-package com.example.web.controller;
+package com.example.web.controller.paintingController;
 
-import com.example.web.dao.ThemeDao;
 import com.example.web.dao.model.Artist;
 import com.example.web.dao.model.Painting;
 import com.example.web.dao.model.PaintingSize;
@@ -20,7 +19,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name ="Artwork", value = "/artwork")
-public class PaintingController extends HttpServlet {
+public class GetList extends HttpServlet {
     PaintingService ps = new PaintingService();
     ArtistService as = new ArtistService();
     ThemeService ts = new ThemeService();
