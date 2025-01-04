@@ -17,31 +17,38 @@ import java.io.IOException;
 public class CheckoutController extends HttpServlet {
     private CheckoutService checkoutService = new CheckoutService();
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Cart cart = (Cart) session.getAttribute("cart");
-        User user = (User) session.getAttribute("user");
-        int userId = user.getId();
-        int paymentMethodId = Integer.parseInt(request.getParameter("paymentMethod"));
-
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            if (cart == null || cart.getItems().isEmpty()) {
-                response.getWriter().write("{\"status\": \"error\", \"message\": \"Giỏ hàng trống.\"}");
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().println("Bạn cần đăng nhập để tiếp tục thanh toán!");
                 return;
             }
+            int userId = user.getId();
+            Cart cart = (Cart) request.getSession().getAttribute("cart");
+            if (cart == null || cart.getItems().isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Giỏ hàng của bạn đang trống!");
+                return;
+            }
+            int paymentMethodId = Integer.parseInt(request.getParameter("paymentMethod"));
 
-            checkoutService.processCheckout(cart, userId, paymentMethodId);
-
-            session.removeAttribute("cart");
-
-            response.getWriter().write("{\"status\": \"success\", \"message\": \"Thanh toán thành công!\"}");
+            CheckoutService checkoutService = new CheckoutService();
+            try {
+                checkoutService.processCheckout(cart, userId, paymentMethodId);
+                session.removeAttribute("cart"); // Xóa giỏ hàng sau khi thanh toán thành công
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("Thanh toán thành công!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().write("Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại!");
+            }
         } catch (Exception e) {
-            e.printStackTrace();
-            response.getWriter().write("{\"status\": \"error\", \"message\": \"Đã xảy ra lỗi.\"}");
+            response.setContentType("application/json");
+            response.getWriter().write("{\"success\": false, \"message\": \"Có lỗi xảy ra: " + e.getMessage() + "\"}");
         }
     }
 }

@@ -38,11 +38,11 @@ public class CheckoutService {
             orderItem.setPaintingId(item.getProductId());
             orderItem.setSizeId(item.getSizeId());
             orderItem.setPrice(item.getTotalPrice());
+            orderItem.setQuantity(item.getQuantity());
             orderItemDao.addOrderItem(orderItem);
             paintingDao.updateQuanity(item.getProductId(), item.getSizeId(),item.getQuantity());
 
         }
-
         Payment payment = new Payment();
         payment.setOrderId(orderId);
         payment.setUserId(userId);

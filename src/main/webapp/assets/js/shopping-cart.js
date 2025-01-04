@@ -7,7 +7,7 @@ $(document).ready(function () {
         const sizeId = button.data("size-id");
 
         $.ajax({
-            url: "remove-from-cart", // URL servlet của bạn
+            url: "remove-from-cart",
             type: "POST",
             data: {
                 productId: productId,
