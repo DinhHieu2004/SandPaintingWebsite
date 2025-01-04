@@ -1,12 +1,10 @@
 package com.example.web.dao.model;
 
-import com.mysql.cj.jdbc.ConnectionImpl;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class PaintingDao {
+public class AdminPainting {
     public boolean insert(Painting f) {
         try {
             Connection con = null;
