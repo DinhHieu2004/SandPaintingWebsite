@@ -24,7 +24,7 @@ public class AddItemCartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            int id = Integer.parseInt(req.getParameter("pid")); // Lấy ID từ form
+            int id = Integer.parseInt(req.getParameter("pid"));
             Painting p = paintingService.getPainting(id);
 
             String size = req.getParameter("size");
