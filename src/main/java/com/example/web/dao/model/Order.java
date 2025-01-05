@@ -1,15 +1,21 @@
 package com.example.web.dao.model;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Order {
     private int id;
     private int userId;
     private String status;
     private double totalAmount;
-    private Date orderDate;
-    private Date deliveryDate;
+    private LocalDateTime orderDate;
+    private LocalDateTime deliveryDate;
+
+    public static final String STATUS_PENDING = "chờ";
+    public static final String STATUS_DELIVERING = "đang giao";
+    public static final String STATUS_COMPLETED = "hoàn thành";
+    public static final String STATUS_FAILED = "thất bại";
+    public static final String STATUS_CANCELED = "đã hủy";
 
     public int getId() {
         return id;
@@ -43,19 +49,39 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 
-    public java.sql.Date getDeliveryDate() {
-        return (java.sql.Date) deliveryDate;
+    public String getDeliveryDate() {
+        if (deliveryDate != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            return  deliveryDate.format(formatter);
+        }
+        return null;
+    }
+    public LocalDateTime getDeliveryDateByLocal(){
+        return this.deliveryDate;
     }
 
-    public void setDeliveryDate(Date deliveryDate) {
+
+    public void setDeliveryDate(LocalDateTime deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", status='" + status + '\'' +
+                ", totalAmount=" + totalAmount +
+                ", orderDate=" + orderDate +
+                ", deliveryDate=" + deliveryDate +
+                '}';
     }
 }
