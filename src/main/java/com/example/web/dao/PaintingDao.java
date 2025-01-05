@@ -18,6 +18,35 @@ public class PaintingDao {
 
     public PaintingDao() {
     }
+    public Painting getPaintingAdd()throws SQLException{
+        Painting paintingAdd=null;
+        String sql = """
+                    SELECT 
+                        p.id AS paintingId,
+                        p.title AS paintingTitle,
+                        p.price,
+                        p.description,
+                        p.imageUrl,
+                        a.name AS artistName,
+                        t.themeName,
+                        d.discountName,
+                        d.discountPercentage,
+                        s.sizeDescription,
+                        s.id AS idSize,
+                        ps.quantity AS sizeQuantity
+                    FROM paintings p
+                    LEFT JOIN artists a ON p.artistId = a.id
+                    LEFT JOIN themes t ON p.themeId = t.id
+                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+                    LEFT JOIN discounts d ON dp.discountId = d.id
+                    LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
+                    LEFT JOIN sizes s ON ps.sizeId = s.id
+                    WHERE p.id = ?;
+                """;
+
+        return paintingAdd;
+    }
+
     public Painting getPaintingDetail(int paintingId) throws SQLException {
         Painting paintingDetail = null;
         String sql = """
@@ -204,6 +233,7 @@ public class PaintingDao {
         paintings.addAll(paintingMap.values());
         return paintings;
     }
+
 
     // danh sach tranh theo từng họa sĩ .
     public List<Painting> getPaintingListByArtist(Double minPrice, Double maxPrice, String[] sizes, String[] themes, String artistId) throws SQLException {
