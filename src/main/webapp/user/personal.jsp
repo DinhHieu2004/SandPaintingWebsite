@@ -23,7 +23,6 @@
             ${successMessage}
     </div>
 </c:if>
-
 <c:if test="${not empty errorMessage}">
     <div class="alert alert-danger">
             ${errorMessage}
