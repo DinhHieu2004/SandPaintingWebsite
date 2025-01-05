@@ -18,6 +18,6 @@ public class AdminPageController extends HttpServlet {
             response.sendRedirect("index.jsp"); // Chuyển hướng nếu không phải admin
             return;
         }
-        request.getRequestDispatcher("/admin/dashboard.html").forward(request, response); // Hiển thị dashboard
+        request.getRequestDispatcher("/admin/dashboard.jsp").forward(request, response); // Hiển thị dashboard
     }
 }

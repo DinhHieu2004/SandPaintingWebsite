@@ -17,9 +17,7 @@ public class PaintingDao {
     Connection con = DbConnect.getConnection();
 
     public PaintingDao() {
-
     }
-
     public Painting getPaintingDetail(int paintingId) throws SQLException {
         Painting paintingDetail = null;
         String sql = """
@@ -291,6 +289,25 @@ public class PaintingDao {
 
         return paintingList;
     }
+    public void updateQuanity(int paintingId, int sizeId, int quantity) throws SQLException {
+        con.setAutoCommit(false);
+        try {
+            String sql = "UPDATE painting_sizes SET quantity = quantity - ? WHERE paintingId = ? AND sizeId = ?";
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                stmt.setInt(1, quantity);
+                stmt.setInt(2, paintingId);
+                stmt.setInt(3, sizeId);
+                stmt.executeUpdate();
+            }
+            con.commit();
+        } catch (Exception e) {
+            con.rollback();
+            e.printStackTrace();
+            throw new SQLException("Error updating quantity with transaction", e);
+        } finally {
+            con.setAutoCommit(true);
+        }
+    }
 
     public static void main(String[] args) throws SQLException {
         PaintingDao paintingDao = new PaintingDao();
@@ -300,9 +317,10 @@ public class PaintingDao {
         String[] sizes = null;
         String[] themes = {"1"};
 
-        for (Painting P : paintingDao.getPaintingListByArtist(m1,m2,sizes, themes, "1")) {
-            System.out.println(P);
-        }
+      //  for (Painting P : paintingDao.getPaintingListByArtist(m1,m2,sizes, themes, "1")) {
+       //     System.out.println(P);
+       // }
+        paintingDao.updateQuanity(1, 1, 2);
     }
 
 

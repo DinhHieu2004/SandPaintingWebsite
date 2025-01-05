@@ -1,55 +1,65 @@
-$(document).ready(function(){
-    // Tải header và footer
-    $("#footer-container").load("/partials/footer.jsp");
-    $("#header-container").load("/partials/header.jsp");
-    $("#auth").load("/partials/authModal.jsp");
+$(document).ready(function () {
+    $(".remove-item").click(function (e) {
+        e.preventDefault();
 
-});
+        const button = $(this);
+        const productId = button.data("product-id");
+        const sizeId = button.data("size-id");
 
-document.addEventListener("DOMContentLoaded", function () {
-    const cartItemsTable = document.getElementById("cart-items");
-    const totalPriceElement = document.getElementById("total-price");
+        $.ajax({
+            url: "remove-from-cart",
+            type: "POST",
+            data: {
+                productId: productId,
+                sizeId: sizeId,
+            },
+            success: function (response) {
+                if (response.status === "success") {
+                    $(`#cart-item-${productId}-${sizeId}`).remove();
 
-    function renderCart() {
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        cartItemsTable.innerHTML = ""; // Xóa dữ liệu cũ
-        let totalPrice = 0; // Khởi tạo tổng tiền
+                    if (response.cart.totalPrice) {
+                        $("#total-price").text(response.cart.totalPrice.toLocaleString() + " VND");
+                    }
 
-        cart.forEach((item, index) => {
-            totalPrice += item.discountedPrice;
-
-            // Tạo dòng mới cho sản phẩm
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${index + 1}</td>
-                <td><img src="${item.image}" alt="${item.title}" class="img-thumbnail" style="max-width: 100px;"></td>
-                <td>${item.title}</td>
-                <td>
-                    <p class="text-muted" style="text-decoration: line-through;">${item.originalPrice.toLocaleString()} VND</p>
-                    <p class="text-danger">${item.discountedPrice.toLocaleString()} VND</p>
-                </td>
-                <td>
-                    <button class="btn btn-danger btn-sm remove-item" data-index="${index}">Xóa</button>
-                </td>
-            `;
-            cartItemsTable.appendChild(row); // Thêm dòng vào bảng
+                    if (!response.cart.items || response.cart.items.length === 0) {
+                        $(".card-body").html(`
+                            <div class="alert alert-info text-center" role="alert">
+                                Giỏ hàng của bạn đang trống.
+                            </div>
+                        `);
+                    }
+                    updateMiniCart(response.cart);
+                } else {
+                    alert("Đã xảy ra lỗi khi xóa sản phẩm khỏi giỏ hàng.");
+                }
+            },
+            error: function () {
+                alert("Lỗi kết nối đến máy chủ.");
+            },
         });
-        console.log(totalPrice)
-
-        // Cập nhật tổng tiền
-        totalPriceElement.innerText = `${totalPrice.toLocaleString()} VND`;
-    }
-
-    // Xử lý khi xóa sản phẩm
-    cartItemsTable.addEventListener("click", function (e) {
-        if (e.target.classList.contains("remove-item")) {
-            const index = e.target.getAttribute("data-index");
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            cart.splice(index, 1); // Xóa sản phẩm
-            localStorage.setItem("cart", JSON.stringify(cart)); // Lưu lại giỏ hàng
-            renderCart(); // Render lại giao diện
-        }
     });
 
-    renderCart(); // Gọi hàm khi tải trang
+    function updateMiniCart(cart) {
+        const miniCart = $("#mini-cart");
+        miniCart.empty();
+
+        if (cart.items && cart.items.length > 0) {
+            cart.items.forEach(item => {
+                miniCart.append(`
+                    <li>
+                        <img src="${item.imageUrl}" alt="${item.productName}" width="30">
+                        ${item.productName} - ${item.quantity} x ${item.price.toLocaleString()} VND
+                    </li>
+                `);
+            });
+            miniCart.append(`
+                <li class="text-end fw-bold">Tổng: ${cart.totalPrice.toLocaleString()} VND</li>
+            `);
+        } else {
+            miniCart.html(`
+                <li>Giỏ hàng trống.</li>
+            `);
+        }
+    }
+
 });

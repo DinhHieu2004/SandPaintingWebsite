@@ -100,6 +100,17 @@
                 </div>
             </div>
         </div>
+        <div class="reviews-section">
+            <h3>Đánh giá sản phẩm</h3>
+            <c:forEach items="${reviews}" var="review">
+                <div class="review-item">
+                    <p><strong>Người dùng:</strong> ${review.user_name}</p>
+                    <p><strong>Đánh giá:</strong> ${review.rating} / 5</p>
+                    <p>${review.comment}</p>
+                    <p><small>${review.created_at}</small></p>
+                </div>
+            </c:forEach>
+        </div>
     </div>
 </div>
 

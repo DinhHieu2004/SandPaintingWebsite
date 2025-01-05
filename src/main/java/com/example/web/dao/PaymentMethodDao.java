@@ -12,7 +12,6 @@ import java.util.List;
 
 public class PaymentMethodDao {
     Connection con = DbConnect.getConnection();
-
     public List<PaymentMethod> getAllPaymentMethod() throws SQLException {
         List<PaymentMethod> list = new ArrayList<PaymentMethod>();
         String sql = "select * from payment_methods";

@@ -35,7 +35,6 @@
     </c:otherwise>
 </c:choose>
 
-
     <div id="content-wrapper">
         <div class="container_content">
             <div class="background">

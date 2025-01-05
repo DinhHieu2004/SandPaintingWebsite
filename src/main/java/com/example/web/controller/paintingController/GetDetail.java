@@ -1,4 +1,4 @@
-package com.example.web.controller;
+package com.example.web.controller.paintingController;
 
 import com.example.web.dao.PaintingDao;
 import com.example.web.dao.model.Painting;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(name ="Paiting-detail", value = "/painting-detail")
-public class PaintingDetail extends HttpServlet {
+public class GetDetail extends HttpServlet {
     PaintingDao paintingDao = new PaintingDao();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

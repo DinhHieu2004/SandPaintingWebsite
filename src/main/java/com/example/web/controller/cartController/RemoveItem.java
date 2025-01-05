@@ -2,6 +2,7 @@ package com.example.web.controller.cartController;
 
 import com.example.web.dao.cart.Cart;
 import com.example.web.dao.cart.CartPainting;
+import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,24 +18,18 @@ public class RemoveItem extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String productId = req.getParameter("productId");
         String sizeId = req.getParameter("sizeId");
-        System.out.println( " truoc" );
 
         HttpSession session = req.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
-        for(CartPainting c : cart.getItems()){
-            System.out.println(c);
-        }
 
-        if(cart != null) {
+        if (cart != null) {
             cart.removeFromCart(productId, sizeId);
             session.setAttribute("cart", cart);
         }
-        System.out.println( " sau" );
 
-        for(CartPainting c : cart.getItems()){
-            System.out.println(c);
-        }
-
-         resp.sendRedirect("show-cart");
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        String jsonResponse = new Gson().toJson(cart);
+        resp.getWriter().write("{\"status\": \"success\", \"cart\": " + jsonResponse + "}");
     }
 }
