@@ -1,15 +1,13 @@
 $(document).ready(function () {
-    // Bắt sự kiện khi nhấn nút "Xóa"
     $(".remove-item").click(function (e) {
-        e.preventDefault(); // Ngăn chặn việc gửi form mặc định
+        e.preventDefault();
 
         const button = $(this);
         const productId = button.data("product-id");
         const sizeId = button.data("size-id");
 
-        // Gửi yêu cầu AJAX đến Servlet
         $.ajax({
-            url: "remove-from-cart", // URL servlet của bạn
+            url: "remove-from-cart",
             type: "POST",
             data: {
                 productId: productId,
@@ -17,15 +15,12 @@ $(document).ready(function () {
             },
             success: function (response) {
                 if (response.status === "success") {
-                    // Xóa dòng sản phẩm khỏi bảng
                     $(`#cart-item-${productId}-${sizeId}`).remove();
 
-                    // Cập nhật tổng tiền
                     if (response.cart.totalPrice) {
                         $("#total-price").text(response.cart.totalPrice.toLocaleString() + " VND");
                     }
 
-                    // Nếu giỏ hàng rỗng, hiển thị thông báo
                     if (!response.cart.items || response.cart.items.length === 0) {
                         $(".card-body").html(`
                             <div class="alert alert-info text-center" role="alert">
@@ -45,11 +40,10 @@ $(document).ready(function () {
     });
 
     function updateMiniCart(cart) {
-        const miniCart = $("#mini-cart"); // Selector của giỏ hàng mini
-        miniCart.empty(); // Xóa nội dung cũ
+        const miniCart = $("#mini-cart");
+        miniCart.empty();
 
         if (cart.items && cart.items.length > 0) {
-            // Thêm sản phẩm vào giỏ hàng mini
             cart.items.forEach(item => {
                 miniCart.append(`
                     <li>

@@ -1,10 +1,7 @@
 package com.example.web.dao.cart;
 
-import com.example.web.dao.model.Painting;
-
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.math.BigDecimal;
 
 public class CartPainting implements Serializable {
     private int productId;
@@ -38,8 +35,8 @@ public class CartPainting implements Serializable {
         this.sizeDescriptions = size;
     }
 
-    public String getSizeId() {
-        return sizeId;
+    public int getSizeId() {
+        return Integer.parseInt(sizeId);
     }
 
     public void setSizeId(String sizeId) {

@@ -18,20 +18,19 @@ public class LoginController extends HttpServlet {
 
         AuthService service = new AuthService();
         try {
-            User user= service.checkLogin(username, password);
-            if (user.getRole() != null) {
+            User user = service.checkLogin(username, password);
+            if (user != null && user.getRole() != null) { // Kiểm tra user có khác null và có role
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 User currentUser = (User) session.getAttribute("user");
                 System.out.println(currentUser);
-                if (user.getRole().equals("admin")) {
+                if (user.getRole().equals(User.Role.admin)) { // Kiểm tra role của user
                     response.sendRedirect("/web_war/admin/dashboard.jsp"); // Chuyển đến trang admin nếu là admin
-
                 } else {
                     response.sendRedirect("index.jsp");
                 }
             } else {
-
+                // Nếu user là null hoặc role không xác định, hiển thị thông báo lỗi
                 request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng!");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
@@ -41,5 +40,4 @@ public class LoginController extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
-
 }

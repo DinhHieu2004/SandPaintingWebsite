@@ -51,7 +51,7 @@
                 </a>
                 <c:choose>
                 <c:when test="${not empty sessionScope.user}">
-                    <a href="../user/personal.jsp" class="icon_items user-icon me-3">
+                    <a href="personal" class="icon_items user-icon me-3">
                         <i class="fa fa-user"></i>
                     </a>
                 </c:when>

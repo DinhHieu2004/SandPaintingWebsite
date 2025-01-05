@@ -85,7 +85,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="checkout">
                     <div class="mb-3">
                         <label for="totalAmount" class="form-label fw-bold">Tổng tiền thanh toán:</label>
                         <div id="totalAmount">${sessionScope.cart.totalPrice} VND</div>
@@ -101,16 +100,18 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        <button type="button" id="submitPayment" class="btn btn-primary">Xác nhận</button>
                     </div>
-                </form>
             </div>
         </div>
     </div>
 </div>
+<%@ include file="/partials/authModal.jsp" %>
+
 <%@ include file="/partials/footer.jsp" %>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/shopping-cart.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/checkout.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
 </body>
 </html>
