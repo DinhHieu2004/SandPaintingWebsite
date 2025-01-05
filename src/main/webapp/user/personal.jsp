@@ -75,37 +75,34 @@
             </div>
         </div>
 
-        <div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="changePassword"
-            aria-hidden="true">
+        <div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="changePassword" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="changePassword">Đổi mật khẩu</h5>
+                        <h5 class="modal-title" id="changePasswordContent">Đổi mật khẩu</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form action="change-password" method="post">
                             <div class="mb-3">
-                                <label for="name" class="form-label">Họ và tên</label>
-                                <input type="text" class="form-control" id="username" placeholder="Nhập tên đăng nhập">
-                            </div>
-                           
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Mật khẩu mới</label>
-                                <input type="password" class="form-control" id="password" placeholder="Nhập mật khâu mới">
-                                  
+                                <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
+                                <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Nhập mật khẩu hiện tại" required>
                             </div>
                             <div class="mb-3">
-                                <label for="confirm-password" class="form-label">Nhập lại mật khẩu mới</label>
-                                <input type="password" class="form-control" id="confirm-password" placeholder="Nhập lại mật khẩu mới">
-                                  
+                                <label for="newPassword" class="form-label">Mật khẩu mới</label>
+                                <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Nhập mật khẩu mới" required>
                             </div>
-                            <button type="button" class="btn change-btn">Lưu Thay Đổi</button>
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Nhập lại mật khẩu mới</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu mới" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="background-color: var(--primary-color)">Lưu Thay Đổi</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <div class="card mb-4">
             <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">

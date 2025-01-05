@@ -109,4 +109,28 @@ public class UserDao {
         UserDao userDao = new UserDao();
         System.out.println(userDao.checkLogin("hieuhieu", "462004"));
     }
+    public boolean updatePassword(String username, String newPassword) throws SQLException {
+        String sql = "UPDATE users SET password = ? WHERE username = ?";
+        String hashedPassword = hashPassword(newPassword); // Mã hóa mật khẩu mới
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, hashedPassword);
+            ps.setString(2, username);
+            return ps.executeUpdate() > 0;
+        }
+    }
+    public String getPasswordByUsername(String username) throws SQLException {
+        String sql = "SELECT password FROM users WHERE username = ?";
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("password");
+                }
+            }
+        }
+        return null; // Không tìm thấy mật khẩu
+    }
+
 }
