@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 
-@WebServlet(name = "ChangePasswordController", value = "/user/change-password")
+@WebServlet(name = "ChangePasswordController", value = "/change-password")
 public class ChangePasswordController extends HttpServlet {
 
     @Override
