@@ -81,12 +81,41 @@ public class OrderDao {
         order.setDeliveryDate(rs.getDate("deliveryDate") != null ? rs.getDate("deliveryDate").toLocalDate().atStartOfDay() : null);
         return order;
     }
+    public List<Order> getListAllOrdersCrurrentAdmin() throws Exception {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM orders where status IN ('chờ', 'đang giao') ORDER BY orderDate DESC";
+        PreparedStatement ps = conn.prepareStatement(query);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Order order = extractOrderFromResultSet(rs);
+                orders.add(order);
+            }
+        }
+        return orders;
+    }
+
+    public List<Order> getListAllOrdersHistoryAdmin() throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM orders  where status IN ('hoàn thành', 'thất bại','đã hủy') ORDER BY orderDate DESC";
+        PreparedStatement ps = conn.prepareStatement(query);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Order order = extractOrderFromResultSet(rs);
+                orders.add(order);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return orders;
+    }
 
     public static void main(String[] args) throws Exception {
         OrderDao orderDao = new OrderDao();
         //for(Order o : orderDao.getCurrentOrdersForUser(2)){
        //     System.out.println(o);
        // }
-        System.out.println(orderDao.getOrder(36));
+        System.out.println(orderDao.getListAllOrdersCrurrentAdmin());
     }
 }

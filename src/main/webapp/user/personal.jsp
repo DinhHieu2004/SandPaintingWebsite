@@ -134,13 +134,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <%-- Current orders sẽ được xử lý bởi JavaScript --%>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Bảng Lịch Sử Đơn Hàng -->
     <div class="card mb-4">
         <div class="card-header bg-secondary text-white">
             <h4>Lịch Sử Đơn Hàng</h4>
@@ -157,13 +155,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <%-- Previous orders sẽ được xử lý bởi JavaScript --%>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Modal Chi Tiết Đơn Hàng -->
     <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

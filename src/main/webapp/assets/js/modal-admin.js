@@ -96,32 +96,7 @@ function confirmDeleteUser() {
     loadUsers(); // Reload user list
 }
 
-// Load users function
-function loadUsers() {
-    // Mock data - thay thế bằng call API thực tế
-    const users = [
-        { id: 1, username: 'User 1', email: 'user1@example.com', role: 'user' },
-        { id: 2, username: 'Admin 1', email: 'admin1@example.com', role: 'admin' }
-    ];
-    
-    const tbody = document.getElementById('userTableBody');
-    tbody.innerHTML = '';
-    
-    users.forEach(user => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${user.id}</td>
-            <td>${user.username}</td>
-            <td>${user.email}</td>
-            <td>${user.role}</td>
-            <td>
-                <button onclick="openEditUserModal(${user.id})">Sửa</button>
-                <button onclick="openDeleteUserModal(${user.id})">Xóa</button>
-            </td>
-        `;
-        tbody.appendChild(row);
-    });
-}
+
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
