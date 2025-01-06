@@ -9,11 +9,30 @@ public class OrderItem {
     private int sizeId;
     private double price;
     private int quantity;
+    private String name;
+    private String sizeDescription;
 
     // Getters and Setters
     public int getId() {
         return id;
     }
+
+    public String getSizeDescription() {
+        return sizeDescription;
+    }
+
+    public void setSizeDescription(String sizeDescription) {
+        this.sizeDescription = sizeDescription;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -57,6 +76,7 @@ public class OrderItem {
                 ", sizeId=" + sizeId +
                 ", price=" + price +
                 ", quantity=" + quantity +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

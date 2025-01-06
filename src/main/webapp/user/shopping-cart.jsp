@@ -76,36 +76,103 @@
         <a href="artWork.jsp" class="btn btn-secondary">Tiếp tục mua hàng</a>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal">Mua hàng</button>
     </div>
-</div>
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">Thanh toán</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Thanh toán</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Địa chỉ nhận hàng -->
+                    <div class="mb-3">
+                        <label for="recipientName" class="form-label">Tên người nhận hàng:</label>
+                        <input type="text" class="form-control" id="recipientName" name="recipientName"
+                               value="${sessionScope.user.fullName}" placeholder="Nhập Tên người nhận hàng" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deliveryAddress" class="form-label">Địa chỉ nhận hàng:</label>
+                        <input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress"
+                               value="${sessionScope.user.address}" placeholder="Nhập địa chỉ nhận hàng" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="recipientPhone" class="form-label">Số điện thoại người nhận:</label>
+                        <input type="text" class="form-control" id="recipientPhone" name="recipientPhone"
+                               value="${sessionScope.user.phone}" placeholder="Nhập số điện thoại" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6 class="fw-bold">Danh sách sản phẩm:</h6>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ảnh</th>
+                                <th>Tên Tranh</th>
+                                <th>Số Lượng</th>
+                                <th>Giá</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${sessionScope.cart.items}" var="cp" varStatus="status">
+                                <tr id="cart-item-${cp.productId}-${cp.sizeId}">
+                                    <td>${status.index + 1}</td>
+                                    <td><img src="${cp.imageUrl}" alt="${cp.productName}" width="50"></td>
+                                    <td>${cp.productName}</td>
+                                    <td>${cp.quantity}</td>
+                                    <td>${cp.totalPrice} VND</td>
+
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+
                     <div class="mb-3">
                         <label for="totalAmount" class="form-label fw-bold">Tổng tiền thanh toán:</label>
                         <div id="totalAmount">${sessionScope.cart.totalPrice} VND</div>
                     </div>
+
                     <div class="mb-3">
                         <label for="paymentMethod" class="form-label">Chọn phương thức thanh toán:</label>
                         <select class="form-select" id="paymentMethod" name="paymentMethod" required>
                             <option value="" disabled selected>Chọn...</option>
-                            <c:forEach var="method" items="${paymentMethods}">
-                                <option value="${method.id}">${method.methodName}</option>
-                            </c:forEach>
+                            <option value="1">Thanh toán khi nhận hàng (COD)</option>
+                            <option value="2">Thẻ tín dụng</option>
                         </select>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="button" id="submitPayment" class="btn btn-primary">Xác nhận</button>
+
+                    <div id="creditCardInfo" class="d-none">
+                        <div class="mb-3">
+                            <label for="cardHolderName" class="form-label">Tên chủ thẻ:</label>
+                            <input type="text" class="form-control" id="cardHolderName" name="cardHolderName" placeholder="Nhập tên trên thẻ">
+                        </div>
+                        <div class="mb-3">
+                            <label for="cardNumber" class="form-label">Số thẻ:</label>
+                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="Nhập số thẻ tín dụng">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="cardExpiry" class="form-label">Ngày hết hạn:</label>
+                                <input type="text" class="form-control" id="cardExpiry" name="cardExpiry" placeholder="MM/YY">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="cardCVV" class="form-label">Mã CVV:</label>
+                                <input type="text" class="form-control" id="cardCVV" name="cardCVV" placeholder="CVV">
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" id="submitPayment" class="btn btn-primary">Xác nhận</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 <%@ include file="/partials/authModal.jsp" %>
 
 <%@ include file="/partials/footer.jsp" %>

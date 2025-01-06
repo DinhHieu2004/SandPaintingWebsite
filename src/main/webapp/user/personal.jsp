@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
 </head>
 
-
 <body>
 <%@ include file="/partials/header.jsp" %>
 <c:if test="${not empty successMessage}">
@@ -23,7 +22,6 @@
             ${successMessage}
     </div>
 </c:if>
-
 <c:if test="${not empty errorMessage}">
     <div class="alert alert-danger">
             ${errorMessage}
@@ -32,7 +30,6 @@
 
 
 <div class="container mt-5">
-    <!-- Thông tin cá nhân -->
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
             <h4>Thông Tin Cá Nhân</h4>
@@ -50,7 +47,9 @@
                         <!-- Nút chỉnh sửa thông tin -->
                         <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editPersonalInfoModal">Chỉnh sửa</button>
                         <!-- Nút đăng xuất -->
-                        <button class="btn btn-danger btn-sm">Đăng xuất</button>
+                        <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger btn-sm">Đăng xuất</a>
+
+
                     </div>
 
                     <!-- Modal chỉnh sửa thông tin cá nhân -->
@@ -62,26 +61,39 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form action="update-personal-info" method="post">
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Họ và tên</label>
-                                            <input type="text" class="form-control" id="name" value="Nguyễn Văn A">
+                                            <input type="text" class="form-control" id="name" name="fullName"
+                                                   value="${sessionScope.user.fullName}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="phone" class="form-label">Số điện thoại</label>
-                                            <input type="text" class="form-control" id="phone" value="+84987654321">
+                                            <input type="text" class="form-control" id="phone" name="phone"
+                                                   value="${sessionScope.user.phone}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email" value="nguyen.van.a@example.com">
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                   value="${sessionScope.user.email}">
                                         </div>
-
-                                        <button type="button" class="btn btn-primary" style=" background-color: var(--primary-color) !important">Lưu Thay Đổi</button>
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label">Địa chỉ</label>
+                                            <input type="text" class="form-control" id="address" name="address"
+                                                   value="${sessionScope.user.address}">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" style="background-color: var(--primary-color) !important;">Lưu Thay Đổi</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </c:if>
+            </div>
+        </div>
+    </div>
+</div>
+
 
                     <!-- Modal đổi mật khẩu -->
                     <div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
@@ -112,14 +124,12 @@
                         </div>
                     </div>
 
-                </c:if>
                 <c:if test="${sessionScope.user == null}">
                     <p>Không tìm thấy thông tin người dùng.</p>
                 </c:if>
             </div>
         </div>
     </div>
-
 
     <!-- Bảng Đơn Hàng Hiện Tại -->
     <div class="card mb-4">
@@ -138,13 +148,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <%-- Current orders sẽ được xử lý bởi JavaScript --%>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Bảng Lịch Sử Đơn Hàng -->
     <div class="card mb-4">
         <div class="card-header bg-secondary text-white">
             <h4>Lịch Sử Đơn Hàng</h4>
@@ -161,13 +169,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <%-- Previous orders sẽ được xử lý bởi JavaScript --%>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Modal Chi Tiết Đơn Hàng -->
     <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -176,6 +182,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div id="orderRecipientInfo">
+                    </div>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -187,6 +195,8 @@
                         </thead>
                         <tbody id="orderDetailsBody"></tbody>
                     </table>
+                    <div id="totalPrice">
+                    </div>
                 </div>
             </div>
         </div>

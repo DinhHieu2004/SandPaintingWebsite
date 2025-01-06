@@ -42,7 +42,13 @@
                             </div>
                             <button type="submit" class="btn btn-primary w-100 login-btn">Đăng Nhập</button>
                         </form>
+
+                        <!-- Nút Quên mật khẩu -->
+                        <div class="mt-3 text-center">
+                            <a href="../web_war/user/forgot_password.jsp" class="text-decoration-none">Quên mật khẩu?</a>
+                        </div>
                     </div>
+
 
                     <script>
                         document.getElementById('loginForm').addEventListener('submit', function (e) {

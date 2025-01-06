@@ -15,4 +15,7 @@ public class OrderService {
     public List<Order> getHistoryOrder(int userId) throws Exception {
         return orderDao.getHistoryOrder(userId);
     }
+    public Order getOrder(int orderId) throws Exception {
+        return orderDao.getOrder(orderId);
+    }
 }

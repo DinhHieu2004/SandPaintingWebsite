@@ -1,15 +1,36 @@
 document.querySelector("#submitPayment").addEventListener("click", function () {
-    const paymentMethod = document.querySelector("#paymentMethod").value;
+    const recipientName = $('#recipientName').val();
+    const deliveryAddress = $('#deliveryAddress').val();
+    const recipientPhone = $('#recipientPhone').val();
+    const paymentMethod = $('#paymentMethod').val();
 
-    if (!paymentMethod) {
-        alert("Vui lòng chọn phương thức thanh toán!");
+    if (!recipientName || !deliveryAddress || !recipientPhone || !paymentMethod) {
+        alert("Vui lòng điền đầy đủ thông tin.");
         return;
+    }
+
+    if (paymentMethod === "2") { // Thẻ tín dụng
+        const cardHolderName = $('#cardHolderName').val();
+        const cardNumber = $('#cardNumber').val();
+        const cardExpiry = $('#cardExpiry').val();
+        const cardCVV = $('#cardCVV').val();
+
+        if (!cardHolderName || !cardNumber || !cardExpiry || !cardCVV) {
+            alert("Vui lòng điền đầy đủ thông tin thẻ tín dụng.");
+            return;
+        }
     }
 
     $.ajax({
         url: "checkout",
         type: "POST",
-        data: { paymentMethod: paymentMethod },
+        data: {
+            recipientName: recipientName,
+            deliveryAddress: deliveryAddress,
+            recipientPhone: recipientPhone,
+            paymentMethod: paymentMethod
+
+        },
         success: function (response) {
             alert(response);
             location.reload();

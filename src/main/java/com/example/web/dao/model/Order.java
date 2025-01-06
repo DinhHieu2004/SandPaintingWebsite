@@ -10,12 +10,40 @@ public class Order {
     private double totalAmount;
     private LocalDateTime orderDate;
     private LocalDateTime deliveryDate;
+    private String recipientName;
+    private String deliveryAddress;
+    private String recipientPhone;
 
     public static final String STATUS_PENDING = "chờ";
     public static final String STATUS_DELIVERING = "đang giao";
     public static final String STATUS_COMPLETED = "hoàn thành";
     public static final String STATUS_FAILED = "thất bại";
     public static final String STATUS_CANCELED = "đã hủy";
+
+
+    public String getRecipientName() {
+        return recipientName;
+    }
+
+    public void setRecipientName(String recipientName) {
+        this.recipientName = recipientName;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    public String getRecipientPhone() {
+        return recipientPhone;
+    }
+
+    public void setRecipientPhone(String recipientPhone) {
+        this.recipientPhone = recipientPhone;
+    }
 
     public int getId() {
         return id;
@@ -82,6 +110,9 @@ public class Order {
                 ", totalAmount=" + totalAmount +
                 ", orderDate=" + orderDate +
                 ", deliveryDate=" + deliveryDate +
+                ", recipientName='" + recipientName + '\'' +
+                ", deliveryAddress='" + deliveryAddress + '\'' +
+                ", recipientPhone='" + recipientPhone + '\'' +
                 '}';
     }
 }
