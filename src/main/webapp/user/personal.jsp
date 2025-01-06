@@ -59,26 +59,39 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form action="update-personal-info" method="post">
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Họ và tên</label>
-                                            <input type="text" class="form-control" id="name" value="Nguyễn Văn A">
+                                            <input type="text" class="form-control" id="name" name="fullName"
+                                                   value="${sessionScope.user.fullName}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="phone" class="form-label">Số điện thoại</label>
-                                            <input type="text" class="form-control" id="phone" value="+84987654321">
+                                            <input type="text" class="form-control" id="phone" name="phone"
+                                                   value="${sessionScope.user.phone}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email" value="nguyen.van.a@example.com">
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                   value="${sessionScope.user.email}">
                                         </div>
-
-                                        <button type="button" class="btn btn-primary" style=" background-color: var(--primary-color) !important">Lưu Thay Đổi</button>
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label">Địa chỉ</label>
+                                            <input type="text" class="form-control" id="address" name="address"
+                                                   value="${sessionScope.user.address}">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" style="background-color: var(--primary-color) !important;">Lưu Thay Đổi</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </c:if>
+            </div>
+        </div>
+    </div>
+</div>
+
 
                     <!-- Modal đổi mật khẩu -->
                     <div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
@@ -109,7 +122,6 @@
                         </div>
                     </div>
 
-                </c:if>
                 <c:if test="${sessionScope.user == null}">
                     <p>Không tìm thấy thông tin người dùng.</p>
                 </c:if>

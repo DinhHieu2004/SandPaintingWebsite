@@ -161,6 +161,21 @@ public class UserDao {
         }
         return null; // Không tìm thấy mật khẩu
     }
+
+    public boolean updateUserInfo(User user) throws SQLException {
+        String query = "UPDATE users SET fullName = ?, phone = ?, email = ?, address = ? WHERE username = ?";
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1, user.getFullName());
+            ps.setString(2, user.getPhone());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getAddress());
+            ps.setString(5, user.getUsername());
+
+            return ps.executeUpdate() > 0;
+        }
+    }
+
 //    public static boolean sendMail(String to, String subject, String text) {
 //        Properties props = new Properties();
 //        props.put("mail.smtp.auth", "true");
