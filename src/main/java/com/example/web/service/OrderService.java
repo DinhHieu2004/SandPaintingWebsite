@@ -18,4 +18,10 @@ public class OrderService {
     public Order getOrder(int orderId) throws Exception {
         return orderDao.getOrder(orderId);
     }
+    public List<Order> getOrderCurrentAdmin() throws Exception {
+        return orderDao.getListAllOrdersCrurrentAdmin();
+    }
+    public List<Order> getOrderHistoryAdmin() throws Exception {
+        return orderDao.getListAllOrdersCrurrentAdmin();
+    }
 }
