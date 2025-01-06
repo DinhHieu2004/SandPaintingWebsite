@@ -22,6 +22,6 @@ public class OrderService {
         return orderDao.getListAllOrdersCrurrentAdmin();
     }
     public List<Order> getOrderHistoryAdmin() throws Exception {
-        return orderDao.getListAllOrdersCrurrentAdmin();
+        return orderDao.getListAllOrdersHistoryAdmin();
     }
 }

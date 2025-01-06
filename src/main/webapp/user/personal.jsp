@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/personal.css">
+
 </head>
 
 <body>
@@ -162,6 +164,7 @@
                     <th>Mã Đơn Hàng</th>
                     <th>Tổng Tiền</th>
                     <th>Ngày Đặt</th>
+                    <th>Ngày Giao</th>
                     <th>Trạng Thái</th>
                     <th>Hành Động</th>
                 </tr>

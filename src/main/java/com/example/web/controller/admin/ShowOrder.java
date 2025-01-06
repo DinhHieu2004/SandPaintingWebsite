@@ -20,7 +20,6 @@ public class ShowOrder extends HttpServlet {
     OrderService orderService = new OrderService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         List<Order> currentOrders = null;
         List<Order> previousOrders = null;
         try {

@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $.ajax({
-        url: '/web_war/admin/show-order',
+        url: `/web_war/admin/show-order`,
         method: 'GET',
         dataType: 'json',
         success: function (response) {
@@ -49,25 +49,29 @@ $(document).ready(function () {
         if (currentOrderId !== orderId) {
             currentOrderId = orderId;
             const modalBody = $('#orderDetailsBody');
-            const modalInfo = $('#orderRecipientInfo');
+            const modalInfo = $('#info');
             const modelPrice = $(`#totalPrice`)
             modalInfo.empty();
             modalBody.empty();
 
             $.ajax({
-                url: `order-detail?orderId=${orderId}`,
+                url: `../order-detail?orderId=${orderId}`,
                 method: 'GET',
                 dataType: 'json',
                 success: function (response) {
-                    console.log('Response from order-detail:', response); // Thêm log để debug
+                    console.log('Response from order-detail:', response);
 
-                    // Kiểm tra nếu response có dữ liệu
                     if (response && response) {
+                        $('#orderStatus').val(response.status);
+
                         const order = response;
+
                         modalInfo.html(`
                 <p><strong>Tên người nhận:</strong> ${order.recipientName}</p>
                 <p><strong>Số điện thoại:</strong> ${order.recipientPhone}</p>
                 <p><strong>Địa chỉ nhận hàng:</strong> ${order.deliveryAddress}</p>
+                <p><strong>Trạng thái đơn hàng:</strong> ${order.status}</p>
+
             `);
                         modelPrice.html(`<p><strong>Tổng trả:</strong> ${order.totalAmount}</p>`)
                     } else {
@@ -83,7 +87,7 @@ $(document).ready(function () {
             });
 
             $.ajax({
-                url: `order/order-items?orderId=${orderId}`,
+                url: `../order/order-items?orderId=${orderId}`,
                 method: 'GET',
                 dataType: 'json',
                 success: function (details) {
@@ -110,8 +114,8 @@ $(document).ready(function () {
         }
     });
 
-    // Xử lý khi modal đóng để reset orderId
     $('#orderDetailsModal').on('hidden.bs.modal', function () {
         currentOrderId = null;
     });
 });
+

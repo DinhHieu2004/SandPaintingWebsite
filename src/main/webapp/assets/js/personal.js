@@ -27,6 +27,8 @@ $(document).ready(function () {
                         <td>${order.id}</td>
                         <td>${order.totalAmount}₫</td>
                         <td>${order.orderDate}</td>
+                        <td>${order.deliveryDate}</td>
+
                         <td>${order.status}</td>
                         <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" data-order-id="${order.id}">Xem Chi Tiết</button></td>
                     </tr>`;
