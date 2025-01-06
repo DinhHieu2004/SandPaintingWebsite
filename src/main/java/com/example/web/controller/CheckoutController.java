@@ -33,11 +33,16 @@ public class CheckoutController extends HttpServlet {
                 response.getWriter().write("Giỏ hàng của bạn đang trống!");
                 return;
             }
-            int paymentMethodId = Integer.parseInt(request.getParameter("paymentMethod"));
+            String recipientName = request.getParameter("recipientName");
+            String deliveryAddress = request.getParameter("deliveryAddress");
+            String recipientPhone = request.getParameter("recipientPhone");
+            String paymentMethod = request.getParameter("paymentMethod");
+            int paymentMethodInt = Integer.parseInt(paymentMethod);
+
 
             CheckoutService checkoutService = new CheckoutService();
             try {
-                checkoutService.processCheckout(cart, userId, paymentMethodId);
+                checkoutService.processCheckout(cart, userId, paymentMethodInt,recipientName, recipientPhone, deliveryAddress);
                 session.removeAttribute("cart");
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("Thanh toán thành công!");

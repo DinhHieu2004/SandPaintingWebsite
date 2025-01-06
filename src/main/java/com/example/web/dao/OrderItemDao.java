@@ -23,18 +23,27 @@ public class OrderItemDao {
 
     }
     public List<OrderItem> getListOrderItem(int orderId) throws SQLException {
-        String sql = "SELECT * FROM order_items WHERE orderId = ?";
+        String sql = """
+                    SELECT oi.orderId, oi.paintingId, p.title AS productName, s.sizeDescription AS sizeDescription, 
+                           oi.sizeId, oi.quantity, oi.price 
+                    FROM order_items oi
+                    JOIN paintings p ON oi.paintingId = p.id
+                    JOIN sizes s ON oi.sizeId = s.id
+                    WHERE oi.orderId = ?
+                """;
         List<OrderItem> orderItems = new ArrayList<OrderItem>();
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, orderId);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             OrderItem orderItem = new OrderItem();
+            orderItem.setName(rs.getString("productName"));
             orderItem.setOrderId(rs.getInt("orderId"));
             orderItem.setPaintingId(rs.getInt("paintingId"));
             orderItem.setSizeId(rs.getInt("sizeId"));
             orderItem.setQuantity(rs.getInt("quantity"));
             orderItem.setPrice(rs.getDouble("price"));
+            orderItem.setSizeDescription(rs.getString("sizeDescription"));
             orderItems.add(orderItem);
         }
         return orderItems;
@@ -42,7 +51,7 @@ public class OrderItemDao {
 
     public static void main(String[] args) throws SQLException {
         OrderItemDao orderItemDao = new OrderItemDao();
-        for(OrderItem o : orderItemDao.getListOrderItem(23)){
+        for(OrderItem o : orderItemDao.getListOrderItem(16)){
             System.out.println(o);
         }
     }
