@@ -34,6 +34,16 @@
         <%@ include file="/partials/header.jsp" %>
     </c:otherwise>
 </c:choose>
+<%
+    String message = request.getParameter("message");
+    if ("logoutSuccess".equals(message)) {
+%>
+<div class="alert alert-success" role="alert">
+    Bạn đã đăng xuất thành công!
+</div>
+<%
+    }
+%>
 
     <div id="content-wrapper">
         <div class="container_content">

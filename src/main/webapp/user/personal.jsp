@@ -47,7 +47,9 @@
                         <!-- Nút chỉnh sửa thông tin -->
                         <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editPersonalInfoModal">Chỉnh sửa</button>
                         <!-- Nút đăng xuất -->
-                        <button class="btn btn-danger btn-sm">Đăng xuất</button>
+                        <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger btn-sm">Đăng xuất</a>
+
+
                     </div>
 
                     <!-- Modal chỉnh sửa thông tin cá nhân -->

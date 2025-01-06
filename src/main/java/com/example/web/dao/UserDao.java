@@ -3,13 +3,10 @@ package com.example.web.dao;
 import com.example.web.dao.db.DbConnect;
 import com.example.web.dao.model.User;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.net.PasswordAuthentication;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -176,37 +173,37 @@ public class UserDao {
         }
     }
 
-//    public static boolean sendMail(String to, String subject, String text) {
-//        Properties props = new Properties();
-//        props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.smtp.host", "smtp.gmail.com");
-//        props.put("mail.smtp.port", "587");
-//        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-//            @Override
-//            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-//                return new PasswordAuthentication("shopsand22@gmail.com", "shopsand22@");
-//            }
-//        });
-//        try {
-//            Message message = new MimeMessage(session);
-//            message.setHeader("Content-Type", "text/plain; charset=UTF-8");
-//            message.setFrom(new InternetAddress("shopsand22@gmail.com"));
-//            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-//            message.setSubject(subject);
-//            message.setText(text);
-//            Transport.send(message);
-//        } catch (MessagingException e) {
-//            return false;
-//        }
-//        return true;
-//    }
-//    public boolean passwordRecovery(String username, String email) throws SQLException {
-//        User user = findByEmail(email);
-//        if (user != null) {
-//            sendMail(email, "Password recovery", getPasswordByUsername(username));
-//            return true;
-//        }
-//        return false;
-//    }
+    public static boolean sendMail(String to, String subject, String text) {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("shopsand22@gmail.com", "hdfl yops awzj kgxw");
+            }
+        });
+        try {
+            Message message = new MimeMessage(session);
+            message.setHeader("Content-Type", "text/plain; charset=UTF-8");
+            message.setFrom(new InternetAddress("shopsand22@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setText(text);
+            Transport.send(message);
+        } catch (MessagingException e) {
+            return false;
+        }
+        return true;
+    }
+    public boolean passwordRecovery(String username, String email) throws SQLException {
+        User user = findByEmail(email);
+        if (user != null) {
+            sendMail(email, "Password recovery", getPasswordByUsername(username));
+            return true;
+        }
+        return false;
+    }
 }
