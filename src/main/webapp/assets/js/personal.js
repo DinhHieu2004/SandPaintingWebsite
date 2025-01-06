@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    let orderStatus = null;
     $.ajax({
         url: 'user/orders',
         method: 'GET',
@@ -28,7 +29,6 @@ $(document).ready(function () {
                         <td>${order.totalAmount}₫</td>
                         <td>${order.orderDate}</td>
                         <td>${order.deliveryDate}</td>
-
                         <td>${order.status}</td>
                         <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" data-order-id="${order.id}">Xem Chi Tiết</button></td>
                     </tr>`;
@@ -46,6 +46,7 @@ $(document).ready(function () {
     $('#orderDetailsModal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);
         const orderId = button.data('order-id');
+        const isFromPreviousOrders = button.closest('table').attr('id') === 'orderHistory';
         if (currentOrderId !== orderId) {
             currentOrderId = orderId;
             const modalBody = $('#orderDetailsBody');
@@ -59,11 +60,13 @@ $(document).ready(function () {
                 method: 'GET',
                 dataType: 'json',
                 success: function (response) {
+
+
                     console.log('Response from order-detail:', response); // Thêm log để debug
 
-                    // Kiểm tra nếu response có dữ liệu
                     if (response && response) {
                         const order = response;
+                        orderStatus = order.status;
                         modalInfo.html(`
                 <p><strong>Tên người nhận:</strong> ${order.recipientName}</p>
                 <p><strong>Số điện thoại:</strong> ${order.recipientPhone}</p>
@@ -91,7 +94,7 @@ $(document).ready(function () {
                         modalBody.append('<tr><td colspan="4">Không có chi tiết đơn hàng.</td></tr>');
                         return;
                     }
-
+                    console.log(orderStatus)
                     details.forEach(product => {
                         const row = `
                             <tr>
@@ -99,7 +102,10 @@ $(document).ready(function () {
                                 <td>${product.sizeDescription}</td>
                                 <td>${product.quantity}</td>
                                 <td>${product.price}₫</td>
-                            </tr>`;
+                                <td>${isFromPreviousOrders ?
+                            `<button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reviewModal" data-product-id="${product.id}">Đánh Giá</button>`
+                            : ''}</td>
+                                 </tr>`;
                         modalBody.append(row);
                     });
                 },
