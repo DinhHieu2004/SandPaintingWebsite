@@ -3,12 +3,20 @@ package com.example.web.dao;
 import com.example.web.dao.db.DbConnect;
 import com.example.web.dao.model.User;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.net.PasswordAuthentication;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 
 public class UserDao {
@@ -36,6 +44,27 @@ public class UserDao {
                 User.Role role = User.Role.valueOf(rs.getString("role"));
 
                 return new User(id, fullName, uname, address, email, phone, role);
+            }
+
+        }
+        return null;
+    }
+
+    public User findByEmail(String email) throws SQLException {
+        String sql = "SELECT * FROM users WHERE email = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, email);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String fullName = rs.getString("fullName");
+                String uname = rs.getString("username");
+                String address = rs.getString("address");
+                String uemail = rs.getString("email");
+                String phone = rs.getString("phone");
+                User.Role role = User.Role.valueOf(rs.getString("role"));
+
+                return new User(id, fullName, uname, address, uemail, phone, role);
             }
 
         }
@@ -132,5 +161,37 @@ public class UserDao {
         }
         return null; // Không tìm thấy mật khẩu
     }
-
+    public static boolean sendMail(String to, String subject, String text) {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("shopsand22@gmail.com", "shopsand22@");
+            }
+        });
+        try {
+            Message message = new MimeMessage(session);
+            message.setHeader("Content-Type", "text/plain; charset=UTF-8");
+            message.setFrom(new InternetAddress("shopsand22@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setText(text);
+            Transport.send(message);
+        } catch (MessagingException e) {
+            return false;
+        }
+        return true;
+    }
+    public boolean passwordRecovery(String username, String email) throws SQLException {
+        User user = findByEmail(email);
+        if (user != null) {
+            sendMail(email, "Password recovery", getPasswordByUsername(username));
+            return true;
+        }
+        return false;
+    }
 }

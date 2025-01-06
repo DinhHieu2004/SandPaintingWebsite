@@ -13,7 +13,7 @@
             <h4>Quên Mật Khẩu</h4>
         </div>
         <div class="card-body">
-            <form id="forgotPasswordForm" method="post" action="send-reset-link">
+            <form id="forgotPasswordForm" action="send-reset-link" method="post">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email của bạn</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email của bạn">
