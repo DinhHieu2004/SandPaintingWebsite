@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/personal.css">
+
 </head>
 
 <body>
@@ -43,9 +45,13 @@
                     <p><strong>Địa chỉ:</strong> ${sessionScope.user.address}</p>
                     <div class="button-group">
                         <!-- Nút đổi mật khẩu -->
-                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#changePassword">Đổi mật khẩu</button>
+                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#changePassword">
+                            Đổi mật khẩu
+                        </button>
                         <!-- Nút chỉnh sửa thông tin -->
-                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editPersonalInfoModal">Chỉnh sửa</button>
+                        <button class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#editPersonalInfoModal">Chỉnh sửa
+                        </button>
                         <!-- Nút đăng xuất -->
                         <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger btn-sm">Đăng xuất</a>
 
@@ -53,12 +59,15 @@
                     </div>
 
                     <!-- Modal chỉnh sửa thông tin cá nhân -->
-                    <div class="modal fade" id="editPersonalInfoModal" tabindex="-1" aria-labelledby="editPersonalInfoModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="editPersonalInfoModal" tabindex="-1"
+                         aria-labelledby="editPersonalInfoModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editPersonalInfoModalLabel">Chỉnh Sửa Thông Tin Cá Nhân</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                    <h5 class="modal-title" id="editPersonalInfoModalLabel">Chỉnh Sửa Thông Tin Cá
+                                        Nhân</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Đóng"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form action="update-personal-info" method="post">
@@ -82,7 +91,9 @@
                                             <input type="text" class="form-control" id="address" name="address"
                                                    value="${sessionScope.user.address}">
                                         </div>
-                                        <button type="submit" class="btn btn-primary" style="background-color: var(--primary-color) !important;">Lưu Thay Đổi</button>
+                                        <button type="submit" class="btn btn-primary"
+                                                style="background-color: var(--primary-color) !important;">Lưu Thay Đổi
+                                        </button>
                                     </form>
                                 </div>
                             </div>
@@ -95,113 +106,153 @@
 </div>
 
 
-                    <!-- Modal đổi mật khẩu -->
-                    <div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="changePasswordLabel">Đổi mật khẩu</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="change-password" method="post">
-                                        <div class="mb-3">
-                                            <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
-                                            <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Nhập mật khẩu hiện tại" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="newPassword" class="form-label">Mật khẩu mới</label>
-                                            <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Nhập mật khẩu mới" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="confirmPassword" class="form-label">Nhập lại mật khẩu mới</label>
-                                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu mới" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary" style=" background-color: var(--primary-color) !important">Lưu Thay Đổi</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+<!-- Modal đổi mật khẩu -->
+<div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordLabel">Đổi mật khẩu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <form action="change-password" method="post">
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
+                        <input type="password" class="form-control" id="currentPassword" name="currentPassword"
+                               placeholder="Nhập mật khẩu hiện tại" required>
                     </div>
-
-                <c:if test="${sessionScope.user == null}">
-                    <p>Không tìm thấy thông tin người dùng.</p>
-                </c:if>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">Mật khẩu mới</label>
+                        <input type="password" class="form-control" id="newPassword" name="newPassword"
+                               placeholder="Nhập mật khẩu mới" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Nhập lại mật khẩu mới</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                               placeholder="Nhập lại mật khẩu mới" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary"
+                            style=" background-color: var(--primary-color) !important">Lưu Thay Đổi
+                    </button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Bảng Đơn Hàng Hiện Tại -->
-    <div class="card mb-4">
-        <div class="card-header bg-success text-white">
-            <h4>Đơn Hàng Hiện Tại</h4>
-        </div>
-        <div class="card-body">
-            <table id="currentOrders" class="table table-bordered display">
-                <thead>
-                <tr>
-                    <th>Mã Đơn Hàng</th>
-                    <th>Tổng Tiền</th>
-                    <th>Ngày Đặt</th>
-                    <th>Trạng Thái</th>
-                    <th>Hành Động</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+<c:if test="${sessionScope.user == null}">
+    <p>Không tìm thấy thông tin người dùng.</p>
+</c:if>
+</div>
+</div>
+</div>
+
+<!-- Bảng Đơn Hàng Hiện Tại -->
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h4>Đơn Hàng Hiện Tại</h4>
     </div>
-
-    <div class="card mb-4">
-        <div class="card-header bg-secondary text-white">
-            <h4>Lịch Sử Đơn Hàng</h4>
-        </div>
-        <div class="card-body">
-            <table id="orderHistory" class="table table-bordered display">
-                <thead>
-                <tr>
-                    <th>Mã Đơn Hàng</th>
-                    <th>Tổng Tiền</th>
-                    <th>Ngày Đặt</th>
-                    <th>Trạng Thái</th>
-                    <th>Hành Động</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+    <div class="card-body">
+        <table id="currentOrders" class="table table-bordered display">
+            <thead>
+            <tr>
+                <th>Mã Đơn Hàng</th>
+                <th>Tổng Tiền</th>
+                <th>Ngày Đặt</th>
+                <th>Trạng Thái</th>
+                <th>Hành Động</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
+</div>
 
-    <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="orderDetailsModalLabel">Chi Tiết Đơn Hàng</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+        <h4>Lịch Sử Đơn Hàng</h4>
+    </div>
+    <div class="card-body">
+        <table id="orderHistory" class="table table-bordered display">
+            <thead>
+            <tr>
+                <th>Mã Đơn Hàng</th>
+                <th>Tổng Tiền</th>
+                <th>Ngày Đặt</th>
+                <th>Ngày Giao</th>
+                <th>Trạng Thái</th>
+                <th>Hành Động</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderDetailsModalLabel">Chi Tiết Đơn Hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="orderRecipientInfo">
                 </div>
-                <div class="modal-body">
-                    <div id="orderRecipientInfo">
-                    </div>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Tên Sản Phẩm</th>
-                            <th>Kích Thước</th>
-                            <th>Số Lượng</th>
-                            <th>Giá</th>
-                        </tr>
-                        </thead>
-                        <tbody id="orderDetailsBody"></tbody>
-                    </table>
-                    <div id="totalPrice">
-                    </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Kích Thước</th>
+                        <th>Số Lượng</th>
+                        <th>Giá</th>
+                        <th>Đánh giá</th>
+
+                    </tr>
+                    </thead>
+                    <tbody id="orderDetailsBody"></tbody>
+                </table>
+                <div id="totalPrice">
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
+
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewModalLabel">Đánh Giá Sản Phẩm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reviewForm">
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Chọn Số Sao</label>
+                        <select class="form-select" id="rating" required>
+                            <option value="1">1 sao</option>
+                            <option value="2">2 sao</option>
+                            <option value="3">3 sao</option>
+                            <option value="4">4 sao</option>
+                            <option value="5">5 sao</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reviewText" class="form-label">Nhận xét</label>
+                        <textarea class="form-control" id="reviewText" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Gửi Đánh Giá</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <%@ include file="/partials/footer.jsp" %>
 

@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -7,13 +9,34 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quên Mật Khẩu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<c:if test="${not empty successMessage}">
+    <div class="alert alert-success">
+            ${successMessage}
+    </div>
+</c:if>
+<c:if test="${not empty errorMessage}">
+    <div class="alert alert-danger">
+            ${errorMessage}
+    </div>
+</c:if>
+
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="card" style="width: 800px;">
         <div class="card-header bg-primary text-white">
             <h4>Quên Mật Khẩu</h4>
         </div>
         <div class="card-body">
-            <form id="forgotPasswordForm" action="send-reset-link" method="post">
+            <form id="forgotPasswordForm" action="sendPassword" method="post">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email của bạn</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email của bạn">
@@ -78,10 +101,7 @@
     }
 </style>
 
-
-
 <!-- Thêm JavaScript của Bootstrap nếu cần -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

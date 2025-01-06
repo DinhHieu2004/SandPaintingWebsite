@@ -15,12 +15,6 @@ public class LogoutController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logout(request, response);
     }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        logout(request, response);
-    }
-
     private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Lấy session hiện tại
         HttpSession session = request.getSession(false); // Lấy session nếu có, không tạo mới
