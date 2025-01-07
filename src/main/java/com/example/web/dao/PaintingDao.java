@@ -21,34 +21,22 @@ public class PaintingDao {
 
     public PaintingDao() {
     }
-    public Painting getPaintingAdd()throws SQLException{
-        Painting paintingAdd=null;
-        String sql = """
-                    SELECT 
-                        p.id AS paintingId,
-                        p.title AS paintingTitle,
-                        p.price,
-                        p.description,
-                        p.imageUrl,
-                        a.name AS artistName,
-                        t.themeName,
-                        d.discountName,
-                        d.discountPercentage,
-                        s.sizeDescription,
-                        s.id AS idSize,
-                        ps.quantity AS sizeQuantity
-                    FROM paintings p
-                    LEFT JOIN artists a ON p.artistId = a.id
-                    LEFT JOIN themes t ON p.themeId = t.id
-                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
-                    LEFT JOIN discounts d ON dp.discountId = d.id
-                    LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
-                    LEFT JOIN sizes s ON ps.sizeId = s.id
-                    WHERE p.id = ?;
-                """;
-
-        return paintingAdd;
+    public static boolean getPaintingDelete(String id) {
+        String sql = "DELETE FROM Painting WHERE id = ?";
+        DbConnect DBConnect = null;
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+    
+public Painting getPaintingdelete(int PaintingId) throws SQLException{
+   return null;
+}
 
     public Painting getPaintingDetail(int paintingId) throws SQLException {
         Painting paintingDetail = null;
