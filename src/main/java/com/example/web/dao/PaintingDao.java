@@ -2,6 +2,7 @@ package com.example.web.dao;
 
 import com.example.web.dao.db.DbConnect;
 import com.example.web.dao.model.Painting;
+import com.example.web.dao.model.Theme;
 import com.example.web.service.PaintingService;
 
 import java.sql.Connection;
@@ -361,6 +362,23 @@ public class PaintingDao {
         // Trả về danh sách các tác phẩm trưng bày chưa bán
         return featuredArtworks;
     }
+    public List<Theme> getTheme() {
+        String sql = "SELECT * FROM THEMES";
+        List<Theme> theme = new ArrayList<>();
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                theme.add(new Theme(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return theme;
+    }
     public static void main(String[] args) throws SQLException {
         PaintingDao paintingDao = new PaintingDao();
         Double m1 = null;
@@ -372,8 +390,6 @@ public class PaintingDao {
       //  for (Painting P : paintingDao.getPaintingListByArtist(m1,m2,sizes, themes, "1")) {
        //     System.out.println(P);
        // }
-        paintingDao.updateQuanity(1, 1, 2);
-
     }
 
 

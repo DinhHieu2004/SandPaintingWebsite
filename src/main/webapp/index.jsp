@@ -154,42 +154,17 @@
             </div>
         </div>
         <div class="collection_product">
+            <c:forEach var="themes" items="${themes}">
             <div class="collection">
                 <div class="img_container">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSthr50ZOqHVwMkrYSWSSjagIK9sAaHzr-kJg&s"
-                        class="card-img-top artwork-image" alt="Phong Cảnh Biển">
+                        class="card-img-top artwork-image" alt="${themes.themeName}">
                     <div class="collection_description">
-                        <p>TRANH CÁT PHONG CẢNH</p>
+                        <p>${themes.themeName}</p>
                     </div>
                 </div>
             </div>
-            <div class="collection">
-                <div class="img_container">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSthr50ZOqHVwMkrYSWSSjagIK9sAaHzr-kJg&s"
-                        class="card-img-top artwork-image" alt="Phong Cảnh Biển">
-                    <div class="collection_description">
-                        <p>TRANH CÁT CHÂN DUNG</p>
-                    </div>
-                </div>
-            </div>
-            <div class="collection">
-                <div class="img_container">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSthr50ZOqHVwMkrYSWSSjagIK9sAaHzr-kJg&s"
-                        class="card-img-top artwork-image" alt="Phong Cảnh Biển">
-                    <div class="collection_description">
-                        <p>TRANH CÁT TĨNH VẬT</p>
-                    </div>
-                </div>
-            </div>
-            <div class="collection">
-                <div class="img_container">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSthr50ZOqHVwMkrYSWSSjagIK9sAaHzr-kJg&s"
-                        class="card-img-top artwork-image" alt="Phong Cảnh Biển">
-                    <div class="collection_description">
-                        <p>TRANH CÁT ĐỘNG VẬT</p>
-                    </div>
-                </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
     <div id="icon_section">
