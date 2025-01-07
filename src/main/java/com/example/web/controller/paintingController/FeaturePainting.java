@@ -23,11 +23,13 @@ public class FeaturePainting extends HttpServlet {
         // Lấy danh sách các tác phẩm trưng bày từ database
         List<Painting> featuredArtworks = paintingDAO.getFeaturedArtworks();
 
-        // Gắn danh sách tác phẩm vào request để truyền sang view (JSP)
+        // Gắn danh sách tác phẩm vào request để truyền sang index
         request.setAttribute("featuredArtworks", featuredArtworks);
 
-        // Chuyển hướng tới trang JSP để hiển thị danh sách
-        request.getRequestDispatcher("/user/featuredArtworks.jsp").forward(request, response);
+        // Chuyển hướng tới trang index để hiển thị danh sách
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+
     }
+
 }
 

@@ -341,30 +341,20 @@ public class PaintingDao {
         }
     }
     public List<Painting> getFeaturedArtworks() {
-        String sql = "SELECT a.id, a.title, a.imageUrl, ar.name AS artist_name, a.price " +
-                "FROM artworks a " +
-                "JOIN artists ar ON a.artistId = ar.id " +
-                "WHERE a.isFeatured = true AND a.isSold = false";
+        String sql = "SELECT p.id, p.title, p.imageUrl, ar.name AS artist_name, p.price " +
+                "FROM paintings p " +
+                "JOIN artists ar ON p.artistId = ar.id " +
+                "WHERE p.isFeatured = true AND p.isSold = false";
         List<Painting> featuredArtworks = new ArrayList<>();
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
-            // Lặp qua các kết quả trả về từ database
             while (rs.next()) {
-                Painting artwork = new Painting();
-                artwork.setId(rs.getInt("id"));
-                artwork.setTitle(rs.getString("title"));
-                artwork.setImageUrl(rs.getString("imageUrl"));
-                artwork.setArtistName(rs.getString("artist_name"));
-                artwork.setPrice(rs.getDouble("price"));
-
-                // Thêm tác phẩm vào danh sách
-                featuredArtworks.add(artwork);
+                featuredArtworks.add(new Painting(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5)));
             }
         } catch (SQLException e) {
-            // Xử lý lỗi kết nối hoặc thực thi SQL
             e.printStackTrace();
         }
 
@@ -383,6 +373,7 @@ public class PaintingDao {
        //     System.out.println(P);
        // }
         paintingDao.updateQuanity(1, 1, 2);
+
     }
 
 
