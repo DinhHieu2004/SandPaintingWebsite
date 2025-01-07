@@ -1,0 +1,31 @@
+package com.example.web.controller;
+
+
+import com.example.web.dao.DiscountDao;
+import com.example.web.dao.PaintingDao;
+import com.example.web.dao.model.Discount;
+import com.example.web.dao.model.Painting;
+import com.example.web.dao.model.Theme;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.List;
+
+@WebServlet("/user/discount")
+public class DiscountController extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        DiscountDao discountDao = new DiscountDao();
+
+        List<Discount> list = discountDao.getAllDiscount();
+
+        request.setAttribute("list", list);
+
+        request.getRequestDispatcher("/user/discount.jsp").forward(request, response);
+
+    }
+}

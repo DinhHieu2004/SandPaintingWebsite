@@ -36,26 +36,13 @@
     <h4 class="title">CHƯƠNG TRÌNH GIẢM GIÁ ĐẶC BIỆT</h4>
     <p class="sub_title"> Ưu đãi hấp dẫn cho các sản phẩm yêu thích của bạn</p>
     <div id="discount_list">
+        <c:forEach var="discount" items="${list}">
         <a href="discount_content.jsp" class="discount_item">
-            <img src="/assets/images/Chuong-trinh-giam-gia-mua-dong-tren-Steam-1.jpg" alt="Ưu đãi mùa Đông">
-            <p class="content" style="color: #e7621b"><strong>Ưu đãi mùa Đông</strong></p>
-            <p class="content">(Áp dụng từ ngày 22/12 đến 5/1)</p>
+            <img src="${discount.imageUrl}" alt="${discount.discountName}">
+            <p class="content" style="color: #e7621b"><strong>${discount.discountName}</strong></p>
+            <p class="content">(Áp dụng từ ngày ${discount.startDate} đến ${discount.endDate})</p>
         </a>
-        <a href="discount_content.jsp" class="discount_item">
-            <img src="/assets/images/Chuong-trinh-giam-gia-mua-dong-tren-Steam-1.jpg" alt="Ưu đãi mùa Đông">
-            <p class="content" style="color: #e7621b"><strong>Ưu đãi mùa Đông</strong></p>
-            <p class="content">(Áp dụng từ ngày 22/12 đến 5/1)</p>
-        </a>
-        <a href="discount_content.jsp" class="discount_item">
-            <img src="/assets/images/Chuong-trinh-giam-gia-mua-dong-tren-Steam-1.jpg" alt="Ưu đãi mùa Đông">
-            <p class="content" style="color: #e7621b"><strong>Ưu đãi mùa Đông</strong></p>
-            <p class="content">(Áp dụng từ ngày 22/12 đến 5/1)</p>
-        </a>
-        <a href="discount_content.jsp" class="discount_item">
-            <img src="/assets/images/Chuong-trinh-giam-gia-mua-dong-tren-Steam-1.jpg" alt="Ưu đãi mùa Đông">
-            <p class="content" style="color: #e7621b"><strong>Ưu đãi mùa Đông</strong></p>
-            <p class="content">(Áp dụng từ ngày 22/12 đến 5/1)</p>
-        </a>
+        </c:forEach>
     </div>
 
 <%@ include file="/partials/footer.jsp" %>
