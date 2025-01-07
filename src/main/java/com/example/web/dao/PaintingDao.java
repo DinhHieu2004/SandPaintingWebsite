@@ -33,10 +33,24 @@ public class PaintingDao {
             return false;
         }
     }
-    
-public Painting getPaintingdelete(int PaintingId) throws SQLException{
-   return null;
-}
+
+        public boolean getPaintingAdd(String title, String description, String imageUrl) {
+            String sql = "INSERT INTO Painting (id,title, themeId, price,artistId,description,imageUrl) VALUES (?, ?, ?)";
+            DbConnect DBConnect = null;
+            try (Connection conn = DBConnect.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, title);
+                ps.setString(2, description);
+                ps.setString(3, imageUrl);
+                return ps.executeUpdate() > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+
+
 
     public Painting getPaintingDetail(int paintingId) throws SQLException {
         Painting paintingDetail = null;
