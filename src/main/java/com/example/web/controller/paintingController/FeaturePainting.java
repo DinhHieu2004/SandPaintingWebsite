@@ -1,0 +1,33 @@
+package com.example.web.controller.paintingController;
+
+
+import com.example.web.dao.PaintingDao;
+import com.example.web.dao.model.Painting;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.List;
+
+@WebServlet("/featured-artworks")
+public class FeaturePainting extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Tạo đối tượng DAO để làm việc với cơ sở dữ liệu
+        PaintingDao paintingDAO = new PaintingDao();
+
+        // Lấy danh sách các tác phẩm trưng bày từ database
+        List<Painting> featuredArtworks = paintingDAO.getFeaturedArtworks();
+
+        // Gắn danh sách tác phẩm vào request để truyền sang view (JSP)
+        request.setAttribute("featuredArtworks", featuredArtworks);
+
+        // Chuyển hướng tới trang JSP để hiển thị danh sách
+        request.getRequestDispatcher("/user/featuredArtworks.jsp").forward(request, response);
+    }
+}
+

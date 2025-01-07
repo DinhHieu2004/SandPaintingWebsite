@@ -13,8 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.web.dao.db.DbConnect.getConnection;
+
 public class PaintingDao {
-    Connection con = DbConnect.getConnection();
+    Connection con = getConnection();
 
     public PaintingDao() {
     }
@@ -338,7 +340,37 @@ public class PaintingDao {
             con.setAutoCommit(true);
         }
     }
+    public List<Painting> getFeaturedArtworks() {
+        String sql = "SELECT a.id, a.title, a.imageUrl, ar.name AS artist_name, a.price " +
+                "FROM artworks a " +
+                "JOIN artists ar ON a.artistId = ar.id " +
+                "WHERE a.isFeatured = true AND a.isSold = false";
+        List<Painting> featuredArtworks = new ArrayList<>();
 
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            // Lặp qua các kết quả trả về từ database
+            while (rs.next()) {
+                Painting artwork = new Painting();
+                artwork.setId(rs.getInt("id"));
+                artwork.setTitle(rs.getString("title"));
+                artwork.setImageUrl(rs.getString("imageUrl"));
+                artwork.setArtistName(rs.getString("artist_name"));
+                artwork.setPrice(rs.getDouble("price"));
+
+                // Thêm tác phẩm vào danh sách
+                featuredArtworks.add(artwork);
+            }
+        } catch (SQLException e) {
+            // Xử lý lỗi kết nối hoặc thực thi SQL
+            e.printStackTrace();
+        }
+
+        // Trả về danh sách các tác phẩm trưng bày chưa bán
+        return featuredArtworks;
+    }
     public static void main(String[] args) throws SQLException {
         PaintingDao paintingDao = new PaintingDao();
         Double m1 = null;
