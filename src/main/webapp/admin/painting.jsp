@@ -96,15 +96,15 @@
       <form id="editPaintingForm">
         <div class="form-group">
           <label for="paintingTitle">Tên tranh</label>
-          <input type="text" id="paintingTitleEdit" name="title" required placeholder="Phong cảnh mùa thu">
+          <input type="text" id="paintingTitleEdit" name="title" required placeholder="">
         </div>
         <div class="form-group">
           <label for="artistName">Họa sĩ</label>
-          <input type="text" id="artistNameEdit" name="artist" required placeholder="Trần Minh Hoàng">
+          <input type="text" id="artistNameEdit" name="artist" required placeholder="">
         </div>
         <div class="form-group">
           <label for="paintingPrice">Giá</label>
-          <input type="number" id="paintingPriceEdit" name="price" required placeholder="5.000.000">
+          <input type="number" id="paintingPriceEdit" name="price" required placeholder="">
         </div>
         <div class="form-group">
           <label for="paintingStatus">Trạng thái</label>
