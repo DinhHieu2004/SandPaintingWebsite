@@ -134,6 +134,8 @@ public class UserDao {
     public static void main(String[] args) throws SQLException {
         UserDao userDao = new UserDao();
         System.out.println(userDao.checkLogin("hieuhieu", "462004"));
+
+        System.out.println(userDao.passwordRecovery("hmc","gatrong015@gmail.com"));
     }
     public boolean updatePassword(String username, String newPassword) throws SQLException {
         String sql = "UPDATE users SET password = ? WHERE username = ?";
@@ -179,6 +181,7 @@ public class UserDao {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
             protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
@@ -202,8 +205,11 @@ public class UserDao {
         User user = findByEmail(email);
         if (user != null) {
             sendMail(email, "Password recovery", getPasswordByUsername(username));
+//            sendMail(email, "Password recovery", "123");
             return true;
         }
         return false;
     }
+
+
 }
