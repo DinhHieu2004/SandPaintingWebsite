@@ -30,6 +30,13 @@ public class Painting implements Serializable{
     public Painting() {
 
     }
+    public Painting(int id, String title, String imageUrl, String artistName, Double price) {
+        this.id = id;
+        this.title = title;
+        this.imageUrl = imageUrl;
+        this.artistName = artistName;
+        this.price = price;
+    }
 
     public void addSize(int idSize, String sizeDescription, int quantity) {
             this.sizes.add(new PaintingSize(idSize, sizeDescription, quantity));

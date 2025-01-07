@@ -5,6 +5,7 @@
     User currentUser = (session != null) ? (User) session.getAttribute("currentUser") : null;
 %>
 
+
 <!DOCTYPE html>
 <html>
 
@@ -114,6 +115,7 @@
             </div>
         </div>
     </div>
+
 <div id="outstanding_works_section">
     <div class="title_container">
         <div class="img_left">
