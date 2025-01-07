@@ -114,82 +114,34 @@
             </div>
         </div>
     </div>
-    <div id="outstanding_works_section">
-        <div class="title_container">
-            <div class="img_left">
-                <img src="assets/images/t_left.png">
-            </div>
-            <h4 class="collection_title">TÁC PHẨM TRƯNG BÀY</h4>
-            <div class="img_right">
-                <img src="assets/images/t_right.png">
-            </div>
+<div id="outstanding_works_section">
+    <div class="title_container">
+        <div class="img_left">
+            <img src="assets/images/t_left.png">
         </div>
-        <div class="product">
-            
-            <div class="p1">
-
-                <div class="card_artworks">
-
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSthr50ZOqHVwMkrYSWSSjagIK9sAaHzr-kJg&s"
-                        class="card-img-top artwork-image" alt="Phong Cảnh Biển">
-                </div>
-                <div class="card-body">
-
-                    <h5 class="card-title">Phong Cảnh Biển</h5>
-                    <p class="card-text">
-                        <strong>Họa Sĩ:</strong> Nguyễn Văn A<br>
-                        <strong>Kích Thước:</strong> 40x60 cm<br>
-                        <strong>Giá:</strong> 500.000 VNĐ
-                    </p>
-                </div>
-            </div>
-            <div class="p2">
-                <div class="card_artworks">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSthr50ZOqHVwMkrYSWSSjagIK9sAaHzr-kJg&s"
-                        class="card-img-top artwork-image" alt="Phong Cảnh Biển">
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Phong Cảnh Biển</h5>
-                    <p class="card-text">
-                        <strong>Họa Sĩ:</strong> Nguyễn Văn A<br>
-                        <strong>Kích Thước:</strong> 40x60 cm<br>
-                        <strong>Giá:</strong> 500.000 VNĐ
-                    </p>
-                </div>
-            </div>
-            <div class="p3">
-                <div class="card_artworks">
-                    <a href="user/painting-detail.jsp" class="card-link"></a>
-
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSthr50ZOqHVwMkrYSWSSjagIK9sAaHzr-kJg&s"
-                        class="card-img-top artwork-image" alt="Phong Cảnh Biển">
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Phong Cảnh Biển</h5>
-                    <p class="card-text">
-                        <strong>Họa Sĩ:</strong> Nguyễn Văn A<br>
-                        <strong>Kích Thước:</strong> 40x60 cm<br>
-                        <strong>Giá:</strong> 500.000 VNĐ
-                    </p>
-                </div>
-            </div>
-            <div class="p4">
-                <div class="card_artworks">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSthr50ZOqHVwMkrYSWSSjagIK9sAaHzr-kJg&s"
-                        class="card-img-top artwork-image" alt="Phong Cảnh Biển">
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Phong Cảnh Biển</h5>
-                    <p class="card-text">
-                        <strong>Họa Sĩ:</strong> Nguyễn Văn A<br>
-                        <strong>Kích Thước:</strong> 40x60 cm<br>
-                        <strong>Giá:</strong> 500.000 VNĐ
-                    </p>
-                </div>
-            </div>
+        <h4 class="collection_title">TÁC PHẨM TRƯNG BÀY</h4>
+        <div class="img_right">
+            <img src="assets/images/t_right.png">
         </div>
     </div>
-    <div id="collection_section">
+    <div class="product">
+        <c:forEach var="artwork" items="${featuredArtworks}">
+            <div class="p1">
+                <div class="card_artworks">
+                    <img src="${artwork.imageUrl}" class="card-img-top artwork-image" alt="${artwork.title}">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">${artwork.title}</h5>
+                    <p class="card-text">
+                        <strong>Họa Sĩ:</strong> ${artwork.artistName}<br>
+                        <strong>Giá:</strong> ${artwork.price} VNĐ
+                    </p>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+<div id="collection_section">
         <div class="title_container">
             <div class="img_left">
                 <img src="assets/images/t_left.png">
