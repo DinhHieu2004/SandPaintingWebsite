@@ -9,10 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.example.web.dao.db.DbConnect.getConnection;
 
@@ -34,7 +31,19 @@ public class PaintingDao {
         }
     }
     public List<Painting> getAll() throws SQLException {
-        String sql = "select* from paintings";
+        String sql = """ 
+                SELECT p.id,
+                p.title,
+                p.description,
+                p.imageUrl,
+                a.name AS artistName,
+                t.themeName AS themeName,
+                p.price,
+                p.createdAt
+        FROM paintings p
+        JOIN artists a ON p.artistId = a.id
+        JOIN themes t ON p.themeId = t.id """;
+
         PreparedStatement stmt = con.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
         List<Painting> paintingList = new ArrayList<>();
@@ -44,12 +53,18 @@ public class PaintingDao {
             String title = rs.getString("title");
             double price = rs.getDouble("price");
             String imageUrl = rs.getString("imageUrl");
-            String theme = rs.getString("themeId");
+            String theme = rs.getString("themeName");
+            Date createdAt = rs.getDate("createdAt");
+            String artistName = rs.getString("artistName");
             painting.setId(paintingId);
             painting.setTitle(title);
             painting.setPrice(price);
             painting.setImageUrl(imageUrl);
             painting.setThemeName(theme);
+            painting.setThemeName(theme);
+            painting.setArtistName(artistName);
+            painting.setCrateDate(createdAt);
+            painting.setDescription(rs.getString("description"));
             paintingList.add(painting);
         }
         return paintingList;
