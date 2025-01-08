@@ -10,8 +10,11 @@
 <div class="sidebar">
 
   <h3>Admin Panel</h3>
-  <a href="${pageContext.request.contextPath}/admin">Dashboard</a>
-  <a href="${pageContext.request.contextPath}/admin/products">Manage Products</a>
-  <a href="${pageContext.request.contextPath}/admin/orders">Manage Orders</a>
-  <a href="${pageContext.request.contextPath}/admin/users">Manage Users</a>
+  <a href="${pageContext.request.contextPath}/admin">Tổng quan</a>
+  <a href="${pageContext.request.contextPath}/admin/products">Quản lý sản phẩm</a>
+  <a href="${pageContext.request.contextPath}/admin/orders">Quản lý đơn hàng</a>
+  <a href="${pageContext.request.contextPath}/admin/users">Quản lý đơn hàng</a>
+  <a href="${pageContext.request.contextPath}/admin/artists">Quản lý họa sĩ</a>
+  <a href="${pageContext.request.contextPath}/admin/users">Quản lý đánh giá</a>
+
 </div>
