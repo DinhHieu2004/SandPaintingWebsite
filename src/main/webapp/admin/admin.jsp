@@ -57,6 +57,12 @@
         .chart-container {
             height: 300px;
         }
+        .chart-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
@@ -121,16 +127,14 @@
             <div class="col-md-6">
                 <h4 class="mb-3">Trạng Thái Đơn Hàng</h4>
                 <div class="chart-container">
-                    <canvas id="orderStatusChart"></canvas>
+                    <canvas id="orderStatusChart" width="200" height="200"></canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Chart.js scripts -->
 <script>
-    // Dữ liệu cho biểu đồ Doanh Thu Theo Nghệ Sĩ
     const revenueByArtistData = {
         labels: [
             <c:forEach var="entry" items="${revenueByArtist}">
@@ -154,6 +158,7 @@
         type: 'bar',
         data: revenueByArtistData,
         options: {
+            maintainAspectRatio: false,
             responsive: true,
             plugins: {
                 legend: {
@@ -179,7 +184,6 @@
         }
     };
 
-    // Biểu đồ trạng thái đơn hàng
     const orderStatusData = {
         labels: [
             <c:forEach var="status" items="${orderStatusCount}">
@@ -199,6 +203,7 @@
     const orderStatusConfig = {
         type: 'doughnut',
         data: orderStatusData,
+        maintainAspectRatio: false,
         options: {
             plugins: {
                 legend: {

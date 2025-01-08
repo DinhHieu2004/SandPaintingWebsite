@@ -51,7 +51,7 @@ public class ArtistDao {
 
     public static void main(String[] args) throws SQLException {
         ArtistDao dao = new ArtistDao();
-        System.out.println(dao.getArtistById(1));
+        System.out.println(dao.getAllArtists());
     }
 
 }
