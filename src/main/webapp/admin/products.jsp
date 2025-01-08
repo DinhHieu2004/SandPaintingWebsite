@@ -69,6 +69,12 @@
             <td>${p.available}</td>
             <td>${p.price}</td>
             <td>${p.artistName}</td>
+            <td><button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#orderDetailsModal" data-order-id="${p.id}">Xem Chi Tiết</button>
+
+            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#orderDetailsModal" data-order-id="${p.id}">Xóa</button></td>
+          </tr>
 
             <td><!-- Các nút hành động hoặc liên kết xử lý hành động --></td>
           </tr>
