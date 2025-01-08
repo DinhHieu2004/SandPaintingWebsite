@@ -74,9 +74,7 @@
     <div class="container">
         <h2 class="mb-4">Tổng quan</h2>
 
-        <!-- Cards for statistics -->
         <div class="row mb-4">
-            <!-- Tổng doanh thu -->
             <div class="col-md-3">
                 <div class="card text-center">
                     <div class="card-body">
@@ -85,7 +83,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Tổng đơn hàng -->
             <div class="col-md-3">
                 <div class="card text-center">
                     <div class="card-body">
@@ -94,7 +91,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Tổng người dùng -->
             <div class="col-md-3">
                 <div class="card text-center">
                     <div class="card-body">
@@ -103,7 +99,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Tổng sản phẩm -->
             <div class="col-md-3">
                 <div class="card text-center">
                     <div class="card-body">
@@ -114,7 +109,6 @@
             </div>
         </div>
 
-        <!-- Biểu đồ Doanh Thu Theo Nghệ Sĩ -->
         <div class="row mb-4">
             <div class="col-md-6">
                 <h4 class="mb-3">Doanh Thu Theo Nghệ Sĩ</h4>
@@ -123,7 +117,6 @@
                 </div>
             </div>
 
-            <!-- Biểu đồ Trạng Thái Đơn Hàng -->
             <div class="col-md-6">
                 <h4 class="mb-3">Trạng Thái Đơn Hàng</h4>
                 <div class="chart-container">
@@ -213,7 +206,6 @@
         }
     };
 
-    // Render biểu đồ
     new Chart(document.getElementById('revenueByArtistChart'), revenueByArtistConfig);
     new Chart(document.getElementById('orderStatusChart'), orderStatusConfig);
 </script>
