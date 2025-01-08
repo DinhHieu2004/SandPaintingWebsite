@@ -14,8 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/admin/product")
-
+@WebServlet("/admin/products")
 public class GetList extends HttpServlet {
     private PaintingService paintingService = new PaintingService();
     @Override
@@ -23,12 +22,14 @@ public class GetList extends HttpServlet {
         List<Painting> listP = new ArrayList<>();
         try {
             listP = paintingService.getAll();
+            req.setAttribute("products", listP);
+            System.out.println(listP);
+            RequestDispatcher dispatcher = req.getRequestDispatcher("products.jsp");
+            dispatcher.forward(req, resp);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        req.setAttribute("products", listP);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/admin/admin.jsp");
-        dispatcher.forward(req, resp);
+
 
     }
 }

@@ -16,6 +16,8 @@ public class Painting implements Serializable{
         private List<PaintingSize> sizes = new ArrayList<>();
         private String discountName;
         private double discountPercentage;
+        private boolean available;
+        private Date crateDate;
 
         public Painting(int id, String title, double price, String description, String imageUrl, String artistName, String themeName) {
             this.id = id;
@@ -30,6 +32,8 @@ public class Painting implements Serializable{
     public Painting() {
 
     }
+
+
     public Painting(int id, String title, String imageUrl, String artistName, Double price) {
         this.id = id;
         this.title = title;
@@ -46,6 +50,27 @@ public class Painting implements Serializable{
             this.discountPercentage = discountPercentage;
         }
 
+    public boolean isAvailable(){
+        for(PaintingSize size:sizes){
+            if(size.getQuantity() != 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public Date getCrateDate() {
+        return crateDate;
+    }
+
+    public void setCrateDate(Date crateDate) {
+        this.crateDate = crateDate;
+    }
 
     public int getId() {
         return id;
