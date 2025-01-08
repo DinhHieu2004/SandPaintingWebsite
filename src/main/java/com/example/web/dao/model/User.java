@@ -21,6 +21,10 @@ public class User  implements Serializable {
         this.role = role;
     }
 
+    public User() {
+
+    }
+
 
     @Override
     public String toString() {

@@ -1,110 +1,99 @@
-function renderOrders() {
-    return `
+$(document).ready(function () {
+    let orderStatus = null;
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderDetailsModal">
-  Open Modal
-</button>
+    $('#orderDetailsModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        const orderId = button.data('order-id');
+        const modalBody = $('#orderDetailsBody');
+        const modalInfo = $('#orderRecipientInfo');
+        const modelPrice = $(`#totalPrice`)
+        const modalStatus = $('#orderStatus');
+        const statusSelect = $('#statusSelect');
+        const updateStatusBtn = $('#updateStatusBtn');
+        modalInfo.empty();
+        modalBody.empty();
+        modalStatus.empty();
+
+        $.ajax({
+            url: `../order-detail?orderId=${orderId}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
 
 
- <div class="orders-content">
+                console.log('Response from order-detail:', response);
 
+                if (response && response) {
+                    const order = response;
+                    orderStatus = order.status;
+                    modalInfo.html(`
+                <p><strong>Tên người nhận:</strong> ${order.recipientName}</p>
+                <p><strong>Số điện thoại:</strong> ${order.recipientPhone}</p>
+                <p><strong>Địa chỉ nhận hàng:</strong> ${order.deliveryAddress}</p>
+            `);
+                    modelPrice.html(`<p><strong>Tổng trả:</strong> ${order.totalAmount}</p>`)
+                    modalStatus.text(orderStatus);
+                    statusSelect.val(orderStatus);
+                } else {
+                    modalInfo.html('<p>Không tìm thấy thông tin đơn hàng</p>');
+                }
 
-  <div class="card mb-4">
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                console.error('Status:', status);
+                console.error('Response:', xhr.responseText);
+                modalInfo.html('<p>Có lỗi khi tải thông tin đơn hàng</p>');
+            }
+        });
 
-  <div class="card mb-4">
-    <div class="card-header bg-success text-white">
-      <h4>Đơn Hàng Hiện Tại</h4>
-    </div>
-    <div class="card-body">
-      <table id="currentOrders" class="table table-bordered display">
-        <thead>
-        <tr>
-          <th>Mã Đơn Hàng</th>
-          <th>Tổng Tiền</th>
-          <th>Ngày Đặt</th>
-          <th>Trạng Thái</th>
-          <th>Hành Động</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-  </div>
+        $.ajax({
+            url: `../order/order-items?orderId=${orderId}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function (details) {
+                if (details.length === 0) {
+                    modalBody.append('<tr><td colspan="4">Không có chi tiết đơn hàng.</td></tr>');
+                    return;
+                }
+                console.log(orderStatus)
+                details.forEach(product => {
+                    const row = `
+                            <tr>
+                                <td>${product.paintingId}</td>
+                                <td>${product.name}</td>
+                                <td><img src="${product.img}" alt="${product.name}" width="50"></td>
+                                <td>${product.sizeDescription}</td>
+                                <td>${product.quantity}</td>
+                                <td>${product.price}₫</td>
+                             
+                                 </tr>`;
+                    modalBody.append(row);
+                });
+            },
+            error: function () {
+                alert('Lỗi khi tải chi tiết đơn hàng.');
+            }
 
-  <div class="card mb-4">
-    <div class="card-header bg-secondary text-white">
-      <h4>Lịch Sử Đơn Hàng</h4>
-    </div>
-    <div class="card-body">
-      <table id="orderHistory" class="table table-bordered display">
-        <thead>
-        <tr>
-          <th>Mã Đơn Hàng</th>
-          <th>Tổng Tiền</th>
-          <th>Ngày Đặt</th>
-          <th>Ngày Giao</th>
-          <th>Trạng Thái</th>
-          <th>Hành Động</th>
-        </tr>
-        </thead>
-        <tbody>
-        
-        </tbody>
-      </table>
-    </div>
-  </div>
+        });
+        updateStatusBtn.on('click', function () {
+            const newStatus = statusSelect.val();
 
-    <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="orderDetailsModalLabel">Chi Tiết Đơn Hàng</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div id="orderRecipientInfo">
-            </div>
-
-            <div class="mt-3">
-              <label for="orderStatus" class="form-label"><strong>Thay Đổi Trạng Thái Đơn Hàng:</strong></label>
-              <select id="orderStatus" class="form-select">
-                <option value="Chờ">chờ xử lý</option>
-                <option value="đang giao">Đang giao</option>
-                <option value="hoàn thành">hoàn thành</option>
-                <option value="đã hủy">Đã hủy</option>
-              </select>
-            </div>
-
-            <div id="info">
-            </div>
-
-            <table class="table table-striped mt-3">
-              <thead>
-              <tr>
-                <th>Tên Sản Phẩm</th>
-                <th>Kích Thước</th>
-                <th>Số Lượng</th>
-                <th>Giá</th>
-              </tr>
-              </thead>
-              <tbody id="orderDetailsBody"></tbody>
-            </table>
-
-            <div id="totalPrice" class="mt-3">
-              <!-- Tổng giá -->
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" id="saveStatusBtn" class="btn btn-primary">Lưu Trạng Thái</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-    `;
-}
+            $.ajax({
+                url: `../update-order-status`,
+                method: 'POST',
+                data: {
+                    orderId: orderId,
+                    status: newStatus
+                },
+                success: function (response) {
+                    alert('Cập nhật trạng thái thành công');
+                    modalStatus.text(newStatus);
+                },
+                error: function () {
+                    alert('Lỗi khi cập nhật trạng thái đơn hàng');
+                }
+            });
+        });
+    });
+});

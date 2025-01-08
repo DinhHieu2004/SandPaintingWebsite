@@ -24,4 +24,7 @@ public class OrderService {
     public List<Order> getOrderHistoryAdmin() throws Exception {
         return orderDao.getListAllOrdersHistoryAdmin();
     }
+    public boolean updateOrderStatus(int orderId, String status) throws Exception {
+        return orderDao.updateOrderStatus(orderId, status);
+    }
 }
