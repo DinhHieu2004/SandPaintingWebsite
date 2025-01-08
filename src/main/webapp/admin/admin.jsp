@@ -1,48 +1,47 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: XPS
-  Date: 1/4/2025
-  Time: 10:59 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+  <title>Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style> .sidebar {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  background-color: #343a40;
+  color: white;
+  padding: 20px 10px;
+  }
+  .sidebar a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  margin-bottom: 5px;
+  }
+  .sidebar a:hover {
+  background-color: #495057;
+  border-radius: 5px;
+  }
+  .content {
+  margin-left: 260px; /* Sidebar width + margin */
+  padding: 20px;
+  }
+  </style>
 </head>
 <body>
-<div class="container">
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <h2>Admin Dashboard</h2>
-    <nav>
-      <button class="nav-button" data-page="dashboard">Dashboard</button>
-      <button class="nav-button" data-page="orders">Quản lý đơn hàng</button>
-      <button class="nav-button" data-page="discount">Quản lý giảm giá</button>
-      <button class="nav-button" data-page="paintings">Quản lý tranh</button>
-      <button class="nav-button" data-page="users">Quản lý người dùng</button>
-    </nav>
-  </div>
+<!-- Sidebar -->
+<%@ include file="/admin/sidebar.jsp" %>
 
-  <!-- Main content -->
-  <div class="main-content" id="mainContent">
-    <!-- Content will be dynamically inserted here -->
-  </div>
+<!-- Main Content -->
+<div class="content">
+  admin
 </div>
 
-<script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>
-<script src="${pageContext.request.contextPath}/assets/js/admin/orderManager.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

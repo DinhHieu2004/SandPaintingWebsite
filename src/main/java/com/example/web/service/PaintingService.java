@@ -26,16 +26,16 @@ public class PaintingService {
     public List<Painting> getPaintingListByArtist(Double minPrice, Double maxPrice, String[] sizes, String[] themes, String artist) throws SQLException {
         return paintingDao.getPaintingListByArtist(minPrice, maxPrice, sizes, themes, artist);
     }
-
-
-
+    public List<Painting> getAll() throws SQLException {
+        return paintingDao.getAll();
+    }
 
 
 
 
     public static void main(String[] args) throws SQLException {
         PaintingService paintingService = new PaintingService();
-     //   System.out.println(paintingService.getAll());
+        System.out.println(paintingService.getAll());
     }
 
 }

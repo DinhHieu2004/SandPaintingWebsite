@@ -33,6 +33,27 @@ public class PaintingDao {
             return false;
         }
     }
+    public List<Painting> getAll() throws SQLException {
+        String sql = "select* from paintings";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        List<Painting> paintingList = new ArrayList<>();
+        while (rs.next()) {
+            Painting painting = new Painting();
+            int paintingId = rs.getInt("id");
+            String title = rs.getString("title");
+            double price = rs.getDouble("price");
+            String imageUrl = rs.getString("imageUrl");
+            String theme = rs.getString("themeId");
+            painting.setId(paintingId);
+            painting.setTitle(title);
+            painting.setPrice(price);
+            painting.setImageUrl(imageUrl);
+            painting.setThemeName(theme);
+            paintingList.add(painting);
+        }
+        return paintingList;
+    }
 
         public boolean getPaintingAdd(String title, String description, String imageUrl) {
             String sql = "INSERT INTO Painting (id,title, themeId, price,artistId,description,imageUrl) VALUES (?, ?, ?)";
