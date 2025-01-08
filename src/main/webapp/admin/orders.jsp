@@ -65,7 +65,8 @@
           <td>${order.totalAmount}</td>
           <td>${order.orderDate}</td>
           <td>${order.status}</td>
-          <td><!-- Các nút hành động hoặc liên kết xử lý hành động --></td>
+          <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" data-order-id="${order.id}">Xem Chi Tiết</button></td>
+
         </tr>
       </c:forEach>
       </tbody>
@@ -97,13 +98,62 @@
           <td>${order.orderDate}</td>
           <td>${order.deliveryDate}</td>
           <td>${order.status}</td>
-          <td></td>
+          <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" data-order-id="${order.id}">Xem Chi Tiết</button></td>
+        </tr>`;
         </tr>
       </c:forEach>
       </tbody>
     </table>
   </div>
 </div>
+  <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderDetailsModalLabel">Chi Tiết Đơn Hàng</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="orderRecipientInfo">
+        </div>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Max sản phẩm</th>
+            <th>Tên Sản Phẩm</th>
+            <th>Ảnh</th>
+            <th>Kích Thước</th>
+            <th>Số Lượng</th>
+            <th>Giá</th>
+          </tr>
+          </thead>
+          <tbody id="orderDetailsBody"></tbody>
+        </table>
+        <div id="totalPrice">
+        </div>
+
+        <div id="orderStatusInfo">
+          <p><strong>Trạng thái: </strong><span id="orderStatus"></span></p>
+
+          <label for="statusSelect">Cập nhật trạng thái:</label>
+          <select id="statusSelect" class="form-select">
+            <option value="chờ">chờ</option>
+            <option value="đang giao">đang giao</option>
+            <option value="hoàn thành">hoàn thành</option>
+            <option value="thất bại">thất bại</option>
+            <option value="dã hủy">dã hủy</option>
+          </select>
+
+          <button id="updateStatusBtn" class="btn btn-primary mt-3">Cập nhật trạng thái</button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -112,5 +162,6 @@
     $('#orderHistory').DataTable();
   });
 </script>
+<script src="${pageContext.request.contextPath}/assets/js/admin/orders.js"></script>
 </body>
 </html>

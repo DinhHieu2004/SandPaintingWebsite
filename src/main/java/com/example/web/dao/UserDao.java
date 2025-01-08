@@ -13,6 +13,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 
@@ -24,6 +26,29 @@ public class UserDao {
     }
     public UserDao() {
         conn = DbConnect.getConnection();
+    }
+
+
+    public List<User> getListUser() throws SQLException {
+        List<User> users = new ArrayList<>();
+        String sql = "select * from users";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs =  ps.executeQuery();
+
+        while (rs.next()) {
+            User u = new User();
+            u.setId(rs.getInt("id"));
+            u.setUsername(rs.getString("username"));
+            u.setFullName(rs.getString("fullName"));
+            u.setEmail(rs.getString("email"));
+            User.Role role = User.Role.valueOf(rs.getString("role"));
+            u.setRole(role);
+            u.setAddress(rs.getString("address"));
+            u.setPhone(rs.getString("phone"));
+            users.add(u);
+        }
+        return users;
+
     }
 
     public User findByUsername(String username) throws SQLException {
@@ -210,6 +235,7 @@ public class UserDao {
         }
         return false;
     }
+
 
 
 }
