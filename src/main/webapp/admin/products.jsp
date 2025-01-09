@@ -45,7 +45,7 @@
 <div class="content">
   <div class="card mb-4">
     <div class="card-header bg-success text-white">
-      <h4>Sản phẩm</h4>
+      <h4>Người dùng</h4>
     </div>
     <div class="card-body">
       <table id="products" class="table table-bordered display">
@@ -72,12 +72,10 @@
             <td><button class="btn btn-info btn-sm" data-bs-toggle="modal"
                         data-bs-target="#orderDetailsModal" data-order-id="${p.id}">Xem Chi Tiết</button>
 
-            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#orderDetailsModal" data-order-id="${p.id}">Xóa</button></td>
+              <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                      data-bs-target="#orderDetailsModal" data-order-id="${p.id}">Xóa</button></td>
           </tr>
 
-            <td><!-- Các nút hành động hoặc liên kết xử lý hành động --></td>
-          </tr>
         </c:forEach>
         </tbody>
       </table>

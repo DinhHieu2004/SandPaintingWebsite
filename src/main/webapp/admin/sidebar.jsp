@@ -13,7 +13,7 @@
   <a href="${pageContext.request.contextPath}/admin">Tổng quan</a>
   <a href="${pageContext.request.contextPath}/admin/products">Quản lý sản phẩm</a>
   <a href="${pageContext.request.contextPath}/admin/orders">Quản lý đơn hàng</a>
-  <a href="${pageContext.request.contextPath}/admin/users">Quản lý đơn hàng</a>
+  <a href="${pageContext.request.contextPath}/admin/users">Quản lý người dùng</a>
   <a href="${pageContext.request.contextPath}/admin/artists">Quản lý họa sĩ</a>
   <a href="${pageContext.request.contextPath}/admin/users">Quản lý đánh giá</a>
 
