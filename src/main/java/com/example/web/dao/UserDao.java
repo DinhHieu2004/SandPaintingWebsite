@@ -131,12 +131,7 @@ public class UserDao {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        UserDao userDao = new UserDao();
-        System.out.println(userDao.checkLogin("hieuhieu", "462004"));
 
-        System.out.println(userDao.passwordRecovery("hmc","gatrong015@gmail.com"));
-    }
     public boolean updatePassword(String username, String newPassword) throws SQLException {
         String sql = "UPDATE users SET password = ? WHERE username = ?";
         String hashedPassword = hashPassword(newPassword); // Mã hóa mật khẩu mới
@@ -185,7 +180,7 @@ public class UserDao {
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
             protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("shopsand22@gmail.com", "hdfl yops awzj kgxw");
+                return new PasswordAuthentication("shopsandnlu22@gmail.com", "hdfl yops awzj kgxw");
             }
         });
         try {
@@ -197,6 +192,8 @@ public class UserDao {
             message.setText(text);
             Transport.send(message);
         } catch (MessagingException e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
             return false;
         }
         return true;
@@ -205,11 +202,15 @@ public class UserDao {
         User user = findByEmail(email);
         if (user != null) {
             sendMail(email, "Password recovery", getPasswordByUsername(username));
-//            sendMail(email, "Password recovery", "123");
             return true;
         }
         return false;
     }
 
+    public static void main(String[] args) throws SQLException {
+        UserDao userDao = new UserDao();
+        System.out.println(userDao.checkLogin("hieuhieu", "462004"));
 
+        System.out.println(userDao.passwordRecovery("hao","lenguyennhathao0807@gmail.com"));
+    }
 }
