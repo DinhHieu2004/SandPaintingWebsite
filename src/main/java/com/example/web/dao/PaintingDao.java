@@ -120,7 +120,7 @@ public class PaintingDao {
                 while (rs.next()) {
                     if (paintingDetail == null) {
                         // Initialize the PaintingDetail object
-                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"));
+                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getInt("discountId"));
                     }
 
                     // Add size and quantity to the painting detail

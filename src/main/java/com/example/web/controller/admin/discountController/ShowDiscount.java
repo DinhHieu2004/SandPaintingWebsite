@@ -19,8 +19,16 @@ public class ShowDiscount extends HttpServlet {
         DiscountDao discountDao = new DiscountDao();
 
         List<Discount> list = null;
+
         try {
             list = discountDao.getAllDiscount();
+
+            // Lấy id từ tham số URL
+            String discountId = request.getParameter("id");
+
+            if (discountId != null && !discountId.isEmpty()) {
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -28,8 +36,5 @@ public class ShowDiscount extends HttpServlet {
         request.setAttribute("list", list);
 
         request.getRequestDispatcher("/admin/discount.jsp").forward(request, response);
-
     }
 }
-
-
