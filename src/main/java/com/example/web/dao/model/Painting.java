@@ -18,8 +18,9 @@ public class Painting implements Serializable{
         private double discountPercentage;
         private boolean available;
         private Date crateDate;
+        private int discountId;
 
-        public Painting(int id, String title, double price, String description, String imageUrl, String artistName, String themeName) {
+        public Painting(int id, String title, double price, String description, String imageUrl, String artistName, String themeName, int discountId) {
             this.id = id;
             this.title = title;
             this.price = price;
@@ -27,6 +28,7 @@ public class Painting implements Serializable{
             this.imageUrl = imageUrl;
             this.artistName = artistName;
             this.themeName = themeName;
+            this.discountId = discountId;
         }
 
     public Painting() {
@@ -150,6 +152,14 @@ public class Painting implements Serializable{
 
     public void setDiscountPercentage(double discountPercentage) {
         this.discountPercentage = discountPercentage;
+    }
+
+    public int getDiscountId() {
+        return discountId;
+    }
+
+    public void setDiscountId(int discountId) {
+        this.discountId = discountId;
     }
 
     @Override
