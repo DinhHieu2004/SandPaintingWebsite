@@ -1,91 +1,112 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: XPS
-  Date: 1/4/2025
-  Time: 11:00 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<div id="addDiscountModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">Thêm chương trình giảm giá</h3>
-      <button class="close-button" onclick="closeAddDiscountModal()">&times;</button>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý giảm giá</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <style>
+    .sidebar {
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      background-color: #343a40;
+      color: white;
+      padding: 20px 10px;
+    }
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      display: block;
+      padding: 10px;
+      margin-bottom: 5px;
+    }
+    .sidebar a:hover {
+      background-color: #495057;
+      border-radius: 5px;
+    }
+    .content {
+      margin-left: 260px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+<%@ include file="/admin/sidebar.jsp" %>
+<div class="content">
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      <h4>Danh sách giảm giá</h4>
     </div>
-
-    <div id="successAlert" class="alert alert-success">
-      Thêm chương trình giảm giá thành công!
+    <div class="card-body">
+      <table id="discounts" class="table table-bordered display">
+        <thead>
+        <tr>
+          <th>Mã giảm giá</th>
+          <th>Ảnh</th>
+          <th>Tên giảm giá</th>
+          <th>% Giảm</th>
+          <th>Ngày bắt đầu</th>
+          <th>Ngày kết thúc</th>
+          <th>Ngày tạo</th>
+          <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+          <c:forEach var="discount" items="${list}">
+            <tr>
+              <td>${discount.id}</td>
+              <td>
+                <img src="${discount.imageUrl != null ? discount.imageUrl : 'default-image.png'}"
+                     alt="${discount.discountName}" width="50">
+              </td>
+              <td>${discount.discountName != null ? discount.discountName : 'Không xác định'}</td>
+              <td>
+                <f:formatNumber value="${discount.discountPercentage}" type="number"
+                                minFractionDigits="0" maxFractionDigits="2"/>%
+              </td>
+              <td>
+                ${discount.startDate}
+              </td>
+              <td>
+                  ${discount.endDate}
+              </td>
+              <td>
+                ${discount.createdAt}
+              </td>
+              <td>
+                <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#viewDetailsModal" data-discount-id="${discount.id}">
+                  Chỉnh sửa
+                </button>
+                <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#deleteDiscountModal" data-discount-id="${discount.id}">
+                  Xóa
+                </button>
+              </td>
+            </tr>
+          </c:forEach>
+        <c:if test="${empty dc}">
+        </c:if>
+        </tbody>
+      </table>
     </div>
-
-    <div id="errorAlert" class="alert alert-error">
-      Vui lòng điền đầy đủ thông tin!
-    </div>
-
-    <form id="addDiscountForm" onsubmit="handleSubmitDiscount(event)">
-      <div class="form-group">
-        <label class="form-label">Tên chương trình</label>
-        <input
-                type="text"
-                class="form-control"
-                name="name"
-                placeholder="Nhập tên chương trình giảm giá"
-                required
-        >
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Phần trăm giảm giá (%)</label>
-        <input
-                type="number"
-                class="form-control"
-                name="percentage"
-                min="0"
-                max="100"
-                placeholder="Nhập phần trăm giảm giá"
-                required
-        >
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Tranh áp dụng</label>
-        <select
-                class="form-control paintings-select"
-                name="paintings"
-                multiple
-                required
-        >
-          <!-- Will be populated by JavaScript -->
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Ngày bắt đầu</label>
-        <input
-                type="date"
-                class="form-control"
-                name="startDate"
-                required
-        >
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Ngày kết thúc</label>
-        <input
-                type="date"
-                class="form-control"
-                name="endDate"
-                required
-        >
-      </div>
-
-      <div class="button-group">
-        <button type="button" class="btn btn-secondary" onclick="closeAddDiscountModal()">
-          Hủy
-        </button>
-        <button type="submit" class="btn btn-primary">
-          Lưu
-        </button>
-      </div>
-    </form>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#discounts').DataTable();
+  });
+</script>
+</body>
+</html>

@@ -1,11 +1,7 @@
-package com.example.web.controller;
-
+package com.example.web.controller.admin.discountController;
 
 import com.example.web.dao.DiscountDao;
-import com.example.web.dao.PaintingDao;
 import com.example.web.dao.model.Discount;
-import com.example.web.dao.model.Painting;
-import com.example.web.dao.model.Theme;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,8 +12,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/user/discount")
-public class DiscountController extends HttpServlet {
+@WebServlet("/admin/discount")
+public class ShowDiscount extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DiscountDao discountDao = new DiscountDao();
@@ -31,7 +27,9 @@ public class DiscountController extends HttpServlet {
 
         request.setAttribute("list", list);
 
-        request.getRequestDispatcher("/user/discount.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/discount.jsp").forward(request, response);
 
     }
 }
+
+

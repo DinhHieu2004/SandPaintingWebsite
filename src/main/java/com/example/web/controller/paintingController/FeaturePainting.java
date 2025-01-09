@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/featured-artworks")
+@WebServlet("/index")
 public class FeaturePainting extends HttpServlet {
 
     @Override
