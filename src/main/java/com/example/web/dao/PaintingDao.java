@@ -140,30 +140,26 @@ public class PaintingDao {
     }
 
 
-    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] sizes, String[] themes, String[] artists) throws SQLException {
+    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] themes, String[] artists, int currentPage, int recordsPerPage) throws SQLException {
         List<Painting> paintingList = new ArrayList<>();
         Map<Integer, Painting> paintingMap = new HashMap<>();
 
         StringBuilder sql = new StringBuilder("""
-                    SELECT 
-                        p.id AS paintingId,
-                        p.title AS paintingTitle,
-                        p.price,
-                        p.imageUrl,
-                        a.name AS artistName,
-                        t.themeName AS theme,
-                        IFNULL(d.discountPercentage, 0) AS discount,
-                        s.sizeDescription AS size,
-                        ps.quantity AS stock
-                    FROM paintings p
-                    LEFT JOIN artists a ON p.artistId = a.id
-                    LEFT JOIN themes t ON p.themeId = t.id
-                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
-                    LEFT JOIN discounts d ON dp.discountId = d.id
-                    LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
-                    LEFT JOIN sizes s ON ps.sizeId = s.id
-                    WHERE 1=1
-                """);
+                SELECT 
+                    p.id AS paintingId,
+                    p.title AS paintingTitle,
+                    p.price,
+                    p.imageUrl,
+                    a.name AS artistName,
+                    t.themeName AS theme,
+                    IFNULL(d.discountPercentage, 0) AS discount
+                FROM paintings p
+                LEFT JOIN artists a ON p.artistId = a.id
+                LEFT JOIN themes t ON p.themeId = t.id
+                LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+                LEFT JOIN discounts d ON dp.discountId = d.id
+                WHERE 1=1
+            """);
 
         List<Object> params = new ArrayList<>();
 
@@ -175,23 +171,19 @@ public class PaintingDao {
             sql.append(" AND p.price <= ?");
             params.add(maxPrice);
         }
-
-        if (sizes != null && sizes.length > 0) {
-            sql.append(" AND s.id IN (").append("?,".repeat(sizes.length - 1)).append("?)");
-            params.addAll(List.of(sizes));
-        }
-
         if (themes != null && themes.length > 0) {
             sql.append(" AND t.id IN (").append("?,".repeat(themes.length - 1)).append("?)");
             params.addAll(List.of(themes));
         }
-
         if (artists != null && artists.length > 0) {
             sql.append(" AND a.id IN (").append("?,".repeat(artists.length - 1)).append("?)");
             params.addAll(List.of(artists));
         }
 
-        sql.append(" AND ps.quantity > 0");
+        sql.append(" LIMIT ? OFFSET ?");
+        params.add(recordsPerPage);
+        int offset = (currentPage - 1) * recordsPerPage;
+        params.add(offset);
 
         try (PreparedStatement stmt = con.prepareStatement(sql.toString())) {
             for (int i = 0; i < params.size(); i++) {
@@ -202,8 +194,7 @@ public class PaintingDao {
                 while (rs.next()) {
                     int paintingId = rs.getInt("paintingId");
 
-                    if (paintingMap.containsKey(paintingId)) {
-                    } else {
+                    if (!paintingMap.containsKey(paintingId)) {
                         Painting painting = new Painting();
                         painting.setId(paintingId);
                         painting.setTitle(rs.getString("paintingTitle"));
@@ -279,27 +270,22 @@ public class PaintingDao {
     // danh sach tranh theo từng họa sĩ .
     public List<Painting> getPaintingListByArtist(Double minPrice, Double maxPrice, String[] sizes, String[] themes, String artistId) throws SQLException {
         List<Painting> paintingList = new ArrayList<>();
-        Map<Integer, Painting> paintingMap = new HashMap<>();
 
         StringBuilder sql = new StringBuilder("""
-                    SELECT 
-                        p.id AS paintingId,
-                        p.title AS paintingTitle,
-                        p.price,
-                        p.imageUrl,
-                        a.name AS artistName,
-                        t.themeName AS theme,
-                        IFNULL(d.discountPercentage, 0) AS discount,
-                        s.sizeDescription AS size,
-                        ps.quantity AS stock
-                    FROM paintings p
-                    LEFT JOIN artists a ON p.artistId = a.id
-                    LEFT JOIN themes t ON p.themeId = t.id
-                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
-                    LEFT JOIN discounts d ON dp.discountId = d.id
-                    LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
-                    LEFT JOIN sizes s ON ps.sizeId = s.id
-                    WHERE 1=1 AND a.id = ?
+                                     SELECT
+                                        p.id AS paintingId,
+                                        p.title AS paintingTitle,
+                                        p.price,
+                                        p.imageUrl,
+                                        a.name AS artistName,
+                                        t.themeName AS theme,
+                                        IFNULL(d.discountPercentage, 0) AS discount
+                                    FROM paintings p
+                                    LEFT JOIN artists a ON p.artistId = a.id
+                                    LEFT JOIN themes t ON p.themeId = t.id
+                                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+                                    LEFT JOIN discounts d ON dp.discountId = d.id
+                                     WHERE artistId = ?;
                 """);
 
         List<Object> params = new ArrayList<>();
@@ -314,30 +300,20 @@ public class PaintingDao {
             params.add(maxPrice);
         }
 
-        if (sizes != null && sizes.length > 0) {
-            sql.append(" AND s.id IN (").append("?,".repeat(sizes.length - 1)).append("?)");
-            params.addAll(List.of(sizes));
-        }
-
         if (themes != null && themes.length > 0) {
             sql.append(" AND t.id IN (").append("?,".repeat(themes.length - 1)).append("?)");
             params.addAll(List.of(themes));
         }
 
 
-        sql.append(" AND ps.quantity > 0");
-
         try (PreparedStatement stmt = con.prepareStatement(sql.toString())) {
             for (int i = 0; i < params.size(); i++) {
                 stmt.setObject(i + 1, params.get(i));
             }
-
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     int paintingId = rs.getInt("paintingId");
 
-                    if (paintingMap.containsKey(paintingId)) {
-                    } else {
                         Painting painting = new Painting();
                         painting.setId(paintingId);
                         painting.setTitle(rs.getString("paintingTitle"));
@@ -347,16 +323,14 @@ public class PaintingDao {
                         painting.setDiscountPercentage(rs.getDouble("discount"));
                         painting.setPrice(rs.getDouble("price"));
                         painting.setSizes(new ArrayList<>());
-                        paintingMap.put(paintingId, painting);
-                    }
+                        paintingList.add(painting);
+
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Lỗi khi lấy danh sách tranh có lọc", e);
         }
-
-        paintingList.addAll(paintingMap.values());
 
         return paintingList;
     }
@@ -425,10 +399,57 @@ public class PaintingDao {
         String[] sizes = null;
         String[] themes = {"1"};
 
-      //  for (Painting P : paintingDao.getPaintingListByArtist(m1,m2,sizes, themes, "1")) {
-       //     System.out.println(P);
-       // }
+        for (Painting P : paintingDao.getPaintingList(m1,m2,sizes, null, 1 , 5)) {
+            System.out.println(P);
+        }
     }
 
+
+    public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists) throws SQLException {
+        StringBuilder sql = new StringBuilder("""
+                SELECT COUNT(*) AS total
+                FROM paintings p
+                LEFT JOIN artists a ON p.artistId = a.id
+                LEFT JOIN themes t ON p.themeId = t.id
+                WHERE 1=1
+        """);
+
+        if (minPrice != null) {
+            sql.append(" AND p.price >= ?");
+        }
+        if (maxPrice != null) {
+            sql.append(" AND p.price <= ?");
+        }
+        if (themes != null && themes.length > 0) {
+            sql.append(" AND t.id IN (").append("?,".repeat(themes.length - 1)).append("?)");
+        }
+        if (artists != null && artists.length > 0) {
+            sql.append(" AND a.id IN (").append("?,".repeat(artists.length - 1)).append("?)");
+        }
+
+        try (PreparedStatement stmt = con.prepareStatement(sql.toString())) {
+            int index = 1;
+            if (minPrice != null) stmt.setDouble(index++, minPrice);
+            if (maxPrice != null) stmt.setDouble(index++, maxPrice);
+            if (themes != null && themes.length > 0) {
+                for (String theme : themes) {
+                    stmt.setInt(index++, Integer.parseInt(theme));
+                }
+            }
+            if (artists != null && artists.length > 0) {
+                for (String artist : artists) {
+                    stmt.setInt(index++, Integer.parseInt(artist));
+                }
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("total");
+                }
+            }
+        }
+
+        return 0;
+    }
 
 }

@@ -9,10 +9,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class PaintingService {
-    PaintingDao paintingDao = new PaintingDao();
+    private PaintingDao paintingDao = new PaintingDao();
 
-    public List<Painting> getPaintingList(Double min, Double max, String[] sizes, String[] themes, String[] artists) throws SQLException {
-        return paintingDao.getPaintingList(min, max, sizes, themes, artists);
+    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] themes, String[] artists, int currentPage, int recordsPerPage) throws SQLException {
+        return paintingDao.getPaintingList(minPrice, maxPrice, themes, artists, currentPage, recordsPerPage);
+    }
+    public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists) throws SQLException {
+        return paintingDao.countPaintings(minPrice, maxPrice, themes, artists);
     }
 
     public Painting getPainting(int id) throws SQLException {
@@ -37,5 +40,6 @@ public class PaintingService {
         PaintingService paintingService = new PaintingService();
         System.out.println(paintingService.getAll());
     }
+
 
 }
