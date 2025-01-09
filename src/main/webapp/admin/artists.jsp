@@ -54,7 +54,11 @@
         </button>
         </tr>
         <div style="padding-bottom: 10px">
-
+          <c:if test="${not empty message}">
+            <div class="alert alert-info" role="alert">
+                ${message}
+            </div>
+          </c:if>
         </div>
         <thead>
         <tr>
@@ -76,7 +80,8 @@
             <td>${u.nationality}</td>
             <td><button class="btn btn-info btn-sm" data-bs-toggle="modal"
                         data-bs-target="#viewEditArtistModal" data-order-id="${u.id}">Xem Chi Tiết</button>
-              <button class="btn btn-danger btn-sm" data-order-id="${u.id}">Xóa</button>
+              <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                      data-bs-target="#deleteArtistModal" data-artist-id="${u.id}">Xóa</button>
             </td>
           </tr>
         </c:forEach>
@@ -133,7 +138,7 @@
         <h5 class="modal-title" id="addArtistModalLabel">Thêm họa sĩ</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="addArtistForm">
+      <form action="${pageContext.request.contextPath}/admin/artists/add" method="POST" id="addArtistForm">
         <div class="modal-body">
           <div class="mb-3">
             <label for="artistName" class="form-label">Tên họa sĩ</label>
@@ -165,10 +170,39 @@
   </div>
 </div>
 
+<!-- xóa -->
+<div class="modal fade" id="deleteArtistModal" tabindex="-1" aria-labelledby="deleteArtistModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteArtistModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="${pageContext.request.contextPath}/admin/artists/delete" method="POST">
+        <div class="modal-body">
+          <p>Bạn có chắc chắn muốn xóa nghệ sĩ này?</p>
+          <input type="hidden" id="artistIdToDelete" name="artistId">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   $(document).ready(function() {
     $('#artists').DataTable();
+  });
+
+  document.querySelectorAll('[data-bs-target="#deleteArtistModal"]').forEach(button => {
+    button.addEventListener('click', function() {
+      let artistId = this.getAttribute('data-artist-id');
+      document.getElementById('artistIdToDelete').value = artistId;
+    });
   });
 </script>
 </body>
