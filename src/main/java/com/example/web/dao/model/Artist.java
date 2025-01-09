@@ -20,6 +20,14 @@ public class Artist implements Serializable {
         this.nationality = nationality;
         this.photoUrl = photoUrl;
     }
+    public Artist( String name, String bio, Date birthDate, String nationality, String photoUrl) {
+        this.name = name;
+        this.bio = bio;
+        this.birthDate = birthDate;
+        this.nationality = nationality;
+        this.photoUrl = photoUrl;
+    }
+
 
     public int getId() {
         return id;

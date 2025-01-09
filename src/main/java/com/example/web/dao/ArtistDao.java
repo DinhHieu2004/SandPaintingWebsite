@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +19,7 @@ public class ArtistDao {
     public ArtistDao() {
 
     }
+
     public List<Artist> getAllArtists() throws SQLException {
         List<Artist> artists = new ArrayList<Artist>();
         String sql = "select * from artists";
@@ -33,6 +36,7 @@ public class ArtistDao {
         }
         return artists;
     }
+
     public Artist getArtistById(int id) throws SQLException {
         String sql = "select * from artists where id = ?";
         PreparedStatement pstmt = con.prepareStatement(sql);
@@ -49,9 +53,40 @@ public class ArtistDao {
         return null;
     }
 
-    public static void main(String[] args) throws SQLException {
-        ArtistDao dao = new ArtistDao();
-        System.out.println(dao.getAllArtists());
+    public boolean addArtist(Artist artist) throws SQLException {
+        String sql = "INSERT INTO artists (name, bio, birthDate, nationality, photoUrl) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement statement = con.prepareStatement(sql);
+        statement.setString(1, artist.getName());
+        statement.setString(2, artist.getBio());
+        statement.setDate(3, new java.sql.Date(artist.getBirthDate().getTime()));
+        statement.setString(4, artist.getNationality());
+        statement.setString(5, artist.getPhotoUrl());
+        int rowsInserted = statement.executeUpdate();
+        return rowsInserted > 0;
+
     }
+
+    public boolean deleteArtist(int i) throws SQLException {
+        String query = "DELETE FROM artists WHERE id = ?";
+
+        try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, i);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
+
+
+public static void main(String[] args) throws SQLException, ParseException {
+    ArtistDao dao = new ArtistDao();
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    Date specificDate = formatter.parse("2025-01-01");
+    Artist artist = new Artist("hieu","abc", specificDate, "vietnam", "vjdvjkfvn");
+  //  System.out.println(dao.addArtist(artist));
+
+    dao.deleteArtist(26);
+}
+
+
 
 }
