@@ -24,11 +24,8 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("user", user);
                 User currentUser = (User) session.getAttribute("user");
                 System.out.println(currentUser);
-                if (user.getRole().equals(User.Role.admin)) { // Kiểm tra role của user
-                    response.sendRedirect("/web_war/admin/admin.jsp"); // Chuyển đến trang admin nếu là admin
-                } else {
-                    response.sendRedirect("index.jsp");
-                }
+                response.sendRedirect("index.jsp");
+
             } else {
                 // Nếu user là null hoặc role không xác định, hiển thị thông báo lỗi
                 request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng!");

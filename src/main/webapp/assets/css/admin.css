@@ -1,95 +1,28 @@
-
 * {
-    margin: 0 !important;
-    padding: 0  !important;
-    box-sizing: border-box;
+    all: initial !important;
 }
-/* style.css */
-body {
-    font-family: sans-serif;
-    margin: 0;
-    display: flex;
-    min-height: 100vh; /* Đảm bảo chiều cao tối thiểu bằng chiều cao viewport */
-}
-
-.dashboard-container {
-    display: flex;
-    width: 100%;
-}
-
 .sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 250px;
-    background-color: #f8f9fa; /* Màu nền nhạt */
-    padding: 20px;
-    box-sizing: border-box; /* Tính cả padding và border vào width */
-    border-right: 1px solid #dee2e6; /* Đường viền bên phải */
-    min-height: 100vh; /* Đảm bảo chiều cao tối thiểu bằng chiều cao viewport */
+    background-color: #343a40;
+    color: white;
+    padding: 20px 10px;
 }
-
-.sidebar-title {
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.menu li a {
+.sidebar a {
+    color: white;
+    text-decoration: none;
     display: block;
     padding: 10px;
-    text-decoration: none;
-    color: #333;
-    border-radius: 5px; /* Bo tròn góc */
-    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+    margin-bottom: 5px;
 }
-
-.menu li.active a, .menu li a:hover {
-    background-color: #e9ecef; /* Màu nền khi hover hoặc active */
-}
-
-.main-content {
-    flex: 1;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.content-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.add-button {
-    background-color: #28a745; /* Màu xanh lá cây */
-    color: white;
-    border: none;
-    padding: 8px 16px;
+.sidebar a:hover {
+    background-color: #495057;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
 }
-
-.add-button:hover {
-    background-color: #218838;
-}
-
-.content-table table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #dee2e6;
-}
-
-.content-table th, .content-table td {
-    padding: 10px;
-    border: 1px solid #dee2e6;
-    text-align: left;
-}
-
-.content-table th {
-    background-color: #f0f0f0;
-    font-weight: bold;
+.content {
+    margin-left: 260px; /* Sidebar width + margin */
+    padding: 20px;
 }

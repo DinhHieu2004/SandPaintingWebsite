@@ -1,121 +1,167 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html lang="vi">
-
+<html lang="en">
 <head>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/personal.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables.net-dt/css/jquery.dataTables.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <style> .sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    background-color: #343a40;
+    color: white;
+    padding: 20px 10px;
+  }
+  .sidebar a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    margin-bottom: 5px;
+  }
+  .sidebar a:hover {
+    background-color: #495057;
+    border-radius: 5px;
+  }
+  .content {
+    margin-left: 260px; /* Sidebar width + margin */
+    padding: 20px;
+  }
+  </style>
+
 </head>
-<style> .modal-dialog {
-  margin: 0 auto !important;
-  max-width: 500px;
-}</style>
 <body>
-<div class="orders-content">
-
-
-  <div class="card mb-4">
-
-  <div class="card mb-4">
-    <div class="card-header bg-success text-white">
-      <h4>Đơn Hàng Hiện Tại</h4>
-    </div>
-    <div class="card-body">
-      <table id="currentOrders" class="table table-bordered display">
-        <thead>
+<!-- Sidebar -->
+<%@ include file="/admin/sidebar.jsp" %>
+<div class="content">
+<div class="card mb-4">
+  <div class="card-header bg-success text-white">
+    <h4>Đơn Hàng Hiện Tại</h4>
+  </div>
+  <div class="card-body">
+    <table id="currentOrders" class="table table-bordered display">
+      <thead>
+      <tr>
+        <th>Mã Đơn Hàng</th>
+        <th>Tổng Tiền</th>
+        <th>Ngày Đặt</th>
+        <th>Trạng Thái</th>
+        <th>Hành Động</th>
+      </tr>
+      </thead>
+      <tbody>
+      <c:forEach var="order" items="${currentOrder}">
         <tr>
-          <th>Mã Đơn Hàng</th>
-          <th>Tổng Tiền</th>
-          <th>Ngày Đặt</th>
-          <th>Trạng Thái</th>
-          <th>Hành Động</th>
+          <td>${order.id}</td>
+          <td>${order.totalAmount}</td>
+          <td>${order.orderDate}</td>
+          <td>${order.status}</td>
+          <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" data-order-id="${order.id}">Xem Chi Tiết</button></td>
+
         </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
+      </c:forEach>
+      </tbody>
+    </table>
   </div>
-
-  <div class="card mb-4">
-    <div class="card-header bg-secondary text-white">
-      <h4>Lịch Sử Đơn Hàng</h4>
-    </div>
-    <div class="card-body">
-      <table id="orderHistory" class="table table-bordered display">
-        <thead>
-        <tr>
-          <th>Mã Đơn Hàng</th>
-          <th>Tổng Tiền</th>
-          <th>Ngày Đặt</th>
-          <th>Ngày Giao</th>
-
-          <th>Trạng Thái</th>
-          <th>Hành Động</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-    <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="orderDetailsModalLabel">Chi Tiết Đơn Hàng</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div id="orderRecipientInfo">
-            </div>
-
-            <div class="mt-3">
-              <label for="orderStatus" class="form-label"><strong>Thay Đổi Trạng Thái Đơn Hàng:</strong></label>
-              <select id="orderStatus" class="form-select">
-                <option value="Chờ">chờ xử lý</option>
-                <option value="đang giao">Đang giao</option>
-                <option value="hoàn thành">hoàn thành</option>
-                <option value="đã hủy">Đã hủy</option>
-              </select>
-            </div>
-
-            <div id="info">
-            </div>
-
-            <table class="table table-striped mt-3">
-              <thead>
-              <tr>
-                <th>Tên Sản Phẩm</th>
-                <th>Kích Thước</th>
-                <th>Số Lượng</th>
-                <th>Giá</th>
-              </tr>
-              </thead>
-              <tbody id="orderDetailsBody"></tbody>
-            </table>
-
-            <div id="totalPrice" class="mt-3">
-              <!-- Tổng giá -->
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" id="saveStatusBtn" class="btn btn-primary">Lưu Trạng Thái</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-<script src="${pageContext.request.contextPath}/assets/js/admin/orderManager.js"></script>
 </div>
 
+<div class="card mb-4">
+  <div class="card-header bg-secondary text-white">
+    <h4>Lịch Sử Đơn Hàng</h4>
+  </div>
+  <div class="card-body">
+    <table id="orderHistory" class="table table-bordered display">
+      <thead>
+      <tr>
+        <th>Mã Đơn Hàng</th>
+        <th>Tổng Tiền</th>
+        <th>Ngày Đặt</th>
+        <th>Ngày Giao</th>
+        <th>Trạng Thái</th>
+        <th>Hành Động</th>
+      </tr>
+      </thead>
+      <tbody>
+      <c:forEach var="order" items="${historyOrder}">
+        <tr>
+          <td>${order.id}</td>
+          <td>${order.totalAmount}</td>
+          <td>${order.orderDate}</td>
+          <td>${order.deliveryDate}</td>
+          <td>${order.status}</td>
+          <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" data-order-id="${order.id}">Xem Chi Tiết</button></td>
+        </tr>`;
+        </tr>
+      </c:forEach>
+      </tbody>
+    </table>
+  </div>
+</div>
+  <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderDetailsModalLabel">Chi Tiết Đơn Hàng</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="orderRecipientInfo">
+        </div>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Max sản phẩm</th>
+            <th>Tên Sản Phẩm</th>
+            <th>Ảnh</th>
+            <th>Kích Thước</th>
+            <th>Số Lượng</th>
+            <th>Giá</th>
+          </tr>
+          </thead>
+          <tbody id="orderDetailsBody"></tbody>
+        </table>
+        <div id="totalPrice">
+        </div>
+
+        <div id="orderStatusInfo">
+          <p><strong>Trạng thái: </strong><span id="orderStatus"></span></p>
+
+          <label for="statusSelect">Cập nhật trạng thái:</label>
+          <select id="statusSelect" class="form-select">
+            <option value="chờ">chờ</option>
+            <option value="đang giao">đang giao</option>
+            <option value="hoàn thành">hoàn thành</option>
+            <option value="thất bại">thất bại</option>
+            <option value="dã hủy">dã hủy</option>
+          </select>
+
+          <button id="updateStatusBtn" class="btn btn-primary mt-3">Cập nhật trạng thái</button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#currentOrders').DataTable();
+    $('#orderHistory').DataTable();
+  });
+</script>
+<script src="${pageContext.request.contextPath}/assets/js/admin/orders.js"></script>
 </body>
 </html>

@@ -9,10 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.example.web.dao.db.DbConnect.getConnection;
 
@@ -21,34 +18,75 @@ public class PaintingDao {
 
     public PaintingDao() {
     }
-    public Painting getPaintingAdd()throws SQLException{
-        Painting paintingAdd=null;
-        String sql = """
-                    SELECT 
-                        p.id AS paintingId,
-                        p.title AS paintingTitle,
-                        p.price,
-                        p.description,
-                        p.imageUrl,
-                        a.name AS artistName,
-                        t.themeName,
-                        d.discountName,
-                        d.discountPercentage,
-                        s.sizeDescription,
-                        s.id AS idSize,
-                        ps.quantity AS sizeQuantity
-                    FROM paintings p
-                    LEFT JOIN artists a ON p.artistId = a.id
-                    LEFT JOIN themes t ON p.themeId = t.id
-                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
-                    LEFT JOIN discounts d ON dp.discountId = d.id
-                    LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
-                    LEFT JOIN sizes s ON ps.sizeId = s.id
-                    WHERE p.id = ?;
-                """;
-
-        return paintingAdd;
+    public static boolean getPaintingDelete(String id) {
+        String sql = "DELETE FROM Painting WHERE id = ?";
+        DbConnect DBConnect = null;
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+    public List<Painting> getAll() throws SQLException {
+        String sql = """ 
+                SELECT p.id,
+                p.title,
+                p.description,
+                p.imageUrl,
+                a.name AS artistName,
+                t.themeName AS themeName,
+                p.price,
+                p.createdAt
+        FROM paintings p
+        JOIN artists a ON p.artistId = a.id
+        JOIN themes t ON p.themeId = t.id """;
+
+        PreparedStatement stmt = con.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        List<Painting> paintingList = new ArrayList<>();
+        while (rs.next()) {
+            Painting painting = new Painting();
+            int paintingId = rs.getInt("id");
+            String title = rs.getString("title");
+            double price = rs.getDouble("price");
+            String imageUrl = rs.getString("imageUrl");
+            String theme = rs.getString("themeName");
+            Date createdAt = rs.getDate("createdAt");
+            String artistName = rs.getString("artistName");
+            painting.setId(paintingId);
+            painting.setTitle(title);
+            painting.setPrice(price);
+            painting.setImageUrl(imageUrl);
+            painting.setThemeName(theme);
+            painting.setThemeName(theme);
+            painting.setArtistName(artistName);
+            painting.setCrateDate(createdAt);
+            painting.setDescription(rs.getString("description"));
+            paintingList.add(painting);
+        }
+        return paintingList;
+    }
+
+        public boolean getPaintingAdd(String title, String description, String imageUrl) {
+            String sql = "INSERT INTO Painting (id,title, themeId, price,artistId,description,imageUrl) VALUES (?, ?, ?)";
+            DbConnect DBConnect = null;
+            try (Connection conn = DBConnect.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, title);
+                ps.setString(2, description);
+                ps.setString(3, imageUrl);
+                return ps.executeUpdate() > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+
+
 
     public Painting getPaintingDetail(int paintingId) throws SQLException {
         Painting paintingDetail = null;

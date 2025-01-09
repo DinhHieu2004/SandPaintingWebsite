@@ -6,14 +6,15 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <div class="sidebar">
-  <h2>Admin Dashboard</h2>
-  <nav>
-    <button class="nav-button active" data-section="dashboard">Dashboard</button>
-    <button class="nav-button" data-section="discounts">Quản lý giảm giá</button>
-    <button class="nav-button" data-section="paintings">Quản lý tranh</button>
-    <button class="nav-button" data-section="orders">Quản lý đơn hàng</button>
-    <button class="nav-button" data-section="reviews">Đánh giá khách hàng</button>
-    <button class="nav-button" data-section="users">Quản lý người dùng</button>
-  </nav>
+
+  <h3>Admin Panel</h3>
+  <a href="${pageContext.request.contextPath}/admin">Tổng quan</a>
+  <a href="${pageContext.request.contextPath}/admin/products">Quản lý sản phẩm</a>
+  <a href="${pageContext.request.contextPath}/admin/orders">Quản lý đơn hàng</a>
+  <a href="${pageContext.request.contextPath}/admin/users">Quản lý người dùng</a>
+  <a href="${pageContext.request.contextPath}/admin/artists">Quản lý họa sĩ</a>
+  <a href="${pageContext.request.contextPath}/admin/users">Quản lý đánh giá</a>
+
 </div>

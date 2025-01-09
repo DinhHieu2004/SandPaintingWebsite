@@ -6,6 +6,7 @@ public class OrderItem {
     private int id;
     private int orderId;
     private int paintingId;
+    private String img;
     private int sizeId;
     private double price;
     private int quantity;
@@ -15,6 +16,14 @@ public class OrderItem {
     // Getters and Setters
     public int getId() {
         return id;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public String getSizeDescription() {
@@ -73,10 +82,12 @@ public class OrderItem {
                 "id=" + id +
                 ", orderId=" + orderId +
                 ", paintingId=" + paintingId +
+                ", img='" + img + '\'' +
                 ", sizeId=" + sizeId +
                 ", price=" + price +
                 ", quantity=" + quantity +
                 ", name='" + name + '\'' +
+                ", sizeDescription='" + sizeDescription + '\'' +
                 '}';
     }
 }

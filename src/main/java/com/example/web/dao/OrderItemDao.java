@@ -24,7 +24,7 @@ public class OrderItemDao {
     }
     public List<OrderItem> getListOrderItem(int orderId) throws SQLException {
         String sql = """
-                    SELECT oi.orderId, oi.paintingId, p.title AS productName, s.sizeDescription AS sizeDescription, 
+                    SELECT oi.orderId, oi.paintingId, p.title AS productName,  p.imageUrl , s.sizeDescription AS sizeDescription, 
                            oi.sizeId, oi.quantity, oi.price 
                     FROM order_items oi
                     JOIN paintings p ON oi.paintingId = p.id
@@ -38,6 +38,7 @@ public class OrderItemDao {
         while (rs.next()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setName(rs.getString("productName"));
+            orderItem.setImg(rs.getString("imageUrl"));
             orderItem.setOrderId(rs.getInt("orderId"));
             orderItem.setPaintingId(rs.getInt("paintingId"));
             orderItem.setSizeId(rs.getInt("sizeId"));
@@ -51,7 +52,7 @@ public class OrderItemDao {
 
     public static void main(String[] args) throws SQLException {
         OrderItemDao orderItemDao = new OrderItemDao();
-        for(OrderItem o : orderItemDao.getListOrderItem(16)){
+        for(OrderItem o : orderItemDao.getListOrderItem(37)){
             System.out.println(o);
         }
     }
