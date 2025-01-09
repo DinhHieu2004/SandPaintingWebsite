@@ -76,8 +76,6 @@
                       data-bs-target="#orderDetailsModal" data-order-id="${p.id}">Xóa</button></td>
           </tr>
 
-
-
         </c:forEach>
         </tbody>
       </table>

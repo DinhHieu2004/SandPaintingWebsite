@@ -45,10 +45,17 @@
 <div class="content">
   <div class="card mb-4">
     <div class="card-header bg-success text-white">
-      <h4>Người dùng</h4>
+      <h4>Họa sĩ</h4>
     </div>
     <div class="card-body">
       <table id="artists" class="table table-bordered display">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addArtistModal">
+          Thêm họa sĩ
+        </button>
+        </tr>
+        <div style="padding-bottom: 10px">
+
+        </div>
         <thead>
         <tr>
           <th>Mã họa sĩ</th>
@@ -68,7 +75,9 @@
             <td>${u.birthDate}</td>
             <td>${u.nationality}</td>
             <td><button class="btn btn-info btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#orderDetailsModal" data-order-id="${u.id}">Xem Chi Tiết</button></td>
+                        data-bs-target="#viewEditArtistModal" data-order-id="${u.id}">Xem Chi Tiết</button>
+              <button class="btn btn-danger btn-sm" data-order-id="${u.id}">Xóa</button>
+            </td>
           </tr>
         </c:forEach>
         </tbody>
@@ -76,6 +85,86 @@
     </div>
   </div>
 </div>
+<!--  view and  edit -->
+<div class="modal fade" id="viewEditArtistModal" tabindex="-1" aria-labelledby="viewEditArtistModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewEditArtistModalLabel">Xem & Chỉnh sửa họa sĩ</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="editArtistForm">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="editArtistName" class="form-label">Tên họa sĩ</label>
+            <input type="text" class="form-control" id="editArtistName" name="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="editArtistBio" class="form-label">Tiểu sử</label>
+            <textarea class="form-control" id="editArtistBio" name="bio" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editArtistBirthDate" class="form-label">Ngày sinh</label>
+            <input type="date" class="form-control" id="editArtistBirthDate" name="birthDate">
+          </div>
+          <div class="mb-3">
+            <label for="editArtistNationality" class="form-label">Quốc tịch</label>
+            <input type="text" class="form-control" id="editArtistNationality" name="nationality">
+          </div>
+          <div class="mb-3">
+            <label for="editArtistPhotoUrl" class="form-label">URL ảnh</label>
+            <input type="url" class="form-control" id="editArtistPhotoUrl" name="photoUrl">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--them hoa sĩ -->
+<div class="modal fade" id="addArtistModal" tabindex="-1" aria-labelledby="addArtistModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addArtistModalLabel">Thêm họa sĩ</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="addArtistForm">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="artistName" class="form-label">Tên họa sĩ</label>
+            <input type="text" class="form-control" id="artistName" name="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="artistBio" class="form-label">Tiểu sử</label>
+            <textarea class="form-control" id="artistBio" name="bio" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="artistBirthDate" class="form-label">Ngày sinh</label>
+            <input type="date" class="form-control" id="artistBirthDate" name="birthDate">
+          </div>
+          <div class="mb-3">
+            <label for="artistNationality" class="form-label">Quốc tịch</label>
+            <input type="text" class="form-control" id="artistNationality" name="nationality">
+          </div>
+          <div class="mb-3">
+            <label for="artistPhotoUrl" class="form-label">URL ảnh</label>
+            <input type="url" class="form-control" id="artistPhotoUrl" name="photoUrl">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          <button type="submit" class="btn btn-primary">Lưu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   $(document).ready(function() {
