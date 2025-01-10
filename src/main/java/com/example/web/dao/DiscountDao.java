@@ -63,7 +63,6 @@ public class DiscountDao {
                                
         """;
 
-
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
@@ -92,13 +91,19 @@ public class DiscountDao {
         }
         return paintingList;
     }
-
+    public String getDiscountNameById(int discountId) throws SQLException {
+        String sql = "SELECT discountName FROM discounts WHERE id = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        String result = "";
+        ps.setInt(1, discountId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            result = rs.getString("discountName");
+        }
+        return result;
+    }
     public static void main(String[] args) throws SQLException {
         DiscountDao dao = new DiscountDao();
-        List<Painting> list = dao.getPaintingsByDiscountId(1);
-        for (Painting painting : list) {
-            System.out.println(painting);
-        }
     }
 }
 
