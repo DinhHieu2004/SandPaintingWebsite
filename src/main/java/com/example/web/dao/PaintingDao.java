@@ -417,6 +417,45 @@ public class PaintingDao {
 
         return theme;
     }
+    public List<Painting> getProductDcByNullDcId() throws SQLException {
+        // Sửa câu lệnh SQL với khoảng trắng và cú pháp IS NULL
+        String sql = """
+        SELECT p.id, 
+               p.title, 
+               p.price, 
+               a.name AS artistName, 
+               t.themeName AS themeName, 
+               p.createdAt 
+        FROM paintings p 
+        JOIN artists a ON p.artistId = a.id 
+        JOIN themes t ON p.themeId = t.id 
+        WHERE p.discountId IS NULL
+    """;
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        List<Painting> productDcByNullDcId = new ArrayList<>();
+        while (rs.next()) {
+            Painting painting = new Painting();
+            int paintingId = rs.getInt("id");
+            String title = rs.getString("title");
+            double price = rs.getDouble("price");
+            String theme = rs.getString("themeName");
+            Date createdAt = rs.getDate("createdAt");
+            String artistName = rs.getString("artistName");
+
+            painting.setId(paintingId);
+            painting.setTitle(title);
+            painting.setPrice(price);
+            painting.setThemeName(theme);
+            painting.setArtistName(artistName);
+            painting.setCrateDate(createdAt);
+
+            productDcByNullDcId.add(painting);
+        }
+        return productDcByNullDcId;
+    }
+
     public static void main(String[] args) throws SQLException {
         PaintingDao paintingDao = new PaintingDao();
         Double m1 = null;
@@ -424,6 +463,10 @@ public class PaintingDao {
 
         String[] sizes = null;
         String[] themes = {"1"};
+        List<Painting> list = paintingDao.getProductDcByNullDcId();
+        for (Painting painting : list) {
+            System.out.println(painting);
+        }
 
       //  for (Painting P : paintingDao.getPaintingListByArtist(m1,m2,sizes, themes, "1")) {
        //     System.out.println(P);

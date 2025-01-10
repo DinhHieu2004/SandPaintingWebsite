@@ -25,8 +25,12 @@ public class DiscountProduct extends HttpServlet {
                 // Sử dụng discountId để lấy danh sách sản phẩm
                 DiscountDao discountDao = new DiscountDao();
                 List<Painting> paintings = discountDao.getPaintingsByDiscountId(discountId);
+                String discountName = discountDao.getDiscountNameById(discountId);
 
+                // Lưu discountId vào request để truyền về JSP
+                request.setAttribute("discountId", discountId);
                 request.setAttribute("paintings", paintings);
+                request.setAttribute("discountName", discountName);
                 request.getRequestDispatcher("/admin/discount_paintings.jsp").forward(request, response);
             } catch (NumberFormatException e) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid discount ID");
@@ -38,4 +42,3 @@ public class DiscountProduct extends HttpServlet {
         }
     }
 }
-
