@@ -118,9 +118,16 @@ public class DiscountDao {
         }
     }
 
-
+    public void removeProductFromDiscount(int productId) throws SQLException {
+        String sql = "UPDATE paintings SET discountId = NULL WHERE id = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, productId);
+            preparedStatement.executeUpdate();
+        }
+    }
     public static void main(String[] args) throws SQLException {
         DiscountDao dao = new DiscountDao();
     }
+
 }
 

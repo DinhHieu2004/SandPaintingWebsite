@@ -32,6 +32,7 @@
       <th>Tên</th>
       <th>Họa sĩ</th>
       <th>Giá</th>
+      <th>Hành động</th>
     </tr>
     </thead>
     <tbody>
@@ -41,20 +42,58 @@
         <td>${painting.title}</td>
         <td>${painting.artistName}</td>
         <td>${painting.price}</td>
+        <td>
+          <!-- Nút xóa -->
+          <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-product-id="${painting.id}" data-discount-id="${discountId}">
+            Xóa
+          </button>
+        </td>
       </tr>
     </c:forEach>
     </tbody>
   </table>
 </div>
 
+<!-- Modal xác nhận xóa -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa sản phẩm này khỏi chương trình giảm giá?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <a id="confirmDeleteBtn" class="btn btn-danger">Xóa</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   $(document).ready(function() {
     $('#paintingsTable').DataTable({});
+
+    // Khi nhấn vào nút xóa, lưu thông tin sản phẩm và chương trình giảm giá vào modal
+    $('#confirmDeleteModal').on('show.bs.modal', function(event) {
+      var button = $(event.relatedTarget); // Nút xóa được nhấn
+      var productId = button.data('product-id');
+      var discountId = button.data('discount-id');
+
+      // Cập nhật URL của nút xác nhận xóa
+      var deleteUrl = '${pageContext.request.contextPath}/admin/removePaintingFromDiscount?discountId=' + discountId + '&productId=' + productId;
+      $('#confirmDeleteBtn').attr('href', deleteUrl);
+    });
   });
 </script>
+
 </body>
 </html>
+
 
 
 
