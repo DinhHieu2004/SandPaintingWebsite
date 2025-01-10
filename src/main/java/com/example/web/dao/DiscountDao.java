@@ -102,6 +102,23 @@ public class DiscountDao {
         }
         return result;
     }
+    public void assignProductsToDiscount(int discountId, List<Integer> productIds) throws SQLException {
+        String sql = "UPDATE paintings SET discountId = ? WHERE id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            // Lặp qua danh sách productIds và cập nhật discount_id
+            for (int productId : productIds) {
+                ps.setInt(1, discountId); // Gán giá trị discount_id
+                ps.setInt(2, productId); // Gán giá trị id của sản phẩm
+                ps.addBatch();
+            }
+
+            // Thực thi batch
+            ps.executeBatch();
+        }
+    }
+
+
     public static void main(String[] args) throws SQLException {
         DiscountDao dao = new DiscountDao();
     }

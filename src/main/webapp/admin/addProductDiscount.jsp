@@ -15,38 +15,53 @@
 <div class="container mt-4">
     <h2 class="mb-4">Chọn sản phẩm để thêm vào chương trình giảm giá: <span>${discountName}</span></h2>
 
+    <!-- Hiển thị thông báo lỗi nếu có -->
+    <c:if test="${not empty param.errorMessage}">
+        <div class="alert alert-danger">
+                ${param.errorMessage}
+        </div>
+    </c:if>
+
     <!-- Biểu mẫu để gửi thông tin -->
     <form action="${pageContext.request.contextPath}/admin/assignDiscount" method="post">
-        <!-- Kiểm tra xem paintingList có tồn tại và không rỗng không -->
-        <c:if test="${not empty paintingList}">
-            <!-- Danh sách sản phẩm chưa thuộc chương trình giảm giá -->
-            <table id="productsTable" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>Chọn</th>
-                    <th>ID</th>
-                    <th>Tên</th>
-                    <th>Họa sĩ</th>
-                    <th>Giá</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="painting" items="${paintingList}">
+        <input type="hidden" name="discountId" value="${discountId}">
+
+        <!-- Kiểm tra danh sách sản phẩm -->
+        <c:choose>
+            <c:when test="${not empty paintingList}">
+                <table id="productsTable" class="table table-bordered table-striped">
+                    <thead>
                     <tr>
-                        <td>
-                            <input type="checkbox" name="productIds" value="${painting.id}">
-                        </td>
-                        <td>${painting.id}</td>
-                        <td>${painting.title}</td>
-                        <td>${painting.artistName}</td>
-                        <td>${painting.price}</td>
+                        <th>Chọn</th>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Họa sĩ</th>
+                        <th>Giá</th>
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </c:if>
-        <!-- Nút gửi -->
-        <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="painting" items="${paintingList}">
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="productIds" value="${painting.id}">
+                            </td>
+                            <td>${painting.id}</td>
+                            <td>${painting.title}</td>
+                            <td>${painting.artistName}</td>
+                            <td>${painting.price}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+
+                <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+            </c:when>
+            <c:otherwise>
+                <div class="alert alert-warning" role="alert">
+                    Hiện không có sản phẩm nào để thêm vào chương trình giảm giá.
+                </div>
+            </c:otherwise>
+        </c:choose>
     </form>
 </div>
 
