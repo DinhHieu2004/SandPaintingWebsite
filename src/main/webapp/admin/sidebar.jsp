@@ -16,5 +16,6 @@
   <a href="${pageContext.request.contextPath}/admin/users">Quản lý người dùng</a>
   <a href="${pageContext.request.contextPath}/admin/artists">Quản lý họa sĩ</a>
   <a href="${pageContext.request.contextPath}/admin/users">Quản lý đánh giá</a>
+  <a href="${pageContext.request.contextPath}/admin/discount">Quản lý giảm giá</a>
 
 </div>

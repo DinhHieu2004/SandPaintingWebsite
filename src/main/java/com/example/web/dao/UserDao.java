@@ -9,13 +9,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 
 
 public class UserDao {
@@ -156,15 +154,9 @@ public class UserDao {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        UserDao userDao = new UserDao();
-        System.out.println(userDao.checkLogin("hieuhieu", "462004"));
-
-        System.out.println(userDao.passwordRecovery("hmc","gatrong015@gmail.com"));
-    }
     public boolean updatePassword(String username, String newPassword) throws SQLException {
         String sql = "UPDATE users SET password = ? WHERE username = ?";
-        String hashedPassword = hashPassword(newPassword); // Mã hóa mật khẩu mới
+        String hashedPassword = hashPassword(newPassword);
         try (Connection con = getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, hashedPassword);
@@ -172,19 +164,28 @@ public class UserDao {
             return ps.executeUpdate() > 0;
         }
     }
-    public String getPasswordByUsername(String username) throws SQLException {
-        String sql = "SELECT password FROM users WHERE username = ?";
-        try (Connection con = getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, username);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString("password");
-                }
-            }
-        }
-        return null; // Không tìm thấy mật khẩu
+
+
+    public String generateNewPassword(String username) throws SQLException {
+        String token = generateRandomString(5); // Tạo token ngẫu nhiên
+        updatePassword(username, token);
+        return token;
     }
+    public static String generateRandomString(int length) {
+        // Biến cục bộ chỉ tồn tại trong hàm này
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder result = new StringBuilder();
+        java.util.Random random = new java.util.Random();
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            result.append(characters.charAt(index));
+        }
+
+        return result.toString();
+    }
+    
+
 
     public boolean updateUserInfo(User user) throws SQLException {
         String query = "UPDATE users SET fullName = ?, phone = ?, email = ?, address = ? WHERE username = ?";
@@ -210,13 +211,13 @@ public class UserDao {
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
             protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("shopsand22@gmail.com", "hdfl yops awzj kgxw");
+                return new PasswordAuthentication("shopsandnlu22@gmail.com", "hdfl yops awzj kgxw");
             }
         });
         try {
             Message message = new MimeMessage(session);
             message.setHeader("Content-Type", "text/plain; charset=UTF-8");
-            message.setFrom(new InternetAddress("shopsand22@gmail.com"));
+            message.setFrom(new InternetAddress("shopsandnlu22@gmail.com"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject(subject);
             message.setText(text);
@@ -228,14 +229,36 @@ public class UserDao {
     }
     public boolean passwordRecovery(String username, String email) throws SQLException {
         User user = findByEmail(email);
+        String newPass = generateNewPassword(username);
+        Boolean isRecoveried = false;
         if (user != null) {
-            sendMail(email, "Password recovery", getPasswordByUsername(username));
-//            sendMail(email, "Password recovery", "123");
-            return true;
+            sendMail(email, "Mật khẩu mới của bạn", "Vui lòng đổi mật khẩu sau khi đăng nhập:" + newPass);
+            isRecoveried = true;
         }
-        return false;
+        if(isRecoveried) {
+            updatePassword(username, newPass);
+        }
+        return isRecoveried;
+    }
+    public String getPasswordByUsername(String username) throws SQLException {
+        String sql = "SELECT password FROM users WHERE username = ?";
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("password");
+                }
+            }
+        }
+        return null; // Không tìm thấy mật khẩu
     }
 
+    public static void main(String[] args) throws SQLException {
+        UserDao userDao = new UserDao();
+        System.out.println(userDao.checkLogin("hieuhieu", "462004"));
 
+        System.out.println(userDao.passwordRecovery("hao","lenguyennhathao0807@gmail.com"));
+    }
 
 }
