@@ -55,7 +55,7 @@ public class DiscountDao {
                                       t.themeName AS themeName,
                                       p.price,
                                       p.createdAt,
-                                      p.discountId -- Thêm cột này vào
+                                      p.discountId
                                FROM paintings p
                                JOIN artists a ON p.artistId = a.id
                                JOIN themes t ON p.themeId = t.id

@@ -27,6 +27,8 @@ public class DiscountProduct extends HttpServlet {
                 List<Painting> paintings = discountDao.getPaintingsByDiscountId(discountId);
                 String discountName = discountDao.getDiscountNameById(discountId);
 
+                // Lưu discountId vào request để truyền về JSP
+                request.setAttribute("discountId", discountId);
                 request.setAttribute("paintings", paintings);
                 request.setAttribute("discountName", discountName);
                 request.getRequestDispatcher("/admin/discount_paintings.jsp").forward(request, response);
@@ -40,4 +42,3 @@ public class DiscountProduct extends HttpServlet {
         }
     }
 }
-

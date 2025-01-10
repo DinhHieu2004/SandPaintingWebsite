@@ -17,6 +17,13 @@
   <!-- Hiển thị tên chương trình giảm giá -->
   <h2 class="mb-4">Sản phẩm trong chương trình giảm giá: <span>${discountName}</span></h2>
 
+  <!-- Nút thêm sản phẩm -->
+  <c:if test="${not empty discountId}">
+    <a href="${pageContext.request.contextPath}/admin/addProductDiscount?discountId=${discountId}" class="btn btn-info btn-sm">
+      Thêm sản phẩm
+    </a>
+  </c:if>
+
   <!-- Hiển thị danh sách sản phẩm dưới dạng DataTable -->
   <table id="paintingsTable" class="table table-bordered table-striped">
     <thead>
@@ -43,11 +50,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   $(document).ready(function() {
-    $('#paintingsTable').DataTable({
-    });
+    $('#paintingsTable').DataTable({});
   });
 </script>
 </body>
 </html>
+
 
 
