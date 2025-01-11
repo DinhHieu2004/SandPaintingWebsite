@@ -74,7 +74,8 @@
         <c:forEach var="u" items="${artists}">
           <tr>
             <td>${u.id}</td>
-            <td><img src="${u.photoUrl}" width="60"></td>
+            <td><img src="${pageContext.request.contextPath}/${u.photoUrl}" alt="${u.name}" width="60"></td>
+
             <td>${u.name}</td>
             <td>${u.birthDate}</td>
             <td>${u.nationality}</td>
@@ -138,7 +139,7 @@
         <h5 class="modal-title" id="addArtistModalLabel">Thêm họa sĩ</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="${pageContext.request.contextPath}/admin/artists/add" method="POST" id="addArtistForm">
+      <form action="${pageContext.request.contextPath}/admin/artists/add" method="POST" id="addArtistForm" enctype="multipart/form-data">
         <div class="modal-body">
           <div class="mb-3">
             <label for="artistName" class="form-label">Tên họa sĩ</label>
@@ -157,8 +158,8 @@
             <input type="text" class="form-control" id="artistNationality" name="nationality">
           </div>
           <div class="mb-3">
-            <label for="artistPhotoUrl" class="form-label">URL ảnh</label>
-            <input type="url" class="form-control" id="artistPhotoUrl" name="photoUrl">
+            <label for="photo">Ảnh:</label>
+            <input type="file" id="photo" name="photo" accept="image/*" required>
           </div>
         </div>
         <div class="modal-footer">

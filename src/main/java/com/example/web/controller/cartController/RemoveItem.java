@@ -22,10 +22,14 @@ public class RemoveItem extends HttpServlet {
         HttpSession session = req.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
 
+
         if (cart != null) {
             cart.removeFromCart(productId, sizeId);
             session.setAttribute("cart", cart);
         }
+        System.out.println("productId: " + productId + ", sizeId: " + sizeId);
+        System.out.println("Cart: " + cart);
+
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");

@@ -96,7 +96,7 @@
                 <div class="col-6 col-md-3">
                     <div class="card artwork-card">
                         <a href="painting-detail?pid=${p.id}" class="card-link"></a>
-                        <img src="${p.imageUrl}" class="card-img-top artwork-image" alt="${p.title}"
+                        <img src="${pageContext.request.contextPath}/${p.imageUrl}" class="card-img-top artwork-image" alt="${p.title}"
                              style="width: 100%; height:180px !important;">
 
                         <div class="card-body">

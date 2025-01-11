@@ -1,11 +1,6 @@
-$(document).on('click', '.remove-item', function (e) {
-    e.preventDefault();
-
-    console.log("Document is ready!");
-
+$(document).ready(function () {
     $(".remove-item").click(function (e) {
         e.preventDefault();
-        console.log("Remove item button clicked!");
 
         const button = $(this);
         const productId = button.data("product-id");
@@ -19,14 +14,11 @@ $(document).on('click', '.remove-item', function (e) {
                 sizeId: sizeId,
             },
             success: function(response) {
-                console.log(response.status)
+                console.log(response);
                 if (response.status === "success") {
-                    console.log("Successfully removed item.");
-                    $("#totalAmount").text(response.totalPrice.toLocaleString() + " VND");
-                    $("#total-price").text(response.totalPrice.toLocaleString() + " VND");
-                    $(`#cart-item-${productId}-${sizeId}`).remove();
-
-                    // Nếu giỏ hàng trống, hiển thị thông báo
+                    const formattedPrice = response.cart.totalPrice.toLocaleString() + " VND";
+                    $("#total-price").text(formattedPrice);
+                    $("#totalAmount").text(formattedPrice);
                     if (!response.cart.items || response.cart.items.length === 0) {
                         $(".card-body").html(`
                             <div class="alert alert-info text-center" role="alert">
@@ -34,6 +26,7 @@ $(document).on('click', '.remove-item', function (e) {
                             </div>
                         `);
                     }
+                    $(`#cart-item-${productId}-${sizeId}`).remove();
                     updateMiniCart(response.cart);
                 } else {
                     alert(response.message || "Đã xảy ra lỗi khi xóa sản phẩm khỏi giỏ hàng.");

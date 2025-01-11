@@ -35,7 +35,8 @@
         <h5 class="filter-title m-0">Bộ lọc sản phẩm</h5>
         <span class="filter-reset" id="resetFilters">Đặt lại</span>
       </div>
-      <form id="filterForm" method="GET" action="artwork">
+      <form id="filterForm" method="GET" action="painting-list-of-painter?id=${param.id}">
+        <input type="hidden" name="id" value="${param.id}">
 
         <div class="filter-group">
           <h6 class="mb-3">Giá (VNĐ)</h6>
@@ -121,16 +122,21 @@
 
 <nav aria-label="Page navigation" class="mt-4">
   <ul class="pagination justify-content-center">
-    <li class="page-item disabled" id="prevPage">
-      <a class="page-link" href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li class="page-item" id="nextPage">
-      <a class="page-link" href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
+    <c:if test="${currentPage > 1}">
+      <li class="page-item">
+        <a class="page-link" href="artwork?page=${currentPage - 1}">&laquo;</a>
+      </li>
+    </c:if>
+    <c:forEach var="i" begin="1" end="${totalPages}">
+      <li class="page-item <c:if test='${i == currentPage}'>active</c:if>">
+        <a class="page-link" href="artwork?page=${i}">${i}</a>
+      </li>
+    </c:forEach>
+    <c:if test="${currentPage < totalPages}">
+      <li class="page-item">
+        <a class="page-link" href="artwork?page=${currentPage + 1}">&raquo;</a>
+      </li>
+    </c:if>
   </ul>
 </nav>
 <%@ include file="/partials/footer.jsp" %>

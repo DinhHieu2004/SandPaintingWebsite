@@ -64,7 +64,8 @@
         <c:forEach var="p" items="${products}">
           <tr>
             <td>${p.id}</td>
-            <td><img src="${p.imageUrl}" alt="${p.title}" width="50"></td>
+            <td><img src="${pageContext.request.contextPath}/${p.imageUrl}" alt="${p.imageUrl}" width="60"></td>
+
             <td>${p.title}</td>
             <td>${p.available}</td>
             <td>${p.price}</td>

@@ -103,7 +103,9 @@ public class PaintingDao {
                         d.discountPercentage,
                         s.sizeDescription,
                         s.id AS idSize,
-                        ps.quantity AS sizeQuantity
+                        ps.quantity AS sizeQuantity,
+                        dp.discountId
+    
                     FROM paintings p
                     LEFT JOIN artists a ON p.artistId = a.id
                     LEFT JOIN themes t ON p.themeId = t.id
@@ -371,23 +373,17 @@ public class PaintingDao {
             e.printStackTrace();
         }
 
-        // Trả về danh sách các tác phẩm trưng bày chưa bán
         return featuredArtworks;
     }
-    public List<Theme> getTheme() {
-        String sql = "SELECT * FROM THEMES";
+    public List<Theme> getTheme() throws SQLException {
+        String sql = "SELECT * FROM theme";
         List<Theme> theme = new ArrayList<>();
-
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 theme.add(new Theme(rs.getInt(1), rs.getString(2)));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         return theme;
     }

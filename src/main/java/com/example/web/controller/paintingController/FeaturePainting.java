@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +23,13 @@ public class FeaturePainting extends HttpServlet {
         // Tạo đối tượng DAO để làm việc với cơ sở dữ liệu
         PaintingDao paintingDAO = new PaintingDao();
 
-        // Lấy danh sách các tác phẩm trưng bày từ database
         List<Painting> featuredArtworks = paintingDAO.getFeaturedArtworks();
-        List<Theme> themes = paintingDAO.getTheme();
+        List<Theme> themes = null;
+        try {
+            themes = paintingDAO.getTheme();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         // Gắn danh sách tác phẩm vào request để truyền sang index
         request.setAttribute("featuredArtworks", featuredArtworks);

@@ -42,4 +42,7 @@ public class PaintingService {
     }
 
 
+    public Painting getPaintingDetail(int id) throws SQLException {
+        return paintingDao.getPaintingDetail(id);
+    }
 }
