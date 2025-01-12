@@ -80,7 +80,7 @@
             <td>${u.birthDate}</td>
             <td>${u.nationality}</td>
             <td><button class="btn btn-info btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#viewEditArtistModal" data-order-id="${u.id}">Xem Chi Tiết</button>
+                        data-bs-target="#viewEditArtistModal" data-artist-id="${u.id}">Xem Chi Tiết</button>
               <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
                       data-bs-target="#deleteArtistModal" data-artist-id="${u.id}">Xóa</button>
             </td>
@@ -99,8 +99,10 @@
         <h5 class="modal-title" id="viewEditArtistModalLabel">Xem & Chỉnh sửa họa sĩ</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="editArtistForm">
+      <form id="editArtistForm" action="${pageContext.request.contextPath}/admin/artists/update" method="post" enctype="multipart/form-data">
         <div class="modal-body">
+          <input type="hidden" id="editArtistId" name="id" value="">
+
           <div class="mb-3">
             <label for="editArtistName" class="form-label">Tên họa sĩ</label>
             <input type="text" class="form-control" id="editArtistName" name="name" required>
@@ -118,8 +120,11 @@
             <input type="text" class="form-control" id="editArtistNationality" name="nationality">
           </div>
           <div class="mb-3">
-            <label for="editArtistPhotoUrl" class="form-label">URL ảnh</label>
-            <input type="url" class="form-control" id="editArtistPhotoUrl" name="photoUrl">
+            <label for="editArtistPhoto" class="form-label">Ảnh</label>
+            <div class="mb-2">
+              <img id="currentArtistPhoto" src="" alt="Ảnh họa sĩ" style="max-width: 100%; height: auto;">
+            </div>
+            <input type="file" class="form-control" id="editArtistPhoto" name="photo">
           </div>
         </div>
         <div class="modal-footer">
@@ -206,5 +211,6 @@
     });
   });
 </script>
+<script src="${pageContext.request.contextPath}/assets/js/admin/artists.js"></script>
 </body>
 </html>

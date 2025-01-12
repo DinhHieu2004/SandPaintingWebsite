@@ -33,22 +33,22 @@ public class Add extends HttpServlet {
 
         try {
             Part part = request.getPart("photo");
+         //   System.out.println("part :"+part);
+          //  System.out.println("partname :"+ part.getSubmittedFileName());
             String img = extractFileName(part);
+
+            System.out.println("img :"+ part.getSubmittedFileName());
 
             if (img != null && !img.isEmpty()) {
                 img = img.replaceAll(" ", "_");
             }
-            String imagePath = img;
 
-         //   String appPath = getServletContext().getRealPath("/");
-           // String uploadPath = appPath + UPLOAD_DIR;
 
             File directory = new File(UPLOAD_DIR);
             if (!directory.exists()) {
                 directory.mkdirs();
             }
 
-          //  part.write(uploadPath + File.separator + imagePath);
             part.write(UPLOAD_DIR + File.separator + img);
 
             String photoUrl = "assets/images/artists/" + img;
