@@ -385,57 +385,7 @@ public class PaintingDao {
 
         return theme;
     }
-    public List<Painting> getProductHaveNoDC() throws SQLException {
-        // Câu lệnh SQL sử dụng LEFT JOIN để lấy các sản phẩm không được giảm giá
-        String sql = """
-        SELECT 
-            p.id, 
-            p.title, 
-            p.price, 
-            a.name AS artistName, 
-            t.themeName AS themeName, 
-            p.createdAt 
-        FROM 
-            paintings p
-        LEFT JOIN 
-            discount_paintings dp ON p.id = dp.paintingId
-        JOIN 
-            artists a ON p.artistId = a.id
-        JOIN 
-            themes t ON p.themeId = t.id
-        WHERE 
-            dp.paintingId IS NULL
-    """;
 
-        PreparedStatement ps = con.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        List<Painting> productDcByNullDcId = new ArrayList<>();
-
-        while (rs.next()) {
-            Painting painting = new Painting();
-
-            // Lấy dữ liệu từ kết quả ResultSet
-            int paintingId = rs.getInt("id");
-            String title = rs.getString("title");
-            double price = rs.getDouble("price");
-            String theme = rs.getString("themeName");
-            Date createdAt = rs.getDate("createdAt");
-            String artistName = rs.getString("artistName");
-
-            // Gán dữ liệu vào đối tượng Painting
-            painting.setId(paintingId);
-            painting.setTitle(title);
-            painting.setPrice(price);
-            painting.setThemeName(theme);
-            painting.setArtistName(artistName);
-            painting.setCrateDate(createdAt);
-
-            // Thêm Painting vào danh sách
-            productDcByNullDcId.add(painting);
-        }
-
-        return productDcByNullDcId;
-    }
 
 
     public static void main(String[] args) throws SQLException {
@@ -445,10 +395,7 @@ public class PaintingDao {
 
         String[] sizes = null;
         String[] themes = {"1"};
-        List<Painting> list = paintingDao.getProductHaveNoDC();
-        for (Painting painting : list) {
-            System.out.println(painting);
-        }
+
 
         for (Painting P : paintingDao.getPaintingList(m1,m2,sizes, null, 1 , 5)) {
             System.out.println(P);
