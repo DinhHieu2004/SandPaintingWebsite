@@ -1,6 +1,7 @@
 package com.example.web.dao;
 
 import com.example.web.dao.db.DbConnect;
+import com.example.web.dao.model.Artist;
 import com.example.web.dao.model.User;
 
 
@@ -15,13 +16,13 @@ import java.util.List;
 import java.util.Properties;
 
 
-
 public class UserDao {
     Connection conn = DbConnect.getConnection();
 
     private Connection getConnection() throws SQLException {
         return DbConnect.getConnection();
     }
+
     public UserDao() {
         conn = DbConnect.getConnection();
     }
@@ -31,7 +32,7 @@ public class UserDao {
         List<User> users = new ArrayList<>();
         String sql = "select * from users";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ResultSet rs =  ps.executeQuery();
+        ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
             User u = new User();
@@ -46,6 +47,56 @@ public class UserDao {
             users.add(u);
         }
         return users;
+
+    }
+    public User getUser(int id) throws SQLException {
+        String sql = "select * from users where id=?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            User u = new User();
+            u.setId(rs.getInt("id"));
+            u.setUsername(rs.getString("username"));
+            u.setFullName(rs.getString("fullName"));
+            u.setEmail(rs.getString("email"));
+            u.setRole(User.Role.valueOf(rs.getString("role")));
+            u.setAddress(rs.getString("address"));
+            u.setPhone(rs.getString("phone"));
+            u.setPassword(rs.getString("password"));
+            return u;
+        }
+        return null;
+    }
+
+    public boolean deleteUser(int i) {
+        String query = "DELETE FROM users WHERE id = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, i);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public boolean updateUser(User user) throws SQLException {
+        String hashedPassword = hashPassword(user.getPassword());
+
+        String updateQuery = "UPDATE users SET fullname = ?, username = ?, password = ?, address = ?, email = ? , phone = ?, role =? WHERE id = ?";
+        PreparedStatement statement = conn.prepareStatement(updateQuery);
+
+        statement.setString(1, user.getFullName());
+        statement.setString(2, user.getUsername());
+        statement.setString(3, hashedPassword);
+        statement.setString(4, user.getAddress());
+        statement.setString(5, user.getEmail());
+        statement.setString(6, user.getPhone());
+        statement.setString(7, user.getRole().toString());
+        statement.setInt(8, user.getId());
+        int rowsAffected = statement.executeUpdate();
+
+        return rowsAffected > 0;
 
     }
 
@@ -171,6 +222,7 @@ public class UserDao {
         updatePassword(username, token);
         return token;
     }
+
     public static String generateRandomString(int length) {
         // Biến cục bộ chỉ tồn tại trong hàm này
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -184,19 +236,18 @@ public class UserDao {
 
         return result.toString();
     }
-    
 
 
     public boolean updateUserInfo(User user) throws SQLException {
         String query = "UPDATE users SET fullName = ?, phone = ?, email = ?, address = ? WHERE username = ?";
         PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, user.getFullName());
-            ps.setString(2, user.getPhone());
-            ps.setString(3, user.getEmail());
-            ps.setString(4, user.getAddress());
-            ps.setString(5, user.getUsername());
+        ps.setString(1, user.getFullName());
+        ps.setString(2, user.getPhone());
+        ps.setString(3, user.getEmail());
+        ps.setString(4, user.getAddress());
+        ps.setString(5, user.getUsername());
 
-            return ps.executeUpdate() > 0;
+        return ps.executeUpdate() > 0;
 
     }
 
@@ -226,6 +277,7 @@ public class UserDao {
         }
         return true;
     }
+
     public boolean passwordRecovery(String username, String email) throws SQLException {
         User user = findByEmail(email);
         String newPass = generateNewPassword(username);
@@ -234,20 +286,21 @@ public class UserDao {
             sendMail(email, "Mật khẩu mới của bạn", "Vui lòng đổi mật khẩu sau khi đăng nhập:" + newPass);
             isRecoveried = true;
         }
-        if(isRecoveried) {
+        if (isRecoveried) {
             updatePassword(username, newPass);
         }
         return isRecoveried;
     }
+
     public String getPasswordByUsername(String username) throws SQLException {
         String sql = "SELECT password FROM users WHERE username = ?";
-             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, username);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString("password");
-                }
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, username);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getString("password");
             }
+        }
 
         return null; // Không tìm thấy mật khẩu
     }
@@ -256,7 +309,8 @@ public class UserDao {
         UserDao userDao = new UserDao();
         System.out.println(userDao.checkLogin("hieuhieu", "462004"));
 
-        System.out.println(userDao.passwordRecovery("hao","lenguyennhathao0807@gmail.com"));
+        System.out.println(userDao.passwordRecovery("hao", "lenguyennhathao0807@gmail.com"));
     }
+
 
 }
