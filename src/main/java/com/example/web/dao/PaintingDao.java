@@ -14,15 +14,15 @@ import java.util.*;
 import static com.example.web.dao.db.DbConnect.getConnection;
 
 public class PaintingDao {
-    Connection con = getConnection();
+    private Connection con = getConnection();
 
     public PaintingDao() {
     }
+
     public static boolean getPaintingDelete(String id) {
         String sql = "DELETE FROM Painting WHERE id = ?";
-        DbConnect DBConnect = null;
-        try (Connection conn = DBConnect.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -73,8 +73,7 @@ public class PaintingDao {
         public boolean getPaintingAdd(String title, String description, String imageUrl) {
             String sql = "INSERT INTO Painting (id,title, themeId, price,artistId,description,imageUrl) VALUES (?, ?, ?)";
             DbConnect DBConnect = null;
-            try (Connection conn = DBConnect.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
                 ps.setString(1, title);
                 ps.setString(2, description);
                 ps.setString(3, imageUrl);
@@ -362,8 +361,7 @@ public class PaintingDao {
                 "WHERE p.isFeatured = true AND p.isSold = false";
         List<Painting> featuredArtworks = new ArrayList<>();
 
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
+        try (PreparedStatement stmt = con.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -376,7 +374,7 @@ public class PaintingDao {
         return featuredArtworks;
     }
     public List<Theme> getTheme() throws SQLException {
-        String sql = "SELECT * FROM theme";
+        String sql = "SELECT * FROM themes";
         List<Theme> theme = new ArrayList<>();
              PreparedStatement stmt = con.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery();
