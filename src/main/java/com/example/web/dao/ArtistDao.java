@@ -77,16 +77,33 @@ public class ArtistDao {
     }
 
 
-public static void main(String[] args) throws SQLException, ParseException {
-    ArtistDao dao = new ArtistDao();
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    Date specificDate = formatter.parse("2025-01-01");
-    Artist artist = new Artist("hieu","abc", specificDate, "vietnam", "vjdvjkfvn");
-  //  System.out.println(dao.addArtist(artist));
 
-    dao.deleteArtist(26);
-}
+    public boolean updateArtist(Artist artist) throws SQLException {
+        String updateQuery = "UPDATE artists SET name = ?, bio = ?, birthDate = ?, nationality = ?, photoUrl = ? WHERE id = ?";
+        PreparedStatement statement = con.prepareStatement(updateQuery);
 
+        statement.setString(1, artist.getName());
+        statement.setString(2, artist.getBio());
+        statement.setDate(3,new java.sql.Date(artist.getBirthDate().getTime()));
+        statement.setString(4, artist.getNationality());
+        statement.setString(5, artist.getPhotoUrl());
+        statement.setInt(6, artist.getId());
+
+        int rowsAffected = statement.executeUpdate();
+
+        return rowsAffected > 0;
+
+
+    }
+    public static void main(String[] args) throws SQLException, ParseException {
+        ArtistDao dao = new ArtistDao();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date specificDate = formatter.parse("2025-01-01");
+        Artist artist = new Artist(80,"hieu", "abc", specificDate, "vietnam", "abc");
+          System.out.println(dao.addArtist(artist));
+
+        dao.deleteArtist(26);
+    }
 
 
 }

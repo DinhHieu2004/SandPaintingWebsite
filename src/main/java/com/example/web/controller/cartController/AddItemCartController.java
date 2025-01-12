@@ -25,11 +25,15 @@ public class AddItemCartController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             int id = Integer.parseInt(req.getParameter("pid"));
+
             Painting p = paintingService.getPainting(id);
 
             String size = req.getParameter("size");
+            int quantityOfSize = Integer.parseInt(req.getParameter("quantity_" + size));
+
             System.out.println(size);
             int quantity = Integer.parseInt(req.getParameter("quantity"));
+            System.out.println("so luong" + quantityOfSize);
 
             PaintingSize paintingSize = sizeService.getSizeById(Integer.parseInt(size));
             String sizeDescriptions = paintingSize.getSizeDescriptions();
@@ -41,7 +45,8 @@ public class AddItemCartController extends HttpServlet {
                     sizeDescriptions,
                     quantity,
                     p.getPrice(),
-                    p.getImageUrl()
+                    p.getImageUrl(),
+                    quantityOfSize
             );
 
             HttpSession session = req.getSession();

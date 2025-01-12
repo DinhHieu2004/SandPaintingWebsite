@@ -85,10 +85,18 @@
                 Xem sản phẩm giảm giá
               </a>
 
-              <button class="btn btn-info btn-sm" data-bs-toggle="modal"
-                      data-bs-target="#viewEditDiscountModal" data-discount-id="${discount.id}">
+              <button class="btn btn-info btn-sm edit-discount-btn"
+                      data-bs-toggle="modal"
+                      data-bs-target="#viewEditDiscountModal"
+                      data-id="${discount.id}"
+                      data-name="${discount.discountName}"
+                      data-percentage="${discount.discountPercentage}"
+                      data-start="${discount.startDate}"
+                      data-end="${discount.endDate}"
+                      data-image="${discount.imageUrl}">
                 Chỉnh sửa
               </button>
+
               <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
                       data-bs-target="#deleteDiscountModal" data-discount-id="${discount.id}">
                 Xóa
@@ -104,14 +112,16 @@
 
 <!-- Modal: Chỉnh sửa giảm giá -->
 <div class="modal fade" id="viewEditDiscountModal" tabindex="-1" aria-labelledby="viewEditDiscountModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="viewEditDiscountModalLabel">Chỉnh sửa giảm giá</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="editDiscountForm">
-        <div class="modal-body">
+      <div class="modal-body">
+        <!-- Form chỉnh sửa thông tin giảm giá -->
+        <form id="editDiscountForm">
+          <input type="hidden" id="editDiscountId" name="discountId">
           <div class="mb-3">
             <label for="editDiscountName" class="form-label">Tên giảm giá</label>
             <input type="text" class="form-control" id="editDiscountName" name="discountName" required>
@@ -128,19 +138,45 @@
             <label for="editEndDate" class="form-label">Ngày kết thúc</label>
             <input type="date" class="form-control" id="editEndDate" name="endDate" required>
           </div>
-          <div class="mb-3">
-            <label for="editImageUrl" class="form-label">URL ảnh</label>
-            <input type="url" class="form-control" id="editImageUrl" name="imageUrl">
-          </div>
+        </form>
+
+        <!-- Danh sách sản phẩm -->
+        <div class="mt-4">
+          <h5>Danh sách sản phẩm được giảm giá</h5>
+          <table id="discountedProductsTable" class="table table-bordered display">
+            <thead>
+            <tr>
+              <th>Mã sản phẩm</th>
+              <th>Tên sản phẩm</th>
+              <th>Giá</th>
+              <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody id="discountedProductsBody"></tbody>
+          </table>
+
+          <h5 class="mt-4">Danh sách sản phẩm chưa được giảm giá</h5>
+          <table id="nonDiscountedProductsTable" class="table table-bordered display">
+            <thead>
+            <tr>
+              <th>Mã sản phẩm</th>
+              <th>Tên sản phẩm</th>
+              <th>Giá</th>
+              <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody id="nonDiscountedProductsBody"></tbody>
+          </table>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-          <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-        </div>
-      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+      </div>
     </div>
   </div>
 </div>
+
 
 <!-- Modal: Thêm giảm giá -->
 <div class="modal fade" id="addDiscountModal" tabindex="-1" aria-labelledby="addDiscountModalLabel" aria-hidden="true">
@@ -205,6 +241,131 @@
   $(document).ready(function () {
     $('#discounts').DataTable();
   });
+</script>
+<script>
+  $(document).on('click', '.edit-discount-btn', function () {
+    const id = $(this).data('id');
+    const name = $(this).data('name');
+    const percentage = $(this).data('percentage');
+    const startDate = $(this).data('start');
+    const endDate = $(this).data('end');
+    const imageUrl = $(this).data('image');
+
+    // Điền thông tin vào form chỉnh sửa
+    $('#editDiscountName').val(name);
+    $('#editDiscountPercentage').val(percentage);
+    $('#editStartDate').val(startDate);
+    $('#editEndDate').val(endDate);
+    $('#editImageUrl').val(imageUrl);
+    $('#editDiscountId').val(id);  // Đảm bảo discountId được gán vào trường ẩn
+  });
+
+  $(document).on('click', '.edit-discount-btn', function () {
+    const button = $(this);
+    const id = button.data("id");
+
+    $.ajax({
+      url: `${pageContext.request.contextPath}/admin/discountPainting`,
+      method: 'GET',
+      data: {
+        discountId: id
+      },
+      success: function (data) {
+        console.log('Data received:', data); // Kiểm tra dữ liệu trả về từ server
+
+        // Kiểm tra xem dữ liệu có đúng định dạng không
+        if (data && Array.isArray(data.discountedProducts) && Array.isArray(data.nonDiscountedProducts)) {
+          const { discountedProducts, nonDiscountedProducts } = data;
+
+          // Hiển thị sản phẩm đã được giảm giá
+          let discountedHtml = '';
+          discountedProducts.forEach(product => {
+            discountedHtml += `
+                        <tr>
+                            <td>${product.id}</td>
+                            <td>${product.name}</td>
+                            <td>${product.price}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm remove-from-discount" data-product-id="${product.id}">
+                                    Xóa khỏi giảm giá
+                                </button>
+                            </td>
+                        </tr>`;
+          });
+          $('#discountedProductsBody').html(discountedHtml);
+
+          // Hiển thị sản phẩm chưa được giảm giá
+          let nonDiscountedHtml = '';
+          nonDiscountedProducts.forEach(product => {
+            nonDiscountedHtml += `
+                        <tr>
+                            <td>${product.id}</td>
+                            <td>${product.name}</td>
+                            <td>${product.price}</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm add-to-discount" data-product-id="${product.id}">
+                                    Thêm vào giảm giá
+                                </button>
+                            </td>
+                        </tr>`;
+          });
+          $('#nonDiscountedProductsBody').html(nonDiscountedHtml);
+
+          // Khởi tạo lại DataTable sau khi cập nhật dữ liệu
+          $('#discountedProductsTable').DataTable().clear().destroy(); // Xóa và tái tạo lại bảng
+          $('#discountedProductsTable').DataTable();
+
+          $('#nonDiscountedProductsTable').DataTable().clear().destroy(); // Xóa và tái tạo lại bảng
+          $('#nonDiscountedProductsTable').DataTable();
+        } else {
+          console.error('Dữ liệu không đúng định dạng');
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error('AJAX Error:', status, error);
+      }
+    });
+  });
+
+
+  $(document).on('click', '.add-to-discount', function () {
+    const productId = $(this).data('product-id');
+    const discountId = $('#editDiscountId').val();
+
+    $.ajax({
+      url: `/admin/discounts/addProduct`,
+      method: 'POST',
+      data: { productId, discountId },
+      success: function () {
+        alert('Thêm sản phẩm thành công!');
+        // Cập nhật lại danh sách
+        $(`.edit-discount-btn[data-id="${discountId}"]`).click();
+      },
+      error: function () {
+        alert('Có lỗi xảy ra!');
+      }
+    });
+  });
+
+  $(document).on('click', '.remove-from-discount', function () {
+    const productId = $(this).data('product-id');
+    const discountId = $('#editDiscountId').val();
+
+    $.ajax({
+      url: `/admin/discounts/removeProduct`,
+      method: 'POST',
+      data: { productId, discountId },
+      success: function () {
+        alert('Xóa sản phẩm thành công!');
+        // Cập nhật lại danh sách
+        $(`.edit-discount-btn[data-id="${discountId}"]`).click();
+      },
+      error: function () {
+        alert('Có lỗi xảy ra!');
+      }
+    });
+  });
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

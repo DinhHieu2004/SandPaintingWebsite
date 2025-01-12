@@ -33,6 +33,7 @@
                             <th>#</th>
                             <th>Ảnh</th>
                             <th>Tên Tranh</th>
+                            <th>Kích thước</th>
                             <th>Số Lượng</th>
                             <th>Giá</th>
                             <th>Hành Động</th>
@@ -44,8 +45,24 @@
                                 <td>${status.index + 1}</td>
                                 <td><img src="${cp.imageUrl}" alt="${cp.productName}" width="50"></td>
                                 <td>${cp.productName}</td>
-                                <td>${cp.quantity}</td>
-                                <td>${cp.totalPrice} VND</td>
+                                <td>${cp.sizeDescriptions}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-sm btn-secondary decrease-quantity"
+                                                data-product-id="${cp.productId}"
+                                                data-size-id="${cp.sizeId}">
+                                            -
+                                        </button>
+                                        <span class="mx-2 quantity">${cp.quantity}</span>
+                                        <button class="btn btn-sm btn-secondary increase-quantity"
+                                                data-product-id="${cp.productId}"
+                                                data-size-id="${cp.sizeId}"
+                                                data-max-quantity="${cp.quanlytiOfSize}">
+                                            +
+                                        </button>
+                                    </div>
+                                </td>
+                                <td class="item-total-price">${cp.totalPrice} VND</td>
                                 <td>
                                     <button class="btn btn-danger btn-sm remove-item"
                                             data-product-id="${cp.productId}"
@@ -59,7 +76,7 @@
                         <tfoot>
                         <tr>
                             <th colspan="4" class="text-end">Tổng tiền</th>
-                            <th colspan="2">${sessionScope.cart.totalPrice} VND</th>
+                            <th id="total-price" colspan="2">${sessionScope.cart.totalPrice} VND</th>
                         </tr>
                         </tfoot>
                     </table>
@@ -177,7 +194,8 @@
 
 <%@ include file="/partials/footer.jsp" %>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/js/shopping-cart.js"></script>
+ <script src="${pageContext.request.contextPath}/assets/js/RemoveCartItem.js"></script>
+ <script src="${pageContext.request.contextPath}/assets/js/UpdateQuantity.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/checkout.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
 </body>

@@ -31,7 +31,7 @@ public class AddProductDiscount extends HttpServlet {
 
             int discountId = Integer.parseInt(discountIdParam); // Chuyển đổi discountId thành int
 
-            List<Painting> paintingList = ptDao.getProductDcByNullDcId(); // Lấy danh sách sản phẩm chưa có giảm giá
+            List<Painting> paintingList = discountDao.getProductHaveNoDC(); // Lấy danh sách sản phẩm chưa có giảm giá
             List<Discount> discountList = discountDao.getAllDiscount(); // Lấy danh sách tất cả chương trình giảm giá
             String discountName = discountDao.getDiscountNameById(discountId); // Lấy tên chương trình giảm giá
 

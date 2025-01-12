@@ -10,6 +10,7 @@ public class User  implements Serializable {
     private String email;
     private String phone;
     private Role role;
+    private String password;
 
     public User(int id, String fullName, String username, String address, String email, String phone, Role role) {
         this.id = id;
@@ -20,11 +21,28 @@ public class User  implements Serializable {
         this.phone = phone;
         this.role = role;
     }
+    public User(int id, String fullName, String username, String address, String email, String phone, Role role, String password) {
+        this.id = id;
+        this.fullName = fullName;
+        this.username = username;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.password = password;
+    }
 
     public User() {
 
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @Override
     public String toString() {

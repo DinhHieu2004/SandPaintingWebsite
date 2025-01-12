@@ -12,8 +12,10 @@ public class CartPainting implements Serializable {
     private int quantity;
     private double price;
     private double totalPrice;
+    private int quanlytiOfSize;
 
-    public CartPainting(int productId, String productName, String sizeId,String sizeDescriptions, int quantity, double price, String imageUrl) {
+
+    public CartPainting(int productId, String productName, String sizeId,String sizeDescriptions, int quantity, double price, String imageUrl, int quanlytiOfSize) {
         this.productId = productId;
         this.productName = productName;
         this.sizeDescriptions = sizeDescriptions;
@@ -22,9 +24,18 @@ public class CartPainting implements Serializable {
         this.price = price;
         this.totalPrice = price * quantity;
         this.imageUrl = imageUrl;
+        this.quanlytiOfSize = quanlytiOfSize;
     }
     public CartPainting() {
 
+    }
+
+    public int getQuanlytiOfSize() {
+        return quanlytiOfSize;
+    }
+
+    public void setQuanlytiOfSize(int quanlytiOfSize) {
+        this.quanlytiOfSize = quanlytiOfSize;
     }
 
     public String getSizeDescriptions() {
@@ -98,17 +109,23 @@ public class CartPainting implements Serializable {
         return "CartPainting{" +
                 "productId=" + productId +
                 ", productName='" + productName + '\'' +
-                ", idSize='" + sizeId + '\'' +
+                ", sizeDescriptions='" + sizeDescriptions + '\'' +
+                ", sizeId='" + sizeId + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 ", totalPrice=" + totalPrice +
+                ", quanlytiOfSize=" + quanlytiOfSize +
                 '}';
     }
 
     public void updateQuantity(int additionalQuantity) {
         this.quantity += additionalQuantity;
         this.totalPrice = this.price * this.quantity;
+    }
+    public void updateQuantityItem(int quantity){
+        this.quantity = quantity;
+        this.totalPrice = this.price * quantity;
     }
 
 }

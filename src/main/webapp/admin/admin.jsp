@@ -79,6 +79,8 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Tổng Doanh Thu</h5>
+                        <span class="stat-icon">💰</span>
+
                         <p class="card-text fs-4 text-success">${totalRevenue} VNĐ</p>
                     </div>
                 </div>
@@ -87,6 +89,8 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Tổng Đơn Hàng</h5>
+                        <span class="stat-icon">🛍️</span>
+
                         <p class="card-text fs-4">${totalOrders}</p>
                     </div>
                 </div>
@@ -95,6 +99,8 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Tổng Người Dùng</h5>
+                        <span class="stat-icon">👥</span>
+
                         <p class="card-text fs-4">${totalUsers}</p>
                     </div>
                 </div>
@@ -103,6 +109,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Tổng Sản Phẩm</h5>
+                        <span class="stat-icon">📦</span>
                         <p class="card-text fs-4">${totalProducts}</p>
                     </div>
                 </div>
