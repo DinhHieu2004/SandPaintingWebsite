@@ -122,7 +122,7 @@ public class PaintingDao {
                 while (rs.next()) {
                     if (paintingDetail == null) {
                         // Initialize the PaintingDetail object
-                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getInt("discountId"));
+                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"));
                     }
 
                     // Add size and quantity to the painting detail
@@ -387,26 +387,36 @@ public class PaintingDao {
 
         return theme;
     }
-    public List<Painting> getProductDcByNullDcId() throws SQLException {
-        // Sửa câu lệnh SQL với khoảng trắng và cú pháp IS NULL
+    public List<Painting> getProductHaveNoDC() throws SQLException {
+        // Câu lệnh SQL sử dụng LEFT JOIN để lấy các sản phẩm không được giảm giá
         String sql = """
-        SELECT p.id, 
-               p.title, 
-               p.price, 
-               a.name AS artistName, 
-               t.themeName AS themeName, 
-               p.createdAt 
-        FROM paintings p 
-        JOIN artists a ON p.artistId = a.id 
-        JOIN themes t ON p.themeId = t.id 
-        WHERE p.discountId IS NULL
+        SELECT 
+            p.id, 
+            p.title, 
+            p.price, 
+            a.name AS artistName, 
+            t.themeName AS themeName, 
+            p.createdAt 
+        FROM 
+            paintings p
+        LEFT JOIN 
+            discount_paintings dp ON p.id = dp.paintingId
+        JOIN 
+            artists a ON p.artistId = a.id
+        JOIN 
+            themes t ON p.themeId = t.id
+        WHERE 
+            dp.paintingId IS NULL
     """;
 
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         List<Painting> productDcByNullDcId = new ArrayList<>();
+
         while (rs.next()) {
             Painting painting = new Painting();
+
+            // Lấy dữ liệu từ kết quả ResultSet
             int paintingId = rs.getInt("id");
             String title = rs.getString("title");
             double price = rs.getDouble("price");
@@ -414,6 +424,7 @@ public class PaintingDao {
             Date createdAt = rs.getDate("createdAt");
             String artistName = rs.getString("artistName");
 
+            // Gán dữ liệu vào đối tượng Painting
             painting.setId(paintingId);
             painting.setTitle(title);
             painting.setPrice(price);
@@ -421,10 +432,13 @@ public class PaintingDao {
             painting.setArtistName(artistName);
             painting.setCrateDate(createdAt);
 
+            // Thêm Painting vào danh sách
             productDcByNullDcId.add(painting);
         }
+
         return productDcByNullDcId;
     }
+
 
     public static void main(String[] args) throws SQLException {
         PaintingDao paintingDao = new PaintingDao();
@@ -433,7 +447,7 @@ public class PaintingDao {
 
         String[] sizes = null;
         String[] themes = {"1"};
-        List<Painting> list = paintingDao.getProductDcByNullDcId();
+        List<Painting> list = paintingDao.getProductHaveNoDC();
         for (Painting painting : list) {
             System.out.println(painting);
         }
