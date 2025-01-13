@@ -19,30 +19,28 @@ public class PaintingDao {
     public PaintingDao() {
     }
 
-    public static boolean getPaintingDelete(String id) {
+    public boolean getPaintingDelete(String id) throws SQLException {
         String sql = "DELETE FROM Painting WHERE id = ?";
-        try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, id);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, id);
+        return ps.executeUpdate() > 0;
+
+
     }
+
     public List<Painting> getAll() throws SQLException {
         String sql = """ 
-                SELECT p.id,
-                p.title,
-                p.description,
-                p.imageUrl,
-                a.name AS artistName,
-                t.themeName AS themeName,
-                p.price,
-                p.createdAt
-        FROM paintings p
-        JOIN artists a ON p.artistId = a.id
-        JOIN themes t ON p.themeId = t.id """;
+                        SELECT p.id,
+                        p.title,
+                        p.description,
+                        p.imageUrl,
+                        a.name AS artistName,
+                        t.themeName AS themeName,
+                        p.price,
+                        p.createdAt
+                FROM paintings p
+                JOIN artists a ON p.artistId = a.id
+                JOIN themes t ON p.themeId = t.id """;
 
         PreparedStatement stmt = con.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
@@ -70,21 +68,18 @@ public class PaintingDao {
         return paintingList;
     }
 
-        public boolean getPaintingAdd(String title, String description, String imageUrl) {
-            String sql = "INSERT INTO Painting (id,title, themeId, price,artistId,description,imageUrl) VALUES (?, ?, ?)";
-            DbConnect DBConnect = null;
-            try (PreparedStatement ps = con.prepareStatement(sql)) {
-                ps.setString(1, title);
-                ps.setString(2, description);
-                ps.setString(3, imageUrl);
-                return ps.executeUpdate() > 0;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return false;
-            }
+    public boolean getPaintingAdd(String title, String description, String imageUrl) {
+        String sql = "INSERT INTO Painting (id,title, themeId, price,artistId,description,imageUrl) VALUES (?, ?, ?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, title);
+            ps.setString(2, description);
+            ps.setString(3, imageUrl);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-
-
+    }
 
 
     public Painting getPaintingDetail(int paintingId) throws SQLException {
@@ -104,7 +99,7 @@ public class PaintingDao {
                         s.id AS idSize,
                         ps.quantity AS sizeQuantity,
                         dp.discountId
-    
+                
                     FROM paintings p
                     LEFT JOIN artists a ON p.artistId = a.id
                     LEFT JOIN themes t ON p.themeId = t.id
@@ -146,21 +141,21 @@ public class PaintingDao {
         Map<Integer, Painting> paintingMap = new HashMap<>();
 
         StringBuilder sql = new StringBuilder("""
-                SELECT 
-                    p.id AS paintingId,
-                    p.title AS paintingTitle,
-                    p.price,
-                    p.imageUrl,
-                    a.name AS artistName,
-                    t.themeName AS theme,
-                    IFNULL(d.discountPercentage, 0) AS discount
-                FROM paintings p
-                LEFT JOIN artists a ON p.artistId = a.id
-                LEFT JOIN themes t ON p.themeId = t.id
-                LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
-                LEFT JOIN discounts d ON dp.discountId = d.id
-                WHERE 1=1
-            """);
+                    SELECT 
+                        p.id AS paintingId,
+                        p.title AS paintingTitle,
+                        p.price,
+                        p.imageUrl,
+                        a.name AS artistName,
+                        t.themeName AS theme,
+                        IFNULL(d.discountPercentage, 0) AS discount
+                    FROM paintings p
+                    LEFT JOIN artists a ON p.artistId = a.id
+                    LEFT JOIN themes t ON p.themeId = t.id
+                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+                    LEFT JOIN discounts d ON dp.discountId = d.id
+                    WHERE 1=1
+                """);
 
         List<Object> params = new ArrayList<>();
 
@@ -223,25 +218,25 @@ public class PaintingDao {
         Map<Integer, Painting> paintingMap = new HashMap<>();
         List<Painting> paintings = new ArrayList<>();
         String sql = """
-                            SELECT 
-                            p.id AS paintingId,
-                            p.title AS paintingTitle,
-                            p.price,
-                            p.imageUrl,
-                            a.name AS artistName,
-                            t.themeName AS theme,
-                            IFNULL(d.discountPercentage, 0) AS discount,
-                            s.sizeDescription AS size,
-                            ps.quantity AS stock
-                        FROM paintings p
-                        LEFT JOIN artists a ON p.artistId = a.id
-                        LEFT JOIN themes t ON p.themeId = t.id
-                        LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
-                        LEFT JOIN discounts d ON dp.discountId = d.id
-                        LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
-                        LEFT JOIN sizes s ON ps.sizeId = s.id
-                        WHERE artistId = ?;
-                    """;
+                        SELECT 
+                        p.id AS paintingId,
+                        p.title AS paintingTitle,
+                        p.price,
+                        p.imageUrl,
+                        a.name AS artistName,
+                        t.themeName AS theme,
+                        IFNULL(d.discountPercentage, 0) AS discount,
+                        s.sizeDescription AS size,
+                        ps.quantity AS stock
+                    FROM paintings p
+                    LEFT JOIN artists a ON p.artistId = a.id
+                    LEFT JOIN themes t ON p.themeId = t.id
+                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+                    LEFT JOIN discounts d ON dp.discountId = d.id
+                    LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
+                    LEFT JOIN sizes s ON ps.sizeId = s.id
+                    WHERE artistId = ?;
+                """;
 
         PreparedStatement statement = con.prepareStatement(sql);
 
@@ -315,16 +310,16 @@ public class PaintingDao {
                 while (rs.next()) {
                     int paintingId = rs.getInt("paintingId");
 
-                        Painting painting = new Painting();
-                        painting.setId(paintingId);
-                        painting.setTitle(rs.getString("paintingTitle"));
-                        painting.setImageUrl(rs.getString("imageUrl"));
-                        painting.setArtistName(rs.getString("artistName"));
-                        painting.setThemeName(rs.getString("theme"));
-                        painting.setDiscountPercentage(rs.getDouble("discount"));
-                        painting.setPrice(rs.getDouble("price"));
-                        painting.setSizes(new ArrayList<>());
-                        paintingList.add(painting);
+                    Painting painting = new Painting();
+                    painting.setId(paintingId);
+                    painting.setTitle(rs.getString("paintingTitle"));
+                    painting.setImageUrl(rs.getString("imageUrl"));
+                    painting.setArtistName(rs.getString("artistName"));
+                    painting.setThemeName(rs.getString("theme"));
+                    painting.setDiscountPercentage(rs.getDouble("discount"));
+                    painting.setPrice(rs.getDouble("price"));
+                    painting.setSizes(new ArrayList<>());
+                    paintingList.add(painting);
 
                 }
             }
@@ -335,6 +330,7 @@ public class PaintingDao {
 
         return paintingList;
     }
+
     public void updateQuanity(int paintingId, int sizeId, int quantity) throws SQLException {
         con.setAutoCommit(false);
         try {
@@ -354,6 +350,7 @@ public class PaintingDao {
             con.setAutoCommit(true);
         }
     }
+
     public List<Painting> getFeaturedArtworks() {
         String sql = "SELECT p.id, p.title, p.imageUrl, ar.name AS artist_name, p.price " +
                 "FROM paintings p " +
@@ -373,19 +370,19 @@ public class PaintingDao {
 
         return featuredArtworks;
     }
+
     public List<Theme> getTheme() throws SQLException {
         String sql = "SELECT * FROM themes";
         List<Theme> theme = new ArrayList<>();
-             PreparedStatement stmt = con.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery();
+        PreparedStatement stmt = con.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                theme.add(new Theme(rs.getInt(1), rs.getString(2)));
-            }
+        while (rs.next()) {
+            theme.add(new Theme(rs.getInt(1), rs.getString(2)));
+        }
 
         return theme;
     }
-
 
 
     public static void main(String[] args) throws SQLException {
@@ -397,7 +394,7 @@ public class PaintingDao {
         String[] themes = {"1"};
 
 
-        for (Painting P : paintingDao.getPaintingList(m1,m2,sizes, null, 1 , 5)) {
+        for (Painting P : paintingDao.getPaintingList(m1, m2, sizes, null, 1, 5)) {
             System.out.println(P);
         }
     }
@@ -405,12 +402,12 @@ public class PaintingDao {
 
     public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists) throws SQLException {
         StringBuilder sql = new StringBuilder("""
-                SELECT COUNT(*) AS total
-                FROM paintings p
-                LEFT JOIN artists a ON p.artistId = a.id
-                LEFT JOIN themes t ON p.themeId = t.id
-                WHERE 1=1
-        """);
+                        SELECT COUNT(*) AS total
+                        FROM paintings p
+                        LEFT JOIN artists a ON p.artistId = a.id
+                        LEFT JOIN themes t ON p.themeId = t.id
+                        WHERE 1=1
+                """);
 
         if (minPrice != null) {
             sql.append(" AND p.price >= ?");

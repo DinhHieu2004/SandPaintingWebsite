@@ -19,13 +19,7 @@ import java.util.Properties;
 public class UserDao {
     Connection conn = DbConnect.getConnection();
 
-    private Connection getConnection() throws SQLException {
-        return DbConnect.getConnection();
-    }
 
-    public UserDao() {
-        conn = DbConnect.getConnection();
-    }
 
 
     public List<User> getListUser() throws SQLException {
@@ -208,12 +202,11 @@ public class UserDao {
     public boolean updatePassword(String username, String newPassword) throws SQLException {
         String sql = "UPDATE users SET password = ? WHERE username = ?";
         String hashedPassword = hashPassword(newPassword);
-        try (Connection con = getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, hashedPassword);
             ps.setString(2, username);
             return ps.executeUpdate() > 0;
-        }
+
     }
 
 

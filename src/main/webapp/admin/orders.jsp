@@ -98,7 +98,10 @@
           <td>${order.orderDate}</td>
           <td>${order.deliveryDate}</td>
           <td>${order.status}</td>
-          <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" data-order-id="${order.id}">Xem Chi Tiết</button></td>
+          <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" data-order-id="${order.id}">Xem Chi Tiết</button>
+            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#deleteOrderModal" data-order-id="${order.id}">Xóa</button>
+          </td>
         </tr>`;
         </tr>
       </c:forEach>
@@ -106,6 +109,28 @@
     </table>
   </div>
 </div>
+
+
+  <div class="modal fade" id="deleteOrderModal" tabindex="-1" aria-labelledby="deleteOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteOrderModalLabel">Xác nhận xóa</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="${pageContext.request.contextPath}/admin/orders/delete" method="POST">
+          <div class="modal-body">
+            <p>Bạn có chắc chắn muốn xóa đơn hàng này?</p>
+            <input type="hidden" id="orderIdToDelete" name="orderId">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-danger">Xóa</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
   <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -161,7 +186,18 @@
     $('#currentOrders').DataTable();
     $('#orderHistory').DataTable();
   });
+
+  $(document).ready(function() {
+    $('#artists').DataTable();
+  });
+
+  document.querySelectorAll('[data-bs-target="#deleteOrderModal"]').forEach(button => {
+    button.addEventListener('click', function() {
+      let orderId = this.getAttribute('data-order-id');
+      document.getElementById('orderIdToDelete').value = orderId;
+    });
+  });
 </script>
-<script src="${pageContext.request.contextPath}/assets/js/admin/orders.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/admin/order.js"></script>
 </body>
 </html>

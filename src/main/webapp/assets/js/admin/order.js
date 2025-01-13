@@ -47,22 +47,27 @@ $(document).ready(function () {
             }
         });
 
+        const contextPath = '/web_war';
         $.ajax({
             url: `../order/order-items?orderId=${orderId}`,
             method: 'GET',
             dataType: 'json',
             success: function (details) {
+                console.log(details)
                 if (details.length === 0) {
+
                     modalBody.append('<tr><td colspan="4">Không có chi tiết đơn hàng.</td></tr>');
                     return;
                 }
-                console.log(orderStatus)
                 details.forEach(product => {
+
+                    const fullPhotoUrl = `${window.location.origin}${contextPath}/${product.img}`;
+
                     const row = `
                             <tr>
                                 <td>${product.paintingId}</td>
                                 <td>${product.name}</td>
-                                <td><img src="${product.img}" alt="${product.name}" width="50"></td>
+                                <td><img src="${fullPhotoUrl}" alt="${product.name}" width="60"></td>
                                 <td>${product.sizeDescription}</td>
                                 <td>${product.quantity}</td>
                                 <td>${product.price}₫</td>

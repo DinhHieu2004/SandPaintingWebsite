@@ -3,6 +3,7 @@ package com.example.web.service;
 import com.example.web.dao.OrderDao;
 import com.example.web.dao.model.Order;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class OrderService {
@@ -26,5 +27,14 @@ public class OrderService {
     }
     public boolean updateOrderStatus(int orderId, String status) throws Exception {
         return orderDao.updateOrderStatus(orderId, status);
+    }
+
+    public boolean deleteOrder(int i) throws SQLException {
+        return orderDao.deleteOrder(i);
+    }
+
+    public static void main(String[] args) throws SQLException {
+        OrderService orderService = new OrderService();
+        System.out.println(orderService.deleteOrder(39));
     }
 }

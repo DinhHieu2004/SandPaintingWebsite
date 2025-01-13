@@ -131,4 +131,13 @@ public class OrderDao {
        // }
         System.out.println(orderDao.getListAllOrdersCrurrentAdmin());
     }
+
+    public boolean deleteOrder(int i) throws SQLException {
+        String query = "DELETE FROM orders WHERE id = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, i);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
 }

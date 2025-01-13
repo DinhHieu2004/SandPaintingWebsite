@@ -15,6 +15,7 @@ $(document).ready(function () {
                     const contextPath = '/web_war';
                     const fullPhotoUrl = `${window.location.origin}${contextPath}/${data.photoUrl}`;
 
+
                     const birthDate = data.birthDate ? formatDate(data.birthDate) : '';
                     $('#editArtistId').val(data.id);
 

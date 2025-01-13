@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AdminDao {
-    Connection conn = DbConnect.getConnection();
+    private Connection conn = DbConnect.getConnection();
 
     public double getTotalRevenue() throws SQLException {
         double totalRevenue = 0;

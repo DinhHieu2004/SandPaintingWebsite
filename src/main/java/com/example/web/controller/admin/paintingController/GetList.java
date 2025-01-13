@@ -1,7 +1,9 @@
 package com.example.web.controller.admin.paintingController;
 
 import com.example.web.dao.model.Painting;
+import com.example.web.dao.model.PaintingSize;
 import com.example.web.service.PaintingService;
+import com.example.web.service.SizeService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,7 +22,9 @@ public class GetList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Painting> listP = new ArrayList<>();
+        List<PaintingSize> sizes = new ArrayList<>();
         try {
+
             listP = paintingService.getAll();
             req.setAttribute("products", listP);
             System.out.println(listP);

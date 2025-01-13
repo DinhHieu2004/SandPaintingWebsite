@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 public class DiscountDao {
-    Connection conn = DbConnect.getConnection();
+    private Connection conn = DbConnect.getConnection();
 
     public DiscountDao() {
     }
