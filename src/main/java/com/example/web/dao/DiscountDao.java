@@ -227,8 +227,8 @@ public class DiscountDao {
             statement.setString(1, discount.getImageUrl());
             statement.setString(2, discount.getDiscountName());
             statement.setBigDecimal(3, discount.getDiscountPercentage());
-            statement.setDate(4, java.sql.Date.valueOf(discount.getStartDate()));  // Sử dụng java.sql.Date.valueOf
-            statement.setDate(5, java.sql.Date.valueOf(discount.getEndDate()));    // Sử dụng java.sql.Date.valueOf
+            statement.setDate(4, java.sql.Date.valueOf(discount.getStartDate()));
+            statement.setDate(5, java.sql.Date.valueOf(discount.getEndDate()));
 
             // Thực thi câu lệnh SQL
             int rowsAffected = statement.executeUpdate();
@@ -238,21 +238,62 @@ public class DiscountDao {
             return false;
         }
     }
-    public static void main(String[] args) {
-        DiscountService service = new DiscountService();
-
-        // Danh sách sản phẩm và ID giảm giá
-        int productIds = 2;
-        int discountId = 2;
-
+    public boolean deleteDiscount(int discountId) {
+        boolean isDeleted = false;
+        String sql = "DELETE FROM discounts WHERE id = ?";
         try {
-            service.assignProductsToDiscount(productIds, discountId);
-            System.out.println("Thêm từng sản phẩm vào giảm giá thành công!");
+            deleteProductsByDiscountId(discountId);
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, discountId);
+                int rowsAffected = ps.executeUpdate();
+
+                // Nếu có ít nhất một dòng bị xóa, trả về true
+                if (rowsAffected > 0) {
+                    isDeleted = true;
+                }
+            }
         } catch (SQLException e) {
-            System.err.println("Lỗi khi thêm sản phẩm vào giảm giá: " + e.getMessage());
+            // Xử lý lỗi và ghi lại thông tin lỗi nếu cần
+            e.printStackTrace();
         }
+
+        return isDeleted;
     }
 
+    // Phương thức xóa sản phẩm liên quan đến giảm giá
+    private void deleteProductsByDiscountId(int discountId) throws SQLException {
+        String sql = "DELETE FROM discount_paintings WHERE discountId = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, discountId);
+            ps.executeUpdate();
+        }
+    }
+    public void editDiscount(Discount discount) {
+        String sql = "UPDATE discounts SET discountName = ?, discountPercentage = ?, startDate = ?, endDate = ?, imageUrl = ? WHERE id = ?";
+        try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+            // Gán giá trị cho câu lệnh SQL
+            stmt.setString(1, discount.getDiscountName());
+            stmt.setBigDecimal(2, discount.getDiscountPercentage());
+            stmt.setDate(3, java.sql.Date.valueOf(discount.getStartDate()));
+            stmt.setDate(4, java.sql.Date.valueOf(discount.getEndDate()));
+            stmt.setString(5, discount.getImageUrl());
+            stmt.setInt(6, discount.getId());  // ID để xác định chương trình giảm giá cần chỉnh sửa
+
+            // Thực thi câu lệnh cập nhật
+            stmt.executeUpdate();
+
+            // Kiểm tra xem câu lệnh có ảnh hưởng đến cơ sở dữ liệu không
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Xử lý lỗi nếu có
+            System.out.println("Lỗi khi chỉnh sửa giảm giá: " + e.getMessage());
+        }
+    }
+    public static void main(String[] args) {
+        DiscountDao dao = new DiscountDao();
+        System.out.println( dao.deleteDiscount(1));
+    }
 
 }
 

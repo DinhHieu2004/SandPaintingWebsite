@@ -54,5 +54,13 @@ public class DiscountService {
     public boolean addDiscount(Discount discount) {
         return discountDAO.addDiscount(discount);  // Gọi DiscountDAO để thêm giảm giá mới
     }
+
+    public void deleteDiscount(int discountId) {
+        discountDAO.deleteDiscount(discountId);
+    }
+
+    public void editDiscount(Discount discount) {
+        discountDAO.editDiscount(discount);
+    }
 }
 

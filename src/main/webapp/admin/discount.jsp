@@ -10,7 +10,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <style>
     .sidebar {
       height: 100vh;
@@ -47,10 +48,10 @@
       <h4>Danh sách giảm giá</h4>
     </div>
     <div class="card-body">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDiscountModal">
+        Thêm chương trình giảm giá
+      </button>
       <table id="discounts" class="table table-bordered display">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDiscountModal">
-          Thêm chương trình giảm giá
-        </button>
         <thead>
         <tr>
           <th>Mã giảm giá</th>
@@ -92,8 +93,10 @@
                 Chỉnh sửa
               </button>
 
-              <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                      data-bs-target="#deleteDiscountModal" data-discount-id="${discount.id}">
+              <button class="btn btn-danger btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteDiscountModal"
+                      data-discount-id="${discount.id}">
                 Xóa
               </button>
             </td>
@@ -115,7 +118,7 @@
       </div>
       <div class="modal-body">
         <!-- Form chỉnh sửa thông tin giảm giá -->
-        <form id="editDiscountForm">
+        <form id="editDiscountForm" action="${pageContext.request.contextPath}/admin/editDiscount" method="POST">
           <input type="hidden" id="editDiscountId" name="discountId">
           <div class="mb-3">
             <label for="editDiscountName" class="form-label">Tên giảm giá</label>
@@ -133,45 +136,45 @@
             <label for="editEndDate" class="form-label">Ngày kết thúc</label>
             <input type="date" class="form-control" id="editEndDate" name="endDate" required>
           </div>
+
+          <!-- Danh sách sản phẩm -->
+          <div class="mt-4">
+            <h5>Danh sách sản phẩm được giảm giá</h5>
+            <table id="discountedProductsTable" class="table table-bordered display">
+              <thead>
+              <tr>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Hành động</th>
+              </tr>
+              </thead>
+              <tbody id="discountedProductsBody"></tbody>
+            </table>
+
+            <h5 class="mt-4">Danh sách sản phẩm chưa được giảm giá</h5>
+            <table id="nonDiscountedProductsTable" class="table table-bordered display">
+              <thead>
+              <tr>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Hành động</th>
+              </tr>
+              </thead>
+              <tbody id="nonDiscountedProductsBody"></tbody>
+            </table>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+          </div>
         </form>
-
-        <!-- Danh sách sản phẩm -->
-        <div class="mt-4">
-          <h5>Danh sách sản phẩm được giảm giá</h5>
-          <table id="discountedProductsTable" class="table table-bordered display">
-            <thead>
-            <tr>
-              <th>Mã sản phẩm</th>
-              <th>Tên sản phẩm</th>
-              <th>Giá</th>
-              <th>Hành động</th>
-            </tr>
-            </thead>
-            <tbody id="discountedProductsBody"></tbody>
-          </table>
-
-          <h5 class="mt-4">Danh sách sản phẩm chưa được giảm giá</h5>
-          <table id="nonDiscountedProductsTable" class="table table-bordered display">
-            <thead>
-            <tr>
-              <th>Mã sản phẩm</th>
-              <th>Tên sản phẩm</th>
-              <th>Giá</th>
-              <th>Hành động</th>
-            </tr>
-            </thead>
-            <tbody id="nonDiscountedProductsBody"></tbody>
-          </table>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
       </div>
     </div>
   </div>
 </div>
-
 
 <!-- Modal: Thêm giảm giá -->
 <div class="modal fade" id="addDiscountModal" tabindex="-1" aria-labelledby="addDiscountModalLabel" aria-hidden="true">
@@ -222,15 +225,16 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Bạn có chắc chắn muốn xóa chương trình giảm giá này không?
+        <p>Bạn có chắc chắn muốn xóa chương trình giảm giá này không?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Xóa</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+        <a id="deleteDiscountBtn" href="#" class="btn btn-danger">Xóa</a>
       </div>
     </div>
   </div>
 </div>
+
 <script>
   $(document).ready(function () {
     $('#discounts').DataTable();
@@ -314,7 +318,6 @@
       }
     });
   });
-  // Xóa sản phẩm khỏi giảm giá
   $(document).on('click', '.remove-from-discount', function () {
     const productId = $(this).data('product-id');
     const discountId = $('#editDiscountId').val();
@@ -342,18 +345,21 @@
       method: 'POST',
       data: { productId, discountId },
       success: function () {
-          alert('Thêm sản phẩm vào giảm giá thành công!');
-          // Tải lại danh sách sản phẩm
-          $(`.edit-discount-btn[data-id="${discountId}"]`).click();
+        alert('Thêm sản phẩm vào giảm giá thành công!');
+        // Tải lại danh sách sản phẩm
+        $(`.edit-discount-btn[data-id="${discountId}"]`).click();
       },
       error: function () {
         alert('Có lỗi xảy ra!');
       }
     });
   });
+  $(document).on('click', '[data-bs-target="#deleteDiscountModal"]', function () {
+    const discountId = $(this).data('discount-id');
+    $('#deleteDiscountId').val(discountId);
+  });
 
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
