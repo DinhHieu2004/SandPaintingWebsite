@@ -10,7 +10,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
   <style>
     .sidebar {
       height: 100vh;
@@ -320,12 +320,12 @@
     const discountId = $('#editDiscountId').val();
 
     $.ajax({
-      url: `/admin/discounts/removeProduct`,
+      url: `${pageContext.request.contextPath}/admin/removePaintingFromDiscount`,
       method: 'POST',
       data: { productId, discountId },
       success: function () {
         alert('Xóa sản phẩm thành công!');
-        // Cập nhật lại danh sách
+        // Tải lại danh sách
         $(`.edit-discount-btn[data-id="${discountId}"]`).click();
       },
       error: function () {

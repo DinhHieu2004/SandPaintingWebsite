@@ -1,13 +1,10 @@
 package com.example.web.service;
 
 import com.example.web.dao.DiscountDao;
-import com.example.web.dao.PaintingDao;
 import com.example.web.dao.model.Discount;
 import com.example.web.dao.model.Painting;
 
 import java.sql.SQLException;
-import java.util.List;
-
 import java.util.List;
 
 public class DiscountService {
@@ -15,7 +12,7 @@ public class DiscountService {
     private DiscountDao discountDAO;
 
     public DiscountService() {
-        discountDAO = new DiscountDao();  
+        discountDAO = new DiscountDao();
     }
 
     // Lấy tất cả các giảm giá
@@ -24,8 +21,8 @@ public class DiscountService {
     }
 
     // Xóa sản phẩm khỏi giảm giá (bằng cách sử dụng productId)
-    public void removeProductFromDiscount(int productId) throws SQLException {
-        discountDAO.removeProductFromDiscount(productId);  // Gọi DiscountDAO để xóa sản phẩm khỏi giảm giá
+    public boolean removeProductFromDiscount(int productId) throws SQLException {
+       return discountDAO.removeProductFromDiscount(productId);  // Gọi DiscountDAO để xóa sản phẩm khỏi giảm giá
     }
 
     // Lấy thông tin giảm giá theo ID

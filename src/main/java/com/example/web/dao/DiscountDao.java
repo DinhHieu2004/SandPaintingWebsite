@@ -207,7 +207,7 @@ public class DiscountDao {
 
         return discount;
     }
-    public void removeProductFromDiscount(int productId) throws SQLException {
+    public boolean removeProductFromDiscount(int productId) throws SQLException {
         String sql = "DELETE FROM discount_paintings WHERE paintingId = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -216,11 +216,14 @@ public class DiscountDao {
 
             if (rowsAffected > 0) {
                 System.out.println("Sản phẩm đã được xóa khỏi chương trình giảm giá.");
+                return true; // Xóa thành công
             } else {
                 System.out.println("Không tìm thấy sản phẩm trong chương trình giảm giá.");
+                return false; // Không có sản phẩm nào bị xóa
             }
         }
     }
+
     public boolean addDiscount(Discount discount) {
         String sql = "INSERT INTO discounts (imageUrl, discountName, discountPercentage, startDate, endDate) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conn.prepareStatement(sql)) {
@@ -240,28 +243,9 @@ public class DiscountDao {
             return false;
         }
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         // Tạo một đối tượng Discount mới
-        Discount discount = new Discount();
-        discount.setImageUrl("https://example.com/image.jpg");
-        discount.setDiscountName("Giảm giá mùa hè");
-        discount.setDiscountPercentage(new BigDecimal("20.00"));
-        discount.setStartDate(LocalDate.of(2025, 6, 1));
-        discount.setEndDate(LocalDate.of(2025, 8, 31));
-        discount.setCreatedAt(LocalDateTime.now());  // Tự động lấy thời gian hiện tại
 
-        // Tạo đối tượng DiscountDAO để thêm giảm giá vào cơ sở dữ liệu
-        DiscountDao discountDAO = new DiscountDao();
-
-        // Gọi phương thức addDiscount để thêm chương trình giảm giá vào cơ sở dữ liệu
-        boolean isAdded = discountDAO.addDiscount(discount);
-
-        // Kiểm tra kết quả và in ra thông báo
-        if (isAdded) {
-            System.out.println("Chương trình giảm giá đã được thêm thành công!");
-        } else {
-            System.out.println("Có lỗi xảy ra khi thêm chương trình giảm giá.");
-        }
     }
 
 }
