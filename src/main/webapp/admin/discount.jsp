@@ -80,11 +80,6 @@
             <td>${discount.endDate}</td>
             <td>${discount.createdAt}</td>
             <td>
-              <a href="${pageContext.request.contextPath}/admin/discountPainting?discountId=${discount.id}"
-                 class="btn btn-info btn-sm">
-                Xem sản phẩm giảm giá
-              </a>
-
               <button class="btn btn-info btn-sm edit-discount-btn"
                       data-bs-toggle="modal"
                       data-bs-target="#viewEditDiscountModal"
@@ -236,7 +231,6 @@
     </div>
   </div>
 </div>
-
 <script>
   $(document).ready(function () {
     $('#discounts').DataTable();
@@ -258,64 +252,58 @@
     $('#editEndDate').val(endDate);
     $('#editImageUrl').val(imageUrl);
     $('#editDiscountId').val(id);  // Đảm bảo discountId được gán vào trường ẩn
-  });
 
-  $(document).on('click', '.edit-discount-btn', function () {
-    const button = $(this);
-    const id = button.data("id");
-
+    // Gửi AJAX để lấy sản phẩm đã giảm giá và chưa giảm giá
     $.ajax({
-      url: `${pageContext.request.contextPath}/admin/discountPainting`,
+      url: `${pageContext.request.contextPath}/admin/discountPainting`,  // Đảm bảo URL đúng
       method: 'GET',
-      data: {
-        discountId: id
-      },
+      data: { discountId: id },
       success: function (data) {
-        console.log('Data received:', data); // Kiểm tra dữ liệu trả về từ server
+        console.log('Data received:', data);
 
-        // Kiểm tra xem dữ liệu có đúng định dạng không
         if (data && Array.isArray(data.discountedProducts) && Array.isArray(data.nonDiscountedProducts)) {
           const { discountedProducts, nonDiscountedProducts } = data;
 
-          // Hiển thị sản phẩm đã được giảm giá
+          // Hiển thị sản phẩm đã giảm giá
           let discountedHtml = '';
           discountedProducts.forEach(product => {
-            discountedHtml += `
-                        <tr>
-                            <td>${product.id}</td>
-                            <td>${product.name}</td>
-                            <td>${product.price}</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm remove-from-discount" data-product-id="${product.id}">
-                                    Xóa khỏi giảm giá
-                                </button>
-                            </td>
-                        </tr>`;
+            discountedHtml += '<tr>';
+            discountedHtml += '<td>' + product.id + '</td>';
+            discountedHtml += '<td>' + product.title + '</td>';
+            discountedHtml += '<td>' + product.price + '</td>';
+            discountedHtml += '<td>';
+            discountedHtml += '<button class="btn btn-danger btn-sm remove-from-discount" data-product-id="' + product.id + '">';
+            discountedHtml += 'Xóa khỏi giảm giá';
+            discountedHtml += '</button>';
+            discountedHtml += '</td>';
+            discountedHtml += '</tr>';
           });
+
+
           $('#discountedProductsBody').html(discountedHtml);
 
-          // Hiển thị sản phẩm chưa được giảm giá
+          // Hiển thị sản phẩm chưa giảm giá
           let nonDiscountedHtml = '';
           nonDiscountedProducts.forEach(product => {
-            nonDiscountedHtml += `
-                        <tr>
-                            <td>${product.id}</td>
-                            <td>${product.name}</td>
-                            <td>${product.price}</td>
-                            <td>
-                                <button class="btn btn-primary btn-sm add-to-discount" data-product-id="${product.id}">
-                                    Thêm vào giảm giá
-                                </button>
-                            </td>
-                        </tr>`;
+            nonDiscountedHtml += '<tr>';
+            nonDiscountedHtml += '<td>' + product.id + '</td>';
+            nonDiscountedHtml += '<td>' + product.title + '</td>';
+            nonDiscountedHtml += '<td>' + product.price + '</td>';
+            nonDiscountedHtml += '<td>';
+            nonDiscountedHtml += '<button class="btn btn-primary btn-sm add-to-discount" data-product-id="' + product.id + '">';
+            nonDiscountedHtml += 'Thêm vào giảm giá';
+            nonDiscountedHtml += '</button>';
+            nonDiscountedHtml += '</td>';
+            nonDiscountedHtml += '</tr>';
           });
+
           $('#nonDiscountedProductsBody').html(nonDiscountedHtml);
 
           // Khởi tạo lại DataTable sau khi cập nhật dữ liệu
-          $('#discountedProductsTable').DataTable().clear().destroy(); // Xóa và tái tạo lại bảng
+          $('#discountedProductsTable').DataTable().clear().destroy();
           $('#discountedProductsTable').DataTable();
 
-          $('#nonDiscountedProductsTable').DataTable().clear().destroy(); // Xóa và tái tạo lại bảng
+          $('#nonDiscountedProductsTable').DataTable().clear().destroy();
           $('#nonDiscountedProductsTable').DataTable();
         } else {
           console.error('Dữ liệu không đúng định dạng');
@@ -327,7 +315,7 @@
     });
   });
 
-
+  // Thêm sản phẩm vào giảm giá
   $(document).on('click', '.add-to-discount', function () {
     const productId = $(this).data('product-id');
     const discountId = $('#editDiscountId').val();
@@ -347,6 +335,7 @@
     });
   });
 
+  // Xóa sản phẩm khỏi giảm giá
   $(document).on('click', '.remove-from-discount', function () {
     const productId = $(this).data('product-id');
     const discountId = $('#editDiscountId').val();
@@ -369,5 +358,6 @@
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
