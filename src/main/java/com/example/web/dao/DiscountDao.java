@@ -3,6 +3,7 @@ package com.example.web.dao;
 import com.example.web.dao.db.DbConnect;
 import com.example.web.dao.model.Discount;
 import com.example.web.dao.model.Painting;
+import com.example.web.service.DiscountService;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -153,24 +154,18 @@ public class DiscountDao {
         }
         return result;
     }
-    public void assignProductsToDiscount(int discountId, List<Integer> productIds) throws SQLException {
+    public boolean assignProductToDiscount(int productId, int discountId) throws SQLException {
         String sql = "INSERT INTO discount_paintings (discountId, paintingId) VALUES (?, ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            // Lặp qua danh sách productIds và chèn từng bản ghi
-            for (int productId : productIds) {
-                ps.setInt(1, discountId); // Gán giá trị discountId
-                ps.setInt(2, productId); // Gán giá trị paintingId
-                ps.addBatch();
-            }
+            ps.setInt(1, discountId); // Gán giá trị discountId
+            ps.setInt(2, productId);  // Gán giá trị paintingId
 
-            // Thực thi batch
-            ps.executeBatch();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Không thể gán sản phẩm vào chương trình giảm giá.", e);
+            int rowsAffected = ps.executeUpdate(); // Thực thi câu lệnh
+            return rowsAffected > 0; // Trả về true nếu có ít nhất một dòng được thêm
         }
     }
+
 
     public Discount getDiscountById(int discountId) {
         Discount discount = null;
@@ -243,10 +238,21 @@ public class DiscountDao {
             return false;
         }
     }
-    public static void main(String[] args) throws SQLException {
-        // Tạo một đối tượng Discount mới
+    public static void main(String[] args) {
+        DiscountService service = new DiscountService();
 
+        // Danh sách sản phẩm và ID giảm giá
+        int productIds = 2;
+        int discountId = 2;
+
+        try {
+            service.assignProductsToDiscount(productIds, discountId);
+            System.out.println("Thêm từng sản phẩm vào giảm giá thành công!");
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi thêm sản phẩm vào giảm giá: " + e.getMessage());
+        }
     }
+
 
 }
 

@@ -429,4 +429,11 @@ public class PaintingDao {
     }
 
 
+    public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists) {
+        return 0;
+    }
+
+    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] themes, String[] artists, int currentPage, int recordsPerPage) {
+        return null;
+    }
 }

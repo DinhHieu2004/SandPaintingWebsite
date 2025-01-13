@@ -333,7 +333,24 @@
       }
     });
   });
+  $(document).on('click', '.add-to-discount', function () {
+    const productId = $(this).data('product-id');
+    const discountId = $('#editDiscountId').val();
 
+    $.ajax({
+      url: `${pageContext.request.contextPath}/admin/assignDiscount`,
+      method: 'POST',
+      data: { productId, discountId },
+      success: function () {
+          alert('Thêm sản phẩm vào giảm giá thành công!');
+          // Tải lại danh sách sản phẩm
+          $(`.edit-discount-btn[data-id="${discountId}"]`).click();
+      },
+      error: function () {
+        alert('Có lỗi xảy ra!');
+      }
+    });
+  });
 
 </script>
 

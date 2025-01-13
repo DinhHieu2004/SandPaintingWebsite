@@ -10,52 +10,41 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @WebServlet("/admin/assignDiscount")
 public class AssignDiscount extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy các tham số từ form
-        String[] productIds = request.getParameterValues("productIds");
+        String productIdParam = request.getParameter("productId");
         String discountIdParam = request.getParameter("discountId");
 
-        if (discountIdParam == null || discountIdParam.isEmpty()) {
-            request.setAttribute("errorMessage", "Chương trình giảm giá không hợp lệ.");
-            // Truyền discountId và các tham số khác vào request
-            request.setAttribute("discountId", discountIdParam);
-            response.sendRedirect(request.getContextPath() + "/admin/addProductDiscount?discountId=" + discountIdParam);
-            return;
-        }
+        if (productIdParam != null && discountIdParam != null) {
+            try {
+                int productId = Integer.parseInt(productIdParam);
+                int discountId = Integer.parseInt(discountIdParam);
 
-        if (productIds == null || productIds.length == 0) {
-            request.setAttribute("errorMessage", "Bạn chưa chọn sản phẩm nào.");
-            // Truyền discountId và các tham số khác vào request
-            request.setAttribute("discountId", discountIdParam);
-            response.sendRedirect(request.getContextPath() + "/admin/addProductDiscount?discountId=" + discountIdParam);
-            return;
-        }
+                // Thêm sản phẩm vào chương trình giảm giá
+                DiscountService service = new DiscountService();
+                boolean success = service.assignProductsToDiscount(productId, discountId);
 
-        try {
-            // Chuyển đổi discountId và xử lý logic bình thường
-            int discountId = Integer.parseInt(discountIdParam);
-            List<Integer> productIdsList = new ArrayList<>();
-            for (String productId : productIds) {
-                productIdsList.add(Integer.parseInt(productId));
+                // Trả về kết quả dưới dạng JSON
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                if (success) {
+                    response.getWriter().write("{\"status\":\"success\",\"message\":\"Thêm sản phẩm vào giảm giá thành công!\"}");
+                } else {
+                    response.getWriter().write("{\"status\":\"failure\",\"message\":\"Thêm sản phẩm vào giảm giá thất bại.\"}");
+                }
+            } catch (NumberFormatException | SQLException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dữ liệu không hợp lệ");
             }
-
-            DiscountService service = new DiscountService();
-            service.assignProductsToDiscount(discountId, productIdsList);
-
-            // Chuyển hướng sau khi thành công
-            response.sendRedirect(request.getContextPath() + "/admin/discountPainting?discountId=" + discountId);
-        } catch (NumberFormatException | SQLException e) {
-            request.setAttribute("errorMessage", "Dữ liệu không hợp lệ.");
-            request.setAttribute("discountId", discountIdParam);
-            request.getRequestDispatcher("/admin/addProductDiscount.jsp").forward(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu mã sản phẩm hoặc mã giảm giá");
         }
     }
 }
+
 
 

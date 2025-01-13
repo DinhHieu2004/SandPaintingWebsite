@@ -25,11 +25,7 @@ public class FeaturePainting extends HttpServlet {
 
         List<Painting> featuredArtworks = paintingDAO.getFeaturedArtworks();
         List<Theme> themes = null;
-        try {
-            themes = paintingDAO.getTheme();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        themes = paintingDAO.getTheme();
 
         // Gắn danh sách tác phẩm vào request để truyền sang index
         request.setAttribute("featuredArtworks", featuredArtworks);

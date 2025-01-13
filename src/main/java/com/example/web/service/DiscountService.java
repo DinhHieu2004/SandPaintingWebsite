@@ -41,8 +41,8 @@ public class DiscountService {
     }
 
     // Gán sản phẩm vào giảm giá (dựa trên discountId và danh sách productIds)
-    public void assignProductsToDiscount(int discountId, List<Integer> productIdsList) throws SQLException {
-        discountDAO.assignProductsToDiscount(discountId, productIdsList);  // Gọi DiscountDAO để gán sản phẩm vào giảm giá
+    public boolean assignProductsToDiscount(int productId, int discountId) throws SQLException {
+        return discountDAO.assignProductToDiscount(productId, discountId);  // Gọi DiscountDAO để gán sản phẩm vào giảm giá
     }
 
     // Lấy tên của giảm giá theo ID
