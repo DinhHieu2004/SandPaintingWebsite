@@ -47,6 +47,6 @@ public class PaintingService {
     }
 
     public boolean deletePainting(int i) {
-        return false;
+        return paintingDao.deletePainting(i);
     }
 }
