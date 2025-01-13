@@ -143,10 +143,10 @@
             <td>${p.price}</td>
             <td>${p.artistName}</td>
             <td><button class="btn btn-info btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#orderDetailsModal" data-order-id="${p.id}">Xem Chi Tiết</button>
+                        data-bs-target="#viewAndEditModal" data-product-id="${p.id}">Xem Chi Tiết</button>
 
               <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                      data-bs-target="#orderDetailsModal" data-order-id="${p.id}">Xóa</button></td>
+                      data-bs-target="#orderDetailsModal" data-product-id="${p.id}">Xóa</button></td>
           </tr>
         </c:forEach>
         </tbody>
@@ -155,8 +155,8 @@
   </div>
 
 
-  <div class="row"> <!-- Thêm container row -->
-    <div class="col-6"> <!-- Cột đầu tiên chiếm 6/12 -->
+  <div class="row">
+    <div class="col-6">
       <div class="card mb-4">
         <div class="card-header bg-secondary text-white">
           <h4>Danh sách Chủ Đề</h4>
@@ -222,7 +222,7 @@
 <div class="modal fade" id="addPaintingModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="AddPaintingServlet" method="post" enctype="multipart/form-data">
+      <form action="${pageContext.request.contextPath}/admin/paintings/add" method="post" enctype="multipart/form-data">
         <div class="modal-header">
           <h5 class="modal-title">Thêm Tranh</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -283,11 +283,11 @@
                 <div class="size-quantity-pair">
                   <div class="row g-2">
                     <div class="col-7">
-                      <input type="hidden" name="sizeId" value="${size.idSize}">
+                      <input type="hidden" name="sizeId[]" value="${size.idSize}">
                       <input type="text" class="form-control form-control-sm" name="size" value="${size.sizeDescriptions}" readonly>
                     </div>
                     <div class="col-5">
-                      <input type="number" class="form-control form-control-sm" name="quantity" value="0" min="0">
+                      <input type="number" class="form-control form-control-sm" name="quantity[]" value="0" min="0">
                     </div>
                   </div>
                 </div>
@@ -303,7 +303,92 @@
   </div>
 </div>
 
+<!--view and edit -->
+  <div class="modal fade" id="viewAndEditModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form action="${pageContext.request.contextPath}/admin/update/add" method="post" enctype="multipart/form-data">
+          <div class="modal-header">
+            <h5 class="modal-title">Chi tiết</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Tiêu đề</label>
+                <input type="text" class="form-control form-control-sm" name="title" required>
+              </div>
 
+              <div class="col-md-6">
+                <label class="form-label">Chủ đề</label>
+                <select class="form-select form-select-sm" name="themeId" required>
+                  <c:forEach var="t" items="${themes}">
+                    <option value="${t.id}">${t.themeName}</option>
+                  </c:forEach>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Mô tả</label>
+              <textarea class="form-control form-control-sm" name="description" rows="4"
+                        placeholder="Nhập mô tả chi tiết về tranh..."></textarea>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Giá</label>
+                <input type="number" step="0.01" class="form-control form-control-sm" name="price" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Họa sĩ</label>
+                <select class="form-select form-select-sm" name="artistId" required>
+                  <c:forEach var="artist" items="${artists}">
+                    <option value="${artist.id}">${artist.name}</option>
+                  </c:forEach>
+
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Ảnh tranh</label>
+              <input type="file" class="form-control form-control-sm" name="image" accept="image/*" required>
+            </div>
+
+            <div class="mb-3">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="isFeaturedEdit" name="isFeatured">
+                <label class="form-check-label" for="isFeatured">Tranh nổi bật</label>
+              </div>
+            </div>
+
+            <div class="size-quantities">
+              <label class="form-label">Kích thước và Số lượng</label>
+              <c:forEach var="size" items="${sizes}">
+                <div class="size-quantity-pair">
+                  <div class="row g-2">
+                    <div class="col-7">
+                      <input type="hidden" name="sizeId[]" value="${size.idSize}">
+                      <input type="text" class="form-control form-control-sm" name="size" value="${size.sizeDescriptions}" readonly>
+                    </div>
+                    <div class="col-5">
+                      <input type="number" class="form-control form-control-sm" name="quantity[]" value="0" min="0">
+                    </div>
+                  </div>
+                </div>
+              </c:forEach>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary btn-sm">Thêm</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
@@ -312,7 +397,15 @@
   $(document).ready(function() {
     $('#products').DataTable();
   });
+  document.querySelectorAll('[data-bs-target="#deleteProductModal"]').forEach(button => {
+    button.addEventListener('click', function() {
+      let pid = this.getAttribute('data-product-id');
+      document.getElementById('pidToDelete').value = pid;
+    });
+  });
 
 </script>
+<script src="${pageContext.request.contextPath}/assets/js/admin/product.js"></script>
+
 </body>
 </html>

@@ -27,6 +27,49 @@ public class PaintingDao {
 
 
     }
+//add
+    public int addPainting(String title, int themeId, double price, int artistId, String description, String imageUrl, boolean isFeatured) throws SQLException {
+        String sql = "INSERT INTO paintings (title, themeId, price, artistId, description, imageUrl, isFeatured) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, title);
+            ps.setInt(2, themeId);
+            ps.setDouble(3, price);
+            ps.setInt(4, artistId);
+            ps.setString(5, description);
+            ps.setString(6, imageUrl);
+            ps.setBoolean(7, isFeatured);
+            ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1); // Trả về ID của tranh
+                }
+            }
+        }
+        return -1;
+    }
+
+    public boolean addPaintingSizes(int paintingId, List<Integer> sizeIds, List<Integer> quantities) throws SQLException {
+        if (sizeIds.size() != quantities.size()) {
+            throw new IllegalArgumentException("Size of sizeIds and quantities lists must be the same.");
+        }
+        String sql = "INSERT INTO painting_sizes (paintingId, sizeId, quantity) VALUES (?, ?, ?)";
+             PreparedStatement ps = con.prepareStatement(sql);
+            for (int i = 0; i < sizeIds.size(); i++) {
+                ps.setInt(1, paintingId);
+                ps.setInt(2, sizeIds.get(i));
+                ps.setInt(3, quantities.get(i));
+                ps.addBatch();
+            }
+            int[] updateCounts = ps.executeBatch();
+            for (int count : updateCounts) {
+                if (count != 1) {
+                    return false;
+                }
+            }
+            return true;
+
+    }
 
     public List<Painting> getAll() throws SQLException {
         String sql = """ 
@@ -90,6 +133,7 @@ public class PaintingDao {
                         p.title AS paintingTitle,
                         p.price,
                         p.description,
+                        p.isFeatured,
                         p.imageUrl,
                         a.name AS artistName,
                         t.themeName,
@@ -116,7 +160,7 @@ public class PaintingDao {
                 while (rs.next()) {
                     if (paintingDetail == null) {
                         // Initialize the PaintingDetail object
-                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"));
+                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"));
                     }
 
                     // Add size and quantity to the painting detail
@@ -385,20 +429,6 @@ public class PaintingDao {
     }
 
 
-    public static void main(String[] args) throws SQLException {
-        PaintingDao paintingDao = new PaintingDao();
-        Double m1 = null;
-        Double m2 = null;
-
-        String[] sizes = null;
-        String[] themes = {"1"};
-
-
-        for (Painting P : paintingDao.getPaintingList(m1, m2, sizes, null, 1, 5)) {
-            System.out.println(P);
-        }
-    }
-
 
     public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists) throws SQLException {
         StringBuilder sql = new StringBuilder("""
@@ -445,6 +475,35 @@ public class PaintingDao {
         }
 
         return 0;
+    }
+
+    public static void main(String[] args) throws SQLException {
+        PaintingDao paintingDao = new PaintingDao();
+        Double m1 = null;
+        Double m2 = null;
+
+        String[] sizes = null;
+        String[] themes = {"1"};
+        /**
+        int paintingId = paintingDao.addPainting(
+                "Sunset Overdrive",
+                1,
+                150.0,
+                2,
+                "A beautiful sunset painting.",
+                "sunset.jpg",
+                true
+        );
+
+        System.out.println(paintingId);
+         **/
+
+        int paintingId = 11;
+        List<Integer> sizeIds = Arrays.asList(1, 2, 3);
+        List<Integer> quantities = Arrays.asList(5, 3, 2);
+
+        System.out.println(paintingDao.getPaintingDetail(paintingId));
+
     }
 
 }

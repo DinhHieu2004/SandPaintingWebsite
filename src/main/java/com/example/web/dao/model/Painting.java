@@ -18,8 +18,9 @@ public class Painting implements Serializable{
         private double discountPercentage;
         private boolean available;
         private Date crateDate;
+        private boolean isFeatured;
 
-        public Painting(int id, String title, double price, String description, String imageUrl, String artistName, String themeName) {
+        public Painting(int id, String title, double price, String description, String imageUrl, String artistName, String themeName, boolean isFeatured) {
             this.id = id;
             this.title = title;
             this.price = price;
@@ -27,6 +28,7 @@ public class Painting implements Serializable{
             this.imageUrl = imageUrl;
             this.artistName = artistName;
             this.themeName = themeName;
+            this.isFeatured = isFeatured;
         }
 
     public Painting() {
@@ -59,6 +61,13 @@ public class Painting implements Serializable{
         return false;
     }
 
+    public boolean isFeatured() {
+        return isFeatured;
+    }
+
+    public void setFeatured(boolean featured) {
+        isFeatured = featured;
+    }
 
     public void setAvailable(boolean available) {
         this.available = available;
@@ -166,6 +175,7 @@ public class Painting implements Serializable{
                 ", themeName='" + themeName + '\'' +
                 ", sizes=" + sizes +
                 ", discountName='" + discountName + '\'' +
+                ", isFu='" + isFeatured + '\'' +
                 ", discountPercentage=" + discountPercentage +
                 '}';
     }
