@@ -14,20 +14,18 @@ import java.util.*;
 import static com.example.web.dao.db.DbConnect.getConnection;
 
 public class PaintingDao {
-    private Connection con = getConnection();
+    Connection con = getConnection();
 
     public PaintingDao() {
     }
-
-    public static boolean getPaintingDelete(String id) {
-        String sql = "DELETE FROM Painting WHERE id = ?";
-        try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, id);
-            return ps.executeUpdate() > 0;
+    public boolean deletePainting(int i) {
+        String query = "DELETE FROM users WHERE id = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, i);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException(e);
         }
     }
     public List<Painting> getAll() throws SQLException {
@@ -73,7 +71,8 @@ public class PaintingDao {
         public boolean getPaintingAdd(String title, String description, String imageUrl) {
             String sql = "INSERT INTO Painting (id,title, themeId, price,artistId,description,imageUrl) VALUES (?, ?, ?)";
             DbConnect DBConnect = null;
-            try (PreparedStatement ps = con.prepareStatement(sql)) {
+            try (Connection conn = DBConnect.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setString(1, title);
                 ps.setString(2, description);
                 ps.setString(3, imageUrl);
@@ -102,9 +101,7 @@ public class PaintingDao {
                         d.discountPercentage,
                         s.sizeDescription,
                         s.id AS idSize,
-                        ps.quantity AS sizeQuantity,
-                        dp.discountId
-    
+                        ps.quantity AS sizeQuantity
                     FROM paintings p
                     LEFT JOIN artists a ON p.artistId = a.id
                     LEFT JOIN themes t ON p.themeId = t.id
@@ -141,26 +138,30 @@ public class PaintingDao {
     }
 
 
-    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] themes, String[] artists, int currentPage, int recordsPerPage) throws SQLException {
+    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] sizes, String[] themes, String[] artists) throws SQLException {
         List<Painting> paintingList = new ArrayList<>();
         Map<Integer, Painting> paintingMap = new HashMap<>();
 
         StringBuilder sql = new StringBuilder("""
-                SELECT 
-                    p.id AS paintingId,
-                    p.title AS paintingTitle,
-                    p.price,
-                    p.imageUrl,
-                    a.name AS artistName,
-                    t.themeName AS theme,
-                    IFNULL(d.discountPercentage, 0) AS discount
-                FROM paintings p
-                LEFT JOIN artists a ON p.artistId = a.id
-                LEFT JOIN themes t ON p.themeId = t.id
-                LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
-                LEFT JOIN discounts d ON dp.discountId = d.id
-                WHERE 1=1
-            """);
+                    SELECT 
+                        p.id AS paintingId,
+                        p.title AS paintingTitle,
+                        p.price,
+                        p.imageUrl,
+                        a.name AS artistName,
+                        t.themeName AS theme,
+                        IFNULL(d.discountPercentage, 0) AS discount,
+                        s.sizeDescription AS size,
+                        ps.quantity AS stock
+                    FROM paintings p
+                    LEFT JOIN artists a ON p.artistId = a.id
+                    LEFT JOIN themes t ON p.themeId = t.id
+                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+                    LEFT JOIN discounts d ON dp.discountId = d.id
+                    LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
+                    LEFT JOIN sizes s ON ps.sizeId = s.id
+                    WHERE 1=1
+                """);
 
         List<Object> params = new ArrayList<>();
 
@@ -172,19 +173,23 @@ public class PaintingDao {
             sql.append(" AND p.price <= ?");
             params.add(maxPrice);
         }
+
+        if (sizes != null && sizes.length > 0) {
+            sql.append(" AND s.id IN (").append("?,".repeat(sizes.length - 1)).append("?)");
+            params.addAll(List.of(sizes));
+        }
+
         if (themes != null && themes.length > 0) {
             sql.append(" AND t.id IN (").append("?,".repeat(themes.length - 1)).append("?)");
             params.addAll(List.of(themes));
         }
+
         if (artists != null && artists.length > 0) {
             sql.append(" AND a.id IN (").append("?,".repeat(artists.length - 1)).append("?)");
             params.addAll(List.of(artists));
         }
 
-        sql.append(" LIMIT ? OFFSET ?");
-        params.add(recordsPerPage);
-        int offset = (currentPage - 1) * recordsPerPage;
-        params.add(offset);
+        sql.append(" AND ps.quantity > 0");
 
         try (PreparedStatement stmt = con.prepareStatement(sql.toString())) {
             for (int i = 0; i < params.size(); i++) {
@@ -195,7 +200,8 @@ public class PaintingDao {
                 while (rs.next()) {
                     int paintingId = rs.getInt("paintingId");
 
-                    if (!paintingMap.containsKey(paintingId)) {
+                    if (paintingMap.containsKey(paintingId)) {
+                    } else {
                         Painting painting = new Painting();
                         painting.setId(paintingId);
                         painting.setTitle(rs.getString("paintingTitle"));
@@ -271,22 +277,27 @@ public class PaintingDao {
     // danh sach tranh theo từng họa sĩ .
     public List<Painting> getPaintingListByArtist(Double minPrice, Double maxPrice, String[] sizes, String[] themes, String artistId) throws SQLException {
         List<Painting> paintingList = new ArrayList<>();
+        Map<Integer, Painting> paintingMap = new HashMap<>();
 
         StringBuilder sql = new StringBuilder("""
-                                     SELECT
-                                        p.id AS paintingId,
-                                        p.title AS paintingTitle,
-                                        p.price,
-                                        p.imageUrl,
-                                        a.name AS artistName,
-                                        t.themeName AS theme,
-                                        IFNULL(d.discountPercentage, 0) AS discount
-                                    FROM paintings p
-                                    LEFT JOIN artists a ON p.artistId = a.id
-                                    LEFT JOIN themes t ON p.themeId = t.id
-                                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
-                                    LEFT JOIN discounts d ON dp.discountId = d.id
-                                     WHERE artistId = ?;
+                    SELECT 
+                        p.id AS paintingId,
+                        p.title AS paintingTitle,
+                        p.price,
+                        p.imageUrl,
+                        a.name AS artistName,
+                        t.themeName AS theme,
+                        IFNULL(d.discountPercentage, 0) AS discount,
+                        s.sizeDescription AS size,
+                        ps.quantity AS stock
+                    FROM paintings p
+                    LEFT JOIN artists a ON p.artistId = a.id
+                    LEFT JOIN themes t ON p.themeId = t.id
+                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+                    LEFT JOIN discounts d ON dp.discountId = d.id
+                    LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
+                    LEFT JOIN sizes s ON ps.sizeId = s.id
+                    WHERE 1=1 AND a.id = ?
                 """);
 
         List<Object> params = new ArrayList<>();
@@ -301,20 +312,30 @@ public class PaintingDao {
             params.add(maxPrice);
         }
 
+        if (sizes != null && sizes.length > 0) {
+            sql.append(" AND s.id IN (").append("?,".repeat(sizes.length - 1)).append("?)");
+            params.addAll(List.of(sizes));
+        }
+
         if (themes != null && themes.length > 0) {
             sql.append(" AND t.id IN (").append("?,".repeat(themes.length - 1)).append("?)");
             params.addAll(List.of(themes));
         }
 
 
+        sql.append(" AND ps.quantity > 0");
+
         try (PreparedStatement stmt = con.prepareStatement(sql.toString())) {
             for (int i = 0; i < params.size(); i++) {
                 stmt.setObject(i + 1, params.get(i));
             }
+
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     int paintingId = rs.getInt("paintingId");
 
+                    if (paintingMap.containsKey(paintingId)) {
+                    } else {
                         Painting painting = new Painting();
                         painting.setId(paintingId);
                         painting.setTitle(rs.getString("paintingTitle"));
@@ -324,14 +345,16 @@ public class PaintingDao {
                         painting.setDiscountPercentage(rs.getDouble("discount"));
                         painting.setPrice(rs.getDouble("price"));
                         painting.setSizes(new ArrayList<>());
-                        paintingList.add(painting);
-
+                        paintingMap.put(paintingId, painting);
+                    }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Lỗi khi lấy danh sách tranh có lọc", e);
         }
+
+        paintingList.addAll(paintingMap.values());
 
         return paintingList;
     }
@@ -361,7 +384,8 @@ public class PaintingDao {
                 "WHERE p.isFeatured = true AND p.isSold = false";
         List<Painting> featuredArtworks = new ArrayList<>();
 
-        try (PreparedStatement stmt = con.prepareStatement(sql);
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -371,23 +395,26 @@ public class PaintingDao {
             e.printStackTrace();
         }
 
+        // Trả về danh sách các tác phẩm trưng bày chưa bán
         return featuredArtworks;
     }
-    public List<Theme> getTheme() throws SQLException {
-        String sql = "SELECT * FROM themes";
+    public List<Theme> getTheme() {
+        String sql = "SELECT * FROM THEMES";
         List<Theme> theme = new ArrayList<>();
-             PreparedStatement stmt = con.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery();
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 theme.add(new Theme(rs.getInt(1), rs.getString(2)));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return theme;
     }
-
-
-
     public static void main(String[] args) throws SQLException {
         PaintingDao paintingDao = new PaintingDao();
         Double m1 = null;
@@ -396,58 +423,10 @@ public class PaintingDao {
         String[] sizes = null;
         String[] themes = {"1"};
 
-
-        for (Painting P : paintingDao.getPaintingList(m1,m2,sizes, null, 1 , 5)) {
-            System.out.println(P);
-        }
+      //  for (Painting P : paintingDao.getPaintingListByArtist(m1,m2,sizes, themes, "1")) {
+       //     System.out.println(P);
+       // }
     }
 
-
-    public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists) throws SQLException {
-        StringBuilder sql = new StringBuilder("""
-                SELECT COUNT(*) AS total
-                FROM paintings p
-                LEFT JOIN artists a ON p.artistId = a.id
-                LEFT JOIN themes t ON p.themeId = t.id
-                WHERE 1=1
-        """);
-
-        if (minPrice != null) {
-            sql.append(" AND p.price >= ?");
-        }
-        if (maxPrice != null) {
-            sql.append(" AND p.price <= ?");
-        }
-        if (themes != null && themes.length > 0) {
-            sql.append(" AND t.id IN (").append("?,".repeat(themes.length - 1)).append("?)");
-        }
-        if (artists != null && artists.length > 0) {
-            sql.append(" AND a.id IN (").append("?,".repeat(artists.length - 1)).append("?)");
-        }
-
-        try (PreparedStatement stmt = con.prepareStatement(sql.toString())) {
-            int index = 1;
-            if (minPrice != null) stmt.setDouble(index++, minPrice);
-            if (maxPrice != null) stmt.setDouble(index++, maxPrice);
-            if (themes != null && themes.length > 0) {
-                for (String theme : themes) {
-                    stmt.setInt(index++, Integer.parseInt(theme));
-                }
-            }
-            if (artists != null && artists.length > 0) {
-                for (String artist : artists) {
-                    stmt.setInt(index++, Integer.parseInt(artist));
-                }
-            }
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt("total");
-                }
-            }
-        }
-
-        return 0;
-    }
 
 }
