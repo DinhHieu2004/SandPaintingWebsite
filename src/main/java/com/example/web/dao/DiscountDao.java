@@ -221,11 +221,47 @@ public class DiscountDao {
             }
         }
     }
+    public boolean addDiscount(Discount discount) {
+        String sql = "INSERT INTO discounts (imageUrl, discountName, discountPercentage, startDate, endDate) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = conn.prepareStatement(sql)) {
 
-    public static void main(String[] args) throws SQLException {
-        DiscountDao dao = new DiscountDao();
-        Discount discount = dao.getDiscountById(1);
-        System.out.println(discount);
+            // Đặt các giá trị cho các tham số trong câu lệnh SQL
+            statement.setString(1, discount.getImageUrl());
+            statement.setString(2, discount.getDiscountName());
+            statement.setBigDecimal(3, discount.getDiscountPercentage());
+            statement.setDate(4, java.sql.Date.valueOf(discount.getStartDate()));  // Sử dụng java.sql.Date.valueOf
+            statement.setDate(5, java.sql.Date.valueOf(discount.getEndDate()));    // Sử dụng java.sql.Date.valueOf
+
+            // Thực thi câu lệnh SQL
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;  // Nếu có ít nhất 1 dòng được thêm vào, trả về true
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static void main(String[] args) {
+        // Tạo một đối tượng Discount mới
+        Discount discount = new Discount();
+        discount.setImageUrl("https://example.com/image.jpg");
+        discount.setDiscountName("Giảm giá mùa hè");
+        discount.setDiscountPercentage(new BigDecimal("20.00"));
+        discount.setStartDate(LocalDate.of(2025, 6, 1));
+        discount.setEndDate(LocalDate.of(2025, 8, 31));
+        discount.setCreatedAt(LocalDateTime.now());  // Tự động lấy thời gian hiện tại
+
+        // Tạo đối tượng DiscountDAO để thêm giảm giá vào cơ sở dữ liệu
+        DiscountDao discountDAO = new DiscountDao();
+
+        // Gọi phương thức addDiscount để thêm chương trình giảm giá vào cơ sở dữ liệu
+        boolean isAdded = discountDAO.addDiscount(discount);
+
+        // Kiểm tra kết quả và in ra thông báo
+        if (isAdded) {
+            System.out.println("Chương trình giảm giá đã được thêm thành công!");
+        } else {
+            System.out.println("Có lỗi xảy ra khi thêm chương trình giảm giá.");
+        }
     }
 
 }
