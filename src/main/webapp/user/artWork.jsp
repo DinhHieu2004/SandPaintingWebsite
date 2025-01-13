@@ -41,12 +41,20 @@
                     <h6 class="mb-3">Giá (VNĐ)</h6>
                     <div class="price-range d-flex align-items-center">
                         <div class="input-group price-input me-2">
-                            <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder="Từ">
+                            <input type="number" class="form-control"
+                                   id="minPrice"
+                                   name="minPrice"
+                                   placeholder="Từ"
+                                   value="${param.minPrice}">
                             <span class="input-group-text">đ</span>
                         </div>
                         <span class="price-separator mx-2">-</span>
                         <div class="input-group price-input">
-                            <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="Đến">
+                            <input type="number" class="form-control"
+                                   id="maxPrice"
+                                   name="maxPrice"
+                                   placeholder="Đến"
+                                   value="${param.maxPrice}">
                             <span class="input-group-text">đ</span>
                         </div>
                     </div>
@@ -56,27 +64,47 @@
                     <h6 class="mb-3">Kích thước</h6>
                     <c:forEach var="size" items="${paintingSizes}">
                         <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="${size.idSize}" id="${size.idSize}" name="size">
+                            <input class="form-check-input" type="checkbox"
+                                   value="${size.idSize}"
+                                   id="${size.idSize}"
+                                   name="size"
+                            <c:forEach var="checkedSize" items="${paramValues.size}">
+                                   <c:if test="${checkedSize eq size.idSize}">checked</c:if>
+                            </c:forEach>>
                             <label class="form-check-label" for="${size.idSize}">${size.sizeDescriptions}</label>
                         </div>
                     </c:forEach>
                 </div>
+
                 <!-- Chủ đề -->
                 <div class="filter-group">
                     <h6 class="mb-3">Chủ đề</h6>
                     <c:forEach var="theme" items="${themes}">
                         <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="${theme.id}" id="${theme.id}" name="theme">
+                            <input class="form-check-input" type="checkbox"
+                                   value="${theme.id}"
+                                   id="${theme.id}"
+                                   name="theme"
+                            <c:forEach var="checkedTheme" items="${paramValues.theme}">
+                                   <c:if test="${checkedTheme eq theme.id}">checked</c:if>
+                            </c:forEach>>
                             <label class="form-check-label" for="${theme.id}">${theme.themeName}</label>
                         </div>
                     </c:forEach>
                 </div>
+
                 <!-- Họa sĩ -->
                 <div class="filter-group">
                     <h6 class="mb-3">Họa sĩ</h6>
                     <c:forEach var="artist" items="${artists}">
                         <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="${artist.id}" id="${artist.id}" name="artist">
+                            <input class="form-check-input" type="checkbox"
+                                   value="${artist.id}"
+                                   id="${artist.id}"
+                                   name="artist"
+                            <c:forEach var="checkedArtist" items="${paramValues.artist}">
+                                   <c:if test="${checkedArtist eq artist.id}">checked</c:if>
+                            </c:forEach>>
                             <label class="form-check-label" for="${artist.id}">${artist.name}</label>
                         </div>
                     </c:forEach>
@@ -173,6 +201,18 @@
 <%@ include file="/partials/authModal.jsp" %>
 </body>
 
+<script>
+    document.getElementById('resetFilters').addEventListener('click', function() {
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        document.getElementById('minPrice').value = '';
+        document.getElementById('maxPrice').value = '';
+
+        document.getElementById('filterForm').submit();
+    });
+</script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
