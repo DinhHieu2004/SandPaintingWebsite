@@ -314,27 +314,6 @@
       }
     });
   });
-
-  // Thêm sản phẩm vào giảm giá
-  $(document).on('click', '.add-to-discount', function () {
-    const productId = $(this).data('product-id');
-    const discountId = $('#editDiscountId').val();
-
-    $.ajax({
-      url: `/admin/discounts/addProduct`,
-      method: 'POST',
-      data: { productId, discountId },
-      success: function () {
-        alert('Thêm sản phẩm thành công!');
-        // Cập nhật lại danh sách
-        $(`.edit-discount-btn[data-id="${discountId}"]`).click();
-      },
-      error: function () {
-        alert('Có lỗi xảy ra!');
-      }
-    });
-  });
-
   // Xóa sản phẩm khỏi giảm giá
   $(document).on('click', '.remove-from-discount', function () {
     const productId = $(this).data('product-id');
@@ -354,6 +333,7 @@
       }
     });
   });
+
 
 </script>
 
