@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/user/discount")
@@ -21,7 +22,12 @@ public class DiscountController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DiscountDao discountDao = new DiscountDao();
 
-        List<Discount> list = discountDao.getAllDiscount();
+        List<Discount> list = null;
+        try {
+            list = discountDao.getAllDiscount();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         request.setAttribute("list", list);
 

@@ -27,6 +27,18 @@ public class GetList extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int currentPage = 1;
+        int recordsPerPage = 8;
+
+        String pageParam = req.getParameter("page");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid page number");
+                return;
+            }
+        }
         List<Painting>  data = null;
         List<Artist>  artists = null;
         List<Theme> themes = null;
@@ -34,7 +46,6 @@ public class GetList extends HttpServlet {
         try {
             String minPriceParam = req.getParameter("minPrice");
             String maxPriceParam = req.getParameter("maxPrice");
-            String[] sizes = req.getParameterValues("size");
             String[] themeArr = req.getParameterValues("theme");
             String[] artistArr = req.getParameterValues("artist");
 
@@ -52,22 +63,28 @@ public class GetList extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid price format");
                 return;
             }
-            data  = ps.getPaintingList(minPrice, maxPrice, sizes, themeArr, artistArr);
+            data  = ps.getPaintingList(minPrice, maxPrice, themeArr, artistArr, currentPage, recordsPerPage);
+            int totalRecords = ps.countPaintings(minPrice, maxPrice, themeArr, artistArr);
+            int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
-            //  data = ps.getAll();
             artists = as.getAllArtists();
             themes = ts.getAllTheme();
             paintingSizes = ss.getAllSize();
 
+
+            req.setAttribute("data", data);
+            req.setAttribute("artists", artists);
+            req.setAttribute("themes", themes);
+            req.setAttribute("paintingSizes", paintingSizes);
+
+            req.setAttribute("currentPage", currentPage);
+            req.setAttribute("recordsPerPage", recordsPerPage);
+            req.setAttribute("totalPages", totalPages);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        ;
-        req.setAttribute("data", data);
-        req.setAttribute("artists", artists);
-        req.setAttribute("themes", themes);
-        req.setAttribute("paintingSizes", paintingSizes);
-      //  System.out.println(data);
+
         req.getRequestDispatcher("user/artWork.jsp").forward(req  ,resp);
 
     }

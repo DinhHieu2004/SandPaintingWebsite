@@ -152,6 +152,8 @@ public class Painting implements Serializable{
         this.discountPercentage = discountPercentage;
     }
 
+
+
     @Override
     public String toString() {
         return "Painting{" +

@@ -1,4 +1,5 @@
 package com.example.web.controller;
+import com.example.web.dao.model.Artist;
 import com.example.web.dao.model.Painting;
 import com.example.web.dao.model.PaintingSize;
 import com.example.web.dao.model.Theme;
@@ -22,27 +23,30 @@ public class PaintingOfArtistController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Painting> data = null;
+        String artistId = req.getParameter("id");
+        String[] ids = {artistId};
+        int currentPage = 1;
+        int recordsPerPage = 4;
+
+        String pageParam = req.getParameter("page");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid page number");
+                return;
+            }
+        }
+        List<Painting>  data = null;
         List<Theme> themes = null;
         List<PaintingSize> paintingSizes = null;
         try {
-            String id = req.getParameter("id");
-
             String minPriceParam = req.getParameter("minPrice");
             String maxPriceParam = req.getParameter("maxPrice");
-
-            String[] sizes = req.getParameterValues("size");
             String[] themeArr = req.getParameterValues("theme");
 
             Double minPrice = null;
             Double maxPrice = null;
-
-            System.out.println(id);
-
-            System.out.println(minPriceParam);
-            System.out.println(maxPriceParam);
-            System.out.println(sizes);
-            System.out.println(themeArr);
 
             try {
                 if (minPriceParam != null && !minPriceParam.isEmpty()) {
@@ -55,18 +59,26 @@ public class PaintingOfArtistController extends HttpServlet{
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid price format");
                 return;
             }
-            data  = ps.getPaintingListByArtist(minPrice, maxPrice, sizes, themeArr, id);
+            data  = ps.getPaintingList(minPrice, maxPrice, themeArr, ids, currentPage, recordsPerPage);
+            int totalRecords = ps.countPaintings(minPrice, maxPrice, themeArr, ids);
+            int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
             themes = ts.getAllTheme();
             paintingSizes = ss.getAllSize();
 
+
+            req.setAttribute("data", data);
+            req.setAttribute("themes", themes);
+            req.setAttribute("paintingSizes", paintingSizes);
+
+            req.setAttribute("currentPage", currentPage);
+            req.setAttribute("recordsPerPage", recordsPerPage);
+            req.setAttribute("totalPages", totalPages);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        req.setAttribute("data", data);
-        System.out.println(data);
-        req.setAttribute("themes", themes);
-        req.setAttribute("paintingSizes", paintingSizes);
+
         req.getRequestDispatcher("user/ArtworkOfArtist.jsp").forward(req  ,resp);
 
     }

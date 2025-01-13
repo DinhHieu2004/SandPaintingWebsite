@@ -74,8 +74,11 @@
                                                    value="${size.idSize}"
                                                    data-quantity="${size.quantity}"
                                                 ${size.quantity <= 0 ? 'disabled' : ''}>
+                                            <input type="hidden" name="quantity_${size.idSize}" value="${size.quantity}">
                                             <label class="form-check-label" for="size_${size.sizeDescriptions}">
                                                     ${size.sizeDescriptions} <small class="text-muted">(Còn ${size.quantity})</small>
+
+
                                             </label>
                                         </div>
                                     </div>

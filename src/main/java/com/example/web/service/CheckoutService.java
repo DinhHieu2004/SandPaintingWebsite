@@ -55,17 +55,6 @@ public class CheckoutService {
         paymentDao.createPayment(payment);
     }
 
-    public static void main(String[] args) throws Exception {
-        CartPainting c1 = new CartPainting(1, "tranh canh bien","1","20x60 cm",2,300000.0,"vbdrbvkj");
-        CartPainting c2 = new CartPainting(2, "tranh canh bien","3","20x60 cm",2,300000.0,"vbdrbvkj");
 
-        Cart cart = new Cart();
-        cart.addToCart(c1);
-        cart.addToCart(c2);
-
-        CheckoutService service = new CheckoutService();
-        service.processCheckout(cart,1, 1,"hieu","7877","nlu");
-
-    }
 
 }

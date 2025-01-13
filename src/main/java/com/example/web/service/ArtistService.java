@@ -26,7 +26,6 @@ public class ArtistService {
         for (Artist a : artistService.getAllArtists()){
             System.out.println(a);
         }
-
     }
     public boolean addArtist(String name, String bio, String birthday, String nationality, String photoUrl) throws SQLException, ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -34,7 +33,20 @@ public class ArtistService {
         Artist artist = new Artist(name, bio, d, nationality, photoUrl);
         return artistDao.addArtist(artist);
     }
+    public boolean updateArtist(Artist artist, String bd) throws SQLException {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            Date d = sdf.parse(bd);
 
+
+            artist.setBirthDate(d);
+
+            return artistDao.updateArtist(artist);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public boolean deleteArtist(int i) throws SQLException {
         return artistDao.deleteArtist(i);
     }

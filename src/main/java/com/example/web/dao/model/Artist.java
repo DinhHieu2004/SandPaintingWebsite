@@ -12,6 +12,7 @@ public class Artist implements Serializable {
     private String photoUrl;
 
 
+    public Artist() {}
     public Artist(int id, String name, String bio, Date birthDate, String nationality, String photoUrl) {
         this.id = id;
         this.name = name;

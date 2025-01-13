@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg">
             <!-- Logo -->
-            <a class="navbar-brand" href="../index.jsp">
+            <a class="navbar-brand" href="../web_war/index">
                 <img src="assets/images/z6089438426018_bba333fc15dcbab8feae6b9b8cb460bd.jpg" alt="NLUER Gallery"
                     height="60">
             </a>
@@ -28,12 +28,12 @@
 
             <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="../index.jsp">TRANG CHỦ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../web_war/index">TRANG CHỦ</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="../web_war/user/about_us.jsp" id="navbarDropdown" >GIỚI THIỆU</a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="artwork">TÁC PHẨM</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../web_war/user/discount.jsp">CHƯƠNG TRÌNH GIẢM GIÁ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../web_war/user/discount">CHƯƠNG TRÌNH GIẢM GIÁ</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#">HỌA SĨ</a>
                         <ul class="dropdown-menu">
