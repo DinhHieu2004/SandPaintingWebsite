@@ -12,6 +12,8 @@ $(document).ready(function () {
             success: function (response) {
                 if (response) {
                     console.log('Response data:', response);
+                    $('#editProductId').val(response.id);
+
                     const contextPath = '/web_war';
                     const fullPhotoUrl = `${window.location.origin}${contextPath}/${response.imageUrl}`;
                     loadProductDetails(response, fullPhotoUrl, modal);  // Truyền modal vào hàm
@@ -40,6 +42,12 @@ function loadProductDetails(data, fullPhotoUrl, modal) {
         modal.find('input[name="title"]').val(data.title || '');
         modal.find('textarea[name="description"]').val(data.description || '');
         modal.find('input[name="price"]').val(data.price || '');
+
+        if (data.createDate) {
+            const formattedDate = formatDate(data.createDate);
+            console.log(formattedDate)
+            modal.find('input[name="createdDate"]').val(formattedDate);
+        }
 
         if (data.themeName) {
             modal.find('select[name="themeId"] option').each(function() {

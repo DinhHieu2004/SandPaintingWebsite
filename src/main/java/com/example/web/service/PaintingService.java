@@ -35,6 +35,16 @@ public class PaintingService {
         return paintingDao.getAll();
     }
 
+    public boolean updatePainting(int id, String title, int themeId, double price, int artistId, String description, String imageUrl, boolean isFeatured) throws SQLException {
+        return paintingDao.updatePainting( id, title, themeId, price, artistId, description, imageUrl, isFeatured);
+
+    }
+
+    public boolean updatePaintingSizes(int paintingId, List<Integer> sizeIds, List<Integer> quantities) throws SQLException {
+        return paintingDao.updatePaintingSizes( paintingId, sizeIds, quantities);
+
+
+    }
     public int addPainting(String title, int themeId, double price, int artistId, String description, String imageUrl, boolean isFeatured) throws SQLException {
         return paintingDao.addPainting(title, themeId, price, artistId, description, imageUrl, isFeatured);
 
@@ -49,6 +59,7 @@ public class PaintingService {
     public Painting getPaintingDetail(int id) throws SQLException {
         return paintingDao.getPaintingDetail(id);
     }
+
 
     public static void main(String[] args) throws SQLException {
         PaintingService paintingService = new PaintingService();

@@ -53,18 +53,7 @@ public class ArtistDao {
         return null;
     }
 
-    public boolean addArtist(Artist artist) throws SQLException {
-        String sql = "INSERT INTO artists (name, bio, birthDate, nationality, photoUrl) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement statement = con.prepareStatement(sql);
-        statement.setString(1, artist.getName());
-        statement.setString(2, artist.getBio());
-        statement.setDate(3, new java.sql.Date(artist.getBirthDate().getTime()));
-        statement.setString(4, artist.getNationality());
-        statement.setString(5, artist.getPhotoUrl());
-        int rowsInserted = statement.executeUpdate();
-        return rowsInserted > 0;
 
-    }
 
     public boolean deleteArtist(int i) throws SQLException {
         String query = "DELETE FROM artists WHERE id = ?";
@@ -77,7 +66,18 @@ public class ArtistDao {
     }
 
 
+    public boolean addArtist(Artist artist) throws SQLException {
+        String sql = "INSERT INTO artists (name, bio, birthDate, nationality, photoUrl) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement statement = con.prepareStatement(sql);
+        statement.setString(1, artist.getName());
+        statement.setString(2, artist.getBio());
+        statement.setDate(3, new java.sql.Date(artist.getBirthDate().getTime()));
+        statement.setString(4, artist.getNationality());
+        statement.setString(5, artist.getPhotoUrl());
+        int rowsInserted = statement.executeUpdate();
+        return rowsInserted > 0;
 
+    }
     public boolean updateArtist(Artist artist) throws SQLException {
         String updateQuery = "UPDATE artists SET name = ?, bio = ?, birthDate = ?, nationality = ?, photoUrl = ? WHERE id = ?";
         PreparedStatement statement = con.prepareStatement(updateQuery);

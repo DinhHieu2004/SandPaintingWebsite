@@ -128,6 +128,7 @@
           <th>Tên </th>
           <th>Còn hàng</th>
           <th>giá</th>
+          <th>Ngày tạo</th>
           <th>tác giả</th>
           <th>Hành Động</th>
         </tr>
@@ -141,6 +142,7 @@
             <td>${p.title}</td>
             <td>${p.available}</td>
             <td>${p.price}</td>
+            <td>${p.createDate}</td>
             <td>${p.artistName}</td>
             <td><button class="btn btn-info btn-sm" data-bs-toggle="modal"
                         data-bs-target="#viewAndEditModal" data-product-id="${p.id}">Xem Chi Tiết</button>
@@ -307,7 +309,9 @@
   <div class="modal fade" id="viewAndEditModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="${pageContext.request.contextPath}/admin/update/add" method="post" enctype="multipart/form-data">
+        <form action="${pageContext.request.contextPath}/admin/paintings/update" method="post" enctype="multipart/form-data">
+          <input type="hidden" id="editProductId" name="pid" value="">
+
           <div class="modal-header">
             <h5 class="modal-title">Chi tiết</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -332,6 +336,11 @@
               <label class="form-label">Mô tả</label>
               <textarea class="form-control form-control-sm" name="description" rows="4"
                         placeholder="Nhập mô tả chi tiết về tranh..."></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Ngày tạo</label>
+              <input type="date" class="form-control form-control-sm" name="createdDate">
+
             </div>
 
             <div class="row mb-3">
@@ -394,8 +403,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
 <script>
-  $(document).ready(function() {
-    $('#products').DataTable();
+  $(document).ready(function () {
+    $('#products').DataTable({
+      "order": [[5, "desc"]],
+      "columnDefs": [
+        { "type": "date", "targets": 5 }
+      ]
+    });
   });
   document.querySelectorAll('[data-bs-target="#deleteProductModal"]').forEach(button => {
     button.addEventListener('click', function() {

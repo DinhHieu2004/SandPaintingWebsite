@@ -71,6 +71,50 @@ public class PaintingDao {
 
     }
 
+
+    //update
+    public boolean updatePainting(int paintingId, String title, int themeId, double price, int artistId, String description, String imageUrl, boolean isFeatured) throws SQLException {
+        String sql = "UPDATE paintings SET title = ?, themeId = ?, price = ?, artistId = ?, description = ?, imageUrl = ?, isFeatured = ? WHERE id = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, title);
+            ps.setInt(2, themeId);
+            ps.setDouble(3, price);
+            ps.setInt(4, artistId);
+            ps.setString(5, description);
+            ps.setString(6, imageUrl);
+            ps.setBoolean(7, isFeatured);
+            ps.setInt(8, paintingId);
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0;
+        }
+    }
+
+    public boolean updatePaintingSizes(int paintingId, List<Integer> sizeIds, List<Integer> quantities) throws SQLException {
+        String deleteSql = "DELETE FROM painting_sizes WHERE paintingId = ?";
+        try (PreparedStatement psDelete = con.prepareStatement(deleteSql)) {
+            psDelete.setInt(1, paintingId);
+            psDelete.executeUpdate();
+        }
+
+        // Thêm các kích thước mới
+        String insertSql = "INSERT INTO painting_sizes (paintingId, sizeId, quantity) VALUES (?, ?, ?)";
+        try (PreparedStatement psInsert = con.prepareStatement(insertSql)) {
+            for (int i = 0; i < sizeIds.size(); i++) {
+                psInsert.setInt(1, paintingId);
+                psInsert.setInt(2, sizeIds.get(i));
+                psInsert.setInt(3, quantities.get(i));
+                psInsert.addBatch();
+            }
+            int[] updateCounts = psInsert.executeBatch();
+            for (int count : updateCounts) {
+                if (count != 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public List<Painting> getAll() throws SQLException {
         String sql = """ 
                         SELECT p.id,
@@ -104,7 +148,7 @@ public class PaintingDao {
             painting.setThemeName(theme);
             painting.setThemeName(theme);
             painting.setArtistName(artistName);
-            painting.setCrateDate(createdAt);
+            painting.setCreateDate(createdAt);
             painting.setDescription(rs.getString("description"));
             paintingList.add(painting);
         }
@@ -133,6 +177,7 @@ public class PaintingDao {
                         p.title AS paintingTitle,
                         p.price,
                         p.description,
+                        p.createdAt,
                         p.isFeatured,
                         p.imageUrl,
                         a.name AS artistName,
@@ -160,7 +205,7 @@ public class PaintingDao {
                 while (rs.next()) {
                     if (paintingDetail == null) {
                         // Initialize the PaintingDetail object
-                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"));
+                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"),rs.getDate("createdAt"));
                     }
 
                     // Add size and quantity to the painting detail
@@ -502,8 +547,8 @@ public class PaintingDao {
         List<Integer> sizeIds = Arrays.asList(1, 2, 3);
         List<Integer> quantities = Arrays.asList(5, 3, 2);
 
-        System.out.println(paintingDao.getPaintingDetail(paintingId));
-
+        for(Painting p : paintingDao.getAll()) {
+                System.out.println(p);
     }
-
+    }
 }
