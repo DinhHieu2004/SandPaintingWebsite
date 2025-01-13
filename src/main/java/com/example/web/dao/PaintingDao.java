@@ -18,16 +18,14 @@ public class PaintingDao {
 
     public PaintingDao() {
     }
-    public static boolean getPaintingDelete(String id) {
-        String sql = "DELETE FROM Painting WHERE id = ?";
-        DbConnect DBConnect = null;
-        try (Connection conn = DBConnect.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, id);
-            return ps.executeUpdate() > 0;
+    public boolean deletePainting(int i) {
+        String query = "DELETE FROM users WHERE id = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, i);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException(e);
         }
     }
     public List<Painting> getAll() throws SQLException {
