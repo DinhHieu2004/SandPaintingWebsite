@@ -4,6 +4,7 @@ import com.example.web.dao.DiscountDao;
 import com.example.web.dao.PaintingDao;
 import com.example.web.dao.model.Discount;
 import com.example.web.dao.model.Painting;
+import com.example.web.service.DiscountService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +21,7 @@ public class AddProductDiscount extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String discountIdParam = request.getParameter("discountId");
         PaintingDao ptDao = new PaintingDao();
-        DiscountDao discountDao = new DiscountDao();
+        DiscountService service = new DiscountService();
 
         try {
             if (discountIdParam == null || discountIdParam.isEmpty()) {
@@ -31,9 +32,9 @@ public class AddProductDiscount extends HttpServlet {
 
             int discountId = Integer.parseInt(discountIdParam); // Chuyển đổi discountId thành int
 
-            List<Painting> paintingList = discountDao.getProductHaveNoDC(); // Lấy danh sách sản phẩm chưa có giảm giá
-            List<Discount> discountList = discountDao.getAllDiscount(); // Lấy danh sách tất cả chương trình giảm giá
-            String discountName = discountDao.getDiscountNameById(discountId); // Lấy tên chương trình giảm giá
+            List<Painting> paintingList = service.getProductHaveNoDC(); // Lấy danh sách sản phẩm chưa có giảm giá
+            List<Discount> discountList = service.getAllDiscount(); // Lấy danh sách tất cả chương trình giảm giá
+            String discountName = service.getDiscountNameById(discountId); // Lấy tên chương trình giảm giá
 
             // Truyền các thông tin vào request để hiển thị trên JSP
             request.setAttribute("discountId", discountId);
@@ -42,10 +43,10 @@ public class AddProductDiscount extends HttpServlet {
             request.setAttribute("discountList", discountList); // Truyền danh sách chương trình giảm giá
 
             request.getRequestDispatcher("/admin/addProductDiscount.jsp").forward(request, response);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Discount ID format.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

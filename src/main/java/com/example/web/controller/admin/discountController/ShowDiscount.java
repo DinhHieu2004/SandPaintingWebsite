@@ -2,6 +2,7 @@ package com.example.web.controller.admin.discountController;
 
 import com.example.web.dao.DiscountDao;
 import com.example.web.dao.model.Discount;
+import com.example.web.service.DiscountService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,21 +17,20 @@ import java.util.List;
 public class ShowDiscount extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DiscountDao discountDao = new DiscountDao();
+        DiscountService service = new DiscountService();
 
         List<Discount> list = null;
 
         try {
-            list = discountDao.getAllDiscount();
-
-            // Lấy id từ tham số URL
-            String discountId = request.getParameter("id");
-
-            if (discountId != null && !discountId.isEmpty()) {
-            }
-
+            list = service.getAllDiscount();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+
+        // Lấy id từ tham số URL
+        String discountId = request.getParameter("id");
+
+        if (discountId != null && !discountId.isEmpty()) {
         }
 
         request.setAttribute("list", list);

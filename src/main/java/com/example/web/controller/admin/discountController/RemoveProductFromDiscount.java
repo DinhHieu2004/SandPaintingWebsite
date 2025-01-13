@@ -1,6 +1,7 @@
 package com.example.web.controller.admin.discountController;
 
 import com.example.web.dao.DiscountDao;
+import com.example.web.service.DiscountService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -32,19 +33,15 @@ public class RemoveProductFromDiscount extends HttpServlet {
             int discountId = Integer.parseInt(discountIdParam);
 
             // Gọi phương thức removeProductFromDiscount trong DiscountDao
-            DiscountDao discountDao = new DiscountDao();
-            discountDao.removeProductFromDiscount(productId);
+            DiscountService service = new DiscountService();
+            service.removeProductFromDiscount(productId);
 
             // Chuyển hướng đến trang danh sách sản phẩm trong chương trình giảm giá với discountId
             response.sendRedirect(request.getContextPath() + "/admin/discountPainting?discountId=" + discountId);
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | SQLException e) {
             // Nếu không thể chuyển đổi productId hoặc discountId thành số
             request.setAttribute("errorMessage", "Mã sản phẩm hoặc chương trình giảm giá không hợp lệ.");
-            request.getRequestDispatcher("/admin/discountPainting").forward(request, response);
-        } catch (SQLException e) {
-            // Nếu có lỗi trong quá trình xóa sản phẩm
-            request.setAttribute("errorMessage", "Lỗi khi xóa sản phẩm khỏi chương trình giảm giá.");
             request.getRequestDispatcher("/admin/discountPainting").forward(request, response);
         }
     }

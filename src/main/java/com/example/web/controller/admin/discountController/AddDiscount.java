@@ -2,6 +2,7 @@ package com.example.web.controller.admin.discountController;
 
 import com.example.web.dao.DiscountDao;
 import com.example.web.dao.model.Discount;
+import com.example.web.service.DiscountService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -42,8 +43,8 @@ public class AddDiscount extends HttpServlet {
         discount.setImageUrl(imageUrl);
 
         // Gọi phương thức để lưu vào cơ sở dữ liệu
-        DiscountDao discountDAO = new DiscountDao();
-        boolean isAdded = discountDAO.addDiscount(discount);
+        DiscountService service = new DiscountService();
+        boolean isAdded = service.addDiscount(discount);
 
         // Kiểm tra xem việc thêm giảm giá có thành công không
         if (isAdded) {

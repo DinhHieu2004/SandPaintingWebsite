@@ -1,6 +1,7 @@
 package com.example.web.controller.admin.discountController;
 
 import com.example.web.dao.DiscountDao;
+import com.example.web.service.DiscountService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -44,18 +45,15 @@ public class AssignDiscount extends HttpServlet {
                 productIdsList.add(Integer.parseInt(productId));
             }
 
-            // Gọi DAO để thêm sản phẩm
-            DiscountDao discountDao = new DiscountDao();
-            discountDao.assignProductsToDiscount(discountId, productIdsList);
+            DiscountService service = new DiscountService();
+            service.assignProductsToDiscount(discountId, productIdsList);
 
             // Chuyển hướng sau khi thành công
             response.sendRedirect(request.getContextPath() + "/admin/discountPainting?discountId=" + discountId);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | SQLException e) {
             request.setAttribute("errorMessage", "Dữ liệu không hợp lệ.");
             request.setAttribute("discountId", discountIdParam);
             request.getRequestDispatcher("/admin/addProductDiscount.jsp").forward(request, response);
-        } catch (SQLException e) {
-            throw new ServletException("Lỗi khi thêm sản phẩm vào chương trình giảm giá.", e);
         }
     }
 }
