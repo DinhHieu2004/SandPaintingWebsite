@@ -55,7 +55,7 @@
         </tr>
         <div style="padding-bottom: 10px">
           <c:if test="${not empty message}">
-            <div class="alert alert-info" role="alert">
+            <div class="alert alert-success">
                 ${message}
             </div>
           </c:if>

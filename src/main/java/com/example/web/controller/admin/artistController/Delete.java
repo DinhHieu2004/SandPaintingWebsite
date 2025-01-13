@@ -28,7 +28,7 @@ public class Delete extends HttpServlet {
                     request.setAttribute("message", "Lỗi: " + e.getMessage());
                 }
         response.sendRedirect("../artists");
-      //  request.getRequestDispatcher("../artists.jsp").forward(request, response);
+        //request.getRequestDispatcher("../artists.jsp").forward(request, response);
             }
 
 

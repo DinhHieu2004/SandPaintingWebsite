@@ -95,6 +95,14 @@
     height: 30px;
     padding: 0.25rem 0.5rem;
   }
+  .d-flex {
+    display: flex;
+  }
+  .w-50 {
+    width: 50%;
+  }
+
+
   </style>
 
 </head>
@@ -140,14 +148,76 @@
               <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
                       data-bs-target="#orderDetailsModal" data-order-id="${p.id}">Xóa</button></td>
           </tr>
-
         </c:forEach>
         </tbody>
       </table>
     </div>
   </div>
-</div>
 
+
+  <div class="row"> <!-- Thêm container row -->
+    <div class="col-6"> <!-- Cột đầu tiên chiếm 6/12 -->
+      <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+          <h4>Danh sách Chủ Đề</h4>
+        </div>
+        <div class="card-body">
+          <table id="themes" class="table table-bordered display">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tên Chủ Đề</th>
+              <th>Hành Động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="theme" items="${themes}">
+              <tr>
+                <td>${theme.id}</td>
+                <td>${theme.themeName}</td>
+                <td>
+                  <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editThemeModal" data-theme-id="${theme.id}">Sửa</button>
+                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteThemeModal" data-theme-id="${theme.id}">Xóa</button>
+                </td>
+              </tr>
+            </c:forEach>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6"> <!-- Cột thứ hai chiếm 6/12 -->
+      <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+          <h4>Danh sách Kích Thước</h4> <!-- Sửa tên cho đúng -->
+        </div>
+        <div class="card-body">
+          <table id="sizes" class="table table-bordered display">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tên Kích thước</th>
+              <th>Hành Động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="s" items="${sizes}">
+              <tr>
+                <td>${s.idSize}</td>
+                <td>${s.sizeDescriptions}</td>
+                <td>
+                  <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editThemeModal" data-theme-id="${theme.id}">Sửa</button>
+                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteThemeModal" data-theme-id="${theme.id}">Xóa</button>
+                </td>
+              </tr>
+            </c:forEach>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 <!-- Modal thêm tranh -->
 <div class="modal fade" id="addPaintingModal" tabindex="-1">
   <div class="modal-dialog">
