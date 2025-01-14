@@ -32,8 +32,26 @@ $(document).on('click', '.increase-quantity, .decrease-quantity', function (e) {
             if (response) {
                 let itemKey = productId + "_" + sizeId;
                 if (response.items[itemKey]) {
-                    let itemTotalPrice = response.items[itemKey].totalPrice.toLocaleString();
-                    $("#cart-item-" + productId + "-" + sizeId + " .item-total-price").text(itemTotalPrice + " VND");
+                    let discountPrice = response.items[itemKey].discountPrice.toLocaleString();
+                    let price = response.items[itemKey].totalPrice.toLocaleString();
+                    let discountPercent = response.items[itemKey].discountPercent.toLocaleString();
+
+
+                    $("#cart-item-" + productId + "-" + sizeId + " .item-total-price").html(
+                        discountPercent > 0 ?
+                            '<div class="price-info">' +
+                            '<del class="text-muted">Giá gốc: ' + price + ' VND</del>' +
+                            '<span class="badge bg-success ms-2">-' + discountPercent + '%</span>' +
+                            '<div class="text-danger fw-bold">' +
+                            'Giá đã giảm: ' + discountPrice + ' VND' +
+                            '</div>' +
+                            '</div>'
+                            :
+                            '<div class="price-info">' +
+                            '<span class="fw-bold">Giá: ' + price + ' VND</span>' +
+                            '</div>'
+                    );
+
                 }
                 totalAmount
                 $("#total-price").text(response.totalPrice.toLocaleString() + " VND");
@@ -47,4 +65,5 @@ $(document).on('click', '.increase-quantity, .decrease-quantity', function (e) {
             alert("Lỗi kết nối đến máy chủ.");
         }
     });
+
 });

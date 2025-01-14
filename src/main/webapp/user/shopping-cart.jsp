@@ -62,7 +62,25 @@
                                         </button>
                                     </div>
                                 </td>
-                                <td class="item-total-price">${cp.totalPrice} VND</td>
+                                <td class="item-total-price">
+                                    <c:choose>
+                                        <c:when test="${cp.discountPrice != null && cp.discountPercent > 0}">
+                                            <div class="price-info">
+                                                <del class="text-muted">Giá gốc: ${cp.totalPrice} VND</del>
+                                                <span class="badge bg-success ms-2">-${cp.discountPercent}%</span>
+                                                <div class="text-danger fw-bold">
+                                                    Giá đã giảm: ${cp.discountPrice} VND
+                                                </div>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="price-info">
+                                                <span class="fw-bold">Giá: ${cp.totalPrice} VND</span>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+
                                 <td>
                                     <button class="btn btn-danger btn-sm remove-item"
                                             data-product-id="${cp.productId}"

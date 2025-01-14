@@ -13,9 +13,11 @@ public class CartPainting implements Serializable {
     private double price;
     private double totalPrice;
     private int quanlytiOfSize;
+    private double discountPrice;
+    private double discountPercent;
 
 
-    public CartPainting(int productId, String productName, String sizeId,String sizeDescriptions, int quantity, double price, String imageUrl, int quanlytiOfSize) {
+    public CartPainting(int productId, String productName, String sizeId,String sizeDescriptions, int quantity, double price, String imageUrl, int quanlytiOfSize , double discountPercent) {
         this.productId = productId;
         this.productName = productName;
         this.sizeDescriptions = sizeDescriptions;
@@ -24,7 +26,9 @@ public class CartPainting implements Serializable {
         this.price = price;
         this.totalPrice = price * quantity;
         this.imageUrl = imageUrl;
+        this.discountPrice = totalPrice * (1-discountPercent/ 100);
         this.quanlytiOfSize = quanlytiOfSize;
+        this.discountPercent = discountPercent;
     }
     public CartPainting() {
 
@@ -32,6 +36,22 @@ public class CartPainting implements Serializable {
 
     public int getQuanlytiOfSize() {
         return quanlytiOfSize;
+    }
+
+    public double getDiscountPrice() {
+        return  this.discountPrice ;
+    }
+
+    public void setDiscountPrice(double discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+    public double getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(double discountPercent) {
+        this.discountPercent = discountPercent;
     }
 
     public void setQuanlytiOfSize(int quanlytiOfSize) {
@@ -116,16 +136,17 @@ public class CartPainting implements Serializable {
                 ", price=" + price +
                 ", totalPrice=" + totalPrice +
                 ", quanlytiOfSize=" + quanlytiOfSize +
+                ", discountPrice=" + discountPrice +
+                ", discountPercent=" + discountPercent +
                 '}';
     }
 
-    public void updateQuantity(int additionalQuantity) {
-        this.quantity += additionalQuantity;
-        this.totalPrice = this.price * this.quantity;
-    }
+
     public void updateQuantityItem(int quantity){
         this.quantity = quantity;
-        this.totalPrice = this.price * quantity;
+        double total = this.totalPrice = this.price * quantity;
+        this.discountPrice = this.totalPrice * (1 - this.discountPercent / 100);
+
     }
 
 }

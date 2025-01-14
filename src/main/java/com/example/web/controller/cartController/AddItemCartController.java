@@ -26,7 +26,7 @@ public class AddItemCartController extends HttpServlet {
         try {
             int id = Integer.parseInt(req.getParameter("pid"));
 
-            Painting p = paintingService.getPainting(id);
+            Painting p = paintingService.getPaintingDetail(id);
 
             String size = req.getParameter("size");
             int quantityOfSize = Integer.parseInt(req.getParameter("quantity_" + size));
@@ -46,7 +46,8 @@ public class AddItemCartController extends HttpServlet {
                     quantity,
                     p.getPrice(),
                     p.getImageUrl(),
-                    quantityOfSize
+                    quantityOfSize,
+                    p.getDiscountPercentage()
             );
 
             HttpSession session = req.getSession();

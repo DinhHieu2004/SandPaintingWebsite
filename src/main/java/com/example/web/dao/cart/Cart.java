@@ -27,7 +27,7 @@ public class Cart implements Serializable {
     public void addToCart(CartPainting painting) {
         String key = painting.getProductId() + "_" + painting.getSizeId();
         if (items.containsKey(key)) {
-            items.get(key).updateQuantity(painting.getQuantity());
+            items.get(key).updateQuantityItem(painting.getQuantity());
         } else {
             items.put(key, painting);
         }
@@ -36,6 +36,8 @@ public class Cart implements Serializable {
     public void removeFromCart(String productId, String sizeId) {
         String key = productId + "_" + sizeId;
         items.remove(key);
+        getTotalPrice();
+
     }
 
     public boolean upDateCartQuantity(String pid, String sizeId, int quantity) {
@@ -52,7 +54,7 @@ public class Cart implements Serializable {
     public double getTotalPrice() {
         double total = 0;
         for (CartPainting painting : items.values()) {
-            total += painting.getTotalPrice();
+            total += painting.getDiscountPrice();
         }
         this.totalPrice = total;
         return total;
@@ -67,6 +69,7 @@ public class Cart implements Serializable {
     public String toString() {
         return "Cart{" +
                 "items=" + items +
+                ", totalPrice=" + totalPrice +
                 '}';
     }
 }
