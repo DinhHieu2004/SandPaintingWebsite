@@ -24,6 +24,8 @@ public class FeaturePainting extends HttpServlet {
         PaintingDao paintingDAO = new PaintingDao();
 
         List<Painting> featuredArtworks = paintingDAO.getFeaturedArtworks();
+
+
         List<Theme> themes = null;
         try {
             themes = paintingDAO.getTheme();

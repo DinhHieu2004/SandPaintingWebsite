@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReviewDao {
     private Connection con = DbConnect.getConnection();
@@ -49,5 +51,64 @@ public class ReviewDao {
             ps.executeUpdate();
         }
     }
+    public List<ProductReview> getReviewByPaintingId(int id) throws SQLException {
+        String sql = "SELECT pr.id, pr.userId, pr.paintingId, pr.orderItemId, pr.rating, pr.comment, pr.createdAt, u.fullName " +
+                "FROM product_reviews pr " +
+                "JOIN users u ON u.id = pr.userId " +
+                "WHERE pr.paintingId = ?";
 
+             PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            List<ProductReview> reviews = new ArrayList<>();
+
+                while(rs.next()) {
+                    ProductReview review = new ProductReview();
+                    review.setId(rs.getInt("id"));
+                    review.setUserId(rs.getInt("userId"));
+                    review.setPaintingId(rs.getInt("paintingId"));
+                    review.setOrderItemId(rs.getInt("orderItemId"));
+                    review.setRating(rs.getInt("rating"));
+                    review.setComment(rs.getString("comment"));
+                    review.setCreatedAt(rs.getDate("createdAt"));
+                    review.setUserName(rs.getString("fullName"));
+                    reviews.add(review);
+                }
+                return reviews;
+            }
+    public List<ProductReview> getReviewByItemId(int id) throws SQLException {
+        String sql = "SELECT pr.id, pr.userId, pr.paintingId, pr.orderItemId, pr.rating, pr.comment, pr.createdAt, u.fullName " +
+                "FROM product_reviews pr " +
+                "JOIN users u ON u.id = pr.userId " +
+                "WHERE pr.orderItemId = ?";
+
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+        List<ProductReview> reviews = new ArrayList<>();
+
+        while(rs.next()) {
+            ProductReview review = new ProductReview();
+            review.setId(rs.getInt("id"));
+            review.setUserId(rs.getInt("userId"));
+            review.setPaintingId(rs.getInt("paintingId"));
+            review.setOrderItemId(rs.getInt("orderItemId"));
+            review.setRating(rs.getInt("rating"));
+            review.setComment(rs.getString("comment"));
+            review.setCreatedAt(rs.getDate("createdAt"));
+            review.setUserName(rs.getString("fullName"));
+            reviews.add(review);
+        }
+        return reviews;
+    }
+
+    public static void main(String[] args) throws SQLException {
+        ReviewDao review = new ReviewDao();
+
+        for(ProductReview p : review.getReviewByItemId(52)){
+            System.out.println(p);
+        }
+    }
 }

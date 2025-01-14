@@ -24,6 +24,20 @@
 
 
 </head>
+<style>
+    .artwork-card {
+        position: relative;
+    }
+
+    .card-link {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+    }
+</style>
 
 <body>
 
@@ -127,20 +141,45 @@
         </div>
     </div>
     <div class="product">
-        <c:forEach var="artwork" items="${featuredArtworks}">
-            <div class="p1">
-                <div class="card_artworks">
-                    <img src="${artwork.imageUrl}" class="card-img-top artwork-image" alt="${artwork.title}">
+        <c:forEach var="p" items="${featuredArtworks}">
+                <div class="col-6 col-md-3">
+                    <div class="card artwork-card">
+                        <a href="<c:url value='/painting-detail?pid=${p.id}'/>" class="card-link"></a>
+                        <img src="${pageContext.request.contextPath}/${p.imageUrl}" class="card-img-top artwork-image" alt="${p.title}" style="width: 100%; height:180px !important;">
+                        <div class="card-body">
+                            <h5 class="card-title">${p.title}</h5>
+                            <p class="card-text">
+                                <strong>Họa Sĩ:</strong> ${p.artistName}<br>
+                                <strong>Chủ đề:</strong> ${p.themeName}<br>
+                            </p>
+                            <div class="price-section">
+                                <c:choose>
+                                    <c:when test="${p.discountPercentage > 0}">
+                                        <div class="price-container">
+                                            <div class="original-price-wrapper">
+                                    <span class="text-muted original-price">
+                                        <del><f:formatNumber value="${p.price}" type="currency" currencySymbol="VNĐ"/></del>
+                                    </span>
+                                                <span class="badge bg-success discount-badge">-${p.discountPercentage}%</span>
+                                            </div>
+                                            <div class="sale-price-wrapper">
+                                    <span class="text-danger fw-bold sale-price">
+                                        <f:formatNumber value="${p.price * (1 - p.discountPercentage / 100)}" type="currency" currencySymbol="VNĐ"/>
+                                    </span>
+                                            </div>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="regular-price">
+                                            <span class="fw-bold"><f:formatNumber value="${p.price}" type="currency" currencySymbol="VNĐ"/></span>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">${artwork.title}</h5>
-                    <p class="card-text">
-                        <strong>Họa Sĩ:</strong> ${artwork.artistName}<br>
-                        <strong>Giá:</strong> ${artwork.price} VNĐ
-                    </p>
-                </div>
-            </div>
-        </c:forEach>
+            </c:forEach>
     </div>
 </div>
 <div id="collection_section">
@@ -155,15 +194,17 @@
         </div>
         <div class="collection_product">
             <c:forEach var="themes" items="${themes}">
+                <a href="artwork?theme=${themes.id}" class="collection-link">
             <div class="collection">
                 <div class="img_container">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSthr50ZOqHVwMkrYSWSSjagIK9sAaHzr-kJg&s"
+                    <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YXJ0aXN0fGVufDB8fDB8fHww"
                         class="card-img-top artwork-image" alt="${themes.themeName}">
                     <div class="collection_description">
                         <p>${themes.themeName}</p>
                     </div>
                 </div>
             </div>
+                </a>
             </c:forEach>
         </div>
     </div>

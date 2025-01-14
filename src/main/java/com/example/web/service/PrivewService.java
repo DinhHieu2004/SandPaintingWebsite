@@ -3,6 +3,9 @@ package com.example.web.service;
 import com.example.web.dao.ReviewDao;
 import com.example.web.dao.model.ProductReview;
 
+import java.sql.SQLException;
+import java.util.List;
+
 public class PrivewService {
     private ReviewDao reviewDao = new ReviewDao();
 
@@ -10,7 +13,12 @@ public class PrivewService {
     public boolean canReview(int userId, int paintingId, int orderItemId) throws Exception {
         return !reviewDao.hasReviewed(userId, paintingId, orderItemId);
     }
-
+    public List<ProductReview> getReviewByItemId(int id) throws SQLException {
+        return reviewDao.getReviewByItemId(id);
+    }
+    public List<ProductReview> getReviewByPaintingId(int id) throws SQLException {
+        return reviewDao.getReviewByPaintingId(id);
+    }
     public void submitReview(ProductReview review) throws Exception {
         if (canReview(review.getUserId(), review.getPaintingId(), review.getOrderItemId())) {
             reviewDao.addReview(review);

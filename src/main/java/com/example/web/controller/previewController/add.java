@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +27,8 @@ public class add extends HttpServlet {
         PrintWriter out = resp.getWriter();
 
         try {
-            User user = (User) req.getSession().getAttribute("user");
+            HttpSession session = req.getSession();
+            User user = (User) session.getAttribute("user");
             int userId = user.getId();
             int paintingId = Integer.parseInt(req.getParameter("paintingId"));
             int orderItemId = Integer.parseInt(req.getParameter("itemId"));

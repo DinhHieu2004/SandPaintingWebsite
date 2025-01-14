@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -15,9 +14,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <link rel="stylesheet" href="assets/css/artWork.css">
-    <link rel="stylesheet" href="assets/css/footer.css">
-    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/artWork.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
 </head>
 
 <body>
@@ -109,7 +108,7 @@
                     </c:forEach>
                 </div>
 
-                <button class="btn w-100" id="applyFilters">Áp dụng</button>
+                <button class="btn w-100" id="">Áp dụng</button>
             </form>
         </div>
 
@@ -126,21 +125,27 @@
                                 <strong>Họa Sĩ:</strong> ${p.artistName}<br>
                                 <strong>Chủ đề:</strong> ${p.themeName}<br>
                             </p>
-                            <div class="price-discount">
+                            <div class="price-section">
                                 <c:choose>
                                     <c:when test="${p.discountPercentage > 0}">
-                                        <span class="text-muted original-price">
-                                            <del>${p.price} VNĐ</del>
-                                        </span>
-                                        <span class="badge bg-success discount-badge">-${p.discountPercentage}%</span>
-                                        <div>
-                                            <span class="text-danger sale-price">
-                                                ${(p.price * (1 - p.discountPercentage / 100))} VNĐ
-                                            </span>
+                                        <div class="price-container">
+                                            <div class="original-price-wrapper">
+                                    <span class="text-muted original-price">
+                                        <del><f:formatNumber value="${p.price}" type="currency" currencySymbol="VNĐ"/></del>
+                                    </span>
+                                                <span class="badge bg-success discount-badge">-${p.discountPercentage}%</span>
+                                            </div>
+                                            <div class="sale-price-wrapper">
+                                    <span class="text-danger fw-bold sale-price">
+                                        <f:formatNumber value="${p.price * (1 - p.discountPercentage / 100)}" type="currency" currencySymbol="VNĐ"/>
+                                    </span>
+                                            </div>
                                         </div>
                                     </c:when>
                                     <c:otherwise>
-                                        <span>${p.price} VNĐ</span>
+                                        <div class="regular-price">
+                                            <span class="fw-bold"><f:formatNumber value="${p.price}" type="currency" currencySymbol="VNĐ"/></span>
+                                        </div>
                                     </c:otherwise>
                                 </c:choose>
                             </div>

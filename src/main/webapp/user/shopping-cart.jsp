@@ -119,23 +119,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Địa chỉ nhận hàng -->
-                    <div class="mb-3">
-                        <label for="recipientName" class="form-label">Tên người nhận hàng:</label>
-                        <input type="text" class="form-control" id="recipientName" name="recipientName"
-                               value="${sessionScope.user.fullName}" placeholder="Nhập Tên người nhận hàng" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="deliveryAddress" class="form-label">Địa chỉ nhận hàng:</label>
-                        <input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress"
-                               value="${sessionScope.user.address}" placeholder="Nhập địa chỉ nhận hàng" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="recipientPhone" class="form-label">Số điện thoại người nhận:</label>
-                        <input type="text" class="form-control" id="recipientPhone" name="recipientPhone"
-                               value="${sessionScope.user.phone}" placeholder="Nhập số điện thoại" required>
-                    </div>
 
                     <div class="mb-3">
                         <h6 class="fw-bold">Danh sách sản phẩm:</h6>
@@ -169,40 +152,12 @@
                         <div id="totalAmount">${sessionScope.cart.totalPrice} VND</div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="paymentMethod" class="form-label">Chọn phương thức thanh toán:</label>
-                        <select class="form-select" id="paymentMethod" name="paymentMethod" required>
-                            <option value="" disabled selected>Chọn...</option>
-                            <option value="1">Thanh toán khi nhận hàng (COD)</option>
-                            <option value="2">Thẻ tín dụng</option>
-                        </select>
-                    </div>
 
-                    <div id="creditCardInfo" class="d-none">
-                        <div class="mb-3">
-                            <label for="cardHolderName" class="form-label">Tên chủ thẻ:</label>
-                            <input type="text" class="form-control" id="cardHolderName" name="cardHolderName" placeholder="Nhập tên trên thẻ">
-                        </div>
-                        <div class="mb-3">
-                            <label for="cardNumber" class="form-label">Số thẻ:</label>
-                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="Nhập số thẻ tín dụng">
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="cardExpiry" class="form-label">Ngày hết hạn:</label>
-                                <input type="text" class="form-control" id="cardExpiry" name="cardExpiry" placeholder="MM/YY">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="cardCVV" class="form-label">Mã CVV:</label>
-                                <input type="text" class="form-control" id="cardCVV" name="cardCVV" placeholder="CVV">
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" id="submitPayment" class="btn btn-primary">Xác nhận</button>
+                    <button type="button" id="Payment" class="btn btn-primary">Thanh Toán</button>
                 </div>
             </div>
         </div>
@@ -216,5 +171,9 @@
  <script src="${pageContext.request.contextPath}/assets/js/UpdateQuantity.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/checkout.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
+
+<script>document.querySelector("#Payment").addEventListener("click", function () {
+    window.location.href = "checkout";
+});</script>
 </body>
 </html>

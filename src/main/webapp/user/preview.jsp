@@ -10,6 +10,8 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/preview.css">
+
 </head>
 
 <body>
@@ -40,12 +42,12 @@
     </div>
   </div>
 
-  <!-- Phần đánh giá sản phẩm -->
   <div class="reviews-section mt-4">
     <h3>Đánh giá sản phẩm</h3>
-    <!-- Form thêm đánh giá -->
     <form id="reviewForm">
       <input type="hidden" id="paintingId" value="${p.id}">
+      <input type="hidden" id="itemId" value="${param.itemId}">
+
       <div id="starRating">
         <i class="fa fa-star" data-value="1"></i>
         <i class="fa fa-star" data-value="2"></i>
@@ -60,10 +62,10 @@
 
     <c:forEach items="${reviews}" var="review">
       <div class="review-item mb-3 p-3 border rounded">
-        <p><strong>Người dùng:</strong> ${review.user_name}</p>
+        <p><strong>Người dùng:</strong> ${review.userName}</p>
         <p><strong>Đánh giá:</strong> ${review.rating} / 5</p>
         <p>${review.comment}</p>
-        <p><small>${review.created_at}</small></p>
+        <p><small>${review.createdAt}</small></p>
       </div>
     </c:forEach>
   </div>
@@ -88,6 +90,8 @@
       const rating = $('#rating').val();
       const comment = $('#comment').val();
       const paintingId = $('#paintingId').val();
+      const itemId = $('#itemId').val();
+
 
       if (rating === "0") {
         alert('Vui lòng chọn số sao.');
@@ -95,9 +99,10 @@
       }
 
       $.ajax({
-        url: 'review/add',
+        url: 'review',
         method: 'POST',
         data: {
+          itemId : itemId,
           paintingId: paintingId,
           rating: rating,
           comment: comment
@@ -126,4 +131,5 @@
 </script>
 
   </body>
+
 </html>

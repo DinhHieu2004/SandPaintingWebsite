@@ -9,17 +9,7 @@ document.querySelector("#submitPayment").addEventListener("click", function () {
         return;
     }
 
-    if (paymentMethod === "2") { // Thẻ tín dụng
-        const cardHolderName = $('#cardHolderName').val();
-        const cardNumber = $('#cardNumber').val();
-        const cardExpiry = $('#cardExpiry').val();
-        const cardCVV = $('#cardCVV').val();
 
-        if (!cardHolderName || !cardNumber || !cardExpiry || !cardCVV) {
-            alert("Vui lòng điền đầy đủ thông tin thẻ tín dụng.");
-            return;
-        }
-    }
 
     $.ajax({
         url: "checkout",

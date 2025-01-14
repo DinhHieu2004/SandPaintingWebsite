@@ -16,6 +16,12 @@ import java.io.IOException;
 @WebServlet(name="Checkout", value = "/checkout")
 public class CheckoutController extends HttpServlet {
     private CheckoutService checkoutService = new CheckoutService();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("user/checkout.jsp").forward(req, resp);
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -37,6 +43,10 @@ public class CheckoutController extends HttpServlet {
             String deliveryAddress = request.getParameter("deliveryAddress");
             String recipientPhone = request.getParameter("recipientPhone");
             String paymentMethod = request.getParameter("paymentMethod");
+            System.out.println("Recipient Name: " + recipientName);
+            System.out.println("Delivery Address: " + deliveryAddress);
+            System.out.println("Recipient Phone: " + recipientPhone);
+            System.out.println("Payment Method: " + paymentMethod);
             int paymentMethodInt = Integer.parseInt(paymentMethod);
 
 
@@ -50,6 +60,7 @@ public class CheckoutController extends HttpServlet {
                 e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại!");
+                e.printStackTrace(); // Thêm dòng này
             }
         } catch (Exception e) {
             response.setContentType("application/json");

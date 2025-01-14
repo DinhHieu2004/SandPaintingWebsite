@@ -79,42 +79,45 @@
       </form>
     </div>
     <div class="row g-4 g-2 col-10" id="artworkGallery">
-      <c:forEach var="p" items="${data}">
-        <div class="col-6 col-md-3">
-          <div class="card artwork-card">
-            <a href="painting-detail?pid=${p.id}" class="card-link"></a>
-            <img src="${p.imageUrl}" class="card-img-top artwork-image" alt="${p.title}">
-
-            <div class="card-body">
-              <h5 class="card-title">${p.title}</h5>
-              <p class="card-text">
-                <strong>Họa Sĩ:</strong> ${p.artistName}<br>
-                <strong>Chủ đề:</strong> ${p.themeName}<br>
-              </p>
-              <div class="price-discount">
-                <c:choose>
-                  <c:when test="${p.discountPercentage > 0}">
-                            <span class="text-muted original-price">
-                                <del>${p.price} VNĐ</del>
-                            </span>
-                    <span class="badge bg-success discount-badge">-${p.discountPercentage}%</span>
-                    <div>
-                                <span class="text-danger sale-price">
-                                    ${(p.price * (1 - p.discountPercentage / 100))} VNĐ
-                                </span>
-                    </div>
-                  </c:when>
-                  <c:otherwise>
-                    <div>
-                      <span class="text-muted original-price">${p.price} VNĐ</span>
-                    </div>
-                  </c:otherwise>
-                </c:choose>
+        <c:forEach var="p" items="${data}">
+          <div class="col-6 col-md-3">
+            <div class="card artwork-card">
+              <a href="painting-detail?pid=${p.id}" class="card-link"></a>
+              <img src="${pageContext.request.contextPath}/${p.imageUrl}" class="card-img-top artwork-image" alt="${p.title}" style="width: 100%; height:180px !important;">
+              <div class="card-body">
+                <h5 class="card-title">${p.title}</h5>
+                <p class="card-text">
+                  <strong>Họa Sĩ:</strong> ${p.artistName}<br>
+                  <strong>Chủ đề:</strong> ${p.themeName}<br>
+                </p>
+                <div class="price-section">
+                  <c:choose>
+                    <c:when test="${p.discountPercentage > 0}">
+                      <div class="price-container">
+                        <div class="original-price-wrapper">
+                                    <span class="text-muted original-price">
+                                        <del><f:formatNumber value="${p.price}" type="currency" currencySymbol="VNĐ"/></del>
+                                    </span>
+                          <span class="badge bg-success discount-badge">-${p.discountPercentage}%</span>
+                        </div>
+                        <div class="sale-price-wrapper">
+                                    <span class="text-danger fw-bold sale-price">
+                                        <f:formatNumber value="${p.price * (1 - p.discountPercentage / 100)}" type="currency" currencySymbol="VNĐ"/>
+                                    </span>
+                        </div>
+                      </div>
+                    </c:when>
+                    <c:otherwise>
+                      <div class="regular-price">
+                        <span class="fw-bold"><f:formatNumber value="${p.price}" type="currency" currencySymbol="VNĐ"/></span>
+                      </div>
+                    </c:otherwise>
+                  </c:choose>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </c:forEach>
+        </c:forEach>
     </div>
 
   </div>
