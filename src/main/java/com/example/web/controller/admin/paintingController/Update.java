@@ -74,6 +74,9 @@ public class Update extends HttpServlet {
     }
 
     private String extractFileName(Part part) {
+        if(part == null) {
+            return null;
+        }
         String contentDisposition = part.getHeader("content-disposition");
         String[] elements = contentDisposition.split(";");
         for (String element : elements) {

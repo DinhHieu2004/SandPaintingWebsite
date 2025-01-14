@@ -13,9 +13,8 @@ import jakarta.servlet.http.Part;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
+
 import java.sql.SQLException;
-import java.util.stream.Collectors;
 
 @WebServlet("/admin/artists/update")
 @MultipartConfig(
@@ -68,9 +67,6 @@ public class Update extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
-
 
 
     }
