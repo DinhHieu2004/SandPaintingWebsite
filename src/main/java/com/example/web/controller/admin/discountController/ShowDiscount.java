@@ -27,14 +27,7 @@ public class ShowDiscount extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        // Lấy id từ tham số URL
-        String discountId = request.getParameter("id");
-
-        if (discountId != null && !discountId.isEmpty()) {
-        }
-
         request.setAttribute("list", list);
-
         request.getRequestDispatcher("/admin/discount.jsp").forward(request, response);
     }
 }

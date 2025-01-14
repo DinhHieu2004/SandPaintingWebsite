@@ -14,7 +14,6 @@ public class PaintingService {
     public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] themes, String[] artists, int currentPage, int recordsPerPage) throws SQLException {
         return paintingDao.getPaintingList(minPrice, maxPrice, themes, artists, currentPage, recordsPerPage);
     }
-
     public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists) throws SQLException {
         return paintingDao.countPaintings(minPrice, maxPrice, themes, artists);
     }
@@ -56,10 +55,6 @@ public class PaintingService {
 
     }
 
-    public Painting getPaintingDetail(int id) throws SQLException {
-        return paintingDao.getPaintingDetail(id);
-    }
-
 
     public static void main(String[] args) throws SQLException {
         PaintingService paintingService = new PaintingService();
@@ -67,4 +62,7 @@ public class PaintingService {
     }
 
 
+    public Painting getPaintingDetail(int id) throws SQLException {
+        return paintingDao.getPaintingDetail(id);
+    }
 }

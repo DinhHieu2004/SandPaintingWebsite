@@ -27,7 +27,7 @@ public class PaintingDao {
 
 
     }
-//add
+    //add
     public int addPainting(String title, int themeId, double price, int artistId, String description, String imageUrl, boolean isFeatured) throws SQLException {
         String sql = "INSERT INTO paintings (title, themeId, price, artistId, description, imageUrl, isFeatured) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -54,20 +54,20 @@ public class PaintingDao {
             throw new IllegalArgumentException("Size of sizeIds and quantities lists must be the same.");
         }
         String sql = "INSERT INTO painting_sizes (paintingId, sizeId, quantity) VALUES (?, ?, ?)";
-             PreparedStatement ps = con.prepareStatement(sql);
-            for (int i = 0; i < sizeIds.size(); i++) {
-                ps.setInt(1, paintingId);
-                ps.setInt(2, sizeIds.get(i));
-                ps.setInt(3, quantities.get(i));
-                ps.addBatch();
+        PreparedStatement ps = con.prepareStatement(sql);
+        for (int i = 0; i < sizeIds.size(); i++) {
+            ps.setInt(1, paintingId);
+            ps.setInt(2, sizeIds.get(i));
+            ps.setInt(3, quantities.get(i));
+            ps.addBatch();
+        }
+        int[] updateCounts = ps.executeBatch();
+        for (int count : updateCounts) {
+            if (count != 1) {
+                return false;
             }
-            int[] updateCounts = ps.executeBatch();
-            for (int count : updateCounts) {
-                if (count != 1) {
-                    return false;
-                }
-            }
-            return true;
+        }
+        return true;
 
     }
 
@@ -530,17 +530,17 @@ public class PaintingDao {
         String[] sizes = null;
         String[] themes = {"1"};
         /**
-        int paintingId = paintingDao.addPainting(
-                "Sunset Overdrive",
-                1,
-                150.0,
-                2,
-                "A beautiful sunset painting.",
-                "sunset.jpg",
-                true
-        );
+         int paintingId = paintingDao.addPainting(
+         "Sunset Overdrive",
+         1,
+         150.0,
+         2,
+         "A beautiful sunset painting.",
+         "sunset.jpg",
+         true
+         );
 
-        System.out.println(paintingId);
+         System.out.println(paintingId);
          **/
 
         int paintingId = 11;
@@ -548,7 +548,7 @@ public class PaintingDao {
         List<Integer> quantities = Arrays.asList(5, 3, 2);
 
         for(Painting p : paintingDao.getAll()) {
-                System.out.println(p);
-    }
+            System.out.println(p);
+        }
     }
 }
