@@ -971,9 +971,40 @@ body, html {
     color: #212529;
 }
 
+.filter-group input[type="date"] {
+    max-width: 150px; /* Đặt kích thước tối đa */
+    font-size: 14px; /* Kích thước chữ nhỏ hơn */
+    padding: 5px; /* Khoảng cách trong */
+}
+.filter-latest-products {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
 
+.filter-latest-products h6 {
+    color: #333;
+    font-weight: 600;
+}
 
+.filter-latest-products .filter-content {
+    padding: 0.5rem 0;
+}
 
+.filter-latest-products input {
+    border: 1px solid #ddd;
+    transition: border-color 0.2s;
+}
 
+.filter-latest-products input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+.filter-latest-products label {
+    font-size: 0.9rem;
+    color: #666;
+}
 
 

@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.web.dao.db.DbConnect.getConnection;
 
@@ -225,7 +226,7 @@ public class PaintingDao {
     }
 
 
-    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] themes, String[] artists, int currentPage, int recordsPerPage) throws SQLException {
+    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate, int currentPage, int recordsPerPage) throws SQLException {
         List<Painting> paintingList = new ArrayList<>();
         Map<Integer, Painting> paintingMap = new HashMap<>();
 
@@ -264,6 +265,15 @@ public class PaintingDao {
             sql.append(" AND a.id IN (").append("?,".repeat(artists.length - 1)).append("?)");
             params.addAll(List.of(artists));
         }
+        if (startDate != null && !startDate.isEmpty()) {
+            sql.append(" AND DATE(p.createdAt) >= ?");
+            params.add(startDate);
+        }
+        if (endDate != null && !endDate.isEmpty()) {
+            sql.append(" AND DATE(p.createdAt) <= ?");
+            params.add(endDate);
+        }
+        sql.append(" ORDER BY p.createdAt DESC");
 
         sql.append(" LIMIT ? OFFSET ?");
         params.add(recordsPerPage);
@@ -475,41 +485,50 @@ public class PaintingDao {
 
 
 
-    public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists) throws SQLException {
+    public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists,
+                              String startDate, String endDate) throws SQLException {
         StringBuilder sql = new StringBuilder("""
-                        SELECT COUNT(*) AS total
-                        FROM paintings p
-                        LEFT JOIN artists a ON p.artistId = a.id
-                        LEFT JOIN themes t ON p.themeId = t.id
-                        WHERE 1=1
-                """);
+                    SELECT COUNT(*) AS total
+                    FROM paintings p
+                    LEFT JOIN artists a ON p.artistId = a.id
+                    LEFT JOIN themes t ON p.themeId = t.id
+                    WHERE 1=1
+            """);
+
+        List<Object> params = new ArrayList<>();
 
         if (minPrice != null) {
             sql.append(" AND p.price >= ?");
+            params.add(minPrice);
         }
         if (maxPrice != null) {
             sql.append(" AND p.price <= ?");
+            params.add(maxPrice);
         }
         if (themes != null && themes.length > 0) {
             sql.append(" AND t.id IN (").append("?,".repeat(themes.length - 1)).append("?)");
+            params.addAll(Arrays.stream(themes)
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList()));
         }
         if (artists != null && artists.length > 0) {
             sql.append(" AND a.id IN (").append("?,".repeat(artists.length - 1)).append("?)");
+            params.addAll(Arrays.stream(artists)
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList()));
+        }
+        if (startDate != null && !startDate.isEmpty()) {
+            sql.append(" AND DATE(p.createdAt) >= ?");
+            params.add(startDate);
+        }
+        if (endDate != null && !endDate.isEmpty()) {
+            sql.append(" AND DATE(p.createdAt) <= ?");
+            params.add(endDate);
         }
 
         try (PreparedStatement stmt = con.prepareStatement(sql.toString())) {
-            int index = 1;
-            if (minPrice != null) stmt.setDouble(index++, minPrice);
-            if (maxPrice != null) stmt.setDouble(index++, maxPrice);
-            if (themes != null && themes.length > 0) {
-                for (String theme : themes) {
-                    stmt.setInt(index++, Integer.parseInt(theme));
-                }
-            }
-            if (artists != null && artists.length > 0) {
-                for (String artist : artists) {
-                    stmt.setInt(index++, Integer.parseInt(artist));
-                }
+            for (int i = 0; i < params.size(); i++) {
+                stmt.setObject(i + 1, params.get(i));
             }
 
             try (ResultSet rs = stmt.executeQuery()) {
@@ -517,6 +536,9 @@ public class PaintingDao {
                     return rs.getInt("total");
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Lỗi khi đếm số lượng tranh", e);
         }
 
         return 0;

@@ -59,9 +59,9 @@ public class PaintingOfArtistController extends HttpServlet{
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid price format");
                 return;
             }
-            data  = ps.getPaintingList(minPrice, maxPrice, themeArr, ids, currentPage, recordsPerPage);
-            int totalRecords = ps.countPaintings(minPrice, maxPrice, themeArr, ids);
-            int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+           // data  = ps.getPaintingList(minPrice, maxPrice, themeArr, ids, ,currentPage, recordsPerPage);
+          //  int totalRecords = ps.countPaintings(minPrice, maxPrice, themeArr, ids);
+          //  int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
             themes = ts.getAllTheme();
             paintingSizes = ss.getAllSize();
@@ -73,7 +73,7 @@ public class PaintingOfArtistController extends HttpServlet{
 
             req.setAttribute("currentPage", currentPage);
             req.setAttribute("recordsPerPage", recordsPerPage);
-            req.setAttribute("totalPages", totalPages);
+           // req.setAttribute("totalPages", totalPages);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

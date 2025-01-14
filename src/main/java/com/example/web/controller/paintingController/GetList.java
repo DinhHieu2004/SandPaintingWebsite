@@ -48,6 +48,8 @@ public class GetList extends HttpServlet {
             String maxPriceParam = req.getParameter("maxPrice");
             String[] themeArr = req.getParameterValues("theme");
             String[] artistArr = req.getParameterValues("artist");
+            String startDate = req.getParameter("startDate");
+            String endDate = req.getParameter("endDate");
 
             Double minPrice = null;
             Double maxPrice = null;
@@ -59,12 +61,15 @@ public class GetList extends HttpServlet {
                 if (maxPriceParam != null && !maxPriceParam.isEmpty()) {
                     maxPrice = Double.valueOf(maxPriceParam);
                 }
+
+
+
             } catch (NumberFormatException e) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid price format");
                 return;
             }
-            data  = ps.getPaintingList(minPrice, maxPrice, themeArr, artistArr, currentPage, recordsPerPage);
-            int totalRecords = ps.countPaintings(minPrice, maxPrice, themeArr, artistArr);
+            data  = ps.getPaintingList(minPrice, maxPrice, themeArr, artistArr,startDate, endDate, currentPage, recordsPerPage);
+            int totalRecords = ps.countPaintings(minPrice, maxPrice, themeArr, artistArr,startDate, endDate);
             int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
             artists = as.getAllArtists();

@@ -11,11 +11,11 @@ import java.util.List;
 public class PaintingService {
     private PaintingDao paintingDao = new PaintingDao();
 
-    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] themes, String[] artists, int currentPage, int recordsPerPage) throws SQLException {
-        return paintingDao.getPaintingList(minPrice, maxPrice, themes, artists, currentPage, recordsPerPage);
+    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate, int currentPage, int recordsPerPage) throws SQLException {
+        return paintingDao.getPaintingList(minPrice, maxPrice, themes, artists,startDate,endDate, currentPage, recordsPerPage);
     }
-    public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists) throws SQLException {
-        return paintingDao.countPaintings(minPrice, maxPrice, themes, artists);
+    public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate) throws SQLException {
+        return paintingDao.countPaintings(minPrice, maxPrice, themes, artists, startDate,endDate);
     }
 
     public Painting getPainting(int id) throws SQLException {

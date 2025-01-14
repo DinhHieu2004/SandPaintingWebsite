@@ -58,6 +58,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="filter-group">
                     <h6 class="mb-3">Kích thước</h6>
                     <c:forEach var="size" items="${paintingSizes}">
@@ -106,6 +107,34 @@
                             <label class="form-check-label" for="${artist.id}">${artist.name}</label>
                         </div>
                     </c:forEach>
+                </div>
+
+                <!-- Lọc Sản phẩm mới nhất -->
+                <div class="filter-group filter-latest-products card p-3">
+                    <h6 class="mb-3">Sản phẩm mới nhất</h6>
+                    <div class="filter-content">
+
+
+                        <!-- Ngày -->
+                        <div class="date-range">
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <label for="startDate" class="form-label">Từ ngày</label>
+                                    <input type="date" class="form-control form-control-sm"
+                                           id="startDate"
+                                           name="startDate"
+                                           value="${param.startDate}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="endDate" class="form-label">Đến ngày</label>
+                                    <input type="date" class="form-control form-control-sm"
+                                           id="endDate"
+                                           name="endDate"
+                                           value="${param.endDate}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <button class="btn w-100" id="">Áp dụng</button>
@@ -217,6 +246,16 @@
         document.getElementById('maxPrice').value = '';
 
         document.getElementById('filterForm').submit();
+
+
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const endDateInput = document.getElementById("endDate");
+        if (!endDateInput.value) {
+            const today = new Date().toISOString().split('T')[0];
+            endDateInput.value = today;
+        }
     });
 </script>
 </html>
