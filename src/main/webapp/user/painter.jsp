@@ -92,7 +92,7 @@
                     </c:forEach>
         </div>
         <div class="text-center">
-            <a href="painting-list-of-painter?id=${data.id}" class="btn ">Xem Thêm Tác Phẩm</a>
+            <a href="artwork?artist=${data.id}" class="btn ">Xem Thêm Tác Phẩm</a>
         </div>
     </div>
 <%@ include file="/partials/footer.jsp" %>

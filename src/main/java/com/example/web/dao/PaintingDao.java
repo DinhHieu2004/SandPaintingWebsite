@@ -226,7 +226,7 @@ public class PaintingDao {
     }
 
 
-    public List<Painting> getPaintingList(Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate, int currentPage, int recordsPerPage) throws SQLException {
+    public List<Painting> getPaintingList(String searchKeyword, Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate, int currentPage, int recordsPerPage) throws SQLException {
         List<Painting> paintingList = new ArrayList<>();
         Map<Integer, Painting> paintingMap = new HashMap<>();
 
@@ -249,6 +249,10 @@ public class PaintingDao {
 
         List<Object> params = new ArrayList<>();
 
+        if (searchKeyword != null && !searchKeyword.isEmpty()) {
+            sql.append(" AND p.title LIKE ?");
+            params.add("%" + searchKeyword + "%");
+        }
         if (minPrice != null) {
             sql.append(" AND p.price >= ?");
             params.add(minPrice);
@@ -485,7 +489,7 @@ public class PaintingDao {
 
 
 
-    public int countPaintings(Double minPrice, Double maxPrice, String[] themes, String[] artists,
+    public int countPaintings(String keyword,Double minPrice, Double maxPrice, String[] themes, String[] artists,
                               String startDate, String endDate) throws SQLException {
         StringBuilder sql = new StringBuilder("""
                     SELECT COUNT(*) AS total
@@ -496,6 +500,11 @@ public class PaintingDao {
             """);
 
         List<Object> params = new ArrayList<>();
+
+        if (keyword != null && !keyword.isEmpty()) {
+            sql.append(" AND p.title LIKE ?");
+            params.add("%" + keyword + "%");
+        }
 
         if (minPrice != null) {
             sql.append(" AND p.price >= ?");

@@ -188,10 +188,7 @@
                 </td>
                 <td class="item-total-price">
                   <span class="fw-bold">Giá: ${cp.discountPrice} VND</span>
-
                 </td>
-
-
               </tr>
             </c:forEach>
             </tbody>
@@ -209,6 +206,14 @@
           </div>
         </c:otherwise>
       </c:choose>
+
+      <label for="voucherSelect">Chọn mã giảm giá:</label>
+      <select id="voucherSelect" name="voucherCode">
+        <option value="">--Chọn mã giảm giá--</option>
+        <c:forEach items="${sessionScope.availableVouchers}" var="voucher">
+          <option value="${voucher.code}">${voucher.name} - Giảm ${voucher.discount}%</option>
+        </c:forEach>
+      </select>
     </div>
 
     <div class="payment-form">

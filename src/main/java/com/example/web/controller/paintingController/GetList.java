@@ -44,6 +44,7 @@ public class GetList extends HttpServlet {
         List<Theme> themes = null;
         List<PaintingSize> paintingSizes = null;
         try {
+            String keyWord = req.getParameter("keyword");
             String minPriceParam = req.getParameter("minPrice");
             String maxPriceParam = req.getParameter("maxPrice");
             String[] themeArr = req.getParameterValues("theme");
@@ -68,8 +69,8 @@ public class GetList extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid price format");
                 return;
             }
-            data  = ps.getPaintingList(minPrice, maxPrice, themeArr, artistArr,startDate, endDate, currentPage, recordsPerPage);
-            int totalRecords = ps.countPaintings(minPrice, maxPrice, themeArr, artistArr,startDate, endDate);
+            data  = ps.getPaintingList(keyWord,minPrice, maxPrice, themeArr, artistArr,startDate, endDate, currentPage, recordsPerPage);
+            int totalRecords = ps.countPaintings(keyWord,minPrice, maxPrice, themeArr, artistArr,startDate, endDate);
             int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
             artists = as.getAllArtists();

@@ -99,13 +99,16 @@
             </c:choose>
         </nav>
     </div>
+    <form action="artwork" method="GET">
 
     <div id="search-bar" class="container mt-2">
         <div class="input-group">
-            <input type="text" class="form-control" id="search-input" placeholder="Tìm kiếm...">
+            <input  name="keyword" type="text" class="form-control" id="search-input" placeholder="Tìm kiếm...">
             <button class="btn btn-primary" id="search-btn">Tìm</button>
         </div>
     </div>
+    </form>
+
 </header>
 
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
