@@ -221,45 +221,14 @@
         </div>
     </div>
 </div>
-</div>
-
-<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="reviewModalLabel">Đánh Giá Sản Phẩm</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="reviewForm">
-                    <div class="mb-3">
-                        <label for="rating" class="form-label">Chọn Số Sao</label>
-                        <select class="form-select" id="rating" required>
-                            <option value="1">1 sao</option>
-                            <option value="2">2 sao</option>
-                            <option value="3">3 sao</option>
-                            <option value="4">4 sao</option>
-                            <option value="5">5 sao</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="reviewText" class="form-label">Nhận xét</label>
-                        <textarea class="form-control" id="reviewText" rows="3" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Gửi Đánh Giá</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <%@ include file="/partials/footer.jsp" %>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/js/personal.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/InfoUser.js"></script>
+
 </body>
 
 </html>

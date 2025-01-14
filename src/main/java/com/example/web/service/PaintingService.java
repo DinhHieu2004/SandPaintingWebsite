@@ -54,6 +54,9 @@ public class PaintingService {
 
 
     }
+    public Painting getPaintingByItemId(int itemId) throws SQLException {
+        return paintingDao.getPaitingByItemId(itemId);
+    }
 
 
     public static void main(String[] args) throws SQLException {

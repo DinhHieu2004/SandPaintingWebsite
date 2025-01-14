@@ -10,24 +10,16 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}assets/css/painting-detail.css">
-  <script src="${pageContext.request.contextPath}/assets/js/painting-detail.js"></script>
-
 </head>
 
 <body>
 <%@ include file="/partials/header.jsp" %>
 
 <div class="container py-4">
-  <c:if test="${not empty message}">
-    <div  id="alertMessage"  class="alert alert-success alert-dismissible fade show" role="alert">
-        ${message}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  </c:if>
   <div class="row">
     <div class="col-md-6">
       <div class="card">
+
         <img src="${p.imageUrl}" alt="${p.title}" class="card-img-top img-fluid">
       </div>
     </div>
@@ -43,133 +35,95 @@
             <p><strong>Chủ đề:</strong> ${p.themeName}</p>
             <p><strong>Mô tả:</strong> ${p.description}</p>
           </div>
-
-          <!-- Giá và giảm giá -->
-          <div class="mb-4">
-            <c:choose>
-              <c:when test="${p.discountPercentage > 0}">
-                <div class="d-flex align-items-center gap-2">
-                  <span class="text-muted text-decoration-line-through">${p.price} VNĐ</span>
-                  <span class="h4 text-danger mb-0">${p.price * (1 - p.discountPercentage / 100)} VNĐ</span>
-                  <span class="badge bg-danger">-${p.discountPercentage}%</span>
-                </div>
-              </c:when>
-              <c:otherwise>
-                <span class="h4">${p.price} VNĐ</span>
-              </c:otherwise>
-            </c:choose>
-          </div>
-
-          <!-- Form thêm vào giỏ hàng -->
-          <form id="addToCartForm" class="needs-validation" novalidate>
-            <input type="hidden" name="pid" value="${p.id}">
-            <div class="mb-3">
-              <label class="form-label"><strong>Kích thước:</strong></label>
-              <div class="row g-2">
-                <c:forEach var="size" items="${p.sizes}">
-                  <div class="col-auto">
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="size"
-                             id="size_${size.sizeDescriptions}"
-                             value="${size.idSize}"
-                             data-quantity="${size.quantity}"
-                        ${size.quantity <= 0 ? 'disabled' : ''}>
-                      <input type="hidden" name="quantity_${size.idSize}" value="${size.quantity}">
-                      <label class="form-check-label" for="size_${size.sizeDescriptions}">
-                          ${size.sizeDescriptions} <small class="text-muted">(Còn ${size.quantity})</small>
-
-
-                      </label>
-                    </div>
-                  </div>
-                </c:forEach>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="quantity" class="form-label"><strong>Số lượng:</strong></label>
-              <div class="input-group">
-                <button type="button" class="btn btn-outline-secondary" onclick="decrementQuantity()">-</button>
-                <input type="number" class="form-control text-center" id="quantity" name="quantity" value="1" min="1" required>
-                <button type="button" class="btn btn-outline-secondary" onclick="incrementQuantity()">+</button>
-              </div>
-            </div>
-            <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-primary">
-                <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
-              </button>
-            </div>
-          </form>
-          <div id="cartMessage"></div>
         </div>
       </div>
     </div>
-    <div class="reviews-section">
-      <h3>Đánh giá sản phẩm</h3>
-      <c:forEach items="${reviews}" var="review">
-        <div class="review-item">
-          <p><strong>Người dùng:</strong> ${review.user_name}</p>
-          <p><strong>Đánh giá:</strong> ${review.rating} / 5</p>
-          <p>${review.comment}</p>
-          <p><small>${review.created_at}</small></p>
-        </div>
-      </c:forEach>
-    </div>
+  </div>
+
+  <!-- Phần đánh giá sản phẩm -->
+  <div class="reviews-section mt-4">
+    <h3>Đánh giá sản phẩm</h3>
+    <!-- Form thêm đánh giá -->
+    <form id="reviewForm">
+      <input type="hidden" id="paintingId" value="${p.id}">
+      <div id="starRating">
+        <i class="fa fa-star" data-value="1"></i>
+        <i class="fa fa-star" data-value="2"></i>
+        <i class="fa fa-star" data-value="3"></i>
+        <i class="fa fa-star" data-value="4"></i>
+        <i class="fa fa-star" data-value="5"></i>
+      </div>
+      <textarea id="comment" placeholder="Viết đánh giá của bạn..."></textarea>
+      <input type="hidden" id="rating" value="0">
+      <button type="submit">Gửi đánh giá</button>
+    </form>
+
+    <c:forEach items="${reviews}" var="review">
+      <div class="review-item mb-3 p-3 border rounded">
+        <p><strong>Người dùng:</strong> ${review.user_name}</p>
+        <p><strong>Đánh giá:</strong> ${review.rating} / 5</p>
+        <p>${review.comment}</p>
+        <p><small>${review.created_at}</small></p>
+      </div>
+    </c:forEach>
   </div>
 </div>
 
 <%@ include file="/partials/footer.jsp" %>
-
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('addToCartForm');
-    const quantityInput = document.getElementById('quantity');
-    const sizeInputs = document.querySelectorAll('input[name="size"]');
-
-    sizeInputs.forEach(input => {
-      input.addEventListener('change', function() {
-        const maxQuantity = parseInt(this.dataset.quantity);
-        quantityInput.max = maxQuantity;
-        quantityInput.value = Math.min(quantityInput.value, maxQuantity);
+  $(document).ready(function () {
+    $('#starRating i').on('click', function () {
+      const rating = $(this).data('value');
+      $('#rating').val(rating);
+      $('#starRating i').removeClass('text-warning');
+      $('#starRating i').each(function () {
+        if ($(this).data('value') <= rating) {
+          $(this).addClass('text-warning');
+        }
       });
     });
 
+    $('#reviewForm').on('submit', function (e) {
+      e.preventDefault();
+      const rating = $('#rating').val();
+      const comment = $('#comment').val();
+      const paintingId = $('#paintingId').val();
 
-    form.addEventListener('submit', function(event) {
-      if (!form.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-
-      const selectedSize = document.querySelector('input[name="size"]:checked');
-      if (!selectedSize) {
-        event.preventDefault();
-        alert('Vui lòng chọn kích thước');
+      if (rating === "0") {
+        alert('Vui lòng chọn số sao.');
         return;
       }
 
-      form.classList.add('was-validated');
+      $.ajax({
+        url: 'review/add',
+        method: 'POST',
+        data: {
+          paintingId: paintingId,
+          rating: rating,
+          comment: comment
+        },
+        success: function (response) {
+          alert('Đánh giá của bạn đã được gửi thành công!');
+          location.reload();
+        },
+        error: function (xhr) {
+          const responseText = xhr.responseText;
+
+          if (responseText.includes("<html")) {
+            alert("Có lỗi xảy ra, không tìm thấy tài nguyên.");
+          } else {
+            try {
+              const error = JSON.parse(responseText);
+              alert(error.error || 'Có lỗi xảy ra. Vui lòng thử lại.');
+            } catch (e) {
+              alert('Có lỗi xảy ra. Vui lòng thử lại.');
+            }
+          }
+        }
+      });
     });
   });
-
-  function incrementQuantity() {
-    const input = document.getElementById('quantity');
-    const max = input.max ? parseInt(input.max) : Infinity;
-    const currentValue = parseInt(input.value);
-    if (currentValue < max) {
-      input.value = currentValue + 1;
-    }
-  }
-
-  function decrementQuantity() {
-    const input = document.getElementById('quantity');
-    const currentValue = parseInt(input.value);
-    if (currentValue > 1) {
-      input.value = currentValue - 1;
-    }
-  }
-
-
 </script>
 
-</body>
+  </body>
 </html>

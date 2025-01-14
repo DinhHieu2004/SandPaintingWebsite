@@ -2,7 +2,7 @@ package com.example.web.dao.model;
 
 import java.math.BigDecimal;
 
-public class OrderItem {
+public class OrderItem  implements java.io.Serializable {
     private int id;
     private int orderId;
     private int paintingId;

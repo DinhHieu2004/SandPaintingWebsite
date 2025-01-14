@@ -521,6 +521,63 @@ public class PaintingDao {
 
         return 0;
     }
+    public Painting getPaitingByItemId(int itemId) throws SQLException {
+            Painting paintingDetail = null;
+            String sql = """
+                    SELECT 
+                        p.id AS paintingId,
+                        p.title AS paintingTitle,
+                        p.price,
+                        p.description,
+                        p.createdAt,
+                        p.isFeatured,
+                        p.imageUrl,
+                        a.name AS artistName,
+                        t.themeName,
+                        d.discountName,
+                        d.discountPercentage,
+                        s.sizeDescription,
+                        s.id AS idSize,
+                        ps.quantity AS sizeQuantity,
+                        dp.discountId
+                
+                    FROM paintings p
+                    LEFT JOIN artists a ON p.artistId = a.id
+                    LEFT JOIN themes t ON p.themeId = t.id
+                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+                    LEFT JOIN discounts d ON dp.discountId = d.id
+                    LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
+                    LEFT JOIN sizes s ON ps.sizeId = s.id
+                    WHERE p.id IN ( SELECT paintingId FROM order_items WHERE id = ?
+                       );
+                """;
+
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                stmt.setInt(1, itemId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        if (paintingDetail == null) {
+                            // Initialize the PaintingDetail object
+                            paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"), rs.getDate("createdAt"));
+                        }
+
+                        // Add size and quantity to the painting detail
+                        int idSize = rs.getInt("idSize");
+                        String sizeDescription = rs.getString("sizeDescription");
+                        int sizeQuantity = rs.getInt("sizeQuantity");
+                        paintingDetail.addSize(idSize, sizeDescription, sizeQuantity);
+
+                        // Add discount information if exists
+                        if (rs.getString("discountName") != null) {
+                            paintingDetail.setDiscount(rs.getString("discountName"), rs.getDouble("discountPercentage"));
+                        }
+                    }
+                }
+            }
+            return paintingDetail;
+
+
+    }
 
     public static void main(String[] args) throws SQLException {
         PaintingDao paintingDao = new PaintingDao();
@@ -547,8 +604,6 @@ public class PaintingDao {
         List<Integer> sizeIds = Arrays.asList(1, 2, 3);
         List<Integer> quantities = Arrays.asList(5, 3, 2);
 
-        for(Painting p : paintingDao.getAll()) {
-            System.out.println(p);
-        }
+       System.out.println(paintingDao.getPaitingByItemId(40));
     }
 }
