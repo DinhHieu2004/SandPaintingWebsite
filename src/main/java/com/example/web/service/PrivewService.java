@@ -26,4 +26,17 @@ public class PrivewService {
             throw new Exception("Bạn đã đánh giá sản phẩm này từ đơn hàng này.");
         }
     }
+    public List<ProductReview> getAll() throws SQLException {
+        return reviewDao.getAll();
+    }
+    public ProductReview getReviewById(int id) throws SQLException {
+        return reviewDao.getDetail(id);
+    }
+    public boolean deleteReviewById(int id) throws SQLException {
+        return reviewDao.delete(id);
+
+    }
+    public boolean updateReview(int reviewId, int userId, int paintingId, int rating, String comment) throws SQLException {
+        return reviewDao.update(reviewId, userId, paintingId,rating, comment);
+    }
 }
