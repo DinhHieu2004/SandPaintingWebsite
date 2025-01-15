@@ -209,6 +209,7 @@ public class PaintingDao {
                         paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"),rs.getDate("createdAt"),getPaintingRating(rs.getInt("paintingId")) );
                     }
 
+                    // test git
                     // Add size and quantity to the painting detail
                     int idSize = rs.getInt("idSize");
                     String sizeDescription = rs.getString("sizeDescription");
