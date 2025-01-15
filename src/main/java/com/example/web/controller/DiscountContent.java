@@ -19,7 +19,8 @@ import java.util.List;
 public class DiscountContent extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy id từ tham số URL
+        int currentPage = 1;
+        int recordsPerPage = 8;
         String discountIdStr = request.getParameter("id");
 
         if (discountIdStr != null) {
@@ -28,11 +29,15 @@ public class DiscountContent extends HttpServlet {
 
                 DiscountService service = new DiscountService();
                 Discount discount = service.getDiscountById(discountId);
-                List<Painting> list = service.getPaintingsByDiscountId(discountId);
-
+                List<Painting> list = service.getPaintingsByDiscountId(discountId, currentPage, recordsPerPage);
+                int totalRecords = list.size();
+                int totalPages = totalRecords / recordsPerPage;
                 if (discount != null) {
                     request.setAttribute("discount", discount);
                     request.setAttribute("paintings", list);
+                    request.setAttribute("currentPage", currentPage);
+                    request.setAttribute("recordsPerPage", recordsPerPage);
+                    request.setAttribute("totalPages", totalPages);
 
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/user/discount_content.jsp");
                     dispatcher.forward(request, response);

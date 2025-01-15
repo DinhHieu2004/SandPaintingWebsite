@@ -720,5 +720,6 @@ public class PaintingDao {
       //  System.out.println(paintingDao.getPaintingRating(5));
         //System.out.println(paintingDao.getPaintingRating(6));
 
+
     }
 }

@@ -133,7 +133,58 @@
     .payment-form button:hover {
       background-color: #444;
     }
+    .voucher-container {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 400px;
+      padding: 20px;
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
 
+    .voucher-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .voucher-select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #1f2937;
+      background-color: #f9fafb;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 16px;
+    }
+
+    .voucher-select:hover {
+      border-color: #9ca3af;
+    }
+
+    .voucher-select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .price-display {
+      display: block;
+      padding: 12px;
+      background-color: #f3f4f6;
+      border-radius: 6px;
+      font-weight: 500;
+      color: #1f2937;
+    }
+
+    .price-amount {
+      color: #059669;
+      font-weight: 600;
+    }
     #bankDetails {
       background-color: #f8f8f8;
       padding: 50px;
@@ -209,14 +260,24 @@
         </c:otherwise>
       </c:choose>
 
-      <label for="voucherSelect">Chọn mã giảm giá:</label>
-      <select id="voucherSelect" name="voucherCode">
-        <option value="">--Chọn mã giảm giá--</option>
-        <c:forEach items="${sessionScope.availableVouchers}" var="voucher">
-          <option value="${voucher.code}">${voucher.name} - Giảm ${voucher.discount}%</option>
-        </c:forEach>
-      </select>
+      <div class="voucher-container">
+        <label for="voucherSelect" class="voucher-label">Chọn mã giảm giá:</label>
+        <select id="voucherSelect" name="voucherCode" class="voucher-select">
+          <option value="">--Chọn mã giảm giá--</option>
+          <c:forEach items="${v}" var="voucher">
+            <option value="${voucher.id}">${voucher.name} - Giảm ${voucher.discount}%</option>
+          </c:forEach>
+        </select>
+
+        <div class="price-display">
+          Giá phải trả: <span id="finalPrice">
+        <f:formatNumber value="${sessionScope.cart.totalPrice}" type="currency" currencySymbol="VND"/>
+      </span>
+        </div>
+      </div>
     </div>
+
+
 
     <div class="payment-form">
       <h3>Thông tin thanh toán</h3>
@@ -269,5 +330,7 @@
 </script>
 </body>
 <script src="${pageContext.request.contextPath}/assets/js/checkout.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/applyVoucher.js"></script>
+
 
 </html>

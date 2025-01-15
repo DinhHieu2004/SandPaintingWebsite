@@ -39,6 +39,9 @@ public class Cart implements Serializable {
         getTotalPrice();
 
     }
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public boolean upDateCartQuantity(String pid, String sizeId, int quantity) {
         String key = pid + "_" + sizeId;
