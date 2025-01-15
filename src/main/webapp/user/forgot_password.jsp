@@ -46,7 +46,7 @@
                 <button type="submit" class="btn btn-warning w-100">Gửi liên kết khôi phục mật khẩu</button>
             </form>
             <div class="mt-3 text-center">
-                <a href="../index.jsp" class="text-decoration-none">Quay về trang chủ</a>
+                <a href="../index" class="text-decoration-none">Quay về trang chủ</a>
             </div>
         </div>
     </div>
