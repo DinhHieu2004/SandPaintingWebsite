@@ -12,6 +12,7 @@ public class ProductReview  implements java.io.Serializable {
     private int rating;
     private String comment;
     private Date createdAt;
+    private String paintingTitle;
 
     public ProductReview(int userId, int paintingId, int orderItemId, int rating, String comment) {
         this.userId = userId;
@@ -28,6 +29,15 @@ public class ProductReview  implements java.io.Serializable {
         this.rating = rating;
         this.comment = comment;
         this.userName = userName;
+    }
+
+
+    public String getPaintingTitle() {
+        return paintingTitle;
+    }
+
+    public void setPaintingTitle(String paintingTitle) {
+        this.paintingTitle = paintingTitle;
     }
 
     public Date getCreatedAt() {
@@ -107,6 +117,7 @@ public class ProductReview  implements java.io.Serializable {
                 ", rating=" + rating +
                 ", comment='" + comment + '\'' +
                 ", createdAt=" + createdAt +
+                ", paintingTitle='" + paintingTitle + '\'' +
                 '}';
     }
 }

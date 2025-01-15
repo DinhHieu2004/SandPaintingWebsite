@@ -156,18 +156,6 @@ public class PaintingDao {
         return paintingList;
     }
 
-    public boolean getPaintingAdd(String title, String description, String imageUrl) {
-        String sql = "INSERT INTO Painting (id,title, themeId, price,artistId,description,imageUrl) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, title);
-            ps.setString(2, description);
-            ps.setString(3, imageUrl);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
 
     public Painting getPaintingDetail(int paintingId) throws SQLException {
@@ -224,9 +212,59 @@ public class PaintingDao {
         }
         return paintingDetail;
     }
+    public List<Painting> getRandomTopRatedPaintings() throws SQLException {
+        List<Painting> paintingList = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("""
+                WITH TopRatedPaintings AS (
+                    SELECT 
+                        p.id AS paintingId,
+                        p.title AS paintingTitle,
+                        p.price,
+                        p.imageUrl,
+                        a.name AS artistName,
+                        t.themeName AS theme,
+                        IFNULL(d.discountPercentage, 0) AS discount,
+                        COALESCE(AVG(r.rating), 0) as avgRating
+                    FROM paintings p
+                    LEFT JOIN artists a ON p.artistId = a.id
+                    LEFT JOIN themes t ON p.themeId = t.id
+                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+                    LEFT JOIN discounts d ON dp.discountId = d.id
+                    LEFT JOIN product_reviews r ON p.id = r.paintingId
+                    GROUP BY p.id, p.title, p.price, p.imageUrl, a.name, t.themeName, d.discountPercentage
+                    HAVING avgRating > 0
+                    ORDER BY avgRating DESC
+                    LIMIT 20
+                )
+                SELECT * FROM TopRatedPaintings
+                ORDER BY RAND()
+                LIMIT 4
+            """);
 
+        try (PreparedStatement stmt = con.prepareStatement(sql.toString())) {
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("paintingId");
+                    Painting painting = new Painting();
+                    painting.setId(id);
+                    painting.setTitle(rs.getString("paintingTitle"));
+                    painting.setImageUrl(rs.getString("imageUrl"));
+                    painting.setArtistName(rs.getString("artistName"));
+                    painting.setThemeName(rs.getString("theme"));
+                    painting.setDiscountPercentage(rs.getDouble("discount"));
+                    painting.setPrice(rs.getDouble("price"));
+                    painting.setAverageRating(rs.getDouble("avgRating"));
+                    painting.setSizes(new ArrayList<>());
 
-    public List<Painting> getPaintingList(String searchKeyword, Double minPrice, Double maxPrice, String[] themes, String[] artists, String startDate, String endDate, int currentPage, int recordsPerPage) throws SQLException {
+                    paintingList.add(painting);
+                }
+            }
+        }
+
+        return paintingList;
+    }
+
+    public List<Painting> getPaintingList(String searchKeyword, Double minPrice, Double maxPrice, String[] themes, String[] artists, String startDate, String endDate, boolean sortRating, int currentPage, int recordsPerPage) throws SQLException {
         List<Painting> paintingList = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder("""
@@ -237,14 +275,18 @@ public class PaintingDao {
             p.imageUrl,
             a.name AS artistName,
             t.themeName AS theme,
-            IFNULL(d.discountPercentage, 0) AS discount
+            IFNULL(d.discountPercentage, 0) AS discount,
+            IFNULL((SELECT AVG(rating) FROM product_reviews WHERE paintingId = p.id), 0) as averageRating
+                
         FROM paintings p
         LEFT JOIN artists a ON p.artistId = a.id
         LEFT JOIN themes t ON p.themeId = t.id
         LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
         LEFT JOIN discounts d ON dp.discountId = d.id
         WHERE 1=1
-    """);
+    """
+
+        );
 
         List<Object> params = new ArrayList<>();
 
@@ -277,7 +319,11 @@ public class PaintingDao {
             params.add(endDate);
         }
 
-        sql.append(" ORDER BY p.createdAt DESC");
+        if (sortRating) {
+            sql.append(" ORDER BY averageRating DESC, p.createdAt DESC");
+        } else {
+            sql.append(" ORDER BY p.createdAt DESC");
+        }
         sql.append(" LIMIT ? OFFSET ?");
 
         params.add(recordsPerPage);
@@ -652,9 +698,9 @@ public class PaintingDao {
         List<Integer> sizeIds = Arrays.asList(1, 2, 3);
         List<Integer> quantities = Arrays.asList(5, 3, 2);
 
-     //   System.out.println(paintingDao.getPaintingRating(1));
+        System.out.println(paintingDao.getRandomTopRatedPaintings());
 
-       System.out.println(paintingDao.getPaintingList(null,null,null,null,null,null,null,1,10));
+   //    System.out.println(paintingDao.getPaintingList(null,null,null,null,null,null,null,1,10));
       //  System.out.println(paintingDao.getPaintingRating(5));
         //System.out.println(paintingDao.getPaintingRating(6));
 

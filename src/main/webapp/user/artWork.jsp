@@ -67,6 +67,7 @@
                                    value="${size.idSize}"
                                    id="${size.idSize}"
                                    name="size"
+
                             <c:forEach var="checkedSize" items="${paramValues.size}">
                                    <c:if test="${checkedSize eq size.idSize}">checked</c:if>
                             </c:forEach>>
@@ -107,6 +108,18 @@
                             <label class="form-check-label" for="${artist.id}">${artist.name}</label>
                         </div>
                     </c:forEach>
+                </div>
+                <!--đánh giá tốt-->
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox"
+                           value="rating"
+                           id="sortByRating"
+                           name="sort"
+                           <c:if test="${param.sort eq 'rating'}">checked</c:if>>
+                    <label class="form-check-label" for="sortByRating">
+                        Đánh giá tốt nhất
+                        <i class="fas fa-star text-warning"></i>
+                    </label>
                 </div>
 
                 <!-- Lọc Sản phẩm mới nhất -->
@@ -208,6 +221,9 @@
 
     <c:forEach var="artist" items="${paramValues.artist}">
         <c:set var="queryParams" value="${queryParams}artist=${artist}&" />
+    </c:forEach>
+    <c:forEach var="sort" items="${paramValues.sort}">
+        <c:set var="queryParams" value="${queryParams}sort=${sort}&" />
     </c:forEach>
 
     <ul class="pagination justify-content-center">
