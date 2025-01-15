@@ -212,11 +212,15 @@
       <label for="voucherSelect">Chọn mã giảm giá:</label>
       <select id="voucherSelect" name="voucherCode">
         <option value="">--Chọn mã giảm giá--</option>
-        <c:forEach items="${sessionScope.availableVouchers}" var="voucher">
-          <option value="${voucher.code}">${voucher.name} - Giảm ${voucher.discount}%</option>
+        <c:forEach items="${v}" var="voucher">
+          <option value="${voucher.id}">${voucher.name} - Giảm ${voucher.discount}%</option>
         </c:forEach>
       </select>
+      <span id =finalPrice> Gía phải trả: <f:formatNumber value="${sessionScope.cart.totalPrice}" type="currency" currencySymbol="VND"/>   </span>
+
     </div>
+
+
 
     <div class="payment-form">
       <h3>Thông tin thanh toán</h3>
@@ -269,5 +273,7 @@
 </script>
 </body>
 <script src="${pageContext.request.contextPath}/assets/js/checkout.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/applyVoucher.js"></script>
+
 
 </html>
