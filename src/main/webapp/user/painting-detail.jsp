@@ -43,6 +43,13 @@
                         <p><strong>Họa sĩ:</strong> ${p.artistName}</p>
                         <p><strong>Chủ đề:</strong> ${p.themeName}</p>
                         <p><strong>Mô tả:</strong> ${p.description}</p>
+
+                        <span class="rating-stars">
+                            <c:forEach begin="1" end="5" var="i">
+                                <i class="fas fa-star ${i <= p.averageRating ? 'text-warning' : 'text-gray-200'}" style="${i > p.averageRating ? 'color: #e9ecef !important;' : ''}; font-size: 0.875rem;"></i>
+                            </c:forEach>
+                        </span>
+                        <span class="ms-1">${p.averageRating}</span>
                     </div>
 
                     <!-- Giá và giảm giá -->

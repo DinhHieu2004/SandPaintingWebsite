@@ -1,6 +1,7 @@
 package com.example.web.controller.admin.paintingController;
 
 
+import com.example.web.service.PaintingService;
 import com.example.web.service.UserSerive;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,23 +13,26 @@ import java.io.IOException;
 
 @WebServlet("/admin/products/delete")
 public class Delete extends HttpServlet {
-    private UserSerive userSerive = new UserSerive();
-
+    private PaintingService paintingService = new PaintingService();
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String id = request.getParameter("pid");
+        String pid = request.getParameter("pid");
+        System.out.println(pid);
         try {
-            boolean isDeleted = userSerive.deleteUser(Integer.parseInt(id));
+            boolean isDeleted = paintingService.deletePainting(Integer.parseInt(pid));
             if (isDeleted) {
-                request.setAttribute("message", "Xóa sản phẩm thành công thành công!");
+                request.setAttribute("message", "Xóa tranh thành công!");
             } else {
-                request.setAttribute("message", "Xóa sản phẩm thất bại!");
+                request.setAttribute("message", "Xóa tranh thất bại!");
             }
         } catch (Exception e) {
             request.setAttribute("message", "Lỗi: " + e.getMessage());
         }
-        response.sendRedirect("../products");
+       // response.sendRedirect("../products");
+        request.getRequestDispatcher("../products.jsp").forward(request, response);
     }
 
+
 }
+

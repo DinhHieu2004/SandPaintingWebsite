@@ -50,8 +50,19 @@
         <div class="card-header bg-success text-white">
             <h4>Người dùng</h4>
         </div>
+
         <div class="card-body">
             <table id="users" class="table table-bordered display">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                    Thêm người dùng
+                </button>
+                <div style="padding-bottom: 10px">
+                    <c:if test="${not empty message}">
+                        <div class="alert alert-success">
+                                ${message}
+                        </div>
+                    </c:if>
+                </div>
                 <thead>
                 <tr>
                     <th>Mã người dùng</th>
@@ -96,7 +107,7 @@
                 </div>
                 <form action="${pageContext.request.contextPath}/admin/users/delete" method="POST">
                     <div class="modal-body">
-                        <p>Bạn có chắc chắn muốn xóa nghệ sĩ này?</p>
+                        <p>Bạn có chắc chắn muốn xóa người dùng này?</p>
                         <input type="hidden" id="userIdToDelete" name="userId">
                     </div>
                     <div class="modal-footer">
@@ -169,6 +180,76 @@
             </div>
         </div>
     </div>
+
+
+    <!-- add người dùng-->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Đăng Ký Tài Khoản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Original Form -->
+                    <form id="registerForm" method="post" action="${pageContext.request.contextPath}/admin/users/add">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="registerName" class="form-label">Họ và Tên</label>
+                                <input type="text" class="form-control" id="registerName" name="fullName" placeholder="Nhập họ và tên của bạn">
+                                <div class="error" id="fullNameError"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="registerUsername" class="form-label">Tên đăng nhập</label>
+                                <input type="text" class="form-control" id="registerUsername" name="username" placeholder="Nhập tên đăng nhập">
+                                <div class="error" id="usernamergError"></div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="registerPhone" class="form-label">Số điện thoại</label>
+                                <input type="text" class="form-control" id="registerPhone" name="phone" placeholder="Nhập số điện thoại">
+                                <div class="error" id="phoneError"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="registerEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="registerEmail" name="email" placeholder="Nhập email của bạn">
+                                <div class="error" id="emailError"></div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="registerAddress" class="form-label">Địa chỉ</label>
+                                <input type="text" class="form-control" id="registerAddress" name="address" placeholder="Nhập địa chỉ của bạn">
+                                <div class="error" id="addressError"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="registerPassword" class="form-label">Mật khẩu</label>
+                                <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Tạo mật khẩu">
+                                <div class="error" id="passwordrgError"></div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="ConfirmRegisterPassword" class="form-label">Nhập lại mật khẩu</label>
+                                <input type="password" class="form-control" id="ConfirmRegisterPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu">
+                                <div class="error" id="confirmPasswordError"></div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 login-btn">Đăng Ký</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 

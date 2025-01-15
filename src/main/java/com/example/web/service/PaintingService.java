@@ -68,4 +68,8 @@ public class PaintingService {
     public Painting getPaintingDetail(int id) throws SQLException {
         return paintingDao.getPaintingDetail(id);
     }
+
+    public boolean deletePainting(int i) throws SQLException {
+        return paintingDao.deletePainting(i);
+    }
 }

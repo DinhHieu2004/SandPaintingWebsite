@@ -22,7 +22,7 @@ public class Painting implements Serializable{
         private Date createDate;
         private double averageRating;
 
-        public Painting(int id, String title, double price, String description, String imageUrl, String artistName, String themeName, boolean isFeatured, Date createDate) {
+        public Painting(int id, String title, double price, String description, String imageUrl, String artistName, String themeName, boolean isFeatured, Date createDate, double averageRating) {
             this.id = id;
             this.title = title;
             this.price = price;
@@ -32,6 +32,7 @@ public class Painting implements Serializable{
             this.themeName = themeName;
             this.isFeatured = isFeatured;
             this.createDate = createDate;
+            this.averageRating = averageRating;
         }
 
     public Painting() {

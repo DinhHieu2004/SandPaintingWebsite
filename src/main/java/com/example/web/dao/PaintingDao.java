@@ -20,10 +20,10 @@ public class PaintingDao {
     public PaintingDao() {
     }
 
-    public boolean getPaintingDelete(String id) throws SQLException {
-        String sql = "DELETE FROM Painting WHERE id = ?";
+    public boolean deletePainting(int id) throws SQLException {
+        String sql = "DELETE FROM paintings WHERE id = ?";
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, id);
+        ps.setInt(1, id);
         return ps.executeUpdate() > 0;
 
 
@@ -206,7 +206,7 @@ public class PaintingDao {
                 while (rs.next()) {
                     if (paintingDetail == null) {
                         // Initialize the PaintingDetail object
-                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"),rs.getDate("createdAt"));
+                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"),rs.getDate("createdAt"),getPaintingRating(rs.getInt("paintingId")) );
                     }
 
                     // Add size and quantity to the painting detail
@@ -606,7 +606,7 @@ public class PaintingDao {
                     while (rs.next()) {
                         if (paintingDetail == null) {
                             // Initialize the PaintingDetail object
-                            paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"), rs.getDate("createdAt"));
+                            paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"), rs.getDate("createdAt"), getPaintingRating(rs.getInt("paintingId")));
                         }
 
                         // Add size and quantity to the painting detail

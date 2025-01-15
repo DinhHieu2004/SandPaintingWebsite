@@ -110,6 +110,14 @@
 <!-- Sidebar -->
 <%@ include file="/admin/sidebar.jsp" %>
 <div class="content">
+
+  <div style="padding-bottom: 10px">
+    <c:if test="${not empty message}">
+      <div class="alert alert-success">
+          ${message}
+      </div>
+    </c:if>
+  </div>
   <div class="card mb-4">
     <div class="card-header bg-success text-white">
       <h4>Tranh</h4>
@@ -148,7 +156,7 @@
                         data-bs-target="#viewAndEditModal" data-product-id="${p.id}">Xem Chi Tiết</button>
 
               <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                      data-bs-target="#orderDetailsModal" data-product-id="${p.id}">Xóa</button></td>
+                      data-bs-target="#deleteProductModal" data-product-id="${p.id}">Xóa</button>
           </tr>
         </c:forEach>
         </tbody>
@@ -391,6 +399,27 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Đóng</button>
             <button type="submit" class="btn btn-primary btn-sm">Thêm</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteProductModalLabel">Xác nhận xóa</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="${pageContext.request.contextPath}/admin/products/delete" method="POST">
+          <div class="modal-body">
+            <p>Bạn có chắc chắn muốn xóa sản phẩm này?</p>
+            <input type="hidden" id="pidToDelete" name="pid">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-danger">Xóa</button>
           </div>
         </form>
       </div>
