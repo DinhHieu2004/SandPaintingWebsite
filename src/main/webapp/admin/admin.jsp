@@ -73,6 +73,20 @@
 
 <!-- Main Content -->
 <div class="content">
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <label for="startDate" class="form-label"><strong>Từ ngày:</strong></label>
+            <input type="date" id="startDate" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label for="endDate" class="form-label"><strong>Đến ngày:</strong></label>
+            <input type="date" id="endDate" class="form-control">
+        </div>
+        <div class="col-12 text-end mt-3">
+            <button id="filterBtn" class="btn btn-primary">Lọc thống kê</button>
+        </div>
+    </div>
     <div class="container">
         <h2 class="mb-4">Tổng quan</h2>
 

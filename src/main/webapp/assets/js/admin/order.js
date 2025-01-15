@@ -58,6 +58,9 @@ $(document).ready(function () {
                     if (statusSelect.length) { // Kiểm tra xem element có tồn tại không
                         statusSelect.val(orderStatus);
                     }
+                    if (orderStatus === 'dã hủy' || orderStatus === 'thất bại') {
+                        updateStatusBtn.prop('disabled', true);
+                    }
                 } else {
                     modalInfo.html('<p>Không tìm thấy thông tin đơn hàng</p>');
                 }
