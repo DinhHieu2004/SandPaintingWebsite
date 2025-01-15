@@ -1,9 +1,6 @@
-<%@ page import="com.example.web.dao.model.User" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-    User currentUser = (session != null) ? (User) session.getAttribute("currentUser") : null;
-%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,19 +22,13 @@
 </head>
 
 <body>
-<c:choose>
-    <c:when test="${not empty currentUser}">
-        <%@ include file="/partials/subHeaderAuth.jsp" %>
-    </c:when>
-    <c:otherwise>
-        <%@ include file="/partials/subHeader.jsp" %>
-    </c:otherwise>
-</c:choose>
+<%@ include file="/partials/header.jsp" %>
+
     <h4 class="title">CHƯƠNG TRÌNH GIẢM GIÁ ĐẶC BIỆT</h4>
     <p class="sub_title"> Ưu đãi hấp dẫn cho các sản phẩm yêu thích của bạn</p>
     <div id="discount_list">
         <c:forEach var="discount" items="${list}">
-        <a href="discount_content.jsp" class="discount_item">
+            <a href="${pageContext.request.contextPath}/discount_content?id=${discount.id}" class="discount_item">
             <img src="${discount.imageUrl}" alt="${discount.discountName}">
             <p class="content" style="color: #e7621b"><strong>${discount.discountName}</strong></p>
             <p class="content">(Áp dụng từ ngày ${discount.startDate} đến ${discount.endDate})</p>

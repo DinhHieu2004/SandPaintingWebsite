@@ -184,8 +184,8 @@
         <h5 class="modal-title" id="addDiscountModalLabel">Thêm chương trình giảm giá</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="${pageContext.request.contextPath}/admin/discounts/add" method="POST" id="addDiscountForm">
-        <div class="modal-body">
+      <form action="${pageContext.request.contextPath}/admin/discounts/add" method="POST" enctype="multipart/form-data" id="addDiscountForm">
+      <div class="modal-body">
           <div class="mb-3">
             <label for="addDiscountName" class="form-label">Tên giảm giá</label>
             <input type="text" class="form-control" id="addDiscountName" name="discountName" required>
@@ -203,8 +203,8 @@
             <input type="date" class="form-control" id="addEndDate" name="endDate" required>
           </div>
           <div class="mb-3">
-            <label for="addImageUrl" class="form-label">URL ảnh</label>
-            <input type="url" class="form-control" id="addImageUrl" name="imageUrl">
+            <label for="addImageUrl" class="form-label">Ảnh:</label>
+            <input type="file" class="form-control" id="addImageUrl" name="imageUrl" accept="image/*" required>
           </div>
         </div>
         <div class="modal-footer">
@@ -212,6 +212,7 @@
           <button type="submit" class="btn btn-primary">Lưu</button>
         </div>
       </form>
+
     </div>
   </div>
 </div>
@@ -229,11 +230,15 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
-        <a id="deleteDiscountBtn" href="#" class="btn btn-danger">Xóa</a>
+        <form id="deleteDiscountForm" action="${pageContext.request.contextPath}/admin/deleteDiscount" method="POST">
+          <input type="hidden" id="deleteDiscountId" name="discountId">
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </form>
       </div>
     </div>
   </div>
 </div>
+
 
 <script>
   $(document).ready(function () {
