@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/admin")  // Đảm bảo servlet này ánh xạ đúng URL /admin
 public class AdminPageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
