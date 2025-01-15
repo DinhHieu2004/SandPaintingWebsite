@@ -20,6 +20,7 @@ public class Painting implements Serializable{
         private Date crateDate;
         private boolean isFeatured;
         private Date createDate;
+        private double averageRating;
 
         public Painting(int id, String title, double price, String description, String imageUrl, String artistName, String themeName, boolean isFeatured, Date createDate) {
             this.id = id;
@@ -44,6 +45,10 @@ public class Painting implements Serializable{
         this.imageUrl = imageUrl;
         this.artistName = artistName;
         this.price = price;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
     }
 
     public void addSize(int idSize, String sizeDescription, int quantity) {
@@ -187,10 +192,13 @@ public class Painting implements Serializable{
                 ", createDate=" + createDate +
                 ", discountName='" + discountName + '\'' +
                 ", isFu='" + isFeatured + '\'' +
+                ", raiting='" + averageRating + '\'' +
                 ", discountPercentage=" + discountPercentage +
                 '}';
     }
 
 
-
+    public void setAverageRating(double averageRating) {
+            this.averageRating = averageRating;
+    }
 }
