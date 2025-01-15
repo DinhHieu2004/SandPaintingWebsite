@@ -47,50 +47,64 @@ public class DiscountDao {
         return list;
     }
 
-    public List<Painting> getPaintingsByDiscountId(int discountId) throws SQLException {
-        String sql = """
+    public List<Painting> getPaintingsByDiscountId(int discountId, int currentPage, int recordsPerPage) throws SQLException {
+        List<Painting> paintingList = new ArrayList<>();
+        PaintingDao paintingDao = new PaintingDao();
+        StringBuilder sql = new StringBuilder("""
         SELECT 
-            p.id,
-            p.title,
-            p.description,
+            p.id AS paintingId,
+            p.title AS paintingTitle,
+            p.price,
             p.imageUrl,
             a.name AS artistName,
-            t.themeName AS themeName,
-            p.price,
-            p.createdAt
-        FROM 
-            paintings p
-        JOIN 
-            discount_paintings dp ON p.id = dp.paintingId
-        JOIN 
-            artists a ON p.artistId = a.id
-        JOIN 
-            themes t ON p.themeId = t.id
-        WHERE 
-            dp.discountId = ?;
-    """;
+            t.themeName AS theme,
+            IFNULL(d.discountPercentage, 0) AS discount,
+            IFNULL((SELECT AVG(rating) FROM product_reviews WHERE paintingId = p.id), 0) as averageRating
+        FROM paintings p
+        LEFT JOIN artists a ON p.artistId = a.id
+        LEFT JOIN themes t ON p.themeId = t.id
+        LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+        LEFT JOIN discounts d ON dp.discountId = d.id
+        WHERE dp.discountId = ?
+    """);
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, discountId);
-            ResultSet rs = stmt.executeQuery();
-            List<Painting> paintingList = new ArrayList<>();
+        List<Object> params = new ArrayList<>();
+        params.add(discountId);
 
-            while (rs.next()) {
-                Painting painting = new Painting();
-                painting.setId(rs.getInt("id"));
-                painting.setTitle(rs.getString("title"));
-                painting.setPrice(rs.getDouble("price"));
-                painting.setImageUrl(rs.getString("imageUrl"));
-                painting.setThemeName(rs.getString("themeName"));
-                painting.setArtistName(rs.getString("artistName"));
-                painting.setCrateDate(rs.getDate("createdAt"));
-                painting.setDescription(rs.getString("description"));
+        sql.append(" ORDER BY p.createdAt DESC");
+        sql.append(" LIMIT ? OFFSET ?");
 
-                paintingList.add(painting);
+        params.add(recordsPerPage);
+        params.add((currentPage - 1) * recordsPerPage);
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                stmt.setObject(i + 1, params.get(i));
             }
-            return paintingList;
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("paintingId");
+                    Painting painting = new Painting();
+                    painting.setId(rs.getInt("paintingId"));
+                    painting.setTitle(rs.getString("paintingTitle"));
+                    painting.setImageUrl(rs.getString("imageUrl"));
+                    painting.setArtistName(rs.getString("artistName"));
+                    painting.setThemeName(rs.getString("theme"));
+                    painting.setDiscountPercentage(rs.getDouble("discount"));
+                    painting.setPrice(rs.getDouble("price"));
+                    painting.setAverageRating(paintingDao.getPaintingRating(id));
+                    painting.setSizes(new ArrayList<>());
+
+                    paintingList.add(painting);
+                }
+            }
         }
+
+        return paintingList;
     }
+
+
     public List<Painting> getProductHaveNoDC() throws SQLException {
         // Câu lệnh SQL sử dụng LEFT JOIN để lấy các sản phẩm không được giảm giá
         String sql = """

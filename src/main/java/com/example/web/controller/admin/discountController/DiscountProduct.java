@@ -22,6 +22,8 @@ import java.util.Map;
 public class DiscountProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int currentPage = 1;
+        int recordsPerPage = 8;
         String discountIdParam = request.getParameter("discountId");
 
         if (discountIdParam != null) {
@@ -30,7 +32,7 @@ public class DiscountProduct extends HttpServlet {
 
                 // Sử dụng discountId để lấy danh sách sản phẩm
                 DiscountService service = new DiscountService();
-                List<Painting> discountedPaintings = service.getPaintingsByDiscountId(discountId);
+                List<Painting> discountedPaintings = service.getPaintingsByDiscountId(discountId, currentPage, recordsPerPage);
                 List<Painting> nonDiscountedPaintings = service.getProductHaveNoDC();
                 Discount discount = service.getDiscountById(discountId); // Lấy thông tin chi tiết của giảm giá
 
