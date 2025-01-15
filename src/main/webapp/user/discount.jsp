@@ -40,6 +40,8 @@
 <%@ include file="/partials/authModal.jsp" %>
 
 </body>
-<script src="/assets/js/discount.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/discount.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
+
 
 </html>

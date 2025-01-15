@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -40,7 +38,7 @@
       <p class="content">Thương hiệu <strong>NLU Gallery</strong> là tâm huyết của họa sĩ, kiến trúc sư hoạt động trong
         lĩnh vực thiết kế, thi công, trang trí nội thất, đặc biệt là trong sáng tác nghệ thuật hội họa tranh sơn dầu cao
         cấp. </p>
-      <img class="intro_img" src="../assets/images/tranh-cat-2-6168.jpg.webp">
+      <img class="intro_img" src="${pageContext.request.contextPath}/assets/images/tranh-cat-2-6168.jpg.webp">
       <p class="source">(Nghệ nhân Ý Lan triển lãm tranh cát chủ đề "Bình an, hạnh phúc")</p>
       <p class="content">Lớn lên trong môi trường được tiếp cận với nghệ thuật từ rất sớm, theo đuổi những ngành nghề
         liên quan đến mỹ thuật ứng dụng, chúng tôi hiểu thế nào là cái đẹp và sức ảnh hưởng của nghệ thuật tới con
@@ -52,7 +50,7 @@
       <p class="content">NLU Gallery là nơi hội tụ của những họa sĩ tài hoa ở khắp mọi nơi trên cả nước, thuộc nhiều độ
         tuổi, trường phái hội họa khác nhau sáng tác độc bản và độc quyền theo yêu của khách hàng.</p>
       <img class="intro_img"
-        src="../assets/images/34216279101564975300780544017440944717561856n-162692724516021952345.webp">
+        src="${pageContext.request.contextPath}/assets/images/34216279101564975300780544017440944717561856n-162692724516021952345.webp">
       <p class="source">(Hoạ sĩ Trí Đức)</p>
       <p class="content">Đội ngũ họa sĩ gạo cội với hàng chục năm kinh nghiệm đem đến những tác phẩm tranh độc bản có
         chiều sâu, giàu cảm xúc. Bên cạnh đó chúng tôi cũng có những họa sĩ trẻ, tư duy cởi mở, nhiệt huyết luôn cập
@@ -63,7 +61,7 @@
       <p class="staff_title">Về đội ngũ nhân viên tư vấn – thiết kế</p>
       <p class="content">NLU Gallery luôn coi nguồn nhân lực là tài sản quý giá nhất, là chìa khóa cho sự thành công và
         phát triển trong tương lai của thương hiệu.</p>
-      <img class="intro_img" src="../assets/images/04785d0f-3320-4c0d-9701-04a751ee923c.webp">
+      <img class="intro_img" src="${pageContext.request.contextPath}/assets/images/04785d0f-3320-4c0d-9701-04a751ee923c.webp">
       <p class="content">NLU Gallery cũng rất tự hào vì có được đội ngũ tư vấn thiết kế chuyên nghiệp, đều tốt nghiệp từ
         các trường đại học đào tạo mỹ thuật chính quy, là tổng hòa của kinh nghiệm dày dạn, tài năng, sức cống hiến và
         chuyên môn sâu rộng trong lĩnh vực kiến trúc – hội họa.</p>
@@ -78,65 +76,15 @@
     </div>
     <p class="end_about_us">Trân trọng!</p>
 
-
-    <div class="customer-comments mt-5">
-      <h3>Bình luận và Đánh giá của Khách hàng</h3>
-      <div id="commentsList" class="mb-4">
-        <div class="comment-item">
-          <strong>Nguyễn Văn A:</strong>
-          <p>Sản phẩm rất đẹp và chất lượng!</p>
-          <div class="star-rating">
-            <i class="fas fa-star checked"></i>
-            <i class="fas fa-star checked"></i>
-            <i class="fas fa-star checked"></i>
-            <i class="fas fa-star checked"></i>
-            <i class="fas fa-star"></i>
-          </div>
-        </div>
-        <div class="comment-item">
-          <strong>Trần Thị B:</strong>
-          <p>Giao hàng nhanh và tranh rất giống hình!</p>
-          <div class="star-rating">
-            <i class="fas fa-star checked"></i>
-            <i class="fas fa-star checked"></i>
-            <i class="fas fa-star checked"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- Form để khách hàng thêm bình luận và đánh giá -->
-      <form id="commentForm">
-        <div class="mb-3">
-          <label for="commentContent" class="form-label">Bình luận</label>
-          <textarea id="commentContent" class="form-control" rows="3" placeholder="Nhập bình luận của bạn"
-            required></textarea>
-        </div>
-
-        <!-- Phần đánh giá sao -->
-        <div class="mb-3">
-          <label for="ratingStars" class="form-label">Đánh giá</label>
-          <div id="ratingStars" class="star-rating">
-            <i class="fas fa-star" data-value="1"></i>
-            <i class="fas fa-star" data-value="2"></i>
-            <i class="fas fa-star" data-value="3"></i>
-            <i class="fas fa-star" data-value="4"></i>
-            <i class="fas fa-star" data-value="5"></i>
-          </div>
-          <input type="hidden" id="selectedRating" value="0">
-        </div>
-
-        <button type="submit" class="btn">Gửi bình luận và đánh giá</button>
-      </form>
-    </div>
   </div>
 
 
-  <%@ include file="/partials/footer.jsp" %>
-  <%@ include file="/partials/authModal.jsp" %>
+<%@ include file="/partials/footer.jsp" %>
+<%@ include file="/partials/authModal.jsp" %>
+
 </body>
-<script src="../assets/js/header.js"></script>
-<script src="../assets/js/about_us.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/about_us.js"></script>
+
 
 </html>
