@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -14,13 +16,13 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-  <link rel="stylesheet" href="../assets/css/about_us.css">
-  <link rel="stylesheet" href="../assets/css/footer.css">
-  <link rel="stylesheet" href="../assets/css/header.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/about_us.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
 </head>
 
 <body>
-  <div id="header-container"></div>
+<%@ include file="/partials/header.jsp" %>
   <div id="about_us_container">
     <div class="title">
       <h4 class="about_us_title">VỀ CHÚNG TÔI</h4>
@@ -131,9 +133,8 @@
   </div>
 
 
-  <div id="footer-container"></div>
-  <div id="auth"></div>
-
+  <%@ include file="/partials/footer.jsp" %>
+  <%@ include file="/partials/authModal.jsp" %>
 </body>
 <script src="../assets/js/header.js"></script>
 <script src="../assets/js/about_us.js"></script>
