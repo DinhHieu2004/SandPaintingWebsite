@@ -3,7 +3,9 @@ package com.example.web.controller;
 import com.example.web.dao.cart.Cart;
 import com.example.web.dao.model.Order;
 import com.example.web.dao.model.User;
+import com.example.web.dao.model.Voucher;
 import com.example.web.service.CheckoutService;
+import com.example.web.service.VoucherService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,14 +14,25 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name="Checkout", value = "/checkout")
 public class CheckoutController extends HttpServlet {
     private CheckoutService checkoutService = new CheckoutService();
+    private VoucherService voucherService = new VoucherService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            List<Voucher> vouchers = voucherService.getAll();
+            req.setAttribute("v", vouchers);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         req.getRequestDispatcher("user/checkout.jsp").forward(req, resp);
+
     }
 
     @Override
