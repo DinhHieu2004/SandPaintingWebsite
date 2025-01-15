@@ -14,6 +14,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 
 public class UserDao {
@@ -210,12 +211,6 @@ public class UserDao {
     }
 
 
-    public String generateNewPassword(String username) throws SQLException {
-        String token = generateRandomString(5); // Tạo token ngẫu nhiên
-        updatePassword(username, token);
-        return token;
-    }
-
     public static String generateRandomString(int length) {
         // Biến cục bộ chỉ tồn tại trong hàm này
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -271,19 +266,56 @@ public class UserDao {
         return true;
     }
 
-    public boolean passwordRecovery(String username, String email) throws SQLException {
-        User user = findByEmail(email);
-        String newPass = generateNewPassword(username);
-        Boolean isRecoveried = false;
-        if (user != null) {
-            sendMail(email, "Mật khẩu mới của bạn", "Vui lòng đổi mật khẩu sau khi đăng nhập:" + newPass);
-            isRecoveried = true;
+    public boolean passwordRecovery(String email) throws SQLException {
+        User user = findByEmail(email); // Tìm người dùng theo email
+        if (user == null) {
+            return false; // Không tìm thấy người dùng
         }
-        if (isRecoveried) {
-            updatePassword(username, newPass);
+
+        // Tạo token ngẫu nhiên
+        String token = UUID.randomUUID().toString();
+
+        // Lưu token vào bảng
+        String sql = "INSERT INTO password_reset_tokens (user_id, token) VALUES (?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, user.getId());
+            ps.setString(2, token);
+            ps.executeUpdate();
         }
-        return isRecoveried;
+
+        // Tạo link đổi mật khẩu
+        String resetLink = "http://localhost:8080/web_war/user/reset_password?token=" + token;
+
+        // Gửi email
+        String subject = "Yêu cầu đặt lại mật khẩu";
+        String content = "Chào bạn."
+                + " Bạn đã yêu cầu đặt lại mật khẩu. Nhấn vào link bên dưới để đặt lại mật khẩu:"
+                +  resetLink
+                + ". Nếu bạn không yêu cầu hành động này, hãy bỏ qua email.";
+
+        return sendMail(email, subject, content);
     }
+
+    public int getUserIdByToken(String token) throws SQLException {
+        String sql = "SELECT user_id FROM password_reset_tokens WHERE token = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, token);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("user_id");
+                }
+            }
+        }
+        return -1; // Không tìm thấy token
+    }
+    public void deleteToken(String token) throws SQLException {
+        String sql = "DELETE FROM password_reset_tokens WHERE token = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, token);
+            ps.executeUpdate();
+        }
+    }
+
 
     public String getPasswordByUsername(String username) throws SQLException {
         String sql = "SELECT password FROM users WHERE username = ?";
@@ -298,11 +330,22 @@ public class UserDao {
         return null; // Không tìm thấy mật khẩu
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         UserDao userDao = new UserDao();
-        System.out.println(userDao.checkLogin("hieuhieu", "462004"));
+        String testEmail = "lenguyennhathao0807@gmail.com"; // Địa chỉ email bạn muốn kiểm tra
 
-        System.out.println(userDao.passwordRecovery("hao", "lenguyennhathao0807@gmail.com"));
+        try {
+            // Gọi phương thức passwordRecovery để kiểm tra
+            boolean isEmailSent = userDao.passwordRecovery(testEmail);
+
+            if (isEmailSent) {
+                System.out.println("Email đã được gửi thành công để đặt lại mật khẩu.");
+            } else {
+                System.out.println("Không tìm thấy người dùng với email " + testEmail + " hoặc có lỗi xảy ra.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi thực hiện yêu cầu phục hồi mật khẩu: " + e.getMessage());
+        }
     }
 
 
