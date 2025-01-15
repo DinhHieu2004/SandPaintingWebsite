@@ -33,12 +33,11 @@ public class GetPasswordController extends HttpServlet {
             return;
         }
 
-        // Truyền cả username và email vào phương thức passwordRecovery
         try {
-            boolean isPasswordRecovered = userDao.passwordRecovery(user.getUsername(), email);
+            boolean isPasswordRecovered = userDao.passwordRecovery(email);
 
             if (isPasswordRecovered) {
-                request.setAttribute("successMessage", "Mật khẩu đã được gửi tới email của bạn!");
+                request.setAttribute("successMessage", "Mã kích hoạt đã được gửi tới email của bạn!");
             } else {
                 request.setAttribute("errorMessage", "Đã xảy ra lỗi khi gửi email. Vui lòng thử lại sau!");
             }
