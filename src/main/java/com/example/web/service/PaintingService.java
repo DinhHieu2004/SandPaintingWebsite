@@ -11,8 +11,8 @@ import java.util.List;
 public class PaintingService {
     private PaintingDao paintingDao = new PaintingDao();
 
-    public List<Painting> getPaintingList(String searchKeyword, Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate, int currentPage, int recordsPerPage) throws SQLException {
-        return paintingDao.getPaintingList( searchKeyword, minPrice, maxPrice, themes, artists,startDate,endDate, currentPage, recordsPerPage);
+    public List<Painting> getPaintingList(String searchKeyword, Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate, boolean isSortByRating,int currentPage, int recordsPerPage) throws SQLException {
+        return paintingDao.getPaintingList( searchKeyword, minPrice, maxPrice, themes, artists,startDate,endDate,isSortByRating, currentPage, recordsPerPage);
     }
     public int countPaintings(String keyword,Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate) throws SQLException {
         return paintingDao.countPaintings(keyword, minPrice, maxPrice, themes, artists, startDate,endDate);
@@ -24,6 +24,9 @@ public class PaintingService {
 
     public List<Painting> getListPaintingByArtist(int id) throws SQLException {
         return paintingDao.getListPaintingByArtist(id);
+    }
+    public List<Painting> getRandomTopRatedPaintings() throws SQLException {
+        return paintingDao.getRandomTopRatedPaintings();
     }
 
     public List<Painting> getPaintingListByArtist(Double minPrice, Double maxPrice, String[] sizes, String[] themes, String artist) throws SQLException {

@@ -4,6 +4,7 @@ package com.example.web.controller.paintingController;
 import com.example.web.dao.PaintingDao;
 import com.example.web.dao.model.Painting;
 import com.example.web.dao.model.Theme;
+import com.example.web.service.PaintingService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,10 +21,16 @@ public class FeaturePainting extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Tạo đối tượng DAO để làm việc với cơ sở dữ liệu
         PaintingDao paintingDAO = new PaintingDao();
+        PaintingService paintingService = new PaintingService();
 
         List<Painting> featuredArtworks = paintingDAO.getFeaturedArtworks();
+        try {
+            List<Painting> bestP = paintingService.getRandomTopRatedPaintings();
+            request.setAttribute("bp", bestP);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
 
         List<Theme> themes = null;
@@ -33,9 +40,10 @@ public class FeaturePainting extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        // Gắn danh sách tác phẩm vào request để truyền sang index
         request.setAttribute("featuredArtworks", featuredArtworks);
         request.setAttribute("themes", themes);
+
+
 
         // Chuyển hướng tới trang index để hiển thị danh sách
         request.getRequestDispatcher("index.jsp").forward(request, response);
