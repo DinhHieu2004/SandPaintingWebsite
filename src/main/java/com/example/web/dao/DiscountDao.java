@@ -3,6 +3,7 @@ package com.example.web.dao;
 import com.example.web.dao.db.DbConnect;
 import com.example.web.dao.model.Discount;
 import com.example.web.dao.model.Painting;
+import com.example.web.service.DiscountService;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -153,24 +154,18 @@ public class DiscountDao {
         }
         return result;
     }
-    public void assignProductsToDiscount(int discountId, List<Integer> productIds) throws SQLException {
+    public boolean assignProductToDiscount(int productId, int discountId) throws SQLException {
         String sql = "INSERT INTO discount_paintings (discountId, paintingId) VALUES (?, ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            // Lặp qua danh sách productIds và chèn từng bản ghi
-            for (int productId : productIds) {
-                ps.setInt(1, discountId); // Gán giá trị discountId
-                ps.setInt(2, productId); // Gán giá trị paintingId
-                ps.addBatch();
-            }
+            ps.setInt(1, discountId); // Gán giá trị discountId
+            ps.setInt(2, productId);  // Gán giá trị paintingId
 
-            // Thực thi batch
-            ps.executeBatch();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Không thể gán sản phẩm vào chương trình giảm giá.", e);
+            int rowsAffected = ps.executeUpdate(); // Thực thi câu lệnh
+            return rowsAffected > 0; // Trả về true nếu có ít nhất một dòng được thêm
         }
     }
+
 
     public Discount getDiscountById(int discountId) {
         Discount discount = null;
@@ -207,7 +202,7 @@ public class DiscountDao {
 
         return discount;
     }
-    public void removeProductFromDiscount(int productId) throws SQLException {
+    public boolean removeProductFromDiscount(int productId) throws SQLException {
         String sql = "DELETE FROM discount_paintings WHERE paintingId = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -216,11 +211,14 @@ public class DiscountDao {
 
             if (rowsAffected > 0) {
                 System.out.println("Sản phẩm đã được xóa khỏi chương trình giảm giá.");
+                return true; // Xóa thành công
             } else {
                 System.out.println("Không tìm thấy sản phẩm trong chương trình giảm giá.");
+                return false; // Không có sản phẩm nào bị xóa
             }
         }
     }
+
     public boolean addDiscount(Discount discount) {
         String sql = "INSERT INTO discounts (imageUrl, discountName, discountPercentage, startDate, endDate) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conn.prepareStatement(sql)) {
@@ -229,8 +227,8 @@ public class DiscountDao {
             statement.setString(1, discount.getImageUrl());
             statement.setString(2, discount.getDiscountName());
             statement.setBigDecimal(3, discount.getDiscountPercentage());
-            statement.setDate(4, java.sql.Date.valueOf(discount.getStartDate()));  // Sử dụng java.sql.Date.valueOf
-            statement.setDate(5, java.sql.Date.valueOf(discount.getEndDate()));    // Sử dụng java.sql.Date.valueOf
+            statement.setDate(4, java.sql.Date.valueOf(discount.getStartDate()));
+            statement.setDate(5, java.sql.Date.valueOf(discount.getEndDate()));
 
             // Thực thi câu lệnh SQL
             int rowsAffected = statement.executeUpdate();
@@ -240,28 +238,61 @@ public class DiscountDao {
             return false;
         }
     }
-    public static void main(String[] args) {
-        // Tạo một đối tượng Discount mới
-        Discount discount = new Discount();
-        discount.setImageUrl("https://example.com/image.jpg");
-        discount.setDiscountName("Giảm giá mùa hè");
-        discount.setDiscountPercentage(new BigDecimal("20.00"));
-        discount.setStartDate(LocalDate.of(2025, 6, 1));
-        discount.setEndDate(LocalDate.of(2025, 8, 31));
-        discount.setCreatedAt(LocalDateTime.now());  // Tự động lấy thời gian hiện tại
+    public boolean deleteDiscount(int discountId) {
+        boolean isDeleted = false;
+        String sql = "DELETE FROM discounts WHERE id = ?";
+        try {
+            deleteProductsByDiscountId(discountId);
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, discountId);
+                int rowsAffected = ps.executeUpdate();
 
-        // Tạo đối tượng DiscountDAO để thêm giảm giá vào cơ sở dữ liệu
-        DiscountDao discountDAO = new DiscountDao();
-
-        // Gọi phương thức addDiscount để thêm chương trình giảm giá vào cơ sở dữ liệu
-        boolean isAdded = discountDAO.addDiscount(discount);
-
-        // Kiểm tra kết quả và in ra thông báo
-        if (isAdded) {
-            System.out.println("Chương trình giảm giá đã được thêm thành công!");
-        } else {
-            System.out.println("Có lỗi xảy ra khi thêm chương trình giảm giá.");
+                // Nếu có ít nhất một dòng bị xóa, trả về true
+                if (rowsAffected > 0) {
+                    isDeleted = true;
+                }
+            }
+        } catch (SQLException e) {
+            // Xử lý lỗi và ghi lại thông tin lỗi nếu cần
+            e.printStackTrace();
         }
+
+        return isDeleted;
+    }
+
+    // Phương thức xóa sản phẩm liên quan đến giảm giá
+    private void deleteProductsByDiscountId(int discountId) throws SQLException {
+        String sql = "DELETE FROM discount_paintings WHERE discountId = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, discountId);
+            ps.executeUpdate();
+        }
+    }
+    public void editDiscount(Discount discount) {
+        String sql = "UPDATE discounts SET discountName = ?, discountPercentage = ?, startDate = ?, endDate = ?, imageUrl = ? WHERE id = ?";
+        try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+            // Gán giá trị cho câu lệnh SQL
+            stmt.setString(1, discount.getDiscountName());
+            stmt.setBigDecimal(2, discount.getDiscountPercentage());
+            stmt.setDate(3, java.sql.Date.valueOf(discount.getStartDate()));
+            stmt.setDate(4, java.sql.Date.valueOf(discount.getEndDate()));
+            stmt.setString(5, discount.getImageUrl());
+            stmt.setInt(6, discount.getId());  // ID để xác định chương trình giảm giá cần chỉnh sửa
+
+            // Thực thi câu lệnh cập nhật
+            stmt.executeUpdate();
+
+            // Kiểm tra xem câu lệnh có ảnh hưởng đến cơ sở dữ liệu không
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Xử lý lỗi nếu có
+            System.out.println("Lỗi khi chỉnh sửa giảm giá: " + e.getMessage());
+        }
+    }
+    public static void main(String[] args) {
+        DiscountDao dao = new DiscountDao();
+        System.out.println( dao.deleteDiscount(1));
     }
 
 }
