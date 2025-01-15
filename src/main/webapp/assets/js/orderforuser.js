@@ -56,7 +56,6 @@ $(document).ready(function () {
             modalInfo.empty();
             modalBody.empty();
 
-            // API call đầu tiên
             $.ajax({
                 url: `order-detail?orderId=${orderId}`,
                 method: 'GET',
@@ -64,7 +63,9 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response) {
                         const order = response;
-                        orderStatus = order.status;  // Lưu status
+                        orderStatus = order.status;
+                        console.log("Order status raw value:", order.status); // Thêm dòng này
+                        console.log("Order status after trim and lowercase:", order.status.trim().toLowerCase()); // Thêm dòng này
 
                         modalInfo.html(`
                         <p><strong>Tên người nhận:</strong> ${order.recipientName}</p>
@@ -74,8 +75,28 @@ $(document).ready(function () {
                     `);
 
                         modelPrice.html(`<p><strong>Tổng trả:</strong> ${order.totalAmount}</p>`);
+                        if (orderStatus.trim().toLowerCase()  === 'chờ') {
+                            modalInfo.append(`
+                    <button id="cancelOrderButton" class="btn btn-danger">Hủy đơn hàng</button>
+                    
+                    
+                `)}
 
-                        // Chuyển API call thứ hai vào đây
+                        $('#cancelOrderButton').off('click').on('click', function () {
+                            $.ajax({
+                                url: `cancel-order?orderId=${orderId}`,
+                                method: 'POST',
+                                success: function () {
+                                    alert('Đơn hàng đã được hủy thành công.');
+                                    $('#statusOrder').text('Trạng thái đơn hàng: đã hủy');
+                                    $('#cancelOrderButton').remove();
+                                },
+                                error: function () {
+                                    alert('Lỗi khi hủy đơn hàng.');
+                                }
+                            });
+                        });
+
                         $.ajax({
                             url: `order/order-items?orderId=${orderId}`,
                             method: 'GET',
@@ -121,7 +142,9 @@ $(document).ready(function () {
         }
     });
 
-    // Reset khi modal đóng
+
+
+
     $('#orderDetailsModal').on('hidden.bs.modal', function () {
         currentOrderId = null;
     });

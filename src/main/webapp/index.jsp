@@ -151,6 +151,12 @@
                             <p class="card-text">
                                 <strong>Họa Sĩ:</strong> ${p.artistName}<br>
                                 <strong>Chủ đề:</strong> ${p.themeName}<br>
+                                <span class="rating-stars">
+                            <c:forEach begin="1" end="5" var="i">
+                                <i class="fas fa-star ${i <= p.averageRating ? 'text-warning' : 'text-gray-200'}" style="${i > p.averageRating ? 'color: #e9ecef !important;' : ''}; font-size: 0.875rem;"></i>
+                            </c:forEach>
+                        </span>
+                                <span class="ms-1">${p.averageRating}</span>
                             </p>
                             <div class="price-section">
                                 <c:choose>

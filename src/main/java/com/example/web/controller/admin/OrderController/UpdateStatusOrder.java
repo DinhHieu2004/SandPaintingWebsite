@@ -21,6 +21,13 @@ public class UpdateStatusOrder extends HttpServlet {
 
         String orderIdStr = request.getParameter("orderId");
         String status = request.getParameter("status");
+        String recipientName = request.getParameter("recipientName");
+        String recipientPhone = request.getParameter("recipientPhone");
+        String deliveryAddress = request.getParameter("deliveryAddress");
+        System.out.println(orderIdStr);
+
+
+
 
         if (orderIdStr == null || orderIdStr.isEmpty() || status == null || status.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -31,7 +38,7 @@ public class UpdateStatusOrder extends HttpServlet {
         try {
             int orderId = Integer.parseInt(orderIdStr);
 
-            if (orderService.updateOrderStatus(orderId, status)) {
+            if (orderService.updateOrderStatus(orderId, status,recipientName,recipientPhone, deliveryAddress)) {
                 response.setStatus(HttpServletResponse.SC_OK);
                 out.write("{\"message\": \"Order status updated successfully\"}");
             } else {

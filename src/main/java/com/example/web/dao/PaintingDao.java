@@ -517,11 +517,16 @@ public class PaintingDao {
             con.setAutoCommit(true);
         }
     }
-
+//
     public List<Painting> getFeaturedArtworks() {
-        String sql = "SELECT p.id, p.title, p.imageUrl, ar.name AS artist_name, p.price " +
+        String sql = "SELECT p.id, p.title, p.imageUrl, ar.name AS artist_name, t.themeName, p.price, " +
+                "IFNULL(d.discountPercentage, 0) AS discount, " +
+                "(SELECT AVG(r.rating) FROM product_reviews r WHERE r.paintingId = p.id) AS average_rating " +
                 "FROM paintings p " +
                 "JOIN artists ar ON p.artistId = ar.id " +
+                "JOIN themes t ON p.themeId = t.id " +
+                "LEFT JOIN discount_paintings dp ON p.id = dp.paintingId " +
+                "LEFT JOIN discounts d ON dp.discountId = d.id " +
                 "WHERE p.isFeatured = true AND p.isSold = false";
         List<Painting> featuredArtworks = new ArrayList<>();
 
@@ -529,7 +534,17 @@ public class PaintingDao {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                featuredArtworks.add(new Painting(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5)));
+                Painting painting = new Painting();
+                int id = rs.getInt("id");
+                painting.setId(id);
+                painting.setTitle(rs.getString("title"));
+                painting.setImageUrl(rs.getString("imageUrl"));
+                painting.setThemeName(rs.getString("themeName"));
+                painting.setArtistName(rs.getString("artist_name"));
+                painting.setPrice(rs.getDouble("price"));
+                painting.setDiscountPercentage(rs.getDouble("discount"));
+                painting.setAverageRating(getPaintingRating(id));
+                featuredArtworks.add(painting);
             }
         } catch (SQLException e) {
             e.printStackTrace();

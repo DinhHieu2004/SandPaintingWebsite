@@ -24,7 +24,7 @@ import java.time.LocalDate;
         maxRequestSize = 1024 * 1024 * 50
 )
 public class AddDiscount extends HttpServlet {
-    private static final String UPLOAD_DIR = "C://Users//nhat hao//SandPaintingWebsite//src//main//webapp//assets//images";
+    private static final String UPLOAD_DIR = "N:/web//web//src//main//webapp//assets//images//artists";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
