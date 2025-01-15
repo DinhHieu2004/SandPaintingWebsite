@@ -37,7 +37,7 @@
         </div>
         <div class="fourth_col">
             <h4 class="fanpage">FANPAGE</h4>
-            <img class="background_nlu" src="/assets/images/z6089438426018_bba333fc15dcbab8feae6b9b8cb460bd.jpg" alt="Lanvu Gallery" height="60">
+            <img class="background_nlu" src="${pageContext.request.contextPath}/assets/images/z6089438426018_bba333fc15dcbab8feae6b9b8cb460bd.jpg" alt="Lanvu Gallery" height="60">
         </div>
         <div class="fifth_col">
             <h4 class="payment">HÌNH THỨC THANH TOÁN</h4>

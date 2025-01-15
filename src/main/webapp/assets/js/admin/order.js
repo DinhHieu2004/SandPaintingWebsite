@@ -9,6 +9,9 @@ $(document).ready(function () {
         const modelPrice = $(`#totalPrice`)
         const modalStatus = $('#orderStatus');
         const statusSelect = $('#statusSelect');
+        const recipientName = $('#recipientName');
+        const recipientPhone = $('#recipientPhone');
+        const deliveryAddress = $('#deliveryAddress');
         const updateStatusBtn = $('#updateStatusBtn');
         modalInfo.empty();
         modalBody.empty();
@@ -19,25 +22,45 @@ $(document).ready(function () {
             method: 'GET',
             dataType: 'json',
             success: function (response) {
-
-
                 console.log('Response from order-detail:', response);
 
-                if (response && response) {
+                if (response) {
                     const order = response;
                     orderStatus = order.status;
+
+                    // Kiểm tra và format ngày
+                    let orderDate = '';
+                    if (order.orderDate) {
+                        try {
+                            // Nếu orderDate là timestamp hoặc string date
+                            orderDate = new Date(order.orderDate).toISOString().split('T')[0];
+                        } catch (e) {
+                            console.error('Error formatting date:', e);
+                            orderDate = order.orderDate; // Sử dụng giá trị gốc nếu không format được
+                        }
+                    }
+
                     modalInfo.html(`
-                <p><strong>Tên người nhận:</strong> ${order.recipientName}</p>
-                <p><strong>Số điện thoại:</strong> ${order.recipientPhone}</p>
-                <p><strong>Địa chỉ nhận hàng:</strong> ${order.deliveryAddress}</p>
-            `);
-                    modelPrice.html(`<p><strong>Tổng trả:</strong> ${order.totalAmount}</p>`)
-                    modalStatus.text(orderStatus);
-                    statusSelect.val(orderStatus);
+                    <label for="recipientName"><strong>Tên người nhận:</strong></label>
+                    <input type="text" id="recipientName" name="recipientName" value="${order.recipientName || ''}" class="form-control mb-2">
+
+                    <label for="recipientPhone"><strong>Số điện thoại:</strong></label>
+                    <input type="text" id="recipientPhone" name="recipientPhone" value="${order.recipientPhone || ''}" class="form-control mb-2">
+
+                    <label for="deliveryAddress"><strong>Địa chỉ nhận hàng:</strong></label>
+                    <input type="text" id="deliveryAddress" name="deliveryAddress" value="${order.deliveryAddress || ''}" class="form-control mb-2">
+                    <p><strong>Ngày đặt hàng:</strong> ${orderDate}</p>
+
+                `);
+
+                    modelPrice.html(`<p><strong>Tổng trả:</strong> ${order.totalAmount || 0}</p>`)
+                    modalStatus.text(orderStatus || '');
+                    if (statusSelect.length) { // Kiểm tra xem element có tồn tại không
+                        statusSelect.val(orderStatus);
+                    }
                 } else {
                     modalInfo.html('<p>Không tìm thấy thông tin đơn hàng</p>');
                 }
-
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);
@@ -83,13 +106,20 @@ $(document).ready(function () {
         });
         updateStatusBtn.on('click', function () {
             const newStatus = statusSelect.val();
+            const recipientName = $('#recipientName').val();
+            const recipientPhone = $('#recipientPhone').val();
+            const deliveryAddress = $('#deliveryAddress').val();
 
             $.ajax({
                 url: `../update-order-status`,
                 method: 'POST',
                 data: {
+
                     orderId: orderId,
-                    status: newStatus
+                    status: newStatus,
+                    recipientName : recipientName,
+                    deliveryAddress: deliveryAddress,
+                    recipientPhone :recipientPhone
                 },
                 success: function (response) {
                     alert('Cập nhật trạng thái thành công');
@@ -100,5 +130,18 @@ $(document).ready(function () {
                 }
             });
         });
+
+
     });
+    function formatDate(dateString) {
+        if (!dateString) return '';
+
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return '';
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 });

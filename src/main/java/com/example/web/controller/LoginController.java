@@ -24,7 +24,7 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("user", user);
                 User currentUser = (User) session.getAttribute("user");
                 System.out.println(currentUser);
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("index");
 
             } else {
                 // Nếu user là null hoặc role không xác định, hiển thị thông báo lỗi

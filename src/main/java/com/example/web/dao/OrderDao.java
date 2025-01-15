@@ -110,13 +110,18 @@ public class OrderDao {
         }
         return orders;
     }
-    public boolean updateOrderStatus(int orderId, String status) throws SQLException {
+    public boolean updateOrderStatus(int orderId, String status,String recipientName,String recipientPhone, String deliveryAddress) throws SQLException {
         boolean success = false;
 
-        String sql = "UPDATE orders SET status = ? WHERE id = ?";
+        String sql = "UPDATE orders SET status = ?, recipientName= ?, recipientPhone =? ,deliveryAddress = ? WHERE id = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, status);
-        ps.setInt(2, orderId);
+        ps.setString(2, recipientName);
+        ps.setString(3, recipientPhone);
+        ps.setString(4, deliveryAddress);
+        ps.setInt(5, orderId);
+
+
         int rowsAffected = ps.executeUpdate();
         if (rowsAffected > 0) {
             success = true;

@@ -47,7 +47,6 @@ $(document).ready(function () {
     $('#orderDetailsModal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);
         const orderId = button.data('order-id');
-        const isFromPreviousOrders = button.closest('table').attr('id') === 'orderHistory';
 
         if (currentOrderId !== orderId) {
             currentOrderId = orderId;
@@ -62,73 +61,103 @@ $(document).ready(function () {
                 method: 'GET',
                 dataType: 'json',
                 success: function (response) {
-
-                    console.log('Response from order-detail:', response);
-
-                    if (response && response) {
+                    if (response) {
                         const order = response;
                         orderStatus = order.status;
+                        console.log("Order status raw value:", order.status); // Thêm dòng này
+                        console.log("Order status after trim and lowercase:", order.status.trim().toLowerCase()); // Thêm dòng này
 
                         modalInfo.html(`
-                            <p><strong>Tên người nhận:</strong> ${order.recipientName}</p>
-                            <p><strong>Số điện thoại:</strong> ${order.recipientPhone}</p>
-                            <p><strong>Địa chỉ nhận hàng:</strong> ${order.deliveryAddress}</p>
-                            <p><strong id="orderStatus">Trạng thái đơn hàng:</strong>${order.status}</p>
-                        `);
+                        <p id="recipientName"><strong>Tên người nhận:</strong> ${order.recipientName}</p>
+                        <p id="recipientPhone"><strong>Số điện thoại:</strong> ${order.recipientPhone}</p>
+                        <p id="deliveryAddress"><strong>Địa chỉ nhận hàng:</strong> ${order.deliveryAddress}</p>
+                        <p ><strong id="statusOrder">Trạng thái đơn hàng:</strong>${order.status}</p>
+                    `);
 
                         modelPrice.html(`<p><strong>Tổng trả:</strong> ${order.totalAmount}</p>`);
-                    } else {
-                        modalInfo.html('<p>Không tìm thấy thông tin đơn hàng</p>');
+                        if (orderStatus.trim().toLowerCase()  === 'chờ') {
+                            modalInfo.append(`
+                    <button id="cancelOrderButton" class="btn btn-danger">Hủy đơn hàng</button>
+                    
+                    
+                `)}
+
+                        $('#cancelOrderButton').off('click').on('click', function () {
+                            const recipientName = $('#recipientName').val();
+                            const recipientPhone = $('#recipientPhone').val();
+                            const deliveryAddress = $('#deliveryAddress').val();
+
+                            $.ajax({
+                                url: `update-order-status`,
+                                method: 'POST',
+                                data: {
+                                    orderId: orderId,
+                                    status: "dã hủy",
+                                    recipientName : recipientName,
+                                    deliveryAddress: deliveryAddress,
+                                    recipientPhone :recipientPhone
+                                },
+                                success: function () {
+                                    alert('Đơn hàng đã được hủy thành công.');
+                                    $('#statusOrder').text('Trạng thái đơn hàng: đã hủy');
+                                    $('#cancelOrderButton').remove();
+                                    location.reload();
+
+                                },
+                                error: function () {
+                                    alert('Lỗi khi hủy đơn hàng.');
+                                }
+                            });
+                        });
+
+                        $.ajax({
+                            url: `order/order-items?orderId=${orderId}`,
+                            method: 'GET',
+                            dataType: 'json',
+                            success: function (details) {
+                                if (details.length === 0) {
+                                    modalBody.append('<tr><td colspan="4">Không có chi tiết đơn hàng.</td></tr>');
+                                    return;
+                                }
+
+                                details.forEach(product => {
+                                    const row = `
+                                    <tr>
+                                         <td>${product.id}</td>
+
+                                        <td>${product.name}</td>
+                                        <td>${product.sizeDescription}</td>
+                                        <td>${product.quantity}</td>
+                                        <td>${product.price}₫</td>
+                                        <td>${orderStatus.toLowerCase() === "hoàn thành"
+                                        ? `<button class="btn btn-primary btn-sm review-btn" data-product-id="${product.id}">Đánh Giá</button>`
+                                        : ''}</td>
+                                    </tr>`;
+                                    modalBody.append(row);
+                                });
+
+                                modalBody.find('.review-btn').off('click').on('click', function () {
+                                    const productId = $(this).data('product-id');
+                                    window.location.href = `review?itemId=${productId}`;
+                                });
+                            },
+                            error: function () {
+                                alert('Lỗi khi tải chi tiết đơn hàng.');
+                            }
+                        });
                     }
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
-                    console.error('Response:', xhr.responseText);
                     modalInfo.html('<p>Có lỗi khi tải thông tin đơn hàng</p>');
-                }
-            });
-
-            $.ajax({
-                url: `order/order-items?orderId=${orderId}`,
-                method: 'GET',
-                dataType: 'json',
-                success: function (details) {
-                    const orderStatusText = $('#orderStatus').text().toLowerCase(); // lấy trạng thái đơn hàng từ modal
-
-                    if (details.length === 0) {
-                        console.log("detail :" + details + " orderStatusText: " + orderStatusText);
-                        modalBody.append('<tr><td colspan="4">Không có chi tiết đơn hàng.</td></tr>');
-                        return;
-                    }
-
-                    details.forEach(product => {
-                        const row = `
-                            <tr>
-                                <td>${product.name}</td>
-                                <td>${product.sizeDescription}</td>
-                                <td>${product.quantity}</td>
-                                <td>${product.price}₫</td>
-                                <td>${isFromPreviousOrders && orderStatusText === "hoàn thành"
-                            ? `<button class="btn btn-primary btn-sm review-btn" data-product-id="${product.paintingId}">Đánh Giá</button>`
-                            : ''}</td>
-                            </tr>`;
-                        modalBody.append(row);
-                    });
-
-                    // Gắn sự kiện cho nút "Đánh Giá"
-                    modalBody.find('.review-btn').off('click').on('click', function () {
-                        const productId = $(this).data('product-id');
-                        window.location.href = `review?pid=${productId}`;
-                    });
-                },
-                error: function () {
-                    alert('Lỗi khi tải chi tiết đơn hàng.');
                 }
             });
         }
     });
 
-    // Reset khi modal đóng
+
+
+
     $('#orderDetailsModal').on('hidden.bs.modal', function () {
         currentOrderId = null;
     });

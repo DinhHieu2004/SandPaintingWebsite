@@ -187,16 +187,18 @@
                     <span class="mx-2 quantity">${cp.quantity}</span>
                 </td>
                 <td class="item-total-price">
-                  <span class="fw-bold">Giá: ${cp.discountPrice} VND</span>
-                </td>
+              <span class="fw-bold">Giá:
+                <f:formatNumber value="${cp.discountPrice}" type="currency" currencySymbol="₫"/>
+            </span>
               </tr>
             </c:forEach>
             </tbody>
             <tfoot>
             <tr>
               <th colspan="4" class="text-end">Tổng tiền</th>
-              <th id="total-price" colspan="2">${sessionScope.cart.totalPrice} VND</th>
-            </tr>
+              <th id="total-price" colspan="2">
+                <f:formatNumber value="${sessionScope.cart.totalPrice}" type="currency" currencySymbol="VND"/>
+              </th>            </tr>
             </tfoot>
           </table>
         </c:when>

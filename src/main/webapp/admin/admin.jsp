@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix = "f" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,8 +82,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Tổng Doanh Thu</h5>
                         <span class="stat-icon">💰</span>
-
-                        <p class="card-text fs-4 text-success">${totalRevenue} VNĐ</p>
+                        <p class="card-text fs-4 text-success"> <f:formatNumber value="${totalRevenue}" type="currency" currencySymbol="VNĐ"/></p>
                     </div>
                 </div>
             </div>

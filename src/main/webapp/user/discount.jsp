@@ -19,9 +19,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <link rel="stylesheet" href="../assets/css/discount.css">
-    <link rel="stylesheet" href="../assets/css/footer.css">
-    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/discount.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
 </head>
 
 <body>
@@ -49,6 +49,8 @@
 <%@ include file="/partials/authModal.jsp" %>
 
 </body>
-<script src="/assets/js/discount.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/discount.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
+
 
 </html>
