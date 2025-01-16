@@ -75,7 +75,7 @@
                                 <div class="cart-item-details">
                                     <div class="cart-item-name-price">
                                         <span class="cart-item-name">${cp.productName}</span>
-                                        <span class="cart-item-price">${cp.totalPrice}</span>
+                                        <span class="cart-item-price"><f:formatNumber value="${cp.discountPrice} " type="currency" currencySymbol="VNĐ"/></span>
                                     </div>
                                     <div class="cart-item-size">${cp.sizeDescriptions}</div>
                                 </div>

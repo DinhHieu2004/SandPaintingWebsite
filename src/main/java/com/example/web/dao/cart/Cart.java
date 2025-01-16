@@ -11,6 +11,7 @@ import java.util.Map;
 public class Cart implements Serializable {
     private Map<String, CartPainting> items;
     public  double totalPrice;
+    public double afterPrice;
 
     public Cart() {
         items = new HashMap<>();
@@ -39,8 +40,8 @@ public class Cart implements Serializable {
         getTotalPrice();
 
     }
-    public void setTotalPrice(double finalPrice) {
-        this.totalPrice = finalPrice;
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public boolean upDateCartQuantity(String pid, String sizeId, int quantity) {
@@ -53,11 +54,11 @@ public class Cart implements Serializable {
         }
         return false;
     }
-    public double finalPrice(double finalPrice) {
-        if(finalPrice < getTotalPrice()) {
-            return finalPrice;
-        }
-        return getTotalPrice();
+    public void setAfterPrice(double afterPrice) {
+        this.afterPrice = afterPrice;
+    }
+    public double getAfterPrice() {
+        return afterPrice;
 
     }
 
@@ -68,6 +69,13 @@ public class Cart implements Serializable {
         }
         this.totalPrice = total;
         return total;
+    }
+    public double getFinalPrice() {
+        if(getAfterPrice() < totalPrice){
+            return getAfterPrice();
+        }else{
+            return totalPrice;
+        }
     }
 
     public String toJson() {

@@ -28,7 +28,7 @@ public class CheckoutService {
 
         Order order = new Order();
         order.setUserId(userId);
-        order.setTotalAmount(cart.getTotalPrice());
+        order.setTotalAmount(cart.getFinalPrice());
         order.setStatus("chờ");
         order.setDeliveryAddress(deliveryAddress);
         order.setRecipientName(recipientName);
