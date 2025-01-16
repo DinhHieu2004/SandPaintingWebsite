@@ -172,8 +172,18 @@
 <script src="${pageContext.request.contextPath}/assets/js/checkout.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
 
-<script>document.querySelector("#Payment").addEventListener("click", function () {
-    window.location.href = "checkout";
+<script>
+    document.querySelector("#Payment").addEventListener("click", function () {
+        const isLoggedIn = ${sessionScope.user != null ? 'true' : 'false'};
+        if (!isLoggedIn) {
+            alert("Bạn cần đăng nhập để thực hiện thanh toán!");
+            // Điều hướng đến trang đăng nhập
+           // window.location.href = "${pageContext.request.contextPath}/login.jsp";
+        } else {
+            // Điều hướng đến trang thanh toán
+            window.location.href = "checkout";
+        }
+
 });</script>
 </body>
 </html>
