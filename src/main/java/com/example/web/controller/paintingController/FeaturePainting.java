@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/index")
+//@WebServlet("/")
 public class FeaturePainting extends HttpServlet {
 
     @Override
