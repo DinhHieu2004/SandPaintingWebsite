@@ -102,3 +102,59 @@
     background-color: var(--primary-color) !important;
     color: var(--primary-text-light) !important;
 }
+#content-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Cho phép các phần tử con xuống dòng khi không đủ không gian */
+    gap: 20px; /* Giữa bộ lọc và sản phẩm */
+}
+
+.filter-section {
+    flex: 0 0 25%; /* Bộ lọc chiếm 25% của chiều rộng */
+    min-width: 250px; /* Đảm bảo chiều rộng tối thiểu cho bộ lọc */
+}
+
+#artworkGallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card.artwork-card {
+    width: 100%;
+    max-width: 300px; /* Giới hạn chiều rộng của các thẻ sản phẩm */
+    height: 380px; /* Chiều cao cố định cho sản phẩm */
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.discount_price {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.new-price {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.product:hover {
+    transform: scale(1.05);
+}
