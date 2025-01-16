@@ -25,7 +25,7 @@ public class LogoutController extends HttpServlet {
         }
 
         // Chuyển hướng người dùng về trang đăng nhập hoặc trang chủ
-        response.sendRedirect("index.jsp");
+        response.sendRedirect(request.getContextPath() + "/");
     }
 }
 

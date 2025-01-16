@@ -95,6 +95,18 @@ public class ArtistDao {
 
 
     }
+    public String getCurrentImagePath(int id) throws SQLException {
+        String query = "SELECT photoUrl FROM paintings WHERE id = ?";
+        String imagePath = null;
+        PreparedStatement stmt = con.prepareStatement(query);
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            imagePath = rs.getString("photoUrl");
+        }
+        return imagePath;
+    }
     public static void main(String[] args) throws SQLException, ParseException {
         ArtistDao dao = new ArtistDao();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

@@ -56,10 +56,7 @@ public class CheckoutController extends HttpServlet {
             String deliveryAddress = request.getParameter("deliveryAddress");
             String recipientPhone = request.getParameter("recipientPhone");
             String paymentMethod = request.getParameter("paymentMethod");
-            System.out.println("Recipient Name: " + recipientName);
-            System.out.println("Delivery Address: " + deliveryAddress);
-            System.out.println("Recipient Phone: " + recipientPhone);
-            System.out.println("Payment Method: " + paymentMethod);
+
             int paymentMethodInt = Integer.parseInt(paymentMethod);
 
 

@@ -47,7 +47,7 @@
 <%@ include file="/admin/sidebar.jsp" %>
 <div class="content">
   <div class="card mb-4">
-    <div class="card-header bg-success text-white">
+    <div class="card-header bg-success text-white" style="background: #e7621b !important;">
       <h4>Đánh giá</h4>
     </div>
 

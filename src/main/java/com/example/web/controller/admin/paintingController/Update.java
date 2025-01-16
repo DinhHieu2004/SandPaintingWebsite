@@ -11,6 +11,7 @@ import jakarta.servlet.http.Part;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,11 +53,16 @@ public class Update extends HttpServlet {
             directory.mkdirs();
         }
 
-        if (part != null && img != null) {
+        if (part != null && img != null && !img.isEmpty()) {
             part.write(UPLOAD_DIR + File.separator + img);
         }
 
-        String photoUrl = "assets/images/artists/" + img;
+        String photoUrl = null;
+        try {
+            photoUrl = img != null && !img.isEmpty() ? "assets/images/artists/" + img : paintingService.getCurrentImagePath(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         try {
             boolean updated = paintingService.updatePainting(id, title, themeId, price, artistId, description, photoUrl, isFeatured);

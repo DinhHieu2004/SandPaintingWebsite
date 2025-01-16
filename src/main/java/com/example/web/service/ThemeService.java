@@ -15,4 +15,16 @@ public class ThemeService {
         return themeDao.getAllTheme();
     }
 
+    public boolean addTheme(String themeName) throws SQLException {
+        return themeDao.addTheme(themeName);
+    }
+    public boolean updateTheme(int id, String themeName) throws SQLException {
+        return themeDao.updateTheme(id, themeName);
+    }
+    public boolean deleteTheme(int id) throws SQLException {
+        return themeDao.deleteTheme(id);
+    }
+    public Theme getThemeById(int id) throws SQLException {
+        return themeDao.getThemeById(id);
+    }
 }

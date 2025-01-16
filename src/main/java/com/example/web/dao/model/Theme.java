@@ -11,6 +11,10 @@ public class Theme implements Serializable {
         this.themeName = themeName;
     }
 
+    public Theme() {
+
+    }
+
     public int getId() {
         return id;
     }
