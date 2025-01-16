@@ -12,8 +12,22 @@ public class VoucherService {
     public List<Voucher> getAll() throws SQLException {
         return  voucherDao.getAll();
     }
+    public List<Voucher> getAllAdmin() throws SQLException {
+        return  voucherDao.getAllAdmin();
+    }
 
     public Voucher getVoucherById(String vid) throws SQLException {
         return voucherDao.getVoucherById(vid);
     }
+
+    public boolean deleteVoucher(String vid) throws SQLException {
+        return voucherDao.deleteVoucher(vid);
+    }
+    public boolean addVoucher(Voucher voucher) throws SQLException {
+        return voucherDao.addVoucher(voucher);
+    }
+    public boolean updateVoucher(Voucher voucher) throws SQLException {
+        return voucherDao.updateVoucher(voucher);
+    }
+
 }

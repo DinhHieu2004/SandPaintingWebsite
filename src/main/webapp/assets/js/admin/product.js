@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('#viewAndEditModal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);
         const pid = button.data('product-id');
-        const modal = $(this);  // Lưu reference đến modal hiện tại
+        const modal = $(this);
 
         $.ajax({
             url: 'products/detail',
@@ -16,7 +16,7 @@ $(document).ready(function () {
 
                     const contextPath = '/web_war';
                     const fullPhotoUrl = `${window.location.origin}${contextPath}/${response.imageUrl}`;
-                    loadProductDetails(response, fullPhotoUrl, modal);  // Truyền modal vào hàm
+                    loadProductDetails(response, fullPhotoUrl, modal);
                 } else {
                     alert('Không tìm thấy thông tin sản phẩm.');
                 }
