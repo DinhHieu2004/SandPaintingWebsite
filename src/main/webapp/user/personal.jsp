@@ -55,7 +55,10 @@
                         <!-- Nút đăng xuất -->
                         <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger btn-sm">Đăng xuất</a>
 
-
+                        <!-- Nút Quản lý (chỉ dành cho admin) -->
+                        <c:if test="${sessionScope.user.role == 'admin'}">
+                            <a href="${pageContext.request.contextPath}/admin" class="btn btn-info btn-sm">Đến trang quản lý</a>
+                        </c:if>
                     </div>
 
                     <!-- Modal chỉnh sửa thông tin cá nhân -->
