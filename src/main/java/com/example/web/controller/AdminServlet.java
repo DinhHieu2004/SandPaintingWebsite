@@ -1,5 +1,6 @@
 package com.example.web.controller;
 
+import com.example.web.dao.model.BestSalePaiting;
 import com.example.web.dao.model.Order;
 import com.example.web.dao.model.Painting;
 import com.example.web.service.AdminService;
@@ -31,6 +32,9 @@ public class AdminServlet extends HttpServlet {
             int totalProducts = 0;
             Map<String, Integer> orderStatusCount = null;
             Map<String, Double> revenueByArtist = null;
+            List<Map<String, Object>> listRating = null;
+            List<BestSalePaiting> best = null;
+
             try {
                 totalRevenue = adminService.getTotalRevenue();
                 totalOrders = adminService.getTotalOrders();
@@ -38,6 +42,9 @@ public class AdminServlet extends HttpServlet {
                 totalProducts = adminService.getTotalProducts();
                 revenueByArtist = adminService.getRevenueByArtist();
                 orderStatusCount = adminService.getOrderStatusCount();
+                listRating = adminService.getAverageRatings();
+                best = adminService.getBestSalePaiting();
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -49,6 +56,8 @@ public class AdminServlet extends HttpServlet {
             request.setAttribute("totalProducts", totalProducts);
             request.setAttribute("revenueByArtist", revenueByArtist);
             request.setAttribute("orderStatusCount", orderStatusCount);
+            request.setAttribute("listRating", listRating);
+            request.setAttribute("best", best);
 
             request.getRequestDispatcher("admin.jsp").forward(request, response);
         }

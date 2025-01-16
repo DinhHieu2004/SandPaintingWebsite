@@ -92,7 +92,7 @@
             </div>
             <c:choose>
                 <c:when test="${empty sessionScope.user}">
-                    <button class="btn login-btn" data-bs-toggle="modal" data-bs-target="#authModal">Đăng nhập</button>
+                    <button class="btn login-btn" data-bs-toggle="modal" data-bs-target="#authModal" style="background: #e7621b !important;">Đăng nhập</button>
                 </c:when>
 
             </c:choose>
@@ -103,7 +103,7 @@
     <div id="search-bar" class="container mt-2">
         <div class="input-group">
             <input  name="keyword" type="text" class="form-control" id="search-input" placeholder="Tìm kiếm...">
-            <button class="btn btn-primary" id="search-btn">Tìm</button>
+            <button class="btn btn-primary" id="search-btn" style="background: #e7621b !important;">Tìm</button>
         </div>
     </div>
     </form>

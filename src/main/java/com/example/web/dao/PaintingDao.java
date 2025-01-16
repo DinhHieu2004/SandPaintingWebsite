@@ -74,8 +74,8 @@ public class PaintingDao {
 
 
     //update
-    public boolean updatePainting(int paintingId, String title, int themeId, double price, int artistId, String description, String imageUrl, boolean isFeatured) throws SQLException {
-        String sql = "UPDATE paintings SET title = ?, themeId = ?, price = ?, artistId = ?, description = ?, imageUrl = ?, isFeatured = ? WHERE id = ?";
+    public boolean updatePainting(int paintingId, String title, int themeId, boolean isSold, double price, int artistId, String description, String imageUrl, boolean isFeatured) throws SQLException {
+        String sql = "UPDATE paintings SET title = ?, themeId = ?, price = ?, artistId = ?, description = ?, imageUrl = ?, isSold =?, isFeatured = ? WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, title);
             ps.setInt(2, themeId);
@@ -83,8 +83,9 @@ public class PaintingDao {
             ps.setInt(4, artistId);
             ps.setString(5, description);
             ps.setString(6, imageUrl);
-            ps.setBoolean(7, isFeatured);
-            ps.setInt(8, paintingId);
+            ps.setBoolean(7, isSold);
+            ps.setBoolean(8, isFeatured);
+            ps.setInt(9, paintingId);
             int rowsUpdated = ps.executeUpdate();
             return rowsUpdated > 0;
         }
@@ -125,7 +126,8 @@ public class PaintingDao {
                         a.name AS artistName,
                         t.themeName AS themeName,
                         p.price,
-                        p.createdAt
+                        p.createdAt,
+                        p.isSold
                 FROM paintings p
                 JOIN artists a ON p.artistId = a.id
                 JOIN themes t ON p.themeId = t.id """;
@@ -142,6 +144,7 @@ public class PaintingDao {
             String theme = rs.getString("themeName");
             Date createdAt = rs.getDate("createdAt");
             String artistName = rs.getString("artistName");
+            boolean available = rs.getBoolean("isSold");
             painting.setId(paintingId);
             painting.setTitle(title);
             painting.setPrice(price);
@@ -150,6 +153,7 @@ public class PaintingDao {
             painting.setThemeName(theme);
             painting.setArtistName(artistName);
             painting.setCreateDate(createdAt);
+            painting.setAvailable(available);
             painting.setDescription(rs.getString("description"));
             paintingList.add(painting);
         }
@@ -165,6 +169,7 @@ public class PaintingDao {
                         p.id AS paintingId,
                         p.title AS paintingTitle,
                         p.price,
+                        p.isSold,
                         p.description,
                         p.createdAt,
                         p.isFeatured,
@@ -194,7 +199,7 @@ public class PaintingDao {
                 while (rs.next()) {
                     if (paintingDetail == null) {
                         // Initialize the PaintingDetail object
-                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"),rs.getDate("createdAt"),getPaintingRating(rs.getInt("paintingId")) );
+                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"),rs.getDate("createdAt"),getPaintingRating(rs.getInt("paintingId")),rs.getBoolean("isSold") );
                     }
 
                     // Add size and quantity to the painting detail
@@ -283,7 +288,7 @@ public class PaintingDao {
         LEFT JOIN themes t ON p.themeId = t.id
         LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
         LEFT JOIN discounts d ON dp.discountId = d.id
-        WHERE 1=1
+        WHERE 1=1 AND p.isSold = 0
     """
 
         );
@@ -776,7 +781,7 @@ public class PaintingDao {
         List<Integer> sizeIds = Arrays.asList(1, 2, 3);
         List<Integer> quantities = Arrays.asList(5, 3, 2);
 
-        System.out.println(paintingDao.getNewestPaintings(4));
+        System.out.println(paintingDao.getPaintingDetail(5));
 
         //    System.out.println(paintingDao.getPaintingList(null,null,null,null,null,null,null,1,10));
         //  System.out.println(paintingDao.getPaintingRating(5));

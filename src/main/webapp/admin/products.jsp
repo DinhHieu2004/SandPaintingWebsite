@@ -122,13 +122,14 @@
     <div class="card-header bg-success text-white" style="background: #e7621b !important;">
       <h4>Tranh</h4>
 
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaintingModal">
-        Thêm họa sĩ
-      </button>
 
     </div>
     <div class="card-body">
       <table id="products" class="table table-bordered display">
+
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaintingModal">
+          Thêm tranh
+        </button>
         <thead>
         <tr>
           <th>Mã sản phẩm</th>
@@ -148,7 +149,7 @@
             <td><img src="${pageContext.request.contextPath}/${p.imageUrl}" alt="${p.imageUrl}" width="60"></td>
 
             <td>${p.title}</td>
-            <td>${p.available}</td>
+            <td>${p.available ? 'Không hoạt động' : 'Hoạt động'}</td>
             <td>${p.price}</td>
             <td>${p.createDate}</td>
             <td>${p.artistName}</td>
@@ -386,6 +387,12 @@
               <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="isFeaturedEdit" name="isFeatured">
                 <label class="form-check-label" for="isFeatured">Tranh nổi bật</label>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="isSoldEdit" name="isSold">
+                <label class="form-check-label" for="isSoldEdit">Còn hàng</label>
               </div>
             </div>
 

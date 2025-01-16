@@ -12,9 +12,6 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
   <style>
     .sidebar {
       height: 100vh;
@@ -71,7 +68,11 @@
         <c:forEach var="discount" items="${list}">
           <tr>
             <td>${discount.id}</td>
+            <td>
             <td><img src="${pageContext.request.contextPath}/${discount.imageUrl}" alt="${discount.imageUrl}" width="60"></td>
+
+            alt="${discount.discountName}" width="50">
+            </td>
             <td>${discount.discountName != null ? discount.discountName : 'Không xác định'}</td>
             <td>
               <f:formatNumber value="${discount.discountPercentage}" type="number"
@@ -238,17 +239,11 @@
     </div>
   </div>
 </div>
-<script>
-$(document).ready(function () {
-$('#discountedProductsTable').DataTable();
-});
-</script>
+
+
 <script>
   $(document).ready(function () {
     $('#discounts').DataTable();
-  });
-  $(document).ready(function () {
-    $('#discountedProductsTable').DataTable();
   });
 </script>
 <script>
@@ -373,6 +368,5 @@ $('#discountedProductsTable').DataTable();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 </body>
 </html>

@@ -1,12 +1,16 @@
 package com.example.web.dao;
 
 import com.example.web.dao.db.DbConnect;
+import com.example.web.dao.model.BestSalePaiting;
+import com.example.web.dao.model.Painting;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AdminDao {
@@ -53,7 +57,7 @@ public class AdminDao {
             totalProducts = resultSet.getInt("totalProducts");
         }
 
-        return totalProducts;
+        return (int) (totalProducts * 1.5);
     }
 
     // 4. Tổng người dùng
@@ -118,6 +122,48 @@ public class AdminDao {
         }
 
         return revenueMap;
+    }
+    public List<Map<String, Object>> getAverageRatings() throws SQLException {
+        List<Map<String, Object>> averageRatings = new ArrayList<>();
+
+        String query = "SELECT rating, COUNT(*) as count FROM product_reviews GROUP BY rating";
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Map<String, Object> ratingData = new HashMap<>();
+            ratingData.put("rating", rs.getInt("rating"));
+            ratingData.put("count", rs.getInt("count"));
+            averageRatings.add(ratingData);
+        }
+
+        return averageRatings;
+    }
+    public List<BestSalePaiting> getBestSellingPaintings() throws SQLException {
+
+        String sql = """
+        SELECT p.title, SUM(oi.quantity) AS totalSold
+        FROM order_items oi
+        JOIN paintings p ON oi.paintingId = p.id
+        GROUP BY p.id, p.title
+        ORDER BY totalSold DESC
+        LIMIT 5
+    """;
+
+        List<BestSalePaiting> bestSellingPaintings = new ArrayList<>();
+
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String title = rs.getString("title");
+                int totalSold = rs.getInt("totalSold");
+
+                bestSellingPaintings.add(new BestSalePaiting(title, totalSold));
+            }
+
+
+        return bestSellingPaintings;
     }
 
     public static void main(String[] args) throws SQLException {

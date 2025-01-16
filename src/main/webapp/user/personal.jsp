@@ -149,7 +149,7 @@
 </div>
 
 <!-- Bảng Đơn Hàng Hiện Tại -->
-<div class="card mb-4">
+<div class="card mb-4" style="margin: 30px">
     <div class="card-header bg-success text-white" style="background: #e7621b !important;">
         <h4>Đơn Hàng Hiện Tại</h4>
     </div>
@@ -170,7 +170,7 @@
     </div>
 </div>
 
-<div class="card mb-4">
+<div class="card mb-4" style="margin: 30px">
     <div class="card-header bg-secondary text-white">
         <h4>Lịch Sử Đơn Hàng</h4>
     </div>
@@ -229,6 +229,7 @@
 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/personal.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
 
 </body>
 

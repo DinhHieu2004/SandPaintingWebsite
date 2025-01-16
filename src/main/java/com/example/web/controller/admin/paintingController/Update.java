@@ -35,11 +35,18 @@ public class Update extends HttpServlet {
         int artistId = Integer.parseInt(req.getParameter("artistId"));
         String priceStr = req.getParameter("price");
         String isFeaturedStr = req.getParameter("isFeatured");
+        String isSoldStr = req.getParameter("isSold");
+        System.out.println(isSoldStr);
+
         Part part = req.getPart("image");
         String img = extractFileName(part);
 
         double price = Double.parseDouble(priceStr);
         boolean isFeatured = isFeaturedStr != null && isFeaturedStr.equals("on");
+        System.out.println("f: " + isFeatured);
+
+        boolean isSold = isSoldStr == null || !isSoldStr.equals("true");
+        System.out.println("isSold: " + isSold);
 
         List<Integer> sizeList = parseIntegerList(req.getParameterValues("sizeId[]"));
         List<Integer> quantityList = parseIntegerList(req.getParameterValues("quantity[]"));
@@ -65,7 +72,7 @@ public class Update extends HttpServlet {
         }
 
         try {
-            boolean updated = paintingService.updatePainting(id, title, themeId, price, artistId, description, photoUrl, isFeatured);
+            boolean updated = paintingService.updatePainting(id, title, themeId, price, artistId, description, photoUrl,isSold, isFeatured);
 
             if (updated) {
                 paintingService.updatePaintingSizes(id, sizeList, quantityList);

@@ -64,8 +64,12 @@ function loadProductDetails(data, fullPhotoUrl, modal) {
                 }
             });
         }
+        console.log(data.available)
+        const isAvailable = data.available === 'true' || data.available === true;
 
         modal.find('#isFeaturedEdit').prop('checked', data.isFeatured || false);
+        modal.find('#isSoldEdit').prop('checked', !isAvailable);
+
 
         if (data.sizes && data.sizes.length > 0) {
             modal.find('.size-quantity-pair').each(function() {

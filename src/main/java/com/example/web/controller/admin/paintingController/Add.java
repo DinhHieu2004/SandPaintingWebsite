@@ -32,10 +32,9 @@ public class Add extends HttpServlet {
         int artistId = Integer.parseInt(req.getParameter("artistId"));
         String priceStr = req.getParameter("price");
         String isFeaturedStr = req.getParameter("isFeatured");
+
         Part part = req.getPart("image");
         String img =  extractFileName(part);
-
-
 
         double price = Double.parseDouble(priceStr);
         boolean isFeatured = isFeaturedStr != null;

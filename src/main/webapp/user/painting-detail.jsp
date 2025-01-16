@@ -104,7 +104,7 @@
                         </div>
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
+                                <i class="fas fa-cart-plus me-2" style="background: #e7621b !important;"></i>Thêm vào giỏ hàng
                             </button>
                         </div>
                     </form>

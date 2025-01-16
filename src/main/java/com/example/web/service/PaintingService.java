@@ -41,8 +41,8 @@ public class PaintingService {
     }
 
 
-    public boolean updatePainting(int id, String title, int themeId, double price, int artistId, String description, String imageUrl, boolean isFeatured) throws SQLException {
-        return paintingDao.updatePainting( id, title, themeId, price, artistId, description, imageUrl, isFeatured);
+    public boolean updatePainting(int id, String title, int themeId, double price, int artistId, String description, String imageUrl, boolean isSold, boolean isFeatured) throws SQLException {
+        return paintingDao.updatePainting( id, title, themeId,isSold, price, artistId, description, imageUrl, isFeatured);
 
     }
 
