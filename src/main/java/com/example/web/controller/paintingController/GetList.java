@@ -28,7 +28,7 @@ public class GetList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int currentPage = 1;
-        int recordsPerPage = 8;
+        int recordsPerPage = 12;
 
         String pageParam = req.getParameter("page");
         if (pageParam != null && !pageParam.isEmpty()) {
@@ -45,6 +45,8 @@ public class GetList extends HttpServlet {
         List<PaintingSize> paintingSizes = null;
         try {
             String sort = req.getParameter("sort");
+            String newP = req.getParameter("snew");
+            boolean sortNew = (newP != null && newP.equals("snew"));
             boolean isSortByRating = (sort != null && sort.equals("rating"));
             String keyWord = req.getParameter("keyword");
             String minPriceParam = req.getParameter("minPrice");
@@ -71,7 +73,7 @@ public class GetList extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid price format");
                 return;
             }
-            data  = ps.getPaintingList(keyWord,minPrice, maxPrice, themeArr, artistArr,startDate, endDate,isSortByRating, currentPage, recordsPerPage);
+            data  = ps.getPaintingList(keyWord,minPrice, maxPrice, themeArr, artistArr,startDate, endDate,isSortByRating,sortNew, currentPage, recordsPerPage);
             int totalRecords = ps.countPaintings(keyWord,minPrice, maxPrice, themeArr, artistArr,startDate, endDate);
             int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 

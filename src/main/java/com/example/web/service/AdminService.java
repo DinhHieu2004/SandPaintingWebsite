@@ -1,8 +1,10 @@
 package com.example.web.service;
 
 import com.example.web.dao.AdminDao;
+import com.example.web.dao.model.BestSalePaiting;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 public class AdminService {
@@ -24,10 +26,16 @@ public class AdminService {
     }
 
     public Map<String, Double> getRevenueByArtist() throws SQLException {
-        return adminDao.getRevenueByArtist();
+        return adminDao.getArtistRevenueMap();
     }
 
     public Map<String, Integer> getOrderStatusCount() throws SQLException {
         return adminDao.getOrderStatusCount();
+    }
+    public  List<Map<String, Object>> getAverageRatings() throws SQLException {
+        return adminDao.getAverageRatings();
+    }
+    public List<BestSalePaiting> getBestSalePaiting() throws SQLException {
+        return adminDao.getBestSellingPaintings();
     }
 }

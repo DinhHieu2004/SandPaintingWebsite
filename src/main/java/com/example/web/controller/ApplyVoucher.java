@@ -35,7 +35,7 @@ import java.sql.SQLException;
 
             double finalPrice = totalPrice - (totalPrice * discountPercentage / 100);
             System.out.println(finalPrice);
-            cart.setTotalPrice(finalPrice);
+            cart.setAfterPrice(finalPrice);
             System.out.println(cart.getTotalPrice());
             req.getSession().setAttribute("cart", cart);
             Cart c = (Cart) req.getSession().getAttribute("cart");

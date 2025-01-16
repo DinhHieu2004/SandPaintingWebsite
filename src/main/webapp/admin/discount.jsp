@@ -69,8 +69,9 @@
           <tr>
             <td>${discount.id}</td>
             <td>
-              <img src="${discount.imageUrl != null ? discount.imageUrl : 'default-image.png'}"
-                   alt="${discount.discountName}" width="50">
+            <td><img src="${pageContext.request.contextPath}/${discount.imageUrl}" alt="${discount.imageUrl}" width="60"></td>
+
+            alt="${discount.discountName}" width="50">
             </td>
             <td>${discount.discountName != null ? discount.discountName : 'Không xác định'}</td>
             <td>

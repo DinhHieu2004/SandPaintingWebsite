@@ -15,7 +15,7 @@ public class OrderDao {
         ps.setInt(1, order.getUserId());
         ps.setDouble(2, order.getTotalAmount());
         ps.setString(3, order.getStatus());
-        ps.setDate(4, order.getDeliveryDate() != null ? java.sql.Date.valueOf(order.getDeliveryDate()) : null);
+        ps.setDate(4, order.getDeliveryDate() != null ? (Date) order.getDeliveryDate() : null);
         ps.setString(5, order.getRecipientName());
         ps.setString(6, order.getDeliveryAddress());
         ps.setString(7, order.getRecipientPhone());
@@ -72,13 +72,13 @@ public class OrderDao {
         Order order = new Order();
         order.setId(rs.getInt("id"));
         order.setUserId(rs.getInt("userId"));
-        order.setOrderDate(rs.getTimestamp("orderDate").toLocalDateTime());
+        order.setOrderDate(rs.getDate("orderDate"));
         order.setTotalAmount(rs.getDouble("totalAmount"));
         order.setStatus(rs.getString("status"));
         order.setRecipientName(rs.getString("recipientName"));
         order.setDeliveryAddress(rs.getString("deliveryAddress"));
         order.setRecipientPhone(rs.getString("recipientPhone"));
-        order.setDeliveryDate(rs.getDate("deliveryDate") != null ? rs.getDate("deliveryDate").toLocalDate().atStartOfDay() : null);
+        order.setDeliveryDate(rs.getDate("deliveryDate") != null ? rs.getDate("deliveryDate") : null);
         return order;
     }
     public List<Order> getListAllOrdersCrurrentAdmin() throws Exception {
@@ -110,10 +110,16 @@ public class OrderDao {
         }
         return orders;
     }
-    public boolean updateOrderStatus(int orderId, String status,String recipientName,String recipientPhone, String deliveryAddress) throws SQLException {
+    public boolean updateOrderStatus(int orderId, String status, String recipientName, String recipientPhone, String deliveryAddress) throws SQLException {
         boolean success = false;
 
-        String sql = "UPDATE orders SET status = ?, recipientName= ?, recipientPhone =? ,deliveryAddress = ? WHERE id = ?";
+        String sql;
+        if ("hoàn thành".equalsIgnoreCase(status)) {
+            sql = "UPDATE orders SET status = ?, recipientName = ?, recipientPhone = ?, deliveryAddress = ?, deliveryDate = CURRENT_TIMESTAMP WHERE id = ?";
+        } else {
+            sql = "UPDATE orders SET status = ?, recipientName = ?, recipientPhone = ?, deliveryAddress = ? WHERE id = ?";
+        }
+
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, status);
         ps.setString(2, recipientName);
@@ -121,13 +127,13 @@ public class OrderDao {
         ps.setString(4, deliveryAddress);
         ps.setInt(5, orderId);
 
-
         int rowsAffected = ps.executeUpdate();
         if (rowsAffected > 0) {
             success = true;
         }
+
         return success;
-}
+    }
 
     public static void main(String[] args) throws Exception {
         OrderDao orderDao = new OrderDao();

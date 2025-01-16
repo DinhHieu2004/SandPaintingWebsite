@@ -12,7 +12,7 @@ $(document).ready(function () {
                 const row = `
                     <tr>
                         <td>${order.id}</td>
-                        <td>${order.totalAmount}₫</td>
+                        <td>${order.totalAmount} .VND</td>
                         <td>${order.orderDate}</td>
                         <td>${order.status}</td>
                         <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" data-order-id="${order.id}">Xem Chi Tiết</button></td>
@@ -26,8 +26,8 @@ $(document).ready(function () {
             previousOrders.forEach(order => {
                 const row = `
                     <tr>
-                        <td>${order.id}₫</td>
-                        <td>${order.totalAmount}₫</td>
+                        <td>${order.id}</td>
+                        <td>${order.totalAmount} .VND</td>
                         <td>${order.orderDate}</td>
                         <td>${order.deliveryDate}</td>
                         <td>${order.status}</td>
@@ -64,7 +64,7 @@ $(document).ready(function () {
                     if (response) {
                         const order = response;
                         orderStatus = order.status;
-                        console.log("Order status raw value:", order.status); // Thêm dòng này
+                        console.log("Order status raw value:", order.status);
                         console.log("Order status after trim and lowercase:", order.status.trim().toLowerCase()); // Thêm dòng này
 
                         modalInfo.html(`
@@ -76,7 +76,7 @@ $(document).ready(function () {
 
                         modelPrice.html(`<p><strong>Tổng trả:</strong> ${order.totalAmount}</p>`);
                         if (orderStatus.trim().toLowerCase()  === 'chờ') {
-                            modalInfo.append(`
+                            modelPrice.append(`
                     <button id="cancelOrderButton" class="btn btn-danger">Hủy đơn hàng</button>
                     
                     

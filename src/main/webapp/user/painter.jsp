@@ -13,14 +13,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" href="assets/css/footer.css">
-    <link rel="stylesheet" href="assets/css/header.css">
-    <link rel="stylesheet" href="assets/css/painter.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/painter.css">
 
 </head>
 
 <body>
 <%@ include file="/partials/header.jsp" %>
+
+<div class="container my-5">
+
     <div  class="page-title-inner">
         <h5 >Thông tin họa sĩ </h5>
     </div>
@@ -110,11 +113,15 @@
                 <i class="fas fa-angle-right ms-1"></i>
             </a>
         </div>
+    </div>
+</div>
 <%@ include file="/partials/footer.jsp" %>
 <%@ include file="/partials/authModal.jsp" %>
 
-    <script src="/assets/js/painter.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 
+</body>
+<script src="${pageContext.request.contextPath}/assets/js/painter.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>

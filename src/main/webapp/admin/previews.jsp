@@ -53,9 +53,7 @@
 
     <div class="card-body">
       <table id="reviews" class="table table-bordered display">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
-          Thêm Đánh giá
-        </button>
+
         <div style="padding-bottom: 10px">
           <c:if test="${not empty message}">
             <div class="alert alert-success">
@@ -113,7 +111,7 @@
         <form action="${pageContext.request.contextPath}/admin/reviews/delete" method="POST">
           <div class="modal-body">
             <p>Bạn có chắc chắn muốn xóa người dùng này?</p>
-            <input type="hidden" id="reviewIdToDelete" name="userId">
+            <input type="hidden" id="reviewIdToDelete" name="rid">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>

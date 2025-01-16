@@ -66,16 +66,17 @@
                                     <c:choose>
                                         <c:when test="${cp.discountPrice != null && cp.discountPercent > 0}">
                                             <div class="price-info">
-                                                <del class="text-muted">Giá gốc: ${cp.totalPrice} VND</del>
+
+                                                <del class="text-muted">Giá gốc: <f:formatNumber value="${cp.totalPrice}" type="currency" currencySymbol="VNĐ"/></del>
                                                 <span class="badge bg-success ms-2">-${cp.discountPercent}%</span>
                                                 <div class="text-danger fw-bold">
-                                                    Giá đã giảm: ${cp.discountPrice} VND
+                                                    Giá đã giảm: <f:formatNumber value="${cp.discountPrice} " type="currency" currencySymbol="VNĐ"/>
                                                 </div>
                                             </div>
                                         </c:when>
                                         <c:otherwise>
                                             <div class="price-info">
-                                                <span class="fw-bold">Giá: ${cp.totalPrice} VND</span>
+                                                <span class="fw-bold">Giá: <f:formatNumber value="${cp.totalPrice}" type="currency" currencySymbol="VNĐ"/></span>
                                             </div>
                                         </c:otherwise>
                                     </c:choose>
@@ -94,7 +95,7 @@
                         <tfoot>
                         <tr>
                             <th colspan="4" class="text-end">Tổng tiền</th>
-                            <th id="total-price" colspan="2">${sessionScope.cart.totalPrice} VND</th>
+                            <th id="total-price" colspan="2"><f:formatNumber value="${sessionScope.cart.totalPrice}" type ="currency" currencySymbol="VNĐ"></f:formatNumber></th>
                         </tr>
                         </tfoot>
                     </table>
@@ -108,8 +109,8 @@
         </div>
     </div>
     <div class="d-flex justify-content-between">
-        <a href="artWork.jsp" class="btn btn-secondary">Tiếp tục mua hàng</a>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal">Mua hàng</button>
+        <a href="artwork" class="btn btn-secondary">Tiếp tục mua hàng</a>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal" style="background: #e7621b !important;">Mua hàng</button>
     </div>
     <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -139,8 +140,7 @@
                                     <td><img src="${cp.imageUrl}" alt="${cp.productName}" width="50"></td>
                                     <td>${cp.productName}</td>
                                     <td>${cp.quantity}</td>
-                                    <td>${cp.totalPrice} VND</td>
-
+                                    <td><f:formatNumber value="${cp.totalPrice}" type="currency" currencySymbol="VNĐ"/></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -157,11 +157,12 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" id="Payment" class="btn btn-primary">Thanh Toán</button>
+                    <button type="button" id="Payment" class="btn btn-primary" style="background: #e7621b !important;">Thanh Toán</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 <%@ include file="/partials/authModal.jsp" %>
 

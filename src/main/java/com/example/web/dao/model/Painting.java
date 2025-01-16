@@ -34,6 +34,19 @@ public class Painting implements Serializable{
             this.createDate = createDate;
             this.averageRating = averageRating;
         }
+    public Painting(int id, String title, double price, String description, String imageUrl, String artistName, String themeName, boolean isFeatured, Date createDate, double averageRating, boolean isSold) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.artistName = artistName;
+        this.themeName = themeName;
+        this.isFeatured = isFeatured;
+        this.createDate = createDate;
+        this.averageRating = averageRating;
+        this.available = isSold;
+    }
 
     public Painting() {
 
@@ -61,12 +74,7 @@ public class Painting implements Serializable{
         }
 
     public boolean isAvailable(){
-        for(PaintingSize size:sizes){
-            if(size.getQuantity() != 0){
-                return true;
-            }
-        }
-        return false;
+        return this.available;
     }
 
     public Date getCreateDate() {
@@ -194,8 +202,12 @@ public class Painting implements Serializable{
                 ", discountName='" + discountName + '\'' +
                 ", isFu='" + isFeatured + '\'' +
                 ", raiting='" + averageRating + '\'' +
+                ", isSold='" + available + '\'' +
                 ", discountPercentage=" + discountPercentage +
                 '}';
+    }
+    public boolean getAvailable() {
+            return available;
     }
 
 

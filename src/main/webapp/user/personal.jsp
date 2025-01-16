@@ -52,10 +52,8 @@
                         <button class="btn btn-success btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#editPersonalInfoModal">Chỉnh sửa
                         </button>
-                        <!-- Nút đăng xuất -->
                         <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger btn-sm">Đăng xuất</a>
 
-                        <!-- Nút Quản lý (chỉ dành cho admin) -->
                         <c:if test="${sessionScope.user.role == 'admin'}">
                             <a href="${pageContext.request.contextPath}/admin" class="btn btn-info btn-sm">Đến trang quản lý</a>
                         </c:if>
@@ -151,8 +149,8 @@
 </div>
 
 <!-- Bảng Đơn Hàng Hiện Tại -->
-<div class="card mb-4">
-    <div class="card-header bg-success text-white">
+<div class="card mb-4" style="margin: 30px">
+    <div class="card-header bg-success text-white" style="background: #e7621b !important;">
         <h4>Đơn Hàng Hiện Tại</h4>
     </div>
     <div class="card-body">
@@ -172,7 +170,7 @@
     </div>
 </div>
 
-<div class="card mb-4">
+<div class="card mb-4" style="margin: 30px">
     <div class="card-header bg-secondary text-white">
         <h4>Lịch Sử Đơn Hàng</h4>
     </div>
@@ -231,6 +229,7 @@
 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/personal.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
 
 </body>
 

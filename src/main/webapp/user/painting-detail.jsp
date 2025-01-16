@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/preview.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shopping-cart.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}assets/css/painting-detail.css">
     <script src="${pageContext.request.contextPath}/assets/js/painting-detail.js"></script>
 
@@ -57,13 +57,14 @@
                         <c:choose>
                             <c:when test="${p.discountPercentage > 0}">
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="text-muted text-decoration-line-through">${p.price} VNĐ</span>
-                                    <span class="h4 text-danger mb-0">${p.price * (1 - p.discountPercentage / 100)} VNĐ</span>
+                                    <span class="text-muted text-decoration-line-through"><f:formatNumber value="${p.price}" type="currency" currencySymbol="VNĐ"/></span>
+                                    <span class="h4 text-danger mb-0"> <f:formatNumber value="${p.price * (1 - p.discountPercentage / 100)}" type="currency" currencySymbol="VNĐ"/></span>
                                     <span class="badge bg-success">-${p.discountPercentage}%</span>
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <span class="h4">${p.price} VNĐ</span>
+                                <span class="h4"> <f:formatNumber value="${p.price}" type="currency" currencySymbol="VNĐ"/></span>
+
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -103,7 +104,7 @@
                         </div>
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
+                                <i class="fas fa-cart-plus me-2" style="background: #e7621b !important;"></i>Thêm vào giỏ hàng
                             </button>
                         </div>
                     </form>
@@ -179,6 +180,7 @@
 
 
 </script>
+<script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
 
 </body>
 </html>

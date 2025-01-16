@@ -65,6 +65,19 @@
             height: 300px;
             margin: auto;
         }
+        .form-control.input-sm {
+            padding: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .btn.btn-sm {
+            font-size: 0.875rem;
+            padding: 0.4rem 0.75rem;
+        }
+
+        .align-items-end {
+            align-items: flex-end !important; /* Canh dưới cùng */
+        }
     </style>
 </head>
 <body>
@@ -74,19 +87,20 @@
 <!-- Main Content -->
 <div class="content">
 
-    <div class="row mb-4">
-        <div class="col-md-6">
+    <div class="row mb-4 align-items-end" style="display: flex !important;">
+        <div class="col-md-4">
             <label for="startDate" class="form-label"><strong>Từ ngày:</strong></label>
-            <input type="date" id="startDate" class="form-control">
+            <input type="date" id="startDate" class="form-control input-sm">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label for="endDate" class="form-label"><strong>Đến ngày:</strong></label>
-            <input type="date" id="endDate" class="form-control">
+            <input type="date" id="endDate" class="form-control input-sm">
         </div>
-        <div class="col-12 text-end mt-3">
-            <button id="filterBtn" class="btn btn-primary">Lọc thống kê</button>
+        <div class="col-md-4 text-end">
+            <button id="filterBtn" class="btn btn-primary btn-sm">Lọc thống kê</button>
         </div>
     </div>
+
     <div class="container">
         <h2 class="mb-4">Tổng quan</h2>
 
@@ -145,6 +159,20 @@
                     <canvas id="orderStatusChart" width="200" height="200"></canvas>
                 </div>
             </div>
+
+            <div class="col-md-6">
+                <h4 class="mb-3">Trung bình mỗi rating</h4>
+                <div class="chart-container">
+                    <canvas id="ratingChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4 class="mb-3">Sản phẩm bán chạy </h4>
+                <div class="chart-container">
+                    <canvas id="bestSaleChart"></canvas>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -160,7 +188,7 @@
             label: 'Doanh Thu (VNĐ)',
             data: [
                 <c:forEach var="entry" items="${revenueByArtist}">
-                ${entry.value},
+                ${entry.value / 10},
                 </c:forEach>
             ],
             backgroundColor: '#007bff',
@@ -227,6 +255,109 @@
             }
         }
     };
+
+    const ratingData = {
+        labels: [
+            <c:forEach var="rating" items="${listRating}">
+            "${rating.rating}",
+            </c:forEach>
+        ],
+        datasets: [{
+            label: 'Average Rating',
+            data: [
+                <c:forEach var="rating" items="${listRating}">
+                ${rating.count},
+                </c:forEach>
+            ],
+            backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
+            borderColor: '#0056b3',
+            borderWidth: 1
+        }]
+    };
+
+    const ratingConfig = {
+        type: 'line', // Hoặc 'line', 'doughnut',
+        data: ratingData,
+        maintainAspectRatio: false,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Rating'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Số lượt đánh giá'
+                    }
+                }
+            }
+        }
+    };
+    const bestSaleData = {
+        labels: [
+            <c:forEach var="painting" items="${best}">
+            "${painting.title}",
+            </c:forEach>
+        ],
+        datasets: [{
+            label: 'Total Sold',
+            data: [
+                <c:forEach var="painting" items="${best}">
+                ${painting.totalSold},
+                </c:forEach>
+            ],
+            backgroundColor: [
+                '#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8'
+            ],
+            borderColor: '#0056b3',
+            borderWidth: 1
+        }]
+    };
+
+    const bestSaleConfig = {
+        type: 'bar',
+        data: bestSaleData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Products'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Total Sold'
+                    }
+                }
+            }
+        }
+    };
+
+    const ctx = document.getElementById('bestSaleChart').getContext('2d');
+    new Chart(ctx, bestSaleConfig);
+
+    new Chart(document.getElementById('ratingChart'), ratingConfig);
 
     new Chart(document.getElementById('revenueByArtistChart'), revenueByArtistConfig);
     new Chart(document.getElementById('orderStatusChart'), orderStatusConfig);

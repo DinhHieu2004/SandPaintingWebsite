@@ -34,6 +34,7 @@ public class InitServlet extends HttpServlet {
             List<PaintingSize> sizes = sizeService.getAllSize();
             List<Theme> themes = themeService.getAllTheme();
             List<Painting> featuredArtworks = paintingDao.getFeaturedArtworks();
+            List<Painting> newP = paintingService.getNewestPaintings();
 
             System.out.println(sizes);
             ServletContext context = getServletContext();
@@ -43,7 +44,9 @@ public class InitServlet extends HttpServlet {
             List<Painting> bestP = paintingService.getRandomTopRatedPaintings();
             context.setAttribute("bp", bestP);
             context.setAttribute("featuredArtworks", featuredArtworks);
-           // context.setAttribute("themes", themes);
+            context.setAttribute("newP", newP);
+
+            // context.setAttribute("themes", themes);
 
 
         } catch (SQLException e) {

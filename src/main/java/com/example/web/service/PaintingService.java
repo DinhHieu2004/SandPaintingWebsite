@@ -11,8 +11,8 @@ import java.util.List;
 public class PaintingService {
     private PaintingDao paintingDao = new PaintingDao();
 
-    public List<Painting> getPaintingList(String searchKeyword, Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate, boolean isSortByRating,int currentPage, int recordsPerPage) throws SQLException {
-        return paintingDao.getPaintingList( searchKeyword, minPrice, maxPrice, themes, artists,startDate,endDate,isSortByRating, currentPage, recordsPerPage);
+    public List<Painting> getPaintingList(String searchKeyword, Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate, boolean isSortByRating,boolean Snew, int currentPage, int recordsPerPage) throws SQLException {
+        return paintingDao.getPaintingList( searchKeyword, minPrice, maxPrice, themes, artists,startDate,endDate,isSortByRating,Snew, currentPage, recordsPerPage);
     }
     public int countPaintings(String keyword,Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate) throws SQLException {
         return paintingDao.countPaintings(keyword, minPrice, maxPrice, themes, artists, startDate,endDate);
@@ -36,9 +36,13 @@ public class PaintingService {
     public List<Painting> getAll() throws SQLException {
         return paintingDao.getAll();
     }
+    public List<Painting> getNewestPaintings() throws SQLException {
+        return paintingDao.getNewestPaintings(4);
+    }
 
-    public boolean updatePainting(int id, String title, int themeId, double price, int artistId, String description, String imageUrl, boolean isFeatured) throws SQLException {
-        return paintingDao.updatePainting( id, title, themeId, price, artistId, description, imageUrl, isFeatured);
+
+    public boolean updatePainting(int id, String title, int themeId, double price, int artistId, String description, String imageUrl, boolean isSold, boolean isFeatured) throws SQLException {
+        return paintingDao.updatePainting( id, title, themeId,isSold, price, artistId, description, imageUrl, isFeatured);
 
     }
 

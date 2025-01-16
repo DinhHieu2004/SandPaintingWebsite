@@ -58,7 +58,7 @@ public class ThemeDao {
         if (rs.next()) {
             Theme theme = new Theme();
             theme.setId(rs.getInt("id"));
-            theme.setThemeName(rs.getString("name"));
+            theme.setThemeName(rs.getString("themeName"));
             return theme;
         }
         return null;
@@ -70,5 +70,10 @@ public class ThemeDao {
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
         }
+    }
+
+    public static void main(String[] args) throws SQLException {
+        ThemeDao dao = new ThemeDao();
+        System.out.println(dao.getThemeById(2));
     }
 }

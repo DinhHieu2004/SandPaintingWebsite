@@ -122,13 +122,14 @@
     <div class="card-header bg-success text-white" style="background: #e7621b !important;">
       <h4>Tranh</h4>
 
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaintingModal">
-        Thêm họa sĩ
-      </button>
 
     </div>
     <div class="card-body">
       <table id="products" class="table table-bordered display">
+
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaintingModal">
+          Thêm tranh
+        </button>
         <thead>
         <tr>
           <th>Mã sản phẩm</th>
@@ -148,7 +149,7 @@
             <td><img src="${pageContext.request.contextPath}/${p.imageUrl}" alt="${p.imageUrl}" width="60"></td>
 
             <td>${p.title}</td>
-            <td>${p.available}</td>
+            <td>${p.available ? 'Không hoạt động' : 'Hoạt động'}</td>
             <td>${p.price}</td>
             <td>${p.createDate}</td>
             <td>${p.artistName}</td>
@@ -225,8 +226,10 @@
                 <td>${s.idSize}</td>
                 <td>${s.sizeDescriptions}</td>
                 <td>
-                  <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editThemeModal" data-theme-id="${theme.id}">Sửa</button>
-                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteThemeModal" data-theme-id="${theme.id}">Xóa</button>
+                  <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                          data-bs-target="#editSizeModal" data-size-id="${s.idSize}">chi tiết</button>
+                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                          data-bs-target="#deleteSizeModal" data-size-id="${s.idSize}">Xóa</button>
                 </td>
               </tr>
             </c:forEach>
@@ -386,6 +389,12 @@
                 <label class="form-check-label" for="isFeatured">Tranh nổi bật</label>
               </div>
             </div>
+            <div class="mb-3">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="isSoldEdit" name="isSold">
+                <label class="form-check-label" for="isSoldEdit">Còn hàng</label>
+              </div>
+            </div>
 
             <div class="size-quantities">
               <label class="form-label">Kích thước và Số lượng</label>
@@ -436,25 +445,6 @@
 
 </div>
 
-<div class="modal fade" id="addSizeModal" tabindex="-1" aria-labelledby="addSizeModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addSizeModalLabel">Thêm Kích Thước</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="${pageContext.request.contextPath}/admin/sizes/add" method="POST">
-          <div class="mb-3">
-            <label for="sizeName" class="form-label">Tên Kích Thước</label>
-            <input type="text" class="form-control" id="sizeName" name="sizeName" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Thêm Kích Thước</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Modal thêm Theme -->
 <div class="modal fade" id="addThemeModal" tabindex="-1" aria-labelledby="addThemeModalLabel" aria-hidden="true">
@@ -483,12 +473,17 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editThemeModalLabel">Thêm Chủ Đề</h5>
+        <h5 class="modal-title" id="editThemeModalLabel">Thông tin chủ đề</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form action="${pageContext.request.contextPath}/admin/themes/update" method="POST">
-          <strong id="idTheme"></strong>
+          <input type="hidden" id="editThemeId" name="themeId" value="">
+
+          <div class="mb-3">
+            <label for="idTheme" class="form-label">Mã chủ đề: #</label>
+            <strong id="idTheme"></strong>
+          </div>
           <div class="mb-3">
             <label for="themeName" class="form-label">Tên Chủ Đề</label>
             <input type="text" class="form-control" id="editThemeName" name="themeName" required>
@@ -521,6 +516,78 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="addSizeModal" tabindex="-1" aria-labelledby="addSizeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addSizeModalLabel">Thêm Kích Thước</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="${pageContext.request.contextPath}/admin/sizes/add" method="POST">
+          <div class="mb-3">
+            <label for="sizeName" class="form-label">Tên Kích Thước</label>
+            <input type="text" class="form-control" id="sizeName" name="description" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Thêm Kích Thước</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editSizeModal" tabindex="-1" aria-labelledby="editSizeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editSizeModalLabel">Thông tin chủ đề</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="${pageContext.request.contextPath}/admin/sizes/update" method="POST">
+          <input type="hidden" id="editSizeId" name="sizeId" value="">
+
+          <div class="mb-3">
+            <label for="idSize" class="form-label">Mã kích thước: #</label>
+            <strong id="idSize"></strong>
+          </div>
+          <div class="mb-3">
+            <label for="editDescription" class="form-label">Mô tả kích thươc</label>
+            <input type="text" class="form-control" id="editDescription" name="description" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal xóa Theme -->
+
+<div class="modal fade" id="deleteSizeModal" tabindex="-1" aria-labelledby="deleteSizeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteSizeModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="${pageContext.request.contextPath}/admin/sizes/delete" method="POST">
+        <div class="modal-body">
+          <p>Bạn có chắc chắn muốn xóa kích thước này?</p>
+          <input type="hidden" id="sizeIdToDelete" name="sizeId">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
@@ -556,6 +623,10 @@
 
 </script>
 <script src="${pageContext.request.contextPath}/assets/js/admin/product.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/admin/theme.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/admin/sizes.js"></script>
+
+
 
 </body>
 </html>

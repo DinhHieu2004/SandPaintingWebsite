@@ -74,8 +74,8 @@ public class PaintingDao {
 
 
     //update
-    public boolean updatePainting(int paintingId, String title, int themeId, double price, int artistId, String description, String imageUrl, boolean isFeatured) throws SQLException {
-        String sql = "UPDATE paintings SET title = ?, themeId = ?, price = ?, artistId = ?, description = ?, imageUrl = ?, isFeatured = ? WHERE id = ?";
+    public boolean updatePainting(int paintingId, String title, int themeId, boolean isSold, double price, int artistId, String description, String imageUrl, boolean isFeatured) throws SQLException {
+        String sql = "UPDATE paintings SET title = ?, themeId = ?, price = ?, artistId = ?, description = ?, imageUrl = ?, isSold =?, isFeatured = ? WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, title);
             ps.setInt(2, themeId);
@@ -83,8 +83,9 @@ public class PaintingDao {
             ps.setInt(4, artistId);
             ps.setString(5, description);
             ps.setString(6, imageUrl);
-            ps.setBoolean(7, isFeatured);
-            ps.setInt(8, paintingId);
+            ps.setBoolean(7, isSold);
+            ps.setBoolean(8, isFeatured);
+            ps.setInt(9, paintingId);
             int rowsUpdated = ps.executeUpdate();
             return rowsUpdated > 0;
         }
@@ -125,7 +126,8 @@ public class PaintingDao {
                         a.name AS artistName,
                         t.themeName AS themeName,
                         p.price,
-                        p.createdAt
+                        p.createdAt,
+                        p.isSold
                 FROM paintings p
                 JOIN artists a ON p.artistId = a.id
                 JOIN themes t ON p.themeId = t.id """;
@@ -142,6 +144,7 @@ public class PaintingDao {
             String theme = rs.getString("themeName");
             Date createdAt = rs.getDate("createdAt");
             String artistName = rs.getString("artistName");
+            boolean available = rs.getBoolean("isSold");
             painting.setId(paintingId);
             painting.setTitle(title);
             painting.setPrice(price);
@@ -150,6 +153,7 @@ public class PaintingDao {
             painting.setThemeName(theme);
             painting.setArtistName(artistName);
             painting.setCreateDate(createdAt);
+            painting.setAvailable(available);
             painting.setDescription(rs.getString("description"));
             paintingList.add(painting);
         }
@@ -165,6 +169,7 @@ public class PaintingDao {
                         p.id AS paintingId,
                         p.title AS paintingTitle,
                         p.price,
+                        p.isSold,
                         p.description,
                         p.createdAt,
                         p.isFeatured,
@@ -194,7 +199,7 @@ public class PaintingDao {
                 while (rs.next()) {
                     if (paintingDetail == null) {
                         // Initialize the PaintingDetail object
-                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"),rs.getDate("createdAt"),getPaintingRating(rs.getInt("paintingId")) );
+                        paintingDetail = new Painting(rs.getInt("paintingId"), rs.getString("paintingTitle"), rs.getDouble("price"), rs.getString("description"), rs.getString("imageUrl"), rs.getString("artistName"), rs.getString("themeName"), rs.getBoolean("isFeatured"),rs.getDate("createdAt"),getPaintingRating(rs.getInt("paintingId")),rs.getBoolean("isSold") );
                     }
 
                     // test git
@@ -265,7 +270,7 @@ public class PaintingDao {
         return paintingList;
     }
 
-    public List<Painting> getPaintingList(String searchKeyword, Double minPrice, Double maxPrice, String[] themes, String[] artists, String startDate, String endDate, boolean sortRating, int currentPage, int recordsPerPage) throws SQLException {
+    public List<Painting> getPaintingList(String searchKeyword, Double minPrice, Double maxPrice, String[] themes, String[] artists, String startDate, String endDate, boolean sortRating,boolean snew, int currentPage, int recordsPerPage) throws SQLException {
         List<Painting> paintingList = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder("""
@@ -284,7 +289,7 @@ public class PaintingDao {
         LEFT JOIN themes t ON p.themeId = t.id
         LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
         LEFT JOIN discounts d ON dp.discountId = d.id
-        WHERE 1=1
+        WHERE 1=1 AND p.isSold = 0
     """
 
         );
@@ -320,10 +325,14 @@ public class PaintingDao {
             params.add(endDate);
         }
 
-        if (sortRating) {
+        if (sortRating && snew) {
             sql.append(" ORDER BY averageRating DESC, p.createdAt DESC");
-        } else {
+        } else if (sortRating) {
+            sql.append(" ORDER BY averageRating DESC");
+        } else if (snew) {
             sql.append(" ORDER BY p.createdAt DESC");
+        } else {
+            sql.append(" ");
         }
         sql.append(" LIMIT ? OFFSET ?");
 
@@ -702,6 +711,52 @@ public class PaintingDao {
             }
         return imagePath;
     }
+    public List<Painting> getNewestPaintings(int limit) throws SQLException {
+        List<Painting> paintingList = new ArrayList<>();
+
+        String sql = """
+        SELECT 
+            p.id AS paintingId,
+            p.title AS paintingTitle,
+            p.price,
+            p.imageUrl,
+            a.name AS artistName,
+            t.themeName AS theme,
+            IFNULL(d.discountPercentage, 0) AS discount,
+            IFNULL((SELECT AVG(rating) FROM product_reviews WHERE paintingId = p.id), 0) as averageRating
+        FROM paintings p
+        LEFT JOIN artists a ON p.artistId = a.id
+        LEFT JOIN themes t ON p.themeId = t.id
+        LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+        LEFT JOIN discounts d ON dp.discountId = d.id
+        ORDER BY p.createdAt DESC
+        LIMIT ?
+    """;
+
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, limit);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Painting painting = new Painting();
+                    painting.setId(rs.getInt("paintingId"));
+                    painting.setTitle(rs.getString("paintingTitle"));
+                    painting.setImageUrl(rs.getString("imageUrl"));
+                    painting.setArtistName(rs.getString("artistName"));
+                    painting.setThemeName(rs.getString("theme"));
+                    painting.setDiscountPercentage(rs.getDouble("discount"));
+                    painting.setPrice(rs.getDouble("price"));
+                    painting.setAverageRating(rs.getDouble("averageRating"));
+                    painting.setSizes(new ArrayList<>());
+
+                    paintingList.add(painting);
+                }
+            }
+        }
+
+        return paintingList;
+    }
+
     public static void main(String[] args) throws SQLException {
         PaintingDao paintingDao = new PaintingDao();
         Double m1 = null;
@@ -727,7 +782,7 @@ public class PaintingDao {
         List<Integer> sizeIds = Arrays.asList(1, 2, 3);
         List<Integer> quantities = Arrays.asList(5, 3, 2);
 
-        System.out.println(paintingDao.getCurrentImagePath(15));
+        System.out.println(paintingDao.getPaintingDetail(5));
 
         //    System.out.println(paintingDao.getPaintingList(null,null,null,null,null,null,null,1,10));
         //  System.out.println(paintingDao.getPaintingRating(5));
