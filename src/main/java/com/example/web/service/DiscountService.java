@@ -36,8 +36,11 @@ public class DiscountService {
     }
 
     // Lấy các bức tranh thuộc một giảm giá nào đó
-    public List<Painting> getPaintingsByDiscountId(int discountId, int currentPage, int recordsPerPage) throws SQLException {
-        return discountDAO.getPaintingsByDiscountId(discountId, currentPage, recordsPerPage);  // Gọi PaintingDAO để lấy các bức tranh thuộc giảm giá
+    public List<Painting> getPaintingsByDiscountId(int discountId, String searchKeyword, Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate, boolean isSortByRating,int currentPage, int recordsPerPage) throws SQLException {
+        return discountDAO.getPaintingsByDiscountId(discountId, searchKeyword, minPrice, maxPrice, themes, artists,startDate,endDate,isSortByRating, currentPage, recordsPerPage);
+    }
+    public int countPaintingsByDiscountId(int discountId, String keyword,Double minPrice, Double maxPrice, String[] themes, String[] artists,String startDate,String endDate) throws SQLException {
+        return discountDAO.countPaintingsByDiscountId(discountId, keyword, minPrice, maxPrice, themes, artists, startDate,endDate);
     }
 
     // Gán sản phẩm vào giảm giá (dựa trên discountId và danh sách productIds)
@@ -61,6 +64,10 @@ public class DiscountService {
 
     public void editDiscount(Discount discount) {
         discountDAO.editDiscount(discount);
+    }
+
+    public List<Painting> getPaintingsByDiscountIdAd(int discountId) {
+        return discountDAO.getPaintingsByDiscountIdAd(discountId);
     }
 }
 
