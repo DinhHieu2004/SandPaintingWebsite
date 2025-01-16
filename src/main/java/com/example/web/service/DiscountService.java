@@ -36,8 +36,8 @@ public class DiscountService {
     }
 
     // Lấy các bức tranh thuộc một giảm giá nào đó
-    public List<Painting> getPaintingsByDiscountId(int discountId) throws SQLException {
-        return discountDAO.getPaintingsByDiscountId(discountId);  // Gọi PaintingDAO để lấy các bức tranh thuộc giảm giá
+    public List<Painting> getPaintingsByDiscountId(int discountId, int currentPage, int recordsPerPage) throws SQLException {
+        return discountDAO.getPaintingsByDiscountId(discountId, currentPage, recordsPerPage);  // Gọi PaintingDAO để lấy các bức tranh thuộc giảm giá
     }
 
     // Gán sản phẩm vào giảm giá (dựa trên discountId và danh sách productIds)
