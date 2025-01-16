@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.time.LocalDateTime;
@@ -47,9 +48,12 @@ public class DiscountDao {
         return list;
     }
 
-    public List<Painting> getPaintingsByDiscountId(int discountId, int currentPage, int recordsPerPage) throws SQLException {
+    public List<Painting> getPaintingsByDiscountId(
+            int discountId, String searchKeyword, Double minPrice, Double maxPrice,
+            String[] themes, String[] artists, String startDate, String endDate,
+            boolean sortRating, int currentPage, int recordsPerPage) throws SQLException {
         List<Painting> paintingList = new ArrayList<>();
-        PaintingDao paintingDao = new PaintingDao();
+
         StringBuilder sql = new StringBuilder("""
         SELECT 
             p.id AS paintingId,
@@ -71,7 +75,40 @@ public class DiscountDao {
         List<Object> params = new ArrayList<>();
         params.add(discountId);
 
-        sql.append(" ORDER BY p.createdAt DESC");
+        if (searchKeyword != null && !searchKeyword.isEmpty()) {
+            sql.append(" AND p.title LIKE ?");
+            params.add("%" + searchKeyword + "%");
+        }
+        if (minPrice != null) {
+            sql.append(" AND p.price >= ?");
+            params.add(minPrice);
+        }
+        if (maxPrice != null) {
+            sql.append(" AND p.price <= ?");
+            params.add(maxPrice);
+        }
+        if (themes != null && themes.length > 0) {
+            sql.append(" AND t.id IN (").append("?,".repeat(themes.length - 1)).append("?)");
+            params.addAll(Arrays.asList(themes));
+        }
+        if (artists != null && artists.length > 0) {
+            sql.append(" AND a.id IN (").append("?,".repeat(artists.length - 1)).append("?)");
+            params.addAll(Arrays.asList(artists));
+        }
+        if (startDate != null && !startDate.isEmpty()) {
+            sql.append(" AND DATE(p.createdAt) >= ?");
+            params.add(startDate);
+        }
+        if (endDate != null && !endDate.isEmpty()) {
+            sql.append(" AND DATE(p.createdAt) <= ?");
+            params.add(endDate);
+        }
+
+        if (sortRating) {
+            sql.append(" ORDER BY averageRating DESC, p.createdAt DESC");
+        } else {
+            sql.append(" ORDER BY p.createdAt DESC");
+        }
         sql.append(" LIMIT ? OFFSET ?");
 
         params.add(recordsPerPage);
@@ -84,7 +121,6 @@ public class DiscountDao {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    int id = rs.getInt("paintingId");
                     Painting painting = new Painting();
                     painting.setId(rs.getInt("paintingId"));
                     painting.setTitle(rs.getString("paintingTitle"));
@@ -93,9 +129,7 @@ public class DiscountDao {
                     painting.setThemeName(rs.getString("theme"));
                     painting.setDiscountPercentage(rs.getDouble("discount"));
                     painting.setPrice(rs.getDouble("price"));
-                    painting.setAverageRating(paintingDao.getPaintingRating(id));
-                    painting.setSizes(new ArrayList<>());
-
+                    painting.setAverageRating(rs.getDouble("averageRating"));
                     paintingList.add(painting);
                 }
             }
@@ -104,6 +138,108 @@ public class DiscountDao {
         return paintingList;
     }
 
+    public int countPaintingsByDiscountId(
+            int discountId, String keyword, Double minPrice, Double maxPrice,
+            String[] themes, String[] artists, String startDate, String endDate) throws SQLException {
+        StringBuilder sql = new StringBuilder("""
+        SELECT COUNT(*) AS total
+        FROM paintings p
+        LEFT JOIN artists a ON p.artistId = a.id
+        LEFT JOIN themes t ON p.themeId = t.id
+        LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+        WHERE dp.discountId = ?
+    """);
+
+        List<Object> params = new ArrayList<>();
+        params.add(discountId);
+
+        if (keyword != null && !keyword.isEmpty()) {
+            sql.append(" AND p.title LIKE ?");
+            params.add("%" + keyword + "%");
+        }
+        if (minPrice != null) {
+            sql.append(" AND p.price >= ?");
+            params.add(minPrice);
+        }
+        if (maxPrice != null) {
+            sql.append(" AND p.price <= ?");
+            params.add(maxPrice);
+        }
+        if (themes != null && themes.length > 0) {
+            sql.append(" AND t.id IN (").append("?,".repeat(themes.length - 1)).append("?)");
+            params.addAll(Arrays.asList(themes));
+        }
+        if (artists != null && artists.length > 0) {
+            sql.append(" AND a.id IN (").append("?,".repeat(artists.length - 1)).append("?)");
+            params.addAll(Arrays.asList(artists));
+        }
+        if (startDate != null && !startDate.isEmpty()) {
+            sql.append(" AND DATE(p.createdAt) >= ?");
+            params.add(startDate);
+        }
+        if (endDate != null && !endDate.isEmpty()) {
+            sql.append(" AND DATE(p.createdAt) <= ?");
+            params.add(endDate);
+        }
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                stmt.setObject(i + 1, params.get(i));
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("total");
+                }
+            }
+        }
+
+        return 0;
+    }
+    public List<Painting> getPaintingsByDiscountIdAd(int discountId) {
+        List<Painting> paintingList = new ArrayList<>();
+
+        String sql = """
+        SELECT 
+            p.id AS paintingId,
+            p.title AS paintingTitle,
+            p.price,
+            p.imageUrl,
+            a.name AS artistName,
+            t.themeName AS theme,
+            IFNULL(d.discountPercentage, 0) AS discountPercentage
+        FROM paintings p
+        LEFT JOIN artists a ON p.artistId = a.id
+        LEFT JOIN themes t ON p.themeId = t.id
+        LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+        LEFT JOIN discounts d ON dp.discountId = d.id
+        WHERE dp.discountId = ?
+    """;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, discountId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Painting painting = new Painting();
+                    painting.setId(rs.getInt("paintingId"));
+                    painting.setTitle(rs.getString("paintingTitle"));
+                    painting.setPrice(rs.getDouble("price"));
+                    painting.setImageUrl(rs.getString("imageUrl"));
+                    painting.setArtistName(rs.getString("artistName"));
+                    painting.setThemeName(rs.getString("theme"));
+                    painting.setDiscountPercentage(rs.getDouble("discountPercentage"));
+
+                    paintingList.add(painting);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error fetching paintings by discount ID", e);
+        }
+
+        return paintingList;
+    }
 
     public List<Painting> getProductHaveNoDC() throws SQLException {
         // Câu lệnh SQL sử dụng LEFT JOIN để lấy các sản phẩm không được giảm giá
