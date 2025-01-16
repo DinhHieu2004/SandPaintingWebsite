@@ -71,30 +71,9 @@ public class AdminDao {
         return totalUsers;
     }
 
-    // 5. Doanh thu theo nghệ sĩ
-    public Map<String, Double> getRevenueByArtist() throws SQLException {
-        Map<String, Double> revenueByArtist = new HashMap<>();
-        String query = "SELECT a.name AS artistName, SUM(o.totalAmount) AS revenue " +
-                "FROM orders o " +
-                "JOIN order_items oi ON o.id = oi.orderId " +
-                "JOIN paintings p ON oi.paintingId = p.id " +
-                "JOIN artists a ON p.artistId = a.id " +
-                "WHERE o.status = 'hoàn thành' " +
-                "GROUP BY a.name";
 
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet resultSet = statement.executeQuery();
 
-        while (resultSet.next()) {
-            String artistName = resultSet.getString("artistName");
-            double revenue = resultSet.getDouble("revenue");
-            revenueByArtist.put(artistName, revenue);
-        }
 
-        return revenueByArtist;
-    }
-
-    // 6. Trạng thái đơn hàng
     public Map<String, Integer> getOrderStatusCount() throws SQLException {
         Map<String, Integer> orderStatusCount = new HashMap<>();
         String query = "SELECT status, COUNT(*) AS count FROM orders GROUP BY status";
@@ -110,13 +89,43 @@ public class AdminDao {
 
         return orderStatusCount;
     }
+    public Map<String, Double> getArtistRevenueMap() throws SQLException {
+        Map<String, Double> revenueMap = new HashMap<>();
+
+        String sql = """
+            SELECT 
+                a.name AS artist_name,
+                COALESCE(SUM(oi.price * oi.quantity), 0) AS total_revenue
+            FROM 
+                artists a
+                LEFT JOIN paintings p ON a.id = p.artistId
+                LEFT JOIN order_items oi ON p.id = oi.paintingId
+                LEFT JOIN orders o ON oi.orderId = o.id AND o.status = 'hoàn thành'
+            GROUP BY 
+                a.name
+            ORDER BY 
+                total_revenue DESC
+        """;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String artistName = rs.getString("artist_name");
+                double revenue = rs.getDouble("total_revenue");
+                revenueMap.put(artistName, revenue);
+            }
+        }
+
+        return revenueMap;
+    }
 
     public static void main(String[] args) throws SQLException {
         AdminDao a = new AdminDao();
-        System.out.println(a.getOrderStatusCount());
-        System.out.println(a.getTotalOrders());
-        System.out.println(a.getTotalProducts());
-        System.out.println(a.getRevenueByArtist());
+      //  System.out.println(a.getOrderStatusCount());
+       // System.out.println(a.getTotalOrders());
+       // System.out.println(a.getTotalProducts());
+        System.out.println(a.getArtistRevenueMap());
 
     }
 

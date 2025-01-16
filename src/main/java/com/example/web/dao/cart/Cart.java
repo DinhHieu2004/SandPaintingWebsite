@@ -71,7 +71,7 @@ public class Cart implements Serializable {
         return total;
     }
     public double getFinalPrice() {
-        if(getAfterPrice() < totalPrice){
+        if( getAfterPrice() != 0.0 && getAfterPrice() < totalPrice ){
             return getAfterPrice();
         }else{
             return totalPrice;

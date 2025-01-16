@@ -1,10 +1,8 @@
-package com.example.web.controller.admin.ThemeController;
+package com.example.web.controller.admin.sizeController;
 
 
-import com.example.web.dao.ThemeDao;
-import com.example.web.dao.model.Voucher;
+import com.example.web.service.SizeService;
 import com.example.web.service.ThemeService;
-import com.example.web.service.VoucherService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,16 +12,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/admin/themes/update")
+@WebServlet("/admin/sizes/update")
 public class Update extends HttpServlet {
-    private ThemeService themeService = new ThemeService();
+    private SizeService sizeService = new SizeService();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String themeId = req.getParameter("themeId");
-        String themeName = req.getParameter("themeName");
-        int id = Integer.parseInt(themeId);
+        String sizeId = req.getParameter("sizeId");
+        String description = req.getParameter("description");
+        int id = Integer.parseInt(sizeId);
         try {
-            boolean isUpdate = themeService.updateTheme(id, themeName);
+            boolean isUpdate = sizeService.updateSize(id, description);
             if (isUpdate) {
                 resp.sendRedirect("../products");
             } else {

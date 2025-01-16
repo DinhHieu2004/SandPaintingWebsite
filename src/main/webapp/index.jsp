@@ -188,6 +188,81 @@
             </c:forEach>
     </div>
 </div>
+<div id="outstanding_works_section">
+    <div class="title_container">
+        <div class="img_left">
+            <img src="assets/images/t_left.png">
+        </div>
+        <h4 class="collection_title">TÁC PHẨM MỚI NHẤT</h4>
+        <div class="img_right">
+            <img src="assets/images/t_right.png">
+        </div>
+    </div>
+    <div class="product">
+        <c:forEach var="p" items="${newP}">
+            <div class="col-6 col-md-3">
+                <div class="card artwork-card">
+                    <a href="<c:url value='/painting-detail?pid=${p.id}'/>" class="card-link"></a>
+                    <img src="${pageContext.request.contextPath}/${p.imageUrl}" class="card-img-top artwork-image" alt="${p.title}" style="width: 100%; height:180px !important;">
+                    <div class="card-body">
+                        <h5 class="card-title">${p.title}</h5>
+                        <p class="card-text">
+                            <strong>Họa Sĩ:</strong> ${p.artistName}<br>
+                            <strong>Chủ đề:</strong> ${p.themeName}<br>
+                            <span class="rating-stars">
+                            <c:forEach begin="1" end="5" var="i">
+                                <i class="fas fa-star ${i <= p.averageRating ? 'text-warning' : 'text-gray-200'}" style="${i > p.averageRating ? 'color: #e9ecef !important;' : ''}; font-size: 0.875rem;"></i>
+                            </c:forEach>
+                        </span>
+                            <span class="ms-1">${p.averageRating}</span>
+                        </p>
+                        <div class="price-section">
+                            <c:choose>
+                                <c:when test="${p.discountPercentage > 0}">
+                                    <div class="price-container">
+                                        <div class="original-price-wrapper">
+                                    <span class="text-muted original-price">
+                                        <del><f:formatNumber value="${p.price}" type="currency" currencySymbol="VNĐ"/></del>
+                                    </span>
+                                            <span class="badge bg-success discount-badge">-${p.discountPercentage}%</span>
+                                        </div>
+                                        <div class="sale-price-wrapper">
+                                    <span class="text-danger fw-bold sale-price">
+                                        <f:formatNumber value="${p.price * (1 - p.discountPercentage / 100)}" type="currency" currencySymbol="VNĐ"/>
+                                    </span>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="regular-price">
+                                        <span class="fw-bold"><f:formatNumber value="${p.price}" type="currency" currencySymbol="VNĐ"/></span>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+<div class="view-all-container text-center my-3">
+    <a href="artwork?snew=snew" class="btn btn-outline-warning btn-sm view-all-btn" style="
+        padding: 6px 15px;
+        border: 1px solid #f39c12;
+        color: #f39c12;
+        background: transparent;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    ">
+        khám phá thêm
+        <i class="fas fa-angle-right ms-1"></i>
+    </a>
+</div>
 
 <div id="outstanding_works_section">
     <div class="title_container">

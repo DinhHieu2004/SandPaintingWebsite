@@ -65,7 +65,10 @@
           <td>${order.totalAmount}</td>
           <td>${order.orderDate}</td>
           <td>${order.status}</td>
-          <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" data-order-id="${order.id}">Xem Chi Tiết</button></td>
+          <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" data-order-id="${order.id}">Xem Chi Tiết</button>
+            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#deleteOrderModal" data-order-id="${order.id}">Xóa</button>
+          </td>
 
         </tr>
       </c:forEach>

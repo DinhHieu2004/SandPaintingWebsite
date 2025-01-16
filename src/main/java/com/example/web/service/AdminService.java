@@ -24,7 +24,7 @@ public class AdminService {
     }
 
     public Map<String, Double> getRevenueByArtist() throws SQLException {
-        return adminDao.getRevenueByArtist();
+        return adminDao.getArtistRevenueMap();
     }
 
     public Map<String, Integer> getOrderStatusCount() throws SQLException {

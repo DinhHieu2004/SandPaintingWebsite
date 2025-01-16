@@ -2,6 +2,7 @@ package com.example.web.dao;
 
 import com.example.web.dao.db.DbConnect;
 import com.example.web.dao.model.PaintingSize;
+import com.example.web.dao.model.Theme;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,7 +29,7 @@ public class SizeDao {
         }
         return sizes;
     }
-    public static PaintingSize getSizeById(int idSize) {
+    public  PaintingSize getSizeById(int idSize) {
         PaintingSize size = null;
         try {
             String sql = "SELECT * FROM sizes WHERE id = ?";
@@ -46,6 +47,35 @@ public class SizeDao {
             e.printStackTrace();
         }
         return size;
+    }
+    public boolean addSize(String description) throws SQLException {
+        String sql = "INSERT INTO sizes (sizeDescription) VALUES (?)";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setString(1, description);
+        int rowsInserted = statement.executeUpdate();
+        return rowsInserted > 0;
+
+    }
+    public boolean updateSize(int id, String  sizeDescription) throws SQLException {
+        String updateQuery = "UPDATE sizes SET sizeDescription = ? WHERE id = ?";
+        PreparedStatement statement = conn.prepareStatement(updateQuery);
+        statement.setString(1,sizeDescription);
+        statement.setInt(2, id);
+
+        int rowsAffected = statement.executeUpdate();
+
+        return rowsAffected > 0;
+
+
+    }
+
+    public boolean deleteSize(int i) throws SQLException {
+        String query = "delete from sizes where id = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, i);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        }
     }
 
 

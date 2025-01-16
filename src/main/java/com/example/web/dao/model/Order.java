@@ -3,14 +3,15 @@ package com.example.web.dao.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class Order  implements Serializable {
     private int id;
     private int userId;
     private String status;
     private double totalAmount;
-    private LocalDateTime orderDate;
-    private LocalDateTime deliveryDate;
+    private Date orderDate;
+    private Date deliveryDate;
     private String recipientName;
     private String deliveryAddress;
     private String recipientPhone;
@@ -78,27 +79,19 @@ public class Order  implements Serializable {
         this.totalAmount = totalAmount;
     }
 
-    public LocalDateTime getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDateTime orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
-    public String getDeliveryDate() {
-        if (deliveryDate != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            return  deliveryDate.format(formatter);
-        }
-        return null;
-    }
-    public LocalDateTime getDeliveryDateByLocal(){
-        return this.deliveryDate;
+    public Date getDeliveryDate() {
+        return deliveryDate;
     }
 
-
-    public void setDeliveryDate(LocalDateTime deliveryDate) {
+    public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 

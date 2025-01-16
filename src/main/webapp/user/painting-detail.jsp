@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/preview.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shopping-cart.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}assets/css/painting-detail.css">
     <script src="${pageContext.request.contextPath}/assets/js/painting-detail.js"></script>
 
@@ -180,6 +180,7 @@
 
 
 </script>
+<script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
 
 </body>
 </html>

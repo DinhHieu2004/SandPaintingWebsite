@@ -59,12 +59,10 @@
                 </c:choose>
                 <div class="cart-icon position-relative">
                     <a href="#" class="icon_items position-relative"></a>
-                          <span class="price me-2">0đ</span>
                         <a href="#" class="icon_items user-icon me-3">
 
                             <i class="fa fa-shopping-cart"></i> </a>
 
-                           <span class="cart-count"></span>
                     </a>
                     <div class="cart-dropdown" id="mini-cart">
                         <div class="cart-header">Sản Phẩm Mới Thêm</div>
@@ -84,7 +82,7 @@
                             </c:forEach>
                         </div>
                         <div class="cart-footer">
-                            <button class="btn btn-primary" onclick="window.location.href='show-cart'">
+                            <button class="btn btn-primary" onclick="window.location.href='show-cart'" style="background: #e7621b !important;">
                                 Xem Giỏ Hàng
                             </button>
                         </div>

@@ -122,9 +122,21 @@
                     </label>
                 </div>
 
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox"
+                           value="snew"
+                           id="sortDate"
+                           name="snew"
+                           <c:if test="${param.snew eq 'snew'}">checked</c:if>>
+                    <label class="form-check-label" for="sortDate">
+                        Sản phẩm mới nhất
+                        <i class="fa-solid fa-newspaper" style="color: #FFD43B;"></i>
+                    </label>
+                </div>
+
                 <!-- Lọc Sản phẩm mới nhất -->
                 <div class="filter-group filter-latest-products card p-3">
-                    <h6 class="mb-3">Sản phẩm mới nhất</h6>
+                    <h6 class="mb-3">Sản phẩm theo ngày</h6>
                     <div class="filter-content">
 
 
@@ -225,7 +237,9 @@
     <c:forEach var="sort" items="${paramValues.sort}">
         <c:set var="queryParams" value="${queryParams}sort=${sort}&" />
     </c:forEach>
-
+    <c:forEach var="snew" items="${paramValues.snew}">
+        <c:set var="queryParams" value="${queryParams}new=${snew}&" />
+    </c:forEach>
     <ul class="pagination justify-content-center">
         <c:if test="${currentPage > 1}">
             <li class="page-item">
@@ -267,13 +281,6 @@
 
     });
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const endDateInput = document.getElementById("endDate");
-        if (!endDateInput.value) {
-            const today = new Date().toISOString().split('T')[0];
-            endDateInput.value = today;
-        }
-    });
 </script>
 <script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
 </html>
