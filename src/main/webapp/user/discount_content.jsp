@@ -34,6 +34,7 @@
 <!-- Discount Content Section -->
 <div id="discount_content" class="container mt-4">
   <h5 class="mb-4">Ưu đãi lên đến ${discount.discountPercentage}% bao gồm các sản phẩm:</h5>
+</div>
   <div id="content-wrapper" class="d-flex flex-wrap">
     <div class="container_content">
       <!-- Bộ lọc -->
@@ -177,7 +178,6 @@
       </div>
     </div>
   </div>
-</div>
 
   <!-- Phân trang -->
   <nav aria-label="Page navigation" class="mt-4">

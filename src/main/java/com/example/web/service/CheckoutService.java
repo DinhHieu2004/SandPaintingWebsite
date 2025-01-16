@@ -40,7 +40,7 @@ public class CheckoutService {
             orderItem.setOrderId(orderId);
             orderItem.setPaintingId(item.getProductId());
             orderItem.setSizeId(item.getSizeId());
-            orderItem.setPrice(item.getTotalPrice());
+            orderItem.setPrice(item.getDiscountPrice());
             orderItem.setQuantity(item.getQuantity());
             orderItemDao.addOrderItem(orderItem);
             paintingDao.updateQuanity(item.getProductId(), item.getSizeId(),item.getQuantity());

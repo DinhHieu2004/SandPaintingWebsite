@@ -75,4 +75,8 @@ public class PaintingService {
     public boolean deletePainting(int i) throws SQLException {
         return paintingDao.deletePainting(i);
     }
+
+    public String getCurrentImagePath(int id) throws SQLException {
+        return paintingDao.getCurrentImagePath(id);
+    }
 }

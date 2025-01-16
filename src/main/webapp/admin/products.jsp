@@ -119,7 +119,7 @@
     </c:if>
   </div>
   <div class="card mb-4">
-    <div class="card-header bg-success text-white">
+    <div class="card-header bg-success text-white" style="background: #e7621b !important;">
       <h4>Tranh</h4>
 
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaintingModal">
@@ -173,6 +173,9 @@
         </div>
         <div class="card-body">
           <table id="themes" class="table table-bordered display">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addThemeModal">
+              Thêm chủ đề
+            </button>
             <thead>
             <tr>
               <th>ID</th>
@@ -186,8 +189,10 @@
                 <td>${theme.id}</td>
                 <td>${theme.themeName}</td>
                 <td>
-                  <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editThemeModal" data-theme-id="${theme.id}">Sửa</button>
-                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteThemeModal" data-theme-id="${theme.id}">Xóa</button>
+                  <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                          data-bs-target="#editThemeModal" data-theme-id="${theme.id}">chi tiết</button>
+                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                          data-bs-target="#deleteThemeModal" data-theme-id="${theme.id}">Xóa</button>
                 </td>
               </tr>
             </c:forEach>
@@ -197,13 +202,16 @@
       </div>
     </div>
 
-    <div class="col-6"> <!-- Cột thứ hai chiếm 6/12 -->
+    <div class="col-6">
       <div class="card mb-4">
         <div class="card-header bg-secondary text-white">
           <h4>Danh sách Kích Thước</h4> <!-- Sửa tên cho đúng -->
         </div>
         <div class="card-body">
           <table id="sizes" class="table table-bordered display">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSizeModal">
+              Thêm kích thước
+            </button>
             <thead>
             <tr>
               <th>ID</th>
@@ -428,6 +436,92 @@
 
 </div>
 
+<div class="modal fade" id="addSizeModal" tabindex="-1" aria-labelledby="addSizeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addSizeModalLabel">Thêm Kích Thước</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="${pageContext.request.contextPath}/admin/sizes/add" method="POST">
+          <div class="mb-3">
+            <label for="sizeName" class="form-label">Tên Kích Thước</label>
+            <input type="text" class="form-control" id="sizeName" name="sizeName" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Thêm Kích Thước</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal thêm Theme -->
+<div class="modal fade" id="addThemeModal" tabindex="-1" aria-labelledby="addThemeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addThemeModalLabel">Thêm Chủ Đề</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="${pageContext.request.contextPath}/admin/themes/add" method="POST">
+          <div class="mb-3">
+            <label for="themeName" class="form-label">Tên Chủ Đề</label>
+            <input type="text" class="form-control" id="themeName" name="themeName" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Thêm Chủ Đề</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal edit Theme -->
+<div class="modal fade" id="editThemeModal" tabindex="-1" aria-labelledby="editThemeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editThemeModalLabel">Thêm Chủ Đề</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="${pageContext.request.contextPath}/admin/themes/update" method="POST">
+          <strong id="idTheme"></strong>
+          <div class="mb-3">
+            <label for="themeName" class="form-label">Tên Chủ Đề</label>
+            <input type="text" class="form-control" id="editThemeName" name="themeName" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal xóa Theme -->
+
+<div class="modal fade" id="deleteThemeModal" tabindex="-1" aria-labelledby="deleteThemeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteThemeModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="${pageContext.request.contextPath}/admin/themes/delete" method="POST">
+        <div class="modal-body">
+          <p>Bạn có chắc chắn muốn xóa chủ đề này?</p>
+          <input type="hidden" id="themeIdToDelete" name="themeId">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
@@ -446,6 +540,19 @@
       document.getElementById('pidToDelete').value = pid;
     });
   });
+  document.querySelectorAll('[data-bs-target="#deleteThemeModal"]').forEach(button => {
+    button.addEventListener('click', function() {
+      let themeId = this.getAttribute('data-theme-id');
+      document.getElementById('themeIdToDelete').value = themeId;
+    });
+  });
+  document.querySelectorAll('[data-bs-target="#deleteSizeModal"]').forEach(button => {
+    button.addEventListener('click', function() {
+      let sizeId = this.getAttribute('data-size-id');
+      document.getElementById('sizeIdToDelete').value = sizeId;
+    });
+  });
+
 
 </script>
 <script src="${pageContext.request.contextPath}/assets/js/admin/product.js"></script>

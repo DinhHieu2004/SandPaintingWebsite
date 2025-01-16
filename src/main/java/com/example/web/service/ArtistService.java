@@ -50,4 +50,7 @@ public class ArtistService {
     public boolean deleteArtist(int i) throws SQLException {
         return artistDao.deleteArtist(i);
     }
+    public String getCurrentImagePath(int id) throws SQLException {
+        return  artistDao.getCurrentImagePath(id);
+    }
 }

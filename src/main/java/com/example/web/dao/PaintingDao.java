@@ -385,46 +385,45 @@ public class PaintingDao {
         Map<Integer, Painting> paintingMap = new HashMap<>();
         List<Painting> paintings = new ArrayList<>();
         String sql = """
-                        SELECT 
-                        p.id AS paintingId,
-                        p.title AS paintingTitle,
-                        p.price,
-                        p.imageUrl,
-                        a.name AS artistName,
-                        t.themeName AS theme,
-                        IFNULL(d.discountPercentage, 0) AS discount,
-                        s.sizeDescription AS size,
-                        ps.quantity AS stock
-                    FROM paintings p
-                    LEFT JOIN artists a ON p.artistId = a.id
-                    LEFT JOIN themes t ON p.themeId = t.id
-                    LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
-                    LEFT JOIN discounts d ON dp.discountId = d.id
-                    LEFT JOIN painting_sizes ps ON p.id = ps.paintingId
-                    LEFT JOIN sizes s ON ps.sizeId = s.id
-                    WHERE artistId = ?;
-                """;
+                SELECT 
+                    p.id AS paintingId,
+                    p.title AS paintingTitle,
+                    p.price,
+                    p.imageUrl,
+                    a.name AS artistName,
+                    t.themeName AS theme,
+                    IFNULL(d.discountPercentage, 0) AS discount
+                FROM paintings p
+                LEFT JOIN artists a ON p.artistId = a.id
+                LEFT JOIN themes t ON p.themeId = t.id
+                LEFT JOIN discount_paintings dp ON p.id = dp.paintingId
+                LEFT JOIN discounts d ON dp.discountId = d.id
+                WHERE p.artistId = ?
+                LIMIT 8;
+            """;
 
-        PreparedStatement statement = con.prepareStatement(sql);
+        try (PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setInt(1, artistId);
 
-        statement.setInt(1, artistId); // Đặt giá trị id của nghệ sĩ
-        try (ResultSet rs = statement.executeQuery()) {
-            while (rs.next()) {
-                int paintingId = rs.getInt("paintingId");
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    int paintingId = rs.getInt("paintingId");
 
-                if (paintingMap.containsKey(paintingId)) {
-                } else {
-                    Painting painting = new Painting();
-                    painting.setId(rs.getInt("paintingId"));
-                    painting.setTitle(rs.getString("paintingTitle"));
-                    painting.setImageUrl(rs.getString("imageUrl"));
-                    painting.setThemeName(rs.getString("theme"));
-                    painting.setDiscountPercentage(rs.getDouble("discount"));
-                    painting.setPrice(rs.getDouble("price"));
-                    paintingMap.put(paintingId, painting);
+                    if (!paintingMap.containsKey(paintingId)) {
+                        Painting painting = new Painting();
+                        painting.setId(rs.getInt("paintingId"));
+                        painting.setTitle(rs.getString("paintingTitle"));
+                        painting.setImageUrl(rs.getString("imageUrl"));
+                        painting.setThemeName(rs.getString("theme"));
+                        painting.setDiscountPercentage(rs.getDouble("discount"));
+                        painting.setPrice(rs.getDouble("price"));
+
+                        paintingMap.put(paintingId, painting);
+                    }
                 }
             }
         }
+
         paintings.addAll(paintingMap.values());
         return paintings;
     }
@@ -689,6 +688,20 @@ public class PaintingDao {
 
     }
 
+
+
+    public String getCurrentImagePath(int id) throws SQLException {
+        String query = "SELECT imageUrl FROM paintings WHERE id = ?";
+        String imagePath = null;
+        PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                imagePath = rs.getString("imageUrl");
+            }
+        return imagePath;
+    }
     public static void main(String[] args) throws SQLException {
         PaintingDao paintingDao = new PaintingDao();
         Double m1 = null;
@@ -714,10 +727,10 @@ public class PaintingDao {
         List<Integer> sizeIds = Arrays.asList(1, 2, 3);
         List<Integer> quantities = Arrays.asList(5, 3, 2);
 
-        System.out.println(paintingDao.getRandomTopRatedPaintings());
+        System.out.println(paintingDao.getCurrentImagePath(15));
 
-   //    System.out.println(paintingDao.getPaintingList(null,null,null,null,null,null,null,1,10));
-      //  System.out.println(paintingDao.getPaintingRating(5));
+        //    System.out.println(paintingDao.getPaintingList(null,null,null,null,null,null,null,1,10));
+        //  System.out.println(paintingDao.getPaintingRating(5));
         //System.out.println(paintingDao.getPaintingRating(6));
 
 

@@ -42,12 +42,27 @@ public class Update extends HttpServlet {
 
         Part photoPart = req.getPart("photo");
         String fileName = extractFileName(photoPart);
-        System.out.println("filename:"+fileName);
 
+        if (fileName != null && !fileName.isEmpty()) {
+            fileName = fileName.replaceAll(" ", "_");
+        }
 
+        File directory = new File(UPLOAD_DIR);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
 
+        if (photoPart != null && fileName != null && !fileName.isEmpty()) {
+            photoPart.write(UPLOAD_DIR + File.separator + fileName);
+        }
 
-        String photoUrl = "assets/images/artists/" + fileName;
+        String photoUrl = null;
+        try {
+            photoUrl = fileName != null && !fileName.isEmpty() ? "assets/images/artists/" + fileName : artistService.getCurrentImagePath(artistId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         File file = new File(UPLOAD_DIR, fileName);
         photoPart.write(file.getAbsolutePath());
         Artist artist = new Artist();

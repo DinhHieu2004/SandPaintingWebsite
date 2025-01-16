@@ -39,8 +39,8 @@ public class Cart implements Serializable {
         getTotalPrice();
 
     }
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setTotalPrice(double finalPrice) {
+        this.totalPrice = finalPrice;
     }
 
     public boolean upDateCartQuantity(String pid, String sizeId, int quantity) {
@@ -52,6 +52,13 @@ public class Cart implements Serializable {
             return true;
         }
         return false;
+    }
+    public double finalPrice(double finalPrice) {
+        if(finalPrice < getTotalPrice()) {
+            return finalPrice;
+        }
+        return getTotalPrice();
+
     }
 
     public double getTotalPrice() {
